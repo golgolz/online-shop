@@ -42,3 +42,6 @@
       });
     </script>    
 	<link rel="icon" href="http://localhost/online-shopping/assets/favicon.ico" />
+	<style type="text/css">
+	#main {width: 1250px; margin: 0 auto;}	
+	</style>

@@ -4,15 +4,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="assets/jsp/user/lib.jsp" />
+	<jsp:include page="../assets/jsp/user/lib.jsp" />
 	<!-- golgolz start -->
 	<!-- golgolz end -->
 </head>
 <body>
-	<jsp:include page="assets/jsp/user/header.jsp" />
+	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
-			메인 페이지 입니다.
+			베스트 상품 페이지 입니다.
 			<!-- golgolz start -->
 			<!-- golgolz end -->
 		</div>
