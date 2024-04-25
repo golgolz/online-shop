@@ -34,9 +34,11 @@
 				</nav>
 			</div>
 		</nav>
+		<div class="container-fluid py-4">
+			<!-- golgolz start -->
+			대시보드 페이지 입니다.
+			<!-- golgolz end -->
+		</div>
 	</main>
-	<!-- golgolz start -->
-	대시보드 페이지 입니다.
-	<!-- golgolz end -->
 </body>
 </html>

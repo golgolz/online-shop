@@ -34,9 +34,11 @@
 				</nav>
 			</div>
 		</nav>
+		<div class="container-fluid py-4">
+			<!-- golgolz start -->
+			상품 관리 페이지 입니다.
+			<!-- golgolz end -->
+		</div>
 	</main>
-	<!-- golgolz start -->
-	상품 관리 페이지 입니다.
-	<!-- golgolz end -->
 </body>
 </html>
