@@ -6,26 +6,26 @@
         <div class="inner">
           <!-- 상단 로고 -->
           <div class="top_logo">
-            <a href="http://localhost/online-shopping/index.jsp"
-              ><img src="http://localhost/online-shopping/assets/images/top_logo.png"
+            <a href="http://localhost/online-shop/index.jsp"
+              ><img src="http://localhost/online-shop/assets/images/top_logo.png"
             /></a>
           </div>
           <div class="top_comm">
             <ul>
               <!-- 상단 추가메뉴 01 -->
               <li class="xans-element- xans-layout xans-layout-statelogoff">
-                <a href="http://localhost/online-shopping/user/login/login.jsp">LOGIN</a>
+                <a href="http://localhost/online-shop/user/login/login.jsp">LOGIN</a>
               </li>
               <li>
-                <a href="http://localhost/online-shopping/user/mypage/mypage.jsp">MYPAGE</a>
+                <a href="http://localhost/online-shop/user/mypage/mypage.jsp">MYPAGE</a>
               </li>
               <li>
-                <a href="http://localhost/online-shopping/order/order.jsp"
+                <a href="http://localhost/online-shop/order/order.jsp"
                   >ORDER</a
                 >
               </li>
               <li>
-                <a href="http://localhost/online-shopping/cart/cart.jsp">CART</a>
+                <a href="http://localhost/online-shop/cart/cart.jsp">CART</a>
               </li>
             </ul>
           </div>
@@ -46,7 +46,7 @@
                 >
                   <li class="noChild">
                     <a
-                      href="http://localhost/online-shopping/goods/new.jsp"
+                      href="http://localhost/online-shop/goods/new.jsp"
                       class="cate"
                       cate="?cate_no=427"
                       >NEW</a
@@ -54,7 +54,7 @@
                   </li>
                   <li class="noChild">
                     <a
-                      href="http://localhost/online-shopping/goods/best.jsp"
+                      href="http://localhost/online-shop/goods/best.jsp"
                       class="cate"
                       cate="?cate_no=428"
                       >BEST</a
@@ -62,7 +62,7 @@
                   </li>
                   <li class="xans-record-">
                     <a
-                      href="http://localhost/online-shopping/goods/model/samsung.jsp"
+                      href="http://localhost/online-shop/goods/model/samsung.jsp"
                       class="cate"
                       cate="?cate_no=44"
                       >MODEL</a
@@ -70,7 +70,7 @@
                     <ul class="slideSubMenu">
                       <li class="xans-record-" id="cate119">
                         <a
-                      	  href="http://localhost/online-shopping/goods/model/samsung.jsp"
+                      	  href="http://localhost/online-shop/goods/model/samsung.jsp"
                           class="cate"
                           cate="?cate_no=119"
                           onmouseover="subMenuon(this);"
@@ -79,7 +79,7 @@
                         <ul class="slideSubMenu">
                           <li class="xans-record-" id="cate119">
                             <a
-                      	  	  href="http://localhost/online-shopping/goods/model/samsung.jsp"
+                      	  	  href="http://localhost/online-shop/goods/model/samsung.jsp"
                               class="cate"
                               cate="?cate_no=119"
                               onmouseover="subMenuon(this);"
@@ -88,7 +88,7 @@
                           </li>
                           <li class="noChild" id="cate71">
                             <a
-                      	  	  href="http://localhost/online-shopping/goods/model/samsung.jsp"
+                      	  	  href="http://localhost/online-shop/goods/model/samsung.jsp"
                               class="cate"
                               cate="?cate_no=71"
                               onmouseover="subMenuon(this);"
@@ -99,7 +99,7 @@
                       </li>
                       <li class="xans-record-" id="cate71">
                         <a
-                      	  href="http://localhost/online-shopping/goods/model/apple.jsp"
+                      	  href="http://localhost/online-shop/goods/model/apple.jsp"
                           class="cate"
                           cate="?cate_no=71"
                           onmouseover="subMenuon(this);"
@@ -108,7 +108,7 @@
                         <ul class="slideSubMenu">
                           <li class="noChild">
                             <a
-                              href="http://localhost/online-shopping/goods/model/apple.jsp"
+                              href="http://localhost/online-shop/goods/model/apple.jsp"
                               class="cate"
                               cate="?cate_no=119"
                               onmouseover="subMenuon(this);"
@@ -117,7 +117,7 @@
                           </li>
                           <li class="noChild" id="cate71">
                             <a
-                              href="http://localhost/online-shopping/goods/model/apple.jsp"
+                              href="http://localhost/online-shop/goods/model/apple.jsp"
                               class="cate"
                               cate="?cate_no=71"
                               onmouseover="subMenuon(this);"
@@ -130,7 +130,7 @@
                   </li>
                   <li class="xans-record-">
                     <a
-                      href="http://localhost/online-shopping/goods/material/silicon.jsp"
+                      href="http://localhost/online-shop/goods/material/silicon.jsp"
                       class="cate"
                       cate="?cate_no=44"
                       >MATERIAL</a
@@ -138,7 +138,7 @@
                     <ul class="slideSubMenu">
                       <li class="noChild">
                         <a
-                          href="http://localhost/online-shopping/goods/material/silicon.jsp"
+                          href="http://localhost/online-shop/goods/material/silicon.jsp"
                           class="cate"
                           cate="?cate_no=45"
                           >실리콘</a
@@ -146,7 +146,7 @@
                       </li>
                       <li class="noChild">
                         <a
-                          href="http://localhost/online-shopping/goods/material/hard.jsp"
+                          href="http://localhost/online-shop/goods/material/hard.jsp"
                           class="cate"
                           cate="?cate_no=47"
                           >하드</a
