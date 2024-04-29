@@ -1,0 +1,151 @@
+.xans-product-detail .headingArea {
+	position: relative;
+	margin: 0;
+	border: 0;
+	padding: 20px 0 20px 0;
+	text-align: left;
+	border-bottom: 1px solid #e9e9e9;
+}
+
+.xans-product-detail .infoArea .xans-product-option tr:first-child td,
+.xans-product-detail .infoArea .xans-product-option .xans-product-fileoption td {
+	padding-top: 15px;
+	border-top: 1px solid #e8e8e8;
+}
+
+.xans-product-detail .infoArea .xans-product-option tr td {
+	padding: 4px 10px 15px 0;
+}
+
+.xans-product-detail .infoArea td {
+	vertical-align: middle;
+}
+
+.xans-product-detail .infoArea .xans-product-option tr:first-child th,
+.xans-product-detail .infoArea .xans-product-option .xans-product-fileoption th {
+	padding-top: 14px;
+	border-top: 1px solid #e8e8e8;
+}
+
+.xans-product-detail .infoArea .xans-product-option tr th {
+	vertical-align: top;
+}
+
+.xans-product-detail .infoArea th {
+	padding-left: 0px;
+	font-weight: normal;
+	color: #353535;
+	width: 115px;
+	padding: 7px 0 8px 9px;
+	text-align: left;
+	vertical-align: middle;
+}
+
+td {
+	display: table-cell;
+	unicode-bidi: isolate;
+}
+
+.xans-product-detail .infoArea .guideArea {
+	overflow: hidden;
+	margin: 5px 0 0;
+	padding: 8px 11px 0;
+	border-top: 1px solid #e8e8e8;
+}
+
+.xans-product-detail .infoArea .txtWarn {
+	color: #888;
+	font-weight: 300;
+	font-size: 12px;
+}
+
+span.ec-base-help,
+p.ec-base-help,
+ul.ec-base-help li {
+	margin: 2px 9px;
+	padding: 1px 0 1px 20px;
+	line-height: 1.4;
+	background: url('//img.echosting.cafe24.com/skin/base/common/ico_info.gif') no-repeat 0 2px;
+}
+
+p {
+	display: block;
+	margin-block-start: 1em;
+	margin-block-end: 1em;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
+	unicode-bidi: isolate;
+}
+
+.title_detail li a {
+	width: 50%;
+}
+
+.totalPrice {
+	margin: 10px 0 0;
+	padding: 34px 9px 19px;
+	border-top: 1px solid #9a9ba0;
+	color: #353535;
+	vertical-align: middle;
+	background: #fff;
+}
+
+.totalPrice .total em {
+	font-weight: 400;
+	font-style: normal;
+	font-size: 21px;
+}
+
+#totalProducts tbody td {
+	padding: 9px 0;
+	border-top: 1px solid #ebebeb;
+	color: #353535;
+	line-height: 18px;
+	vertical-align: middle;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+#totalProducts tbody td .quantity {
+	display: inline-block;
+	position: relative;
+	width: 50px;
+	vertical-align: top;
+}
+
+#totalProducts tbody tr:first-child td {
+	border-top: 1px solid #9a9ba0;
+}
+
+#totalProducts tbody td .quantity input {
+	width: 29px;
+	height: 25px;
+	padding: 0 2px 0 3px;
+	line-height: 23px;
+	border: 1px solid #d4d8d9;
+	border-radius: 3px 0 0 3px;
+}
+
+#totalProducts tbody td .quantity .down {
+	position: absolute;
+	top: 12px;
+}
+
+#totalProducts tbody td .quantity .up {
+	position: absolute;
+	top: 0;
+}
+
+.ec-base-table thead th {
+	padding: 11px 0 10px;
+	border-left: 1px solid #dfdfdf;
+	border-bottom: 1px solid #dfdfdf;
+	color: #353535;
+	font-weight: normal;
+	background: #fbfafa;
+}
+
+.ec-base-table th {
+	word-break: break-all;
+	word-wrap: break-word;
+}
