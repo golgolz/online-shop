@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="assets/jsp/user/lib.jsp" />
+	<jsp:include page="../../assets/jsp/user/lib.jsp" />
 	<!-- golgolz start -->
     <script type="text/javascript">
       $(function () {
@@ -31,7 +31,7 @@
 	<!-- golgolz end -->
 </head>
 <body>
-	<jsp:include page="assets/jsp/user/header.jsp" />
+	<jsp:include page="../../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
@@ -130,7 +130,7 @@
 				<span class="carousel-next">
 					<img src="http://localhost/online-shop/assets/images/index/right-arrow.png" />
 				</span>
-        	</div>
+        </div>
 			<!-- golgolz end -->
 		</div>
 	</div>
