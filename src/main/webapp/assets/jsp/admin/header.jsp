@@ -10,7 +10,7 @@
 	id="sidenav-main">
 	<div class="sidenav-header">
 		<a class="navbar-brand m-0"
-			href="http://localhost/online-shopping/manage/index.jsp"
+			href="http://localhost/online-shop/manage/index.jsp"
 			> <span class="ms-1 font-weight-bold text-white"
 			style="font-size: 25px">관리자</span>
 		</a>
@@ -21,7 +21,7 @@
 				<a
 					id="dashboard_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shopping/manage/dashboard/dashboard.jsp">
+					href="http://localhost/online-shop/manage/dashboard/dashboard.jsp">
 					<span class="nav-link-text ms-1">대시보드</span>
 				</a>
 			</li>
@@ -29,7 +29,7 @@
 				<a 
 					id="order_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shopping/manage/order/order.jsp">
+					href="http://localhost/online-shop/manage/order/order.jsp">
 					<span class="nav-link-text ms-1">주문 관리</span>
 				</a>
 			</li>
@@ -37,7 +37,7 @@
 				<a
 					id="refund_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shopping/manage/refund/refund.jsp">
+					href="http://localhost/online-shop/manage/refund/refund.jsp">
 					<span class="nav-link-text ms-1">반품 관리</span>
 				</a>
 			</li>
@@ -45,7 +45,7 @@
 				<a 
 					id="goods_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shopping/manage/goods/goods.jsp">
+					href="http://localhost/online-shop/manage/goods/goods.jsp">
 					<span class="nav-link-text ms-1">상품 관리</span>
 				</a>
 			</li>
@@ -53,7 +53,7 @@
 				<a
 					id="user_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shopping/manage/user/user.jsp">
+					href="http://localhost/online-shop/manage/user/user.jsp">
 					<span class="nav-link-text ms-1">사용자 관리</span>
 				</a>
 			</li>
@@ -61,7 +61,7 @@
 				<a
 					id="review_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shopping/manage/review/review.jsp">
+					href="http://localhost/online-shop/manage/review/review.jsp">
 					<span class="nav-link-text ms-1">리뷰 관리</span>
 				</a>
 			</li>
@@ -69,7 +69,7 @@
 				<a
 					id="notice_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shopping/manage/notice/notice.jsp">
+					href="http://localhost/online-shop/manage/notice/notice.jsp">
 					<span class="nav-link-text ms-1">공지사항 관리</span>
 				</a>
 			</li>
