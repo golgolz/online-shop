@@ -12,9 +12,7 @@
 	<jsp:include page="../../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
-			메인 페이지 입니다.
 			<!-- golgolz start -->
-			
 			<!-- golgolz end -->
 		</div>
 	</div>

@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+/* Layout */
+#body				{ position:relative; width:100%; height:266px; margin-top:190px; text-align:center; background:url("/board/_jns/img/main/bgMain_01.jpg") repeat-x; zoom:1; } 
+#body:after			{ content:" "; display:block; clear:both; }
+
+/* Login */
+#body h3				{ position:relative; top:37px; height:73px}
+form.memberLogin	{ position:relative; width:402px; height:150px; margin:0 auto; background:url("/board/_jns/img/main/bgLogin_01.jpg") no-repeat}
+.login-wrapper		{ position:relative; top:35px; width:310px; margin:0 auto; zoom:1; } 
+.login-wrapper:after	{ content:" "; display:block; clear:both; }
+.login-wrapper div	{ float:left; }
+.login-wrapper p		{ position:absolute; top:90px; left:0}
+.row-input				{ width:260px; text-align:left}
+.row-input li			{ margin-bottom:2px}
+.row-input *			{ vertical-align:middle}
+.row-input input		{ width:170px; height:16px}
+div.login					{ position:absolute; float:right; top:0; right:0; width:70px}
+
+div.id_save				{ width:82%; margin:5px 0 0 18%; zoom:1; } 
+div.id_save:after		{ content:" "; display:block; clear:both; }
+div.id_save *			{ vertical-align:middle; }
+div.id_save li			{ float:left; padding-right:20px}
+div.id_save li input	{ padding:5px}
+
+/* Footer */
+#footer					{ width:100%; text-align:center; padding-top:15px}
