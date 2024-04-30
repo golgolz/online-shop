@@ -1,0 +1,30 @@
+.carousel {
+	padding: 0 50px;
+	/* 좌우 패딩 설정 */
+	position: relative;
+}
+
+.carousel-prev,
+.carousel-next {
+	position: absolute;
+	top: 40%;
+	transform: translateY(-50%);
+	width: 50px;
+	/* 버튼의 너비 조절 */
+	height: 100px;
+	/* 버튼의 높이 조절 */
+	color: #fff;
+	/* 버튼 텍스트 색상 조절 */
+	border: none;
+	cursor: pointer;
+}
+
+.carousel-prev {
+	left: 10%;
+	/* 왼쪽 버튼의 위치 설정 */
+}
+
+.carousel-next {
+	right: 10%;
+	/* 오른쪽 버튼의 위치 설정 */
+}
