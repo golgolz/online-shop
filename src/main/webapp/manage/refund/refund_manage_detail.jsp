@@ -11,7 +11,7 @@
 </script>
 <!-- golgolz start -->
 <!-- golgolz end -->
-</head>
+</head> 
 <body>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main

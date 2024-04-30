@@ -11,7 +11,7 @@
 }
 
 table, td {
-	text-align: center;
+	text-align: center; 
 }
 </style>
 <script>

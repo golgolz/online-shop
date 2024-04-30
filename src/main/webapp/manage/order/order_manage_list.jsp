@@ -80,7 +80,7 @@ var tb_admin_url = "http://demofran.com/admin";
 							currentText : "오늘",
 							monthNames : [ "1월(JAN)", "2월(FEB)", "3월(MAR)",
 									"4월(APR)", "5월(MAY)", "6월(JUN)", "7월(JUL)",
-									"8월(AUG)", "9월(SEP)", "10월(OCT)",
+									"8월(AUG)", "9월(SEP)", "10월(OCT)",  
 									"11월(NOV)", "12월(DEC)" ],
 							monthNamesShort : [ "1월", "2월", "3월", "4월", "5월",
 									"6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
@@ -101,7 +101,7 @@ var tb_admin_url = "http://demofran.com/admin";
 					<input type="hidden" name="code" value="list">
 					<div class="tbl_frm01">
 						<table>
-							<colgroup>
+							<colgroup> 
 								<col class="w100">
 								<col>
 							</colgroup>

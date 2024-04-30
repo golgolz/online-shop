@@ -18,7 +18,7 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 }
 
 .xans-myshop-orderhistorydetail .title {
-	margin: 40px 0 10px 10px;
+	margin: 40px 0 10px 10px; 
 }
 
 .ec-base-table table {

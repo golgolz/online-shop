@@ -219,7 +219,7 @@
 												</ul>
 											</div></td>
 										<td>취소</td>
-										<td>본사</td>
+										<td>본사</td> 
 										<td>1</td>
 										<td class="tar">36,720</td>
 										<td class="tar">0</td>

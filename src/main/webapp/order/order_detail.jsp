@@ -28,7 +28,7 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 	border-top: 0;
 	color: #fff;
 	line-height: 1.5;
-}
+} 
 .order-product-table{
 	text-align: center;
 }

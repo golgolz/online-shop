@@ -25,7 +25,7 @@
 	font-weight: bold;
 	border-bottom: 3px double #dedede;
 }
-
+ 
 .xans-order-form .payArea .total {
 	float: right;
 	width: 240px;

@@ -26,7 +26,7 @@
 			position: relative;
 			margin: 0 auto;
 		}
-
+ 
 		#container #contents {
 			width: 1240px;
 			margin: 0 auto;
