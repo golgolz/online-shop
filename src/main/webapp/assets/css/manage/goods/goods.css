@@ -1,0 +1,51 @@
+/*상품리스트B*/
+.graybox {
+	border:solid 1px #e7e7e8;
+	padding:10px;
+	vertical-align:top;}
+.graybox .subtitle,.graybox .ssubtitle {
+	padding-top:0px;}
+.grayboxn {padding:0 10px 10px 10px;vertical-align:top;}
+.grayboxn .subtitle {
+	padding-top:0px;}	
+.graybox02 {
+	border:solid 1px #e7e7e8;
+	vertical-align:top;}	
+
+/* 좌 우 */
+.left_layer {padding-left:5px;float:left;line-height:160%;}
+.right_layer {padding-left:5px;float:right;line-height:160%;}
+	
+	
+/*상품기본정보*/
+.icon_box {float:left;width:95px;height:30px;}	
+.icon_box a {font-size:11px;}
+.icon_box img {vertical-align:top;}
+
+.iconContainer {margin:15px 0 0 5px;}
+.iconContainer p {margin:0px;padding:0 0 5px 0;}
+.iconContainer .icon_box01 {float:left;width:95px;height:30px;}
+.iconContainer .icon_box01 img {vertical-align:top;}
+
+select.off { background-color:#DDDDDD; }
+ 
+/*상품일괄관리*/
+.info {padding:15px 0 7px 0;color:#ff1e00;}
+.info span {text-decoration:underline;font-weight:bold;}
+
+.graybox01 {background-color:#f0f0f0;padding:10px;line-height:25px;}
+
+/*데이터관리*/
+.stepbox .label {background:url("/admin/images/goods/bg_oranglabel.gif") 0 0 no-repeat;
+	padding:0 0 0 26px;height:41px;font-size:14px;color:#fff;font-weight:bold;}
+.stepbox .box {padding:0 0 0 10px;}	
+.stepbox .line {height:4px;background-color:#e7e7e8;}
+.stepbox .line01 {height:1px;background-color:#e7e7e8;}
+
+
+/* 배송비 정책*/
+.dlvp_range_area {}
+.dlvp_range_area .dlvp_range_row {}
+.dlvp_range_area .dlvp_range_min input { border:1px solid #DDDDDD; color:#AAAAAA; }
+.dlvp_range_area .dlvp_range_end .dlvp_range_max { visibility:hidden; }
+.dlvp_range_area .dlvp_range_end .btn_dlvp_range_del { visibility:hidden; }
