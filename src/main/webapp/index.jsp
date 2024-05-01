@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="../../assets/jsp/user/lib.jsp" />
+	<jsp:include page="./assets/jsp/user/lib.jsp" />
 	<!-- golgolz start -->
     <script type="text/javascript">
       $(function () {
@@ -31,7 +31,7 @@
 	<!-- golgolz end -->
 </head>
 <body>
-	<jsp:include page="../../assets/jsp/user/header.jsp" />
+	<jsp:include page="./assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
@@ -130,7 +130,75 @@
 				<span class="carousel-next">
 					<img src="http://localhost/online-shop/assets/images/index/right-arrow.png" />
 				</span>
-        </div>
+        	</div>
+        	<div class="main_pro_title cboth">
+				<div class="txt_01">NEW ARRIVAL</div>
+				<div class="txt_02">오브젝트에 새롭게 들어온 제품을 소개합니다.</div>
+			</div>
+		    <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product typeThumb sort_pro">
+		        <ul class="prdList grid5">
+		            <li id="anchorBoxId_6371" class="xans-record-">
+		                <div class="box">
+		                    <div class="thumbnail">
+		                        <div class="prdImg">
+		                            <a href="http://localhost/online-shop/goods/detail.jsp" name="anchorBoxName_6371">
+		                                <img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_1.png" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
+		                            </a>
+		                        </div>
+		                        <span class="wish">
+		                            <img src="http://localhost/online-shop/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록 전" productno="6371" categoryno="1" icon_status="off" login_status="F" individual-set="F">
+		                        </span>
+		                    </div>
+		                    <div class="description">
+		                        <div class="name">
+		                            <a href="http://localhost/online-shop/goods/detail.jsp" class="">
+		                                <span style="font-size:12px;color:#000000;">[오브젝트] 2024 오브젝트 다이어리 (날짜형)</span>
+		                            </a>
+		                        </div>
+		                        <ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
+		                            <li class=" xans-record-">
+		                                <span style="font-size:12px;color:#000000;font-weight:bold;">13,000원</span>
+		                            </li>
+		                        </ul>
+		                    </div>
+		                </div>
+		            </li>
+		        </ul>
+		    </div>
+		    <div class="main_pro_title cboth">
+				<div class="txt_01">BEST ITEMS</div>
+				<div class="txt_02">오브젝트의 인기 제품을 소개합니다.</div>
+			</div>
+		    <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product typeThumb sort_pro">
+		        <ul class="prdList grid5">
+		            <li id="anchorBoxId_6371" class="xans-record-">
+		                <div class="box">
+		                    <div class="thumbnail">
+		                        <div class="prdImg">
+		                            <a href="http://localhost/online-shop/goods/detail.jsp" name="anchorBoxName_6371">
+		                                <img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_1.png" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
+		                            </a>
+		                        </div>
+		                        <span class="wish">
+		                            <img src="http://localhost/online-shop/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록 전" productno="6371" categoryno="1" icon_status="off" login_status="F" individual-set="F">
+		                        </span>
+		                    </div>
+		                    <div class="description">
+		                        <div class="name">
+		                            <a href="http://localhost/online-shop/goods/detail.jsp" class="">
+		                                <span style="font-size:12px;color:#000000;">[오브젝트] 2024 오브젝트 다이어리 (날짜형)</span>
+		                            </a>
+		                        </div>
+		                        <ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
+		                            <li class=" xans-record-">
+		                                <span style="font-size:12px;color:#000000;font-weight:bold;">13,000원</span>
+		                            </li>
+		                        </ul>
+		                    </div>
+		                </div>
+		            </li>
+		        </ul>
+		    </div>
 			<!-- golgolz end -->
 		</div>
 	</div>
