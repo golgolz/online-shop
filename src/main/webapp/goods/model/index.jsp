@@ -4,13 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="../assets/jsp/user/lib.jsp" />
+	<jsp:include page="../../assets/jsp/user/lib.jsp" />
 	<!-- golgolz start -->
     <link href="http://localhost/online-shop/assets/css/goods/category.css" rel="stylesheet" />
 	<!-- golgolz end -->
 </head>
 <body>
-	<jsp:include page="../assets/jsp/user/header.jsp" />
+	<jsp:include page="../../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
@@ -20,13 +20,13 @@
 	          		<ol>
 	            		<li><a href="http://localhost/online-shop/index.jsp">홈</a></li>
 	            		<li class="">
-	              			<a href="http://localhost/online-shop/goods/new.jsp">NEW</a>
+	              			<a href="http://localhost/online-shop/goods/model/index.jsp">MODEL</a>
 	            		</li>
 	          		</ol>
 	        	</div>
 	        	<div class="xans-element- xans-product xans-product-headcategory title">
 	          		<p class="banner"></p>
-	          		<h2><span>NEW</span></h2>
+	          		<h2><span>MODEL</span></h2>
 	        	</div>
 	        	<ul class="menuCategory" id="midCate" style="display: block"></ul>
 	      	</div>
