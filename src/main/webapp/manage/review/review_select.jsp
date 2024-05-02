@@ -87,29 +87,29 @@
 						<tr>
 				<td class="label">관련 상품</td>
 				<td class="box text" colspan="3">
-					<a href="/?act=shop.goods_view&GS=9" target="_blank"><img src="/data/goods/0/9/16242333.list.jpg" onerror="Durian.imgDefault(this, '/data/file/no_image.png');" class="imgborder" width="50" height="50">히말라야 장벽 수분 크림(G638D9CD4CCBFA)</a>
+					<a href="/?act=shop.goods_view&GS=9" target="_blank"><img src="https://demo01.swm.whoismall.com/data/goods/0/9/16242333.list.jpg" onerror="Durian.imgDefault(this, '/data/file/no_image.png');" class="imgborder" width="50" height="50">히말라야 장벽 수분 크림(G638D9CD4CCBFA)</a>
 				</td>
 			</tr>
-						<tr>
+						<!-- <tr>
 				<td class="label">이메일</td>
 				<td class="box text">
 					imean00@whois.co.kr					<a href="#" id="user_email" email="imean00@whois.co.kr" user_name='최고관리자'><img src="/admin/images/common/icon_email_x.gif"></a>				</td>
 				<td class="label">휴대전화</td>
 				<td class="box text">
 														</td>
-			</tr>
-			<tr>
+			</tr> -->
+			<!-- <tr>
 				<td class="label">조회수</td>
 				<td class="box text">11</td>
 				<td class="label">추천수</td>
 				<td class="box text">0</td>
-			</tr>
-									<tr>
+			</tr> -->
+									<!-- <tr>
 				<td class="label">평가</td>
 				<td class="box text" colspan="3">
 										<img src="/admin/images/community/icon_star05.gif">
 									</td>
-			</tr>
+			</tr> -->
 						<tr>
 				<td class="label">제목</td>
 				<td class="box text" colspan="3">반신반의하면서 샀거든요? 효과 짱이에요.</td>
@@ -118,14 +118,14 @@
 				<td class="label">내용</td>
 				<td width="745" class="box text se2_inputarea" colspan="3"><p><span style="color: rgb(0, 0, 0);">﻿요즘 피부가 너무 건조해서 이것저것 사서 써보고 있는데 다들 그냥 그렇더라구요.</span>&nbsp;</p><p>더 강력한 걸 사고 싶어서 찾다가 이건 괜찮은가 싶어서 샀는데 너무 좋아요!</p><p>자기 전에 잔뜩 바르고 자면 그 다음날 화장 너무 잘 먹어요.</p><p>피부 장벽도 좀 튼튼해진 거 같고! 저한텐 너무 잘 맞아서 좋네요. 평생 쓸거예요!</p></td>
 			</tr>
-									<tr>
+									<!-- <tr>
 				<td class="label">공지글 여부</td>
 				<td class="box text" colspan="3">X</td>
 			</tr>
 			<tr>
 				<td class="label">베스트글 여부</td>
 				<td class="box text" colspan="3">O</td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td class="label">승인 여부</td>
 				<td class="box text" colspan="3">O</td>
@@ -136,19 +136,19 @@
 		<div class="alignCenter">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%">
 				<tr>
-					<td align="left"><a href="#" id="mode_bbs1" mode="list"><img src="/admin/images/community/btn_list.gif" alt="목록"></a></td>
+					<td align="left"><a href="http://localhost/online-shop/manage/review/review.jsp#" id="mode_bbs1" mode="list"><img src="https://demo01.swm.whoismall.com/admin/images/community/btn_list.gif" alt="목록"></a></td>
 					<td align="right">
-						<a href="#" id="mode_bbs2" mode="modify"><img src="/admin/images/community/btn_change.gif" alt="수정"></a>
-						<a href="#" id="mode_bbs3" mode="delete"><img src="/admin/images/community/btn_del.gif" alt="삭제"></a>
-						<a href="#" id="mode_bbs4" mode="reply"><img src="/admin/images/community/btn_answer.gif" alt="답변"></a>
-						<a href="#" id="mode_bbs5" mode="write"><img src="/admin/images/community/btn_regist.gif" alt="등록"></a>
+						<!-- <a href="#" id="mode_bbs2" mode="modify"><img src="/admin/images/community/btn_change.gif" alt="수정"></a> -->
+						<a href="#" id="mode_bbs3" mode="delete"><img src="https://demo01.swm.whoismall.com/admin/images/community/btn_del.gif" alt="삭제"></a>
+						<!-- <a href="#" id="mode_bbs4" mode="reply"><img src="/admin/images/community/btn_answer.gif" alt="답변"></a>
+						<a href="#" id="mode_bbs5" mode="write"><img src="/admin/images/community/btn_regist.gif" alt="등록"></a> -->
 					</td>
 				</tr>
 			</table>
 		</div>
 		</form>
 
-				<!-- 댓글등록 -->
+				<!--  댓글등록
 		<form name="dataForm3" action="./" method="post">
 		<input type="hidden" name="act" value="community.board_comment_write">
 		<input type="hidden" name="ch" value="community">
@@ -175,10 +175,10 @@
 			</table>
 		</div>
 
-		</form>
+		</form> -->
 
 		<!-- 댓글목록 -->
-		<form name="dataForm2" action="./" method="post">
+		<!-- <form name="dataForm2" action="./" method="post">
 		<input type="hidden" name="act" value="community.board_comment_act">
 		<input type="hidden" name="ch" value="community">
 		<input type="hidden" name="mode" value="">
@@ -191,7 +191,7 @@
 							</ul>
 		</div>
 
-		</form>
+		</form> -->
 		
 		<!-- End of submain -->
 	</div>
@@ -200,11 +200,11 @@
 			</table>
 		</td>
 	</tr>
-	<tr>
-		<td height="61"><!--begin of bottom-->
+	<!-- <tr>
+		<td height="61">begin of bottom
 <div id="footer"><span class="bottomlayout "><img src="/admin/images/common/img_bottom.gif" alt="후이즈몰은 고객님의 성공과 함께합니다"></span></div>
-<!--end of bottom--></td>
-	</tr>
+end of bottom</td>
+	</tr> -->
 </table>
 			<!-- golgolz end -->
 		</div>
