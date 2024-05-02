@@ -37,7 +37,7 @@
             <p id="name_view" class="name" style=""><strong id="name_lable">비밀번호</strong> <input id="name" name="name" fw-filter="" fw-label="이름" fw-msg="" class="lostInput" placeholder="" value="" type="text"></p>
             
             <p class="button ">
-                <a href="#none" onclick="findId.action('lifelab0301' , 'kcp'); return false;">확인</a>
+                <a href="http://localhost/online-shop/user/mypage/editUserInfo.jsp" >확인</a>
             </p>
         </fieldset>
 </div>

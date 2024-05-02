@@ -40,7 +40,7 @@
             <p id="mobile_view" class="mobile" style=""><strong>휴대폰 번호로 찾기</strong> <input id="mobile1" name="mobile1" fw-filter="isMin[3]&amp;isMax[3]&amp;isNumber" fw-label="휴대전화 번호" fw-msg="" class="mobile1" placeholder="" maxlength="3" value="" type="text"> - <input id="mobile2" name="mobile2" fw-filter="isMin[3]&amp;isMax[4]&amp;isNumber" fw-label="휴대전화 번호" fw-msg="" class="mobile2" placeholder="" maxlength="4" value="" type="text"> - <input id="mobile3" name="mobile3" fw-filter="isMin[4]&amp;isMax[4]&amp;isNumber" fw-label="휴대전화 번호" fw-msg="" class="mobile2" placeholder="" maxlength="4" value="" type="text"></p>
             
             <p class="button ">
-                <a href="#none" onclick="findId.action('lifelab0301' , 'kcp'); return false;">확인</a>
+                <a href="http://localhost/online-shop/user/findIdPw/findIdResult.jsp">확인</a>
             </p>
         </fieldset>
 </div>

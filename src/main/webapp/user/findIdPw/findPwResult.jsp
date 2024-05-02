@@ -36,7 +36,7 @@
             </ul>
 </div>
         <p class="button1 ">
-			<a href="javascript:go_findlogin('');">로그인</a>
+			<a href="http://localhost/online-shop/user/login/login.jsp">로그인</a>
         </p>
     </div>
 </div>
