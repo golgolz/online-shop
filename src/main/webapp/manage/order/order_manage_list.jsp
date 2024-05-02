@@ -221,7 +221,7 @@ var tb_admin_url = "http://demofran.com/admin";
 						<tbody>
 						<tr class="list0">
 							<td>2024-02-01 11:53</td>
-							<td>202402011153</td>
+							<td><a href="http://localhost/online-shop/manage/order/order_manage_detail.jsp">202402011153</a></td>
 							<td>lee</td>
 							<td>이명화</td>
 							<td>구매미확정</td>
