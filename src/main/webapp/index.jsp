@@ -137,12 +137,15 @@
 			</div>
 		    <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product typeThumb sort_pro">
 		        <ul class="prdList grid5">
+		        	<%
+		        		for(int i = 1; i < 9; i++){
+		        	%>
 		            <li id="anchorBoxId_6371" class="xans-record-">
 		                <div class="box">
 		                    <div class="thumbnail">
 		                        <div class="prdImg">
-		                            <a href="http://localhost/online-shop/goods/detail.jsp" name="anchorBoxName_6371">
-		                                <img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_1.png" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
+		                            <a href="http://localhost/online-shop/goods/detail.jsp?goods=APPLE_IPHONE14_<%= i %>" name="anchorBoxName_6371">
+		                                <img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_<%=i %>.png" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
 		                            </a>
 		                        </div>
 		                        <span class="wish">
@@ -163,6 +166,7 @@
 		                    </div>
 		                </div>
 		            </li>
+		            <% } %>
 		        </ul>
 		    </div>
 		    <div class="main_pro_title cboth">
@@ -171,12 +175,15 @@
 			</div>
 		    <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product typeThumb sort_pro">
 		        <ul class="prdList grid5">
+		        	<%
+		        		for(int i = 1; i < 9; i++){
+		        	%>
 		            <li id="anchorBoxId_6371" class="xans-record-">
 		                <div class="box">
 		                    <div class="thumbnail">
 		                        <div class="prdImg">
-		                            <a href="http://localhost/online-shop/goods/detail.jsp" name="anchorBoxName_6371">
-		                                <img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_1.png" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
+		                            <a href="http://localhost/online-shop/goods/detail.jsp?goods=APPLE_IPHONE15_<%= i %>" name="anchorBoxName_6371">
+		                                <img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE15_<%=i %>.png" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
 		                            </a>
 		                        </div>
 		                        <span class="wish">
@@ -197,6 +204,7 @@
 		                    </div>
 		                </div>
 		            </li>
+		            <% } %>
 		        </ul>
 		    </div>
 			<!-- golgolz end -->

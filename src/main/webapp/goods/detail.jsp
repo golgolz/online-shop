@@ -74,7 +74,7 @@
 										alt="P0000IXV"
 										onclick="window.open(this.href, &#39;image_zoom2&#39;, &#39;toolbar=no,scrollbars=auto,resizable=yes,width=450,height=693,left=0,top=0&#39;, this);return false;">
 										<img
-										src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_1.png"
+										src="http://localhost/online-shop/assets/images/goods/${param.goods}.png"
 										alt="[오브젝트] 오브젝트 2023 로고키링" class="BigImage" />
 									</a>
 									<div id="zoom_wrap"></div>
@@ -238,7 +238,7 @@
 						<div class="cont">
 							<p>
 								<img
-									src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_1_description.png"
+									src="http://localhost/online-shop/assets/images/goods/${param.goods}_description.png"
 									style="display: block; vertical-align: top; margin: 0px auto; text-align: center;"
 									name="APPLE_IPHONE14_1_description.png" />
 							</p>
