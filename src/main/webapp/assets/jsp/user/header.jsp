@@ -27,6 +27,9 @@
               <li>
                 <a href="http://localhost/online-shop/cart/cart.jsp">CART</a>
               </li>
+              <li>
+                <a href="http://localhost/online-shop/notice/notice.jsp">NOTICE</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -62,7 +65,7 @@
                   </li>
                   <li class="xans-record-">
                     <a
-                      href="http://localhost/online-shop/goods/model/samsung.jsp"
+                      href="http://localhost/online-shop/goods/model/index.jsp"
                       class="cate"
                       cate="?cate_no=44"
                       >MODEL</a
@@ -130,7 +133,7 @@
                   </li>
                   <li class="xans-record-">
                     <a
-                      href="http://localhost/online-shop/goods/material/silicon.jsp"
+                      href="http://localhost/online-shop/goods/material/index.jsp"
                       class="cate"
                       cate="?cate_no=44"
                       >MATERIAL</a
