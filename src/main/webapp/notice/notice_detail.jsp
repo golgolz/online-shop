@@ -108,7 +108,7 @@
                     <a href="#none" onclick="" class="btnNormalFix sizeS ">스팸신고</a>
                     <a href="#none" onclick="" class="btnNormalFix sizeS ">스팸해제</a>
                 </span> -->
-                <a href="notice_main.jsp" class="btnNormalFix sizeS">목록</a>
+                <a href="notice.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
                 <a href="#none" onclick="BOARD_READ.article_delete('BoardDelForm','1');" class="btnNormalFix sizeS displaynone">삭제</a>
