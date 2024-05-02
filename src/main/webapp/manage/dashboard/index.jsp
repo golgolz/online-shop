@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<jsp:include page="../assets/jsp/admin/lib.jsp" />
+<jsp:include page="../../assets/jsp/admin/lib.jsp" />
 <script type="text/javascript">
 	$(function(){
     	$("#dashboard_menu").addClass("bg-gradient-primary");
@@ -28,7 +28,7 @@
 <!-- golgolz end -->
 </head>
 <body>
-	<jsp:include page="../assets/jsp/admin/header.jsp" />
+	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
 		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
 		<nav

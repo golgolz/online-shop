@@ -1,0 +1,50 @@
+#__calendar__ {z-index:2001;}
+
+.calendar {}
+.calendar .tbcalendar { border: 3px solid #888A8E; padding: 15px 0; background:url(/data/images/default/common/cal_yun2/top.gif); }
+
+.calendar a:hover { text-decoration:underline; color:#9999ff; }
+.calendar a:link { text-decoration:none; }
+.calendar a:visited { text-decoration:none; }
+.calendar a:active { text-decoration:none; }
+
+.calendar_body { background:url(/data/images/default/common/cal_yun2/bg.gif); }
+
+.calendar_txt table, .calendar_txt td {font-size:8pt;font-family:Dotum; padding-top:3px;}
+.calendar_day td { width:30px; height:20px; font-family:"Verdana"; font-size:14px; letter-spacing:-1px; color:#575757; }
+.calendar_day td img { border:0 none; vertical-align:middle; }
+
+/*요일*/
+.calendar_txt .day0 {color:#629400; width:30px; height:22px; }
+.calendar_txt .day1 {color:#575757; width:30px;}
+.calendar_txt .day2 {color:#575757; width:30px;}
+.calendar_txt .day3 {color:#575757; width:30px;}
+.calendar_txt .day4 {color:#575757; width:30px;}
+.calendar_txt .day5 {color:#575757; width:30px;}
+.calendar_txt .day6 {color:#007D87; width:30px;}
+
+/*제목행 - 년도*/
+.calendar .year {font-family:"Arial Black"; font-size:14px; font-weight:bold; letter-spacing:-1px; color:#000000;}
+
+/*제목행 - 월*/
+.calendar .month {font-size:16pt; font-family:tahoma; font-weight:bold; color:#5ea200; padding: 0px 10px;}
+
+.calendar_today { cursor:pointer; }
+.calendar_close { cursor:pointer; }
+.calendar_clear { cursor:pointer; }
+
+/* 일 */
+.calendar .white { color:#FFFFFF; }
+.calendar .today { cursor:pointer; font-family:"Verdana"; font-size:12px; font-weight:bold; color:#FFFFFF; letter-spacing:-1px; background-color:#CC0066; }
+.calendar .selday { cursor:pointer; font-family:"Verdana"; font-size:12px; font-weight:bold; color:#FFFFFF; letter-spacing:-1px; background-color:#00CC66; }
+.calendar .normal { cursor:pointer; }
+.calendar .other { visibility:hidden; color:#FFFFFF; }
+
+.calendar .normal.day0 { color:#629400; }
+.calendar .normal.day6 { color:#007D87; }
+
+/* 이전, 다음 */
+.calendar_prev_year { cursor:pointer; }
+.calendar_next_year { cursor:pointer; }
+.calendar_prev_month { cursor:pointer; }
+.calendar_next_month { cursor:pointer; }
