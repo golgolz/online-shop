@@ -69,9 +69,6 @@
         return true;
     }
 </script>
-
-
-
 			<!-- golgolz end -->
 		</div>
 	</main>
