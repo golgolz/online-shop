@@ -558,7 +558,7 @@ th {
 							<div id="lShippingCompanyLists" class="shippingArea displaynone">
 								<div class="title">
 									<h6>배송업체(방식) 선택</h6>
-								</div>
+								</div> 
 								<table border="1" summary="">
 									<caption>배송업체(방식) 선택</caption>
 									<thead>
