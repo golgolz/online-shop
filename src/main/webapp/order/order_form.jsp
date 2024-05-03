@@ -25,7 +25,7 @@
 	font-weight: bold;
 	border-bottom: 3px double #dedede;
 }
- 
+
 .xans-order-form .payArea .total {
 	float: right;
 	width: 240px;
@@ -113,7 +113,65 @@ input[type=text], input[type=password] {
 th {
 	text-align: center;
 }
+/* 모달 창 스타일 */
+.modal {
+	display: none; /* 기본적으로 숨김 상태 */
+	position: fixed; /* 화면 고정 */
+	z-index: 1; /* 다른 요소 위에 표시 */
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+}
+
+/* 모달 내용 스타일 */
+.modal-content {
+	background-color: #fefefe;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+}
+
+/* 모달 닫기 버튼 스타일 */
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
 </style>
+
+<script>
+	$(function(){
+		
+	})//ready
+
+	// 모달 열기 버튼 클릭 시 모달 표시
+	$("#openModalBtn").onclick = function() {
+		document.getElementById("myModal").style.display = "block";
+	}
+
+	// 모달 닫기 버튼 클릭 시 모달 숨김
+	document.getElementsByClassName("close")[0].onclick = function() {
+		document.getElementById("myModal").style.display = "none";
+	}
+
+	// 모달 외부 클릭 시 모달 숨김
+	window.onclick = function(event) {
+		var modal = document.getElementById("myModal");
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	}
+</script>
 <!-- golgolz end -->
 </head>
 <body>
@@ -1985,8 +2043,9 @@ th {
 									CAFE24.GLOBAL_BOARD_LANGUAGE_CODES = {
 										bUseLegacyBoard : true
 									};
-									var EC_GLOBAL_BOARD_LANGUAGE_CODES = CAFE24.getDeprecatedNamespace('EC_GLOBAL_BOARD_LANGUAGE_CODES');
-CAFE24.GLOBAL_MALL_LANGUAGE_CODES = {
+									var EC_GLOBAL_BOARD_LANGUAGE_CODES = CAFE24
+											.getDeprecatedNamespace('EC_GLOBAL_BOARD_LANGUAGE_CODES');
+									CAFE24.GLOBAL_MALL_LANGUAGE_CODES = {
 										oDesign : {
 											oDesignAddReplaceInfo : {
 												"group_id" : "SKIN.ADD.ADMIN.DESIGNDETAIL",
@@ -3160,6 +3219,17 @@ CAFE24.GLOBAL_MALL_LANGUAGE_CODES = {
 										<a href="#none" id="btn_payment" class="btnSubmit sizeL">결제하기</a>
 									</div>
 									<div class="mileage "></div>
+								</div>
+							</div>
+
+							<!-- 모달을 열기 위한 버튼 -->
+							<button id="openModalBtn">모달 열기</button>
+							<!-- 모달 창 -->
+							<div id="myModal" class="modal">
+								<div class="modal-content">
+									<span class="close">&times;</span>
+									<!-- 모달 닫기 버튼 -->
+									<p>카드 결제하기</p>
 								</div>
 							</div>
 							<!-- 안심번호 팝업 레이어 -->
