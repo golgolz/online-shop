@@ -329,14 +329,11 @@ th {
 									alt="02 주문서작성">
 							</p>
 
-
 							<div class="orderListArea ">
 								<div class="title">
 									<h6>배송상품 주문내역</h6>
-
 								</div>
-
-
+								
 								<div class="ec-base-table typeList gBorder ">
 									<table border="1" summary="">
 										<caption>기본배송</caption>
@@ -346,7 +343,6 @@ th {
 											<col style="width: auto">
 											<col style="width: 98px">
 											<col style="width: 75px">
-
 
 											<col style="width: 85px">
 											<col style="width: 98px">
@@ -360,7 +356,6 @@ th {
 												<th scope="col">판매가</th>
 												<th scope="col">수량</th>
 
-
 												<th scope="col">배송비</th>
 												<th scope="col">합계</th>
 											</tr>
@@ -368,14 +363,12 @@ th {
 										<tfoot class="right">
 											<tr>
 												<td colspan="8"><span class="gLeft">[기본배송]</span>
-													상품구매금액 <strong>20,000<span class="displaynone">
-															(0)</span></strong><span class="displaynone"> + 부가세 0</span> + 배송비 <span
+													상품구매금액 <strong>20,000</strong> + 배송비 <span
 													id="domestic_ship_fee">3,000</span> <span
 													id="normal_total_benefit_price_area" class="displaynone">
 														- 상품할인금액 <span id="normal_total_benefit_price">0</span>
 												</span> = 합계 : <strong class="txtEm gIndent10"><span
-														id="domestic_ship_fee_sum" class="txt18">23,000</span>원</strong> <span
-													class="displaynone"></span></td>
+														id="domestic_ship_fee_sum" class="txt18">23,000</span>원</strong></td>
 											</tr>
 										</tfoot>
 										<tbody
@@ -407,12 +400,10 @@ th {
 													</div>
 												</td>
 												<td>1</td>
-
-
 												<td rowspan="1" class="">3,000원</td>
 												<td class="right"><strong><span
 														id="product_total_price_front0">20,000</span>원</strong>
-													<div class="displaynone"></div></td>
+													</td>
 											</tr>
 										</tbody>
 									</table>
@@ -494,11 +485,9 @@ th {
 												<td class=""></td>
 												<td colspan="8"><span class="gLeft">[개별배송]</span>
 													상품구매금액 <strong><span class="displaynone">
-															()</span></strong><span class="displaynone"> + 부가세 </span> + 배송비 <span
-													id=""></span> <span id="" class="displaynone"> -
-														상품할인금액 <span id=""></span>
-												</span> = 합계 : <strong class="txtEm gIndent10"><span id=""
-														class="txt18"></span></strong> <span class="displaynone"></span></td>
+															()</span></strong> + 배송비 <span
+													id=""></span> = 합계 : <strong class="txtEm gIndent10"><span id=""
+														class="txt18"></span></strong></td>
 											</tr>
 										</tfoot>
 									</table>
@@ -542,11 +531,9 @@ th {
 											<tr>
 												<td class=""></td>
 												<td colspan="7"><span class="gLeft">[해외배송]</span>
-													상품구매금액 <strong><span class="displaynone">
-															()</span></strong> + 배송비 <span id="f_list_total_delv_price_id"></span>원<span
-													id="" class="displaynone"> - 상품할인금액 <span id=""></span>
-												</span> = 합계 : <strong class="txtEm gIndent10"><span id=""
-														class="txt18"></span></strong> <span id="" class="displaynone"></span></td>
+													상품구매금액 <strong>()</strong> + 배송비 <span id="f_list_total_delv_price_id"></span>원
+													 = 합계 : <strong class="txtEm gIndent10"><span id=""
+														class="txt18"></span></strong></td>
 											</tr>
 										</tfoot>
 									</table>
@@ -571,7 +558,7 @@ th {
 							<div id="lShippingCompanyLists" class="shippingArea displaynone">
 								<div class="title">
 									<h6>배송업체(방식) 선택</h6>
-								</div>
+								</div> 
 								<table border="1" summary="">
 									<caption>배송업체(방식) 선택</caption>
 									<thead>
@@ -790,213 +777,10 @@ th {
 												<td><textarea id="omessage" name="omessage"
 														fw-filter="" fw-label="배송 메세지" fw-msg="" maxlength="255"
 														cols="70"></textarea>
-													<div class="delvMessage displaynone">
-														<label><input id="omessage_autosave0"
-															name="omessage_autosave[]" fw-filter=""
-															fw-label="배송 메세지 저장" fw-msg="" value="T" type="checkbox"
-															disabled=""><label for="omessage_autosave0"></label>
-															자동저장</label>
-														<ul class="gIndent5">
-															<li>배송메시지란에는 배송시 참고할 사항이 있으면 적어주십시오.</li>
-															<li>게시글은 비밀글로 저장되며 비밀번호는 주문번호 뒷자리로 자동 저장됩니다.</li>
-														</ul>
-													</div></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">희망배송일</th>
-												<td>
-													<ul class="grid">
-														<li></li>
-														<li>이후 날짜를 입력해야 합니다.</li>
-														<li>년 월 일 <span id="fhdateW_str"></span>요일
-														</li>
-													</ul>
-												</td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">희망배송시간</th>
-												<td>
-													<ul class="grid">
-														<li></li>
-														<li></li>
-													</ul>
-												</td>
-											</tr>
-										</tbody>
-										<!-- 해외 배송관련 정보 -->
-										<tbody class="delivery displaynone">
-											<tr class="">
-												<th scope="row">배송메시지 <span class="displaynone"><img
-														src="//img.echosting.cafe24.com/skin/base_ko_KR/order/ico_required.gif"
-														alt="필수"></span>
-												</th>
-												<td>
-													<div class="delvMessage displaynone">
-														<label> 자동저장</label>
-														<ul>
-															<li>배송메시지란에는 배송시 참고할 사항이 있으면 적어주십시오.</li>
-															<li>게시글은 비밀글로 저장되며 비밀번호는 주문번호 뒷자리로 자동 저장됩니다.</li>
-														</ul>
-													</div>
-												</td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">희망배송일</th>
-												<td>
-													<ul class="grid">
-														<li></li>
-														<li>이후 날짜를 입력해야 합니다.</li>
-														<li>년 월 일 <span id="fhdateW_str"></span>요일
-														</li>
-													</ul>
-												</td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">희망배송시간</th>
-												<td>
-													<ul class="grid">
-														<li></li>
-														<li></li>
-													</ul>
-												</td>
-											</tr>
-											<tr class="">
-												<th scope="row">배송비</th>
-												<td>
-													<div
-														class="ec-shop-shipping_additional_fee_show displaynone">
-														<strong><span id="f_addr_total_ship_fee_id"></span>원</strong>
-														= 해외배송비 <span id="f_addr_delv_price_id"></span>원 + 보험료 <span
-															id="f_addr_insurance_price_id"></span>원 <span
-															class="ec-shop-shipping_additional_fee_name_show">
-															+ <span id="f_addr_shipping_additional_fee_name_id"></span>
-															<span id="f_addr_shipping_additional_fee_id"></span>원
-														</span>
-														<p class="gBlank5">
-															보험료는 배송과정에서 발생하는 분실, 도난, 파손 등으로 인한 손해에 대하여<br>규정에 따라
-															배상해 드리는 서비스입니다.
-														</p>
-													</div>
-													<div class="ec-shop-shipping_additional_fee_hide ">
-														<strong><span id="f_addr_total_ship_fee_id"></span>원</strong>
-														= 해외배송비 <span id="f_addr_delv_price_id"></span>원 + 보험료 <span
-															id="f_addr_insurance_price_id"></span>원
-														<p class="gBlank5">
-															배송비에는 관세 및 세금 등의 각종 비용은 포함되어 있지 않습니다.<br>상품수령 시 고객님이
-															추가로 지불하셔야 합니다.<br>보험료는 배송과정에서 발생하는 분실, 도난, 파손 등으로 인한
-															손해에 대하여<br>규정에 따라 배상해 드리는 서비스입니다.
-														</p>
-													</div>
-												</td>
+													</td>
 											</tr>
 										</tbody>
 									</table>
-								</div>
-							</div>
-							<div class="orderArea displaynone">
-								<div class="title">
-									<h6>추가 정보</h6>
-								</div>
-								<div class="ec-base-table typeWrite">
-									<table border="1" summary="">
-										<caption>추가 정보 입력</caption>
-										<colgroup>
-											<col style="width: 139px;">
-											<col style="width: auto;">
-										</colgroup>
-										<tbody class="xans-element- xans-order xans-order-ordadd">
-											<tr class="">
-												<th scope="row"></th>
-												<td></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="orderArea displaynone">
-								<div class="title">
-									<h6>기타 문의사항</h6>
-								</div>
-								<div class="ec-base-table typeWrite">
-									<table border="1" summary="">
-										<caption>기타 문의사항</caption>
-										<colgroup>
-											<col style="width: 139px;">
-											<col style="width: auto;">
-										</colgroup>
-										<tbody>
-											<tr>
-												<th scope="row">기타 문의사항</th>
-												<td><textarea id="question" name="question"
-														fw-filter="" fw-label="기타문의사항" fw-msg="" maxlength="255"
-														cols="70"></textarea></td>
-											</tr>
-											<tr>
-												<th scope="row">비밀번호</th>
-												<td><input id="question_passwd" name="question_passwd"
-													fw-filter="" fw-label="기타문의사항 비밀번호" fw-msg="" value=""
-													type="password" disabled=""> <span
-													class="displaynone">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합,
-														10자~16자)</span></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<ul class="list">
-									<li>해당 문의 사항은 <a
-										href="/board/product/list.html?board_no=6" target="_blank"><strong>[Q
-												&amp; A]</strong></a> 에 자동 등록됩니다.
-									</li>
-									<li>운영자에 문의할 내용이나 요청할 내용이 있는 경우 기재하여 주세요.</li>
-									<li>비밀번호는 작성하신 문의글을 게시판에서 내용 확인 할 때 사용됩니다.</li>
-								</ul>
-							</div>
-							<div class="termArea displaynone" style="display: none;">
-								<div class="check displaynone" style="display: none;">
-									<input id="all_agreement_checkbox0"
-										name="all_agreement_checkbox[]" fw-filter=""
-										fw-label="에 모두 동의" fw-msg="" value="T" type="checkbox"
-										disabled=""><label for="all_agreement_checkbox0">에
-										모두 동의합니다.</label>
-								</div>
-								<div class="inner">
-									<div class="box displaynone">
-										<h4>쇼핑몰 이용약관</h4>
-									</div>
-									<div class="box displaynone"
-										id="ec-orderform-NoMemberAgreementRow" style="display: block;">
-										<h4>비회원 구매 시 개인정보수집 이용동의</h4>
-									</div>
-									<div class="box displaynone"
-										id="ec-orderform-PrivacyAgreementRow" style="display: none;">
-										<h4>개인정보수집 이용동의</h4>
-									</div>
-									<div class="box displaynone">
-										<h4>배송정보 제공방침</h4>
-									</div>
-									<div id="ec-shop-privacy_agreement_for_identification"
-										class="box displaynone">
-										<h4>고유식별정보수집 동의</h4>
-										<textarea id="privacy_agreement_for_identification"
-											name="privacy_agreement_for_identification" fw-filter=""
-											fw-label="고유식별정보수집" fw-msg="" maxlength="250" cols="70"
-											readonly="1"></textarea>
-										<input id="privacy_agreement_for_identification_checkbox0"
-											name="privacy_agreement_for_identification_checkbox[]"
-											fw-filter="" fw-label="고유식별정보수집 동의" fw-msg="" value="T"
-											type="checkbox" disabled=""><label
-											for="privacy_agreement_for_identification_checkbox0">동의</label>
-									</div>
-									<div class="box displaynone displaynone"
-										id="ec-orderform-informationAgreementRow"
-										style="display: none;">
-										<h4>개인정보 제3자 제공 동의 (선택)</h4>
-									</div>
-									<div class="box displaynone displaynone"
-										id="ec-orderform-ConsignmentAgreementRow"
-										style="display: none;">
-										<h4>개인정보취급 위탁 동의 (선택)</h4>
-									</div>
 								</div>
 							</div>
 							<hr>
@@ -2662,81 +2446,6 @@ th {
 									</div>
 									<!-- 카드사 직접결제 -->
 									<div class="ec-base-table">
-										<!-- 무통장입금 -->
-										<table border="1" summary="" id="payment_input_cash"
-											style="display: none;">
-											<caption>무통장입금</caption>
-											<colgroup>
-												<col style="width: 139px">
-												<col style="width: auto">
-											</colgroup>
-											<tbody>
-												<tr>
-													<th scope="row">입금자명</th>
-													<td><input id="pname" name="pname" fw-filter=""
-														fw-label="무통장 입금자명" fw-msg="" class="inputTypeText"
-														placeholder="" size="15" maxlength="20" value=""
-														type="text"></td>
-												</tr>
-												<tr>
-													<th scope="row">입금은행</th>
-													<td><select id="bankaccount" name="bankaccount"
-														fw-filter="" fw-label="무통장 입금은행" fw-msg="">
-															<option value="-1">::: 선택해 주세요. :::</option>
-															<option
-																value="bank_20:1005504497413:주식회사오브젝트생활연구소:우리은행:www.wooribank.com">우리은행
-																1005504497413 주식회사오브젝트생활연구소</option>
-													</select>
-														<p class="gBlank5 ">
-															<a href="#none" class="btnNormal" id="btn_bank_go">은행사이트
-																바로가기</a>
-														</p></td>
-												</tr>
-											</tbody>
-										</table>
-										<!-- 실시간 계좌이체 -->
-										<table border="1" summary="" id="payment_input_tcash"
-											style="display: none;">
-											<caption>실시간 계좌이체</caption>
-											<colgroup>
-												<col style="width: 139px">
-												<col style="width: auto">
-											</colgroup>
-											<tbody>
-												<tr>
-													<th scope="row">예금주명</th>
-													<td><input id="allat_account_nm"
-														name="allat_account_nm" fw-filter="" fw-label="무통장 입금자명"
-														fw-msg="" class="inputTypeText" placeholder="" size="26"
-														maxlength="30" value="" type="text"></td>
-												</tr>
-												<tr>
-													<th scope="row"></th>
-													<td><input type="checkbox" name="flagEscrowUse"
-														id="flagEscrowUse0" value="T"><label
-														for="flagEscrowUse0"> 에스크로(구매안전)서비스를 적용합니다.</label></td>
-												</tr>
-											</tbody>
-										</table>
-										<!-- 에스크로(가상계좌) -->
-										<table border="1" summary="" id="payment_input_icash"
-											style="display: none;">
-											<caption>에스크로(가상계좌)</caption>
-											<colgroup>
-												<col style="width: 139px">
-												<col style="width: auto">
-											</colgroup>
-											<tbody>
-												<tr>
-													<th scope="row">에스크로</th>
-													<td><input id="flagEscrowIcashUse0"
-														name="flagEscrowIcashUse" fw-filter=""
-														fw-label="에스크로(구매안전)" fw-msg="" value="T" type="checkbox"><label
-														for="flagEscrowIcashUse0"></label><label
-														for="flagEscrowIcashUse0">에스크로(구매안전)서비스를 적용합니다.</label></td>
-												</tr>
-											</tbody>
-										</table>
 										<!-- 무통장입금, 카드결제, 휴대폰결제, 실시간계좌이체 -->
 										<div id="pg_paymethod_info" class="payHelp" style="">
 											<p id="pg_paymethod_info_shipfee" class="ec-base-help"
@@ -2744,67 +2453,6 @@ th {
 												금액입니다.</p>
 											<p id="pg_paymethod_info_pg" class="ec-base-help">소액 결제의
 												경우 PG사 정책에 따라 결제 금액 제한이 있을 수 있습니다.</p>
-										</div>
-
-										<!-- 케이페이 -->
-										<div id="kpay_info" class="payHelp" style="display: none;">
-											<p class="ec-base-help">휴대폰에 설치된 케이페이 앱에서 비밀번호 입력만으로 빠르고
-												안전하게 결제가 가능한 서비스 입니다.</p>
-											<p class="ec-base-help">
-												안드로이드의 경우 구글 플레이, 아이폰의 경우 앱 스토어에서 케이페이 앱을 설치 한 후,<br>
-												최초 1회 카드정보를 등록하셔야 사용 가능합니다.
-											</p>
-										</div>
-
-										<!-- 페이나우 -->
-										<div id="paynow_info" class="payHelp" style="display: none;">
-											<p class="ec-base-help">휴대폰에 설치된 페이나우 앱에서 비밀번호 입력만으로 빠르고
-												안전하게 결제가 가능한 서비스 입니다.</p>
-											<p class="ec-base-help">
-												안드로이드의 경우 구글 플레이, 아이폰의 경우 앱 스토어에서 페이나우 앱을 설치 한 후,<br>
-												최초 1회 카드 및 계좌 정보를 등록하셔야 사용 가능합니다
-											</p>
-										</div>
-
-										<!-- 페이코 -->
-										<div id="payco_info" class="payHelp" style="display: none;">
-											<p class="ec-base-help">페이코 결제 팝업창에서 비밀번호 입력만으로 빠르고 안전하게
-												결제가 가능한 서비스 입니다.</p>
-											<p class="ec-base-help">
-												<a href="//www.payco.com" target="_blank">www.payco.com</a>
-												에 회원가입 후, 최초 1회 카드 및 계좌 정보를 등록하셔야 사용 가능합니다.
-											</p>
-										</div>
-
-										<!-- 카카오페이 -->
-										<div id="kakaopay_info" class="payHelp" style="display: none;">
-											<p class="ec-base-help">휴대폰에 설치된 카카오톡 앱에서 비밀번호 입력만으로 빠르고
-												안전하게 결제가 가능한 서비스 입니다.</p>
-											<p class="ec-base-help">
-												안드로이드의 경우 구글 플레이, 아이폰의 경우 앱 스토어에서 카카오톡 앱을 설치 한 후,<br>
-												최초 1회 카드 및 계좌 정보를 등록하셔야 사용 가능합니다.
-											</p>
-											<p class="ec-base-help">인터넷 익스플로러의 경우 8 이상에서만 결제 가능합니다.</p>
-											<p class="ec-base-help">카카오머니로 결제 시, 현금영수증 발급은 ㈜카카오페이에서
-												발급가능합니다.</p>
-										</div>
-
-										<!-- 스마일페이 -->
-										<div id="smilepay_info" class="payHelp" style="display: none;">
-											<p class="ec-base-help">앱 설치없이 회원가입 또는 G마켓/옥션/G9 ID 로그인 후
-												바로 이용 가능합니다.</p>
-											<p class="ec-base-help">최초 1회 카드 정보를 등록하셔야 사용 가능합니다.</p>
-											<p class="ec-base-help">결제시 스마일캐시 0.5% 자동적립되며(최대5천원),
-												스마일캐시는 스마일페이 전 가맹점에서 적립과 사용이 가능합니다.</p>
-										</div>
-
-										<!-- 엑심베이 신용카드 -->
-										<div id="eximbay_card_info" class="payHelp"
-											style="display: none;">
-											<p class="ec-base-help">4개 카드사(VISA, MasterCard, JCB,
-												BC)를 이용할 수 있습니다.</p>
-											<p class="ec-base-help">USD, JPY, EUR, GBP 등 세계 주요 23개국
-												통화를 지원합니다.</p>
 										</div>
 									</div>
 
@@ -2880,321 +2528,10 @@ th {
 														</div>
 													</td>
 												</tr>
-												<tr id="tax_request_display_area" class=""
-													style="display: none;">
-													<th scope="row">세금계산서 신청</th>
-													<td>
-														<div class="methods">
-															<input id="tax_request_regist0" name="tax_request_regist"
-																fw-filter="" fw-label="세금계산서 신청 여부" fw-msg="" value="1"
-																type="radio" autocomplete="off"><label
-																for="tax_request_regist0">세금계산서 신청</label> <input
-																id="tax_request_regist1" name="tax_request_regist"
-																fw-filter="" fw-label="세금계산서 신청 여부" fw-msg="" value="99"
-																type="radio" checked="checked" autocomplete="off"><label
-																for="tax_request_regist1">신청안함</label>
-														</div>
-														<div id="tax_request_form_area" class="tax">
-															<ul class="info">
-																<li>- 세금 계산서 발행 신청을 위해 아래 모든 입력사항을 빠짐없이 입력하십시오.</li>
-																<li>- 신청양식 작성 후 사업자 등록증 사본을 팩스()로 보내주십시오.</li>
-															</ul>
-															<strong class="title">신청자 정보</strong>
-															<div class="ec-base-table">
-																<table border="1" summary="">
-																	<caption>세금계산서 신청자 정보 입력</caption>
-																	<colgroup>
-																		<col style="width: 129px">
-																		<col style="width: auto">
-																	</colgroup>
-																	<tbody>
-																		<tr>
-																			<th scope="row">신청자 이름</th>
-																			<td><input id="tax_request_name"
-																				name="tax_request_name" fw-filter=""
-																				fw-label="세금계산서 신청의 신청자 이름" fw-msg=""
-																				class="inputTypeText" placeholder="" size="15"
-																				value="정명호" type="text"></td>
-																		</tr>
-																		<tr class="mobile">
-																			<th scope="row">신청자 전화번호</th>
-																			<td><select id="tax_request_phone1"
-																				name="tax_request_phone[]" fw-filter=""
-																				fw-label="세금계산서 신청의 신청자 전화번호" fw-alone="N" fw-msg="">
-																					<option value="02">02</option>
-																					<option value="031">031</option>
-																					<option value="032">032</option>
-																					<option value="033">033</option>
-																					<option value="041">041</option>
-																					<option value="042">042</option>
-																					<option value="043">043</option>
-																					<option value="044">044</option>
-																					<option value="051">051</option>
-																					<option value="052">052</option>
-																					<option value="053">053</option>
-																					<option value="054">054</option>
-																					<option value="055">055</option>
-																					<option value="061">061</option>
-																					<option value="062">062</option>
-																					<option value="063">063</option>
-																					<option value="064">064</option>
-																					<option value="0502">0502</option>
-																					<option value="0503">0503</option>
-																					<option value="0504">0504</option>
-																					<option value="0505">0505</option>
-																					<option value="0506">0506</option>
-																					<option value="0507">0507</option>
-																					<option value="070">070</option>
-																					<option value="010">010</option>
-																					<option value="011">011</option>
-																					<option value="016">016</option>
-																					<option value="017">017</option>
-																					<option value="018">018</option>
-																					<option value="019">019</option>
-																					<option value="0508">0508</option>
-																			</select>-<input id="tax_request_phone2"
-																				name="tax_request_phone[]" maxlength="4"
-																				fw-filter="" fw-label="세금계산서 신청의 신청자 전화번호"
-																				fw-alone="N" fw-msg="" size="4" value="" type="text">-<input
-																				id="tax_request_phone3" name="tax_request_phone[]"
-																				maxlength="4" fw-filter=""
-																				fw-label="세금계산서 신청의 신청자 전화번호" fw-alone="N" fw-msg=""
-																				size="4" value="" type="text"></td>
-																		</tr>
-																		<tr class="regno">
-																			<th scope="row">E-Mail</th>
-																			<td><input id="tax_request_email1"
-																				name="tax_request_email1" fw-filter=""
-																				fw-label="세금계산서 신청의 E-Mail" fw-alone="N" fw-msg=""
-																				class="mailId" value="kwms0207" type="text">@<input
-																				id="tax_request_email2" name="tax_request_email2"
-																				fw-filter="" fw-label="세금계산서 신청의 E-Mail"
-																				fw-alone="N" fw-msg="" class="mailAddress"
-																				readonly="readonly" value="naver.com" type="text"><select
-																				id="tax_request_email3" fw-filter=""
-																				fw-label="세금계산서 신청의 E-Mail" fw-alone="N" fw-msg="">
-																					<option value="">- 이메일 선택 -</option>
-																					<option value="naver.com" selected="selected">naver.com</option>
-																					<option value="daum.net">daum.net</option>
-																					<option value="nate.com">nate.com</option>
-																					<option value="hotmail.com">hotmail.com</option>
-																					<option value="yahoo.com">yahoo.com</option>
-																					<option value="empas.com">empas.com</option>
-																					<option value="korea.com">korea.com</option>
-																					<option value="dreamwiz.com">dreamwiz.com</option>
-																					<option value="gmail.com">gmail.com</option>
-																					<option value="etc">직접입력</option>
-																			</select></td>
-																		</tr>
-																	</tbody>
-																</table>
-															</div>
-															<strong class="title">사업자 정보</strong>
-															<div class="ec-base-table">
-																<table border="1" summary="">
-																	<caption>세금계산서 사업자 정보 입력</caption>
-																	<colgroup>
-																		<col style="width: 129px">
-																		<col style="width: auto">
-																	</colgroup>
-																	<tbody>
-																		<tr>
-																			<th scope="row">사업자 구분</th>
-																			<td>
-																				<div class="businessType">
-																					<input id="tax_request_company_type0"
-																						name="tax_request_company_type" fw-filter=""
-																						fw-label="세금계산서 사업자 정보: 사업자 구분" fw-msg=""
-																						value="A" type="radio" checked="checked"
-																						autocomplete="off"><label
-																						for="tax_request_company_type0">개인</label> <input
-																						id="tax_request_company_type1"
-																						name="tax_request_company_type" fw-filter=""
-																						fw-label="세금계산서 사업자 정보: 사업자 구분" fw-msg=""
-																						value="B" type="radio" autocomplete="off"><label
-																						for="tax_request_company_type1">법인</label>
-																				</div>
-																			</td>
-																		</tr>
-																		<tr>
-																			<th scope="row">사업자등록번호</th>
-																			<td><input id="tax_request_company_regno"
-																				name="tax_request_company_regno" fw-filter=""
-																				fw-label="세금계산서 신청의 사업자등록번호" fw-msg="" value=""
-																				type="text"></td>
-																		</tr>
-																		<tr>
-																			<th scope="row">상호(법인명)</th>
-																			<td><input id="tax_request_company_name"
-																				name="tax_request_company_name" fw-filter=""
-																				fw-label="세금계산서 신청의 상호(법인명)" fw-msg=""
-																				class="inputTypeText" placeholder="" maxlength="200"
-																				size="15" value="" type="text"></td>
-																		</tr>
-																		<tr>
-																			<th scope="row">대표자명</th>
-																			<td><input id="tax_request_president_name"
-																				name="tax_request_president_name" fw-filter=""
-																				fw-label="세금계산서 신청의 대표자명" fw-msg=""
-																				class="inputTypeText" placeholder="" size="15"
-																				value="정명호" type="text"></td>
-																		</tr>
-																		<tr>
-																			<th scope="row">사업장 주소</th>
-																			<td><input id="tax_request_zipcode"
-																				name="tax_request_zipcode" fw-filter=""
-																				fw-label="세금계산서 신청의 우편번호" fw-msg=""
-																				class="inputTypeText" placeholder="" size="6"
-																				maxlength="6" readonly="1" value="" type="text">
-																				<a href="#none" id="btn_search_tzipcode"
-																				class="btnNormal">주소검색</a><br> <input
-																				id="tax_request_address1"
-																				name="tax_request_address1" fw-filter=""
-																				fw-label="세금계산서 신청의 사업장 주소" fw-msg=""
-																				class="inputTypeText" placeholder="" size="40"
-																				readonly="1" value="" type="text"><br>
-																				<input id="tax_request_address2"
-																				name="tax_request_address2" fw-filter=""
-																				fw-label="세금계산서 신청의 사업장 주소" fw-msg=""
-																				class="inputTypeText" placeholder="" size="40"
-																				value="" type="text"></td>
-																		</tr>
-																		<tr>
-																			<th scope="row">업태</th>
-																			<td><input id="tax_request_company_condition"
-																				name="tax_request_company_condition" fw-filter=""
-																				fw-label="세금계산서 신청의 업태" fw-msg=""
-																				class="inputTypeText" placeholder="" maxlength="50"
-																				size="15" value="" type="text"></td>
-																		</tr>
-																		<tr>
-																			<th scope="row">종목</th>
-																			<td><input id="tax_request_company_line"
-																				name="tax_request_company_line" fw-filter=""
-																				fw-label="세금계산서 신청의 종목" fw-msg=""
-																				class="inputTypeText" placeholder="" maxlength="50"
-																				size="15" value="" type="text"></td>
-																		</tr>
-																	</tbody>
-																</table>
-															</div>
-														</div>
-													</td>
-												</tr>
-											</tbody>
-											<!-- 청약철회방침 -->
-											<tbody class="displaynone">
-												<tr>
-													<th scope="row">청약철회방침</th>
-													<td>
-														<div class="textArea">
-															<textarea id="subscription_terms"
-																name="subscription_terms" fw-filter="" fw-label="청약철회방침"
-																fw-msg="" maxlength="250" cols="70" readonly="1"></textarea>
-															<a href="#none"
-																onclick="winPop('/order/agreement/subscription.html')"
-																class="btnAgree">전체보기</a>
-														</div>
-														<p>
-															<input id="subscription_agreement_chk0"
-																name="subscription_agreement_chk" fw-filter=""
-																fw-label="" fw-msg="" value="T" type="checkbox"
-																disabled=""><label
-																for="subscription_agreement_chk0"></label><label
-																for="subscription_agreement_chk0"><strong>동의함</strong></label>
-														</p>
-													</td>
-												</tr>
-											</tbody>
-											<!-- 전자보증보험-->
-											<tbody class="guarantee displaynone" style="display: none;">
-												<tr>
-													<th scope="row">전자보증보험</th>
-													<td>
-														<div>
-															<p>
-																전자보증보험 발급 여부 : <input id="eguarantee_flag0"
-																	name="eguarantee_flag" fw-filter=""
-																	fw-label="전자보증보험 발급여부" fw-msg="" value="T" type="radio"
-																	autocomplete="off" disabled=""><label
-																	for="eguarantee_flag0">발급</label> <input
-																	id="eguarantee_flag1" name="eguarantee_flag"
-																	fw-filter="" fw-label="전자보증보험 발급여부" fw-msg="" value="F"
-																	type="radio" checked="checked" autocomplete="off"
-																	disabled=""><label for="eguarantee_flag1">미발급</label>
-															</p>
-															<p>
-																전자보증보험 안내(100% 매매보호 안전결제) <a
-																	href="/common/usafe_notice.php" target="_blank"
-																	onclick="window.open(this.href,'new','height=500 width=550 toolbar=no location=no directory=no status=no resizable=no'); return false;">[자세히보기]</a>
-															</p>
-														</div>
-														<div id="eguarantee_personal">
-															<p>
-																생년월일 : <input id="eguarantee_year"
-																	name="eguarantee_year" fw-filter=""
-																	fw-label="전자보증보험 생년월일1" fw-msg="" class="inputTypeText"
-																	placeholder="" size="4" maxlength="4" value=""
-																	type="text" disabled=""> 년 <input
-																	id="eguarantee_month" name="eguarantee_month"
-																	fw-filter="" fw-label="전자보증보험 생년월일2" fw-msg=""
-																	class="inputTypeText" placeholder="" size="2"
-																	maxlength="2" value="" type="text" disabled="">
-																월 <input id="eguarantee_day" name="eguarantee_day"
-																	fw-filter="" fw-label="전자보증보험 생년월일3" fw-msg=""
-																	class="inputTypeText" placeholder="" size="2"
-																	maxlength="2" value="" type="text" disabled="">
-																일
-															</p>
-															<p>
-																성별 : <input id="eguarantee_user_gender0"
-																	name="eguarantee_user_gender" fw-filter=""
-																	fw-label="전자보증보험 성별" fw-msg="" value="1" type="radio"
-																	autocomplete="off" disabled=""><label
-																	for="eguarantee_user_gender0">남자</label> <input
-																	id="eguarantee_user_gender1"
-																	name="eguarantee_user_gender" fw-filter=""
-																	fw-label="전자보증보험 성별" fw-msg="" value="2" type="radio"
-																	autocomplete="off" disabled=""><label
-																	for="eguarantee_user_gender1">여자</label>
-															</p>
-															<p>
-																개인정보 이용동의 : <input id="eguarantee_personal_agreement0"
-																	name="eguarantee_personal_agreement" fw-filter=""
-																	fw-label="전자보증보험 개인정보 이용동의" fw-msg="" value="T"
-																	type="radio" autocomplete="off" disabled=""><label
-																	for="eguarantee_personal_agreement0">동의함</label> <input
-																	id="eguarantee_personal_agreement1"
-																	name="eguarantee_personal_agreement" fw-filter=""
-																	fw-label="전자보증보험 개인정보 이용동의" fw-msg="" value="F"
-																	type="radio" checked="checked" autocomplete="off"
-																	disabled=""><label
-																	for="eguarantee_personal_agreement1">동의안함</label>
-															</p>
-														</div>
-													</td>
-												</tr>
-											</tbody>
-											<!-- Daum 비회원 구매 동의 -->
-											<tbody class="displaynone">
-												<tr>
-													<th scope="row">Daum 비회원 구매<br>쇼핑정보 제공동의
-													</th>
-													<td>
-														<div class="textArea">
-															<a href="#none" onclick="" class="btnAgree">전체보기</a>
-														</div>
-														<p>
-															<label for="daum_agreement_chk0"><strong>동의함</strong></label>
-														</p>
-													</td>
-												</tr>
 											</tbody>
 										</table>
 									</div>
 								</div>
-
-
 								<div class="total">
 									<h4>
 										<strong id="current_pay_name">카드 결제</strong> <span>최종결제
