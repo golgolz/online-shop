@@ -61,12 +61,12 @@
 
 <div id="myshopMain" class="xans-element- xans-myshop xans-myshop-main"><ul>
 <li class="shopMain order">
-            <h3><a href="/myshop/order/list.html"><strong>Order</strong><span>주문내역 조회</span></a></h3>
-            <p><a href="/myshop/order/list.html">고객님께서 주문하신 상품의<br> 주문내역을 확인하실 수 있습니다.</a></p>
+            <h3><a href="http://localhost/online-shop/user/OrderReturn/order_list.jsp"><strong>Order</strong><span>주문내역 조회</span></a></h3>
+            <p><a href="http://localhost/online-shop/user/OrderReturn/order_list.jsp">고객님께서 주문하신 상품의<br> 주문내역을 확인하실 수 있습니다.</a></p>
         </li>
         <li class="shopMain profile">
-            <h3><a href="/member/modify.html"><strong>Profile</strong><span>회원 정보</span></a></h3>
-            <p><a href="/member/modify.html">회원이신 고객님의 개인정보를<br> 관리하는 공간입니다.</a></p>
+            <h3><a href="http://localhost/online-shop/user/mypage/pwConfirm.jsp"><strong>Profile</strong><span>회원 정보</span></a></h3>
+            <p><a href="http://localhost/online-shop/user/mypage/pwConfirm.jsp">회원이신 고객님의 개인정보를<br> 관리하는 공간입니다.</a></p>
         </li>
         <!-- <li class="shopMain wishlist">
             <h3><a href="/myshop/wish_list.html"><strong>Wishlist</strong><span>관심 상품</span></a></h3>

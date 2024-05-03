@@ -14,6 +14,14 @@
 	$(function(){
     	$("#user_menu").addClass("bg-gradient-primary");
 	});
+	
+	function openInNewWindow(url) {
+	    // 새 창을 열고, 크기와 위치를 지정합니다.
+	    // 'width=800'과 'height=600'은 새 창의 크기를 800x600 픽셀로 설정합니다.
+	    // 'left=200'과 'top=100'은 새 창의 화면에서의 위치를 설정합니다.
+	    window.open(url, 'newWindow', 'width=800,height=600,left=200,top=100');
+	}
+	
 </script>
 <!-- golgolz start -->
 <!-- golgolz end -->
@@ -36,7 +44,9 @@
 						<li class="breadcrumb-item text-sm text-dark active"
 							aria-current="page">사용자 관리</li>
 					</ol>
+					<a href="#" onclick="http://localhost/online-shop/manage/user/userManage/userInfoManage.jsp" class="original">
 					<h6 class="font-weight-bolder mb-0">사용자 관리</h6>
+					</a>
 				</nav>
 			</div>
 		</nav>
@@ -152,20 +162,8 @@ jQuery(function($){
 	<tr class="list0">
 		<td>3</td>
 		<td class="tal"><span class="sv_wrap">
-<a href="javascript:void(0);" class="sv_member">세글만</a>
-<span class="sv">
-<a href="http://demofran.com/admin/pop_memberform.php?mb_id=tubeweb3" onclick="win_open(this,'win_member','1200','600','yes');return false;">회원정보수정</a>
-<a href="http://demofran.com/admin/formmail.php?mb_id=tubeweb3&amp;name=%EC%84%B8%EA%B8%80%EB%A7%8C&amp;email=2qyUnKnIk5mlmtHHn9JelaLO" onclick="win_open(this,'win_email','650','580','no'); return false;">메일보내기</a>
-<a href="http://demofran.com/admin/sms/sms_user.php?ph=01033333333" onclick="win_open(this,'win_sms','300','360','no'); return false;">SMS보내기</a>
-<a href="http://demofran.com/admin/admin_ss_login.php?mb_id=tubeweb3" target="_blank">쇼핑몰로그인</a>
-</span>
+ <a href="#" onclick="openInNewWindow('http://localhost/online-shop/manage/user/userManage/detailedInfoManage.jsp');" class="sv_member">세글만</a>
 
-<noscript class="sv_nojs"><span class="sv">
-<a href="http://demofran.com/admin/pop_memberform.php?mb_id=tubeweb3" onclick="win_open(this,'win_member','1200','600','yes');return false;">회원정보수정</a>
-<a href="http://demofran.com/admin/formmail.php?mb_id=tubeweb3&name=%EC%84%B8%EA%B8%80%EB%A7%8C&email=2qyUnKnIk5mlmtHHn9JelaLO" onclick="win_open(this,'win_email','650','580','no'); return false;">메일보내기</a>
-<a href="http://demofran.com/admin/sms/sms_user.php?ph=01033333333" onclick="win_open(this,'win_sms','300','360','no'); return false;">SMS보내기</a>
-<a href="http://demofran.com/admin/admin_ss_login.php?mb_id=tubeweb3" target="_blank">쇼핑몰로그인</a>
-</span>
 </noscript></span></td>
 		<td class="tal">tubeweb3</td>
 		<td>010-3333-3333</td>

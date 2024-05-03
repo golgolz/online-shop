@@ -36,10 +36,10 @@
             </ul>
 </div>
         <p class="button1 ">
-			<a href="javascript:go_findlogin('');">로그인</a>
+			<a href="http://localhost/online-shop/user/login/login.jsp">로그인</a>
         </p>
         <p class="button2 ">
-			<a href="javascript:go_findpwd('','indi');">비밀번호 찾기</a>
+			<a href="http://localhost/online-shop/user/findIdPw/findPw.jsp">비밀번호 찾기</a>
         </p>
     </div>
 </div>

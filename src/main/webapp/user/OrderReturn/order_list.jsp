@@ -150,11 +150,11 @@ table,td{
 						class="xans-element- xans-myshop xans-myshop-orderhistorytab ec-base-tab ">
 						<ul class="menu">
 							<li class="tab_class selected"><a
-								href="/myshop/order/list.html?history_start_date=2024-01-25&amp;history_end_date=2024-04-24&amp;past_year=2023">주문내역조회
+								href="http://localhost/online-shop/user/OrderReturn/order_list.jsp">주문내역조회
 									(<span id="xans_myshop_total_orders">1</span>)
 							</a></li>
 							<li class="tab_class_cs"><a
-								href="http://localhost/user_src/order/returnlist.html">반품 내역
+								href="http://localhost/online-shop/user/OrderReturn/return_list.jsp">반품 내역
 									(<span id="xans_myshop_total_orders_cs">1</span>)
 							</a></li>
 							<li class="tab_class_old displaynone"><a
