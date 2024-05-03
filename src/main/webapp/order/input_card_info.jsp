@@ -114,7 +114,7 @@ input{
 						<td><input type="text" maxlength="3" placeholder="카드 뒷면 3자리"></td>
 					</tr> 				
 					<tr>
-						<th>휴대폰 번호</th>
+						<th>휴대폰 번호</th> 
 						<td><input type="text" maxlength="11" placeholder="[-]없이 입력"></td>
 					</tr> 				
  				</table>       	
