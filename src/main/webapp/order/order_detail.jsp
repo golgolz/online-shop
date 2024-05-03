@@ -125,24 +125,6 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 												</span></td>
 											</tr>
 										</tbody>
-										<tbody class="displaynone">
-											<tr class="sum">
-												<th scope="row">총 할인금액</th>
-												<td><strong class="txt14">0</strong>원</td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">쿠폰할인</th>
-												<td><span class="gSpace20">0원</span> <a href="#none"
-													class="eUsedCouponDetail btnNormal">내역보기</a></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">추가할인금액</th>
-												<td><span class="gSpace20">0원</span> <a href="#none"
-													class="btnNormal"
-													onclick="OrderLayer.onDiv('order_layer_addsale', event);">내역보기</a>
-												</td>
-											</tr>
-										</tbody>
 										<tbody class="">
 
 
@@ -272,112 +254,6 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 									</table>
 								</div>
 
-								<div class="ec-base-table typeList">
-									<table border="1" summary="" class="displaynone">
-										<caption>개별배송</caption>
-										<colgroup>
-											<col style="width: 92px">
-											<col style="width: auto">
-											<col style="width: 60px">
-											<col style="width: 100px">
-											<col style="width: 95px">
-											<col style="width: 110px">
-											<col style="width: 110px">
-										</colgroup>
-										<thead>
-											<tr>
-												<th scope="col">이미지</th>
-												<th scope="col">상품정보</th>
-												<th scope="col">수량</th>
-												<th scope="col">판매가</th>
-												<th scope="col">배송구분</th>
-												<th scope="col">주문처리상태</th>
-												<th scope="col">취소/교환/반품</th>
-											</tr>
-										</thead>
-										<tfoot class="right">
-											<tr>
-												<td colspan="7"><span class="gLeft">[개별배송]</span>
-													상품구매금액 <strong>0</strong><span class="displaynone">
-														+ 부가세 0</span> + 배송비 0 + 지역별배송비 0<span class="displaynone">
-														- 상품할인금액 0</span> = 합계 : <strong class="txtEm gIndent10"><span
-														class="txt18">0원</span></strong> <span class="displaynone"></span>
-												</td>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
-
-								<div class="ec-base-table typeList">
-									<table border="1" summary="" class="displaynone">
-										<caption>해외배송</caption>
-										<colgroup>
-											<col style="width: 92px">
-											<col style="width: auto">
-											<col style="width: 60px">
-											<col style="width: 100px">
-											<col style="width: 95px">
-											<col style="width: 110px">
-											<col style="width: 110px">
-										</colgroup>
-										<thead>
-											<tr>
-												<th scope="col">이미지</th>
-												<th scope="col">상품정보</th>
-												<th scope="col">수량</th>
-												<th scope="col">판매가</th>
-												<th scope="col">배송구분</th>
-												<th scope="col">주문처리상태</th>
-												<th scope="col">취소/교환/반품</th>
-											</tr>
-										</thead>
-										<tfoot class="right">
-											<tr>
-												<td colspan="7"><span class="gLeft">[해외배송]</span>
-													상품구매금액 <strong>0</strong><span class="displaynone">
-														+ 부가세 0</span> + 배송비 0<span class="displaynone"> - 상품할인금액
-														0</span> = 합계 : <strong class="txtEm gIndent10"><span
-														class="txt18">0원</span></strong> <span class="displaynone"></span>
-												</td>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
-							</div>
-							<div class="orderArea displaynone">
-								<div class="title">
-									<h3>사은품</h3>
-								</div>
-								<div class="ec-base-table typeList">
-									<table border="1" summary="">
-										<caption>사은품</caption>
-										<colgroup>
-											<col style="width: 92px">
-											<col style="width: auto">
-											<col style="width: 60px">
-											<col style="width: 110px">
-										</colgroup>
-										<thead>
-											<tr>
-												<th scope="col">이미지</th>
-												<th scope="col">상품정보</th>
-												<th scope="col">수량</th>
-												<th scope="col">사은품 구분</th>
-											</tr>
-										</thead>
-										<tfoot class="right">
-											<tr>
-												<td colspan="4"><span class="gLeft">[사은품]</span></td>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
-							</div>
-
-							<div class="orderArea displaynone">
-								<div class="title">
-									<h3>취소/교환/반품 신청 정보</h3>
-								</div>
 							</div>
 
 							<div class="orderArea" style="margin-bottom: 50px;">
@@ -394,33 +270,21 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 										<tbody>
 											<tr class="displaynone">
 												<th scope="row">수령지</th>
-												<td><strong></strong>
+												<td>
 													<ul class="list">
 														<li>- 주소 :</li>
 														<li>- 전화번호 :</li>
-														<li>- 영업시간 :</li>
-														<li>- 수령 가능일 :</li>
 														<li>- 수령지 안내 :</li>
 													</ul>
-													<div class="map displaynone">
-														<p>* 약도</p>
-													</div></td>
+													</td>
 											</tr>
 											<tr>
 												<th scope="row">받으시는분</th>
 												<td><span>정명호</span></td>
 											</tr>
 											<tr class="displaynone">
-												<th scope="row">영문이름</th>
-												<td><span></span></td>
-											</tr>
-											<tr class="displaynone">
 												<th scope="row">이름(발음기호)</th>
 												<td><span></span></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">국가</th>
-												<td></td>
 											</tr>
 											<tr class="">
 												<th scope="row">우편번호</th>
@@ -439,10 +303,6 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 												<td></td>
 											</tr>
 											<tr>
-												<th scope="row">일반전화</th>
-												<td></td>
-											</tr>
-											<tr>
 												<th scope="row">휴대전화</th>
 												<td><span>010-1234-5678</span></td>
 											</tr>
@@ -450,56 +310,9 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 												<th scope="row">배송메시지</th>
 												<td><span>지문 찍어주세요.</span></td>
 											</tr>
-											<tr class="displaynone">
-												<th scope="row">희망 배송일</th>
-												<td></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">희망 배송시간</th>
-												<td></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">희망배송업체/방식</th>
-												<td></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">수령가능일</th>
-												<td></td>
-											</tr>
 										</tbody>
 									</table>
 								</div>
-							</div>
-							<div class="orderArea displaynone">
-								<div class="title">
-									<h3>추가정보</h3>
-								</div>
-								<div class="ec-base-table">
-									<table border="1" summary="">
-										<caption>추가 정보</caption>
-										<colgroup>
-											<col style="width: 160px">
-											<col style="width: auto">
-										</colgroup>
-										<tbody class="xans-element- xans-myshop xans-myshop-ordadd">
-											<tr class="">
-												<th scope="row"></th>
-												<td></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="orderArea displaynone">
-								<div class="title">
-									<h3>수거신청 정보</h3>
-								</div>
-							</div>
-							<div class="orderArea displaynone">
-								<div class="title">
-									<h3>고객알림</h3>
-								</div>
-								<p class="customer"></p>
 							</div>
 						</div>
 					</form>
