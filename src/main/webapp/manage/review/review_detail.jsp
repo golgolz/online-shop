@@ -103,7 +103,7 @@
             </span>
             <span class="gRight">
                 <a href="#none" onclick="BOARD_READ.article_delete('BoardDelForm','4');" class="btnNormalFix sizeS ">삭제</a>
-                <a href="/board/product/modify.html?board_act=edit&no=28387&board_no=4" class="btnEmFix sizeS ">수정</a>
+                <a href="http://localhost/online-shop/manage/review/review_update.jsp" class="btnEmFix sizeS ">수정</a>
                 <a href="/board/product/reply.html" class="btnSubmitFix sizeS displaynone">답변</a>
             </span>
         </div>

@@ -6,7 +6,7 @@
 <head>
 	<jsp:include page="../../assets/jsp/user/lib.jsp" />
 	<!-- golgolz start -->
-<link rel="stylesheet" type="text/css" href="https://img.echosting.cafe24.com/editors/froala/css/froala_style_ec.min.css?vs=2404251303" charset="utf-8"/>
+	<link rel="stylesheet" type="text/css" href="https://img.echosting.cafe24.com/editors/froala/css/froala_style_ec.min.css?vs=2404251303" charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer.php?filename=nZExDgIxDAT7KC3vsOAJPIEfOMFwJxJv5DgS_J6jggYJ0o52doulBVVofzBqhqtxJZOOYVko904Xgzpl1AqNG9jRL3nJoaMMX6Eh4T4pDvfZ0cIPsTnVORWZVNFCWVVCYtWv-9waHcF2ptNn3YZjeuGYCvJtVjZpMP_Pft_7BA&type=css&k=ecd691e0c80070ef935d0e961272742f67437a3c&t=1681776733"  />
 <link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer_user.php?filename=tZRNbgMhDIX3M932HE5U5R6VegJgnMGKwQjDpLl9aVL1Z9uBHcboe9bTw-AlIKCbq2JWYDojG3t4ORwhVcvkZl8Cgy44L6i0RtALxeMJnCoEWSojWDF5gWumgq_GXcyKT637DP9Fs7lJLWCNkrvrOAlBYmfo46IzFN3UCpwqDQIXES6UBtE98ih0yi0sbpTfyawUTcFRrhs7iGxrKd2j_Q2X93GG8Ciz2zO3D72cWSRD4tpS0aop40Z4_TkNmrw1MO9j_1qrXzKhtg-vXtKbp5Qorr0FnMStMUhi2ul7kIxxuz00eiztv0DVT9oH&type=css&k=2ac0432e370996de85bc64830c9b818c88b32f75&t=1678165953&user=T"  />
 
@@ -19,7 +19,7 @@
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
-			<div>
+						<div>
 <hr class="layout"/>
     
 
@@ -71,24 +71,24 @@
 <tbody>
 <tr>
 <th scope="row">제목</th>
-                    <td> <input id="subject" name="subject" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" maxLength="125" value="" type="text"  />  </td>
+                    <td> <input id="subject" name="subject" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" maxLength="125" value="수정할 제목" type="text"  /></td>
                 </tr>
 <tr class="displaynone">
 <th scope="row">작성자</th>
                     <td></td>
                 </tr>
 <tr class="displaynone">
-<th scope="row">이메일</th>
+<!-- <th scope="row">이메일</th>
                     <td></td>
-                </tr>
-<tr class="displaynone">
+                </tr> -->
+<!-- <tr class="displaynone">
 <th scope="row">평점</th>
                     <td><input id="point0" name="point" fw-filter="" fw-label="평점" fw-msg="" value="5" type="radio" checked="checked"  /><label for="point0" ><span class="point5"><em>★★★★★</em></span></label>
 <input id="point1" name="point" fw-filter="" fw-label="평점" fw-msg="" value="4" type="radio"  /><label for="point1" ><span class="point4"><em>★★★★</em></span></label>
 <input id="point2" name="point" fw-filter="" fw-label="평점" fw-msg="" value="3" type="radio"  /><label for="point2" ><span class="point3"><em>★★★</em></span></label>
 <input id="point3" name="point" fw-filter="" fw-label="평점" fw-msg="" value="2" type="radio"  /><label for="point3" ><span class="point2"><em>★★</em></span></label>
 <input id="point4" name="point" fw-filter="" fw-label="평점" fw-msg="" value="1" type="radio"  /><label for="point4" ><span class="point1"><em>★</em></span></label></td>
-                </tr>
+                </tr> -->
 <tr>
 <td colspan="2" class="clear">
                         
@@ -97,7 +97,7 @@
             <link rel="stylesheet" href="https://img.echosting.cafe24.com/editors/froala/css/themes/ec_froala.css?vs=2404180600">
 
             <!-- HTML -->
-            <textarea style="width: 100%;" name="content" id="content" class="ec-fr-never-be-duplicated"></textarea>
+            <textarea style="width: 100%;" name="content" id="content" class="ec-fr-never-be-duplicated">수정할 내용</textarea>
                 <input type="hidden" id="content_hidden" fw-filter="isSimplexEditorFill" fw-label="내용" value="EC_FROALA_INSTANCE" />
                 
             <!-- JavaScript -->
@@ -435,10 +435,10 @@
 <div class="ec-base-button ">
             <span class="gLeft">
                 <span class="displaynone"><a href="#none" class="btnNormal sizeS" onclick="">관리자 답변보기</a></span>
-                <a href="" class="btnNormalFix sizeS">목록</a>
+                <a href="http://localhost/online-shop/manage/review/review_my.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
-                <a href="#none" class="btnSubmitFix sizeS" onclick="BOARD_WRITE.form_submit('boardWriteForm');">등록</a>
+                <a href="http://localhost/online-shop/manage/review/review_my.jsp" class="btnSubmitFix sizeS" onclick="BOARD_WRITE.form_submit('boardWriteForm');">수정</a>
                 <a href="/board/review/4/" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>

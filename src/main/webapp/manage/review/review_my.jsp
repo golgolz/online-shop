@@ -70,7 +70,7 @@
                 $login_page_url = /member/login.html
                 $deny_access_url = /index.html
             --><tr style="background-color:#FFFFFF; color:#555555;" class="xans-record-">
-<td> 공지</td>
+<!-- <td> 공지</td>
                 <td class="thumb left"><a href="/product/$1/$2/"><span></span></a></td>
                 <td class="displaynone"></td>
                 <td class="subject left txtBreak">
@@ -83,7 +83,7 @@
                 <td class=""><span class="txtNum">2017-12-08</span></td>
                 <td class=""><span class="txtNum">2413</span></td>
                 <td class="displaynone"><span class="txtNum">0</span></td>
-                <td class="displaynone"><img src="//img.echosting.cafe24.com/skin/base/board/ico_point5.gif" alt="5점"/></td>
+                <td class="displaynone"><img src="//img.echosting.cafe24.com/skin/base/board/ico_point5.gif" alt="5점"/></td> -->
             </tr>
 </tbody>
 <tbody class="xans-element- xans-board xans-board-list-4 xans-board-list xans-board-4 center"><!--
@@ -98,7 +98,7 @@
                     <span class="displaynone">
                         <a href="#none" onclick="BOARD.viewTarget('28367','4',this);"><img src="//img.echosting.cafe24.com/skin/base/board/btn_unfold.gif" alt="내용 보기"/></a>
                     </span>
-                     <a href="/article/review/4/28367/" style="color:#555555;">만족</a> <span class="txtEm"></span>
+                     <a href="http://localhost/online-shop/manage/review/review_detail.jsp" style="color:#555555;">만족</a> <span class="txtEm"></span>
                 </td>
                 <td>네****</td>
                 <td class=""><span class="txtNum">2024-04-25</span></td>
