@@ -11,6 +11,14 @@
 </head>
 <body>
 	<jsp:include page="../assets/jsp/user/header.jsp" />
+	<%
+		String category = (String)request.getParameter("category");
+		String subCategory = (String)request.getParameter("sub_category");
+		
+		if(category != null){
+		    category = category.toUpperCase();
+		}
+	%>
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
@@ -20,13 +28,23 @@
 	          		<ol>
 	            		<li><a href="http://localhost/online-shop/index.jsp">홈</a></li>
 	            		<li class="">
-	              			<a href="http://localhost/online-shop/goods/new.jsp">NEW</a>
+	              			<a href="http://localhost/online-shop/goods/category.jsp?category=${param.category}"><%= category %></a>
 	            		</li>
+	            		<% if(subCategory != null){
+	            		    subCategory = subCategory.toUpperCase();
+	            		%>
+	            			<li class=""><%= subCategory %></li>
+	            		<% } %>
 	          		</ol>
 	        	</div>
 	        	<div class="xans-element- xans-product xans-product-headcategory title">
 	          		<p class="banner"></p>
-	          		<h2><span>NEW</span></h2>
+	          		<h2>
+	          			<span><%= category %></span>
+		            	<% if(subCategory != null){ %>
+		          			<span>  >  <%= subCategory %></span>
+		            	<% } %>
+	          		</h2>
 	        	</div>
 	        	<ul class="menuCategory" id="midCate" style="display: block"></ul>
 	      	</div>
@@ -58,12 +76,15 @@
 	        </div>
 	        <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product typeThumb sort_pro">
 		        <ul class="prdList grid5">
+		        	<%
+		        		for(int i = 1; i < 9; i++){
+		        	%>
 		            <li id="anchorBoxId_6371" class="xans-record-">
 		                <div class="box">
 		                    <div class="thumbnail">
 		                        <div class="prdImg">
-		                            <a href="http://localhost/online-shop/goods/detail.jsp" name="anchorBoxName_6371">
-		                                <img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_1.png" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
+		                            <a href="http://localhost/online-shop/goods/detail.jsp?goods=APPLE_IPHONE14_<%= i %>" name="anchorBoxName_6371">
+		                                <img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_<%=i %>.png" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
 		                            </a>
 		                        </div>
 		                        <span class="wish">
@@ -84,6 +105,7 @@
 		                    </div>
 		                </div>
 		            </li>
+		            <% } %>
 		        </ul>
 		    </div>
 			<!-- golgolz end -->
