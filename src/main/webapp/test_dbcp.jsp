@@ -1,4 +1,4 @@
-<%@page import="Database.TestDAO"%>
+<%@page import="database.TestDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     info=""%>
