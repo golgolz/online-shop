@@ -51,55 +51,31 @@
 <col style="width:105px"/>
 <col style="width:110px"/>
 </colgroup>
-<thead><tr style="text-align:center">
+<thead><tr style="text-align:center; width:10px">
 <th scope="col"><input type="checkbox" onclick="NewWishlist.checkAll(this);"/></th>
+	            <th scope="col"  style="width:20px">번호</th>
                 <th scope="col">이미지</th>
                 <th scope="col">상품정보</th>
                 <th scope="col">판매가</th>
-	            <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col">배송비</th>
                 <th scope="col">합계</th>
                 <th scope="col">선택</th>
             </tr></thead><tbody class="xans-element- xans-myshop xans-myshop-wishlistitem center"><tr class="xans-record-">
-<td><input name="wish_idx[]" id="wish_idx_0" enable-order="1" reserve-order="N" enable-purchase="1" class="" is-set-product="F" value="184531" type="checkbox"  /></td>
-                <td class="thumb"><a href="/product/i-live-with-six-cats-너의-커다란-우주-엽서/5914/category/428/"><img src="//insideobject.com/web/product/medium/202303/7c1ea5f3a3506147ef01272fbf63403b.jpg" alt=""/></a></td>
-                <td class="left">
+<td><input name="wish_idx[]" id="wish_idx_0" enable-order="1" reserve-order="N" enable-purchase="1" class="" is-set-product="F" value="184531" type="checkbox" /></td>
+                <td style="width:20px">1</td>
+                <td class="thumb" style="width:90px"><a href="/product/i-live-with-six-cats-너의-커다란-우주-엽서/5914/category/428/"><img src="//insideobject.com/web/product/medium/202303/7c1ea5f3a3506147ef01272fbf63403b.jpg" alt=""/></a></td>
+                <td class="left" style="width:200px">
                     <strong class="name"><a href="/product/i-live-with-six-cats-너의-커다란-우주-엽서/5914/category/428/" class="ec-product-name">[i live with six cats] 너의 커다란 우주 엽서</a></strong>
-                    <ul class="xans-element- xans-myshop xans-myshop-optionall option"><li class="xans-record-">
-<strong class="displaynone"></strong> <span class="displaynone">(개)</span><br/><a href="#none" onclick="NewWishlist.showOptionChangeLayer('wishlist_option_modify_layer_0')" class="btnNormal gBlank5 displaynone">옵션변경</a>
-                            <div class="optionModify ec-base-layer" id="wishlist_option_modify_layer_0">
-                                <div class="header">
-                                    <h3>옵션변경</h3>
-                                </div>
-                                <div class="content">
-                                    <ul class="prdInfo">
-<li></li>
-                                        <li class="option"></li>
-                                    </ul>
-<div class="prdModify">
-                                        <h4>상품옵션</h4>
-                                        </div>
-                                </div>
-                                <div class="ec-base-button">
-                                    <a href="#none" class="btnSubmitFix sizeS " onclick="NewWishlist.modify('add', '0', '5914');">추가</a>
-                                    <a href="#none" class="btnNormalFix sizeS" onclick="NewWishlist.modify('update', '0', '5914');">변경</a>
-                                </div>
-                                <a href="#none" class="close" onclick="$('.optionModify').hide();"><img src="//img.echosting.cafe24.com/skin/base/common/btn_close.gif" alt="닫기"/></a>
-                            </div>
-
-                        </li>
-</ul>
 </td>
-                <td class="price right">
+                <td class="price right" style="text-align:center">
 <strong class="">2,000원<br/></strong><br/><strong class="displaynone">2000</strong>
 </td>
-                <td style="width:0px"></td>
                 <td>
 </div></td>
                 <td>
 <span class="">3,000원<br/></span></td>
-                <td class="price right">5,000원</td>
+                <td class="price right" style="text-align:center">5,000원</td>
                 <td class="button">
                     <a href="#none" onclick="NewWishlist.actionOrder('order', 0)" class="btnSubmit ">주문하기</a>
                     <a href="#none" onclick="NewWishlist.actionOrder('basket', 0)" class="btnNormal ">장바구니담기</a>
@@ -108,43 +84,19 @@
             </tr>
 <tr class="xans-record-">
 <td><input name="wish_idx[]" id="wish_idx_1" enable-order="1" reserve-order="N" enable-purchase="1" class="" is-set-product="F" value="184530" type="checkbox"  /></td>
-                <td class="thumb"><a href="/product/ppp-studio-black-rabbit-card/5909/category/428/"><img src="//insideobject.com/web/product/medium/202303/906865bb94b46490072127abf30ac34c.jpg" alt=""/></a></td>
-                <td class="left">
+                <td style="width:20px">2</td>
+                <td class="thumb" style="width:90px"><a href="/product/ppp-studio-black-rabbit-card/5909/category/428/"><img src="//insideobject.com/web/product/medium/202303/906865bb94b46490072127abf30ac34c.jpg" alt=""/></a></td>
+                <td class="left" style="width:200px">
                     <strong class="name"><a href="/product/ppp-studio-black-rabbit-card/5909/category/428/" class="ec-product-name">[ppp studio] Black Rabbit card</a></strong>
-                    <ul class="xans-element- xans-myshop xans-myshop-optionall option"><li class="xans-record-">
-<strong class="displaynone"></strong> <span class="displaynone">(개)</span><br/><a href="#none" onclick="NewWishlist.showOptionChangeLayer('wishlist_option_modify_layer_1')" class="btnNormal gBlank5 displaynone">옵션변경</a>
-                            <div class="optionModify ec-base-layer" id="wishlist_option_modify_layer_1">
-                                <div class="header">
-                                    <h3>옵션변경</h3>
-                                </div>
-                                <div class="content">
-                                    <ul class="prdInfo">
-<li></li>
-                                        <li class="option"></li>
-                                    </ul>
-<div class="prdModify">
-                                        <h4>상품옵션</h4>
-                                        </div>
-                                </div>
-                                <div class="ec-base-button">
-                                    <a href="#none" class="btnSubmitFix sizeS " onclick="NewWishlist.modify('add', '1', '5909');">추가</a>
-                                    <a href="#none" class="btnNormalFix sizeS" onclick="NewWishlist.modify('update', '1', '5909');">변경</a>
-                                </div>
-                                <a href="#none" class="close" onclick="$('.optionModify').hide();"><img src="//img.echosting.cafe24.com/skin/base/common/btn_close.gif" alt="닫기"/></a>
-                            </div>
-
-                        </li>
-</ul>
 </td>
-                <td class="price right">
+                <td class="price right" style="text-align:center">
 <strong class="">2,500원<br/></strong><br/><strong class="displaynone">2500</strong>
 </td>
-                <td style="width:0px"></td>
                 <td>
 </div></td>
                 <td>
 <span class="">3,000원<br/></span></td>
-                <td class="price right">5,500원</td>
+                <td class="price right" style="text-align:center">5,500원</td>
                 <td class="button">
                     <a href="#none" onclick="NewWishlist.actionOrder('order', 1)" class="btnSubmit ">주문하기</a>
                     <a href="#none" onclick="NewWishlist.actionOrder('basket', 1)" class="btnNormal ">장바구니담기</a>
@@ -153,43 +105,19 @@
             </tr>
 <tr class="xans-record-">
 <td><input name="wish_idx[]" id="wish_idx_2" enable-order="1" reserve-order="N" enable-purchase="1" class="" is-set-product="F" value="184529" type="checkbox"  /></td>
-                <td class="thumb"><a href="/product/최고심-토심이-파우치/5929/category/428/"><img src="//insideobject.com/web/product/medium/202303/e3e34038e1711e03ce71b4fc720f8d51.jpg" alt=""/></a></td>
-                <td class="left">
+                <td style="width:20px">3</td>
+                <td class="thumb" style="width:90px"><a href="/product/최고심-토심이-파우치/5929/category/428/"><img src="//insideobject.com/web/product/medium/202303/e3e34038e1711e03ce71b4fc720f8d51.jpg" alt=""/></a></td>
+                <td class="left" style="width:200px">
                     <strong class="name"><a href="/product/최고심-토심이-파우치/5929/category/428/" class="ec-product-name">[최고심] 토심이 파우치</a></strong>
-                    <ul class="xans-element- xans-myshop xans-myshop-optionall option"><li class="xans-record-">
-<strong class="displaynone"></strong> <span class="displaynone">(개)</span><br/><a href="#none" onclick="NewWishlist.showOptionChangeLayer('wishlist_option_modify_layer_2')" class="btnNormal gBlank5 displaynone">옵션변경</a>
-                            <div class="optionModify ec-base-layer" id="wishlist_option_modify_layer_2">
-                                <div class="header">
-                                    <h3>옵션변경</h3>
-                                </div>
-                                <div class="content">
-                                    <ul class="prdInfo">
-<li></li>
-                                        <li class="option"></li>
-                                    </ul>
-<div class="prdModify">
-                                        <h4>상품옵션</h4>
-                                        </div>
-                                </div>
-                                <div class="ec-base-button">
-                                    <a href="#none" class="btnSubmitFix sizeS " onclick="NewWishlist.modify('add', '2', '5929');">추가</a>
-                                    <a href="#none" class="btnNormalFix sizeS" onclick="NewWishlist.modify('update', '2', '5929');">변경</a>
-                                </div>
-                                <a href="#none" class="close" onclick="$('.optionModify').hide();"><img src="//img.echosting.cafe24.com/skin/base/common/btn_close.gif" alt="닫기"/></a>
-                            </div>
-
-                        </li>
-</ul>
 </td>
-                <td class="price right">
+                <td class="price right" style="text-align:center">
 <strong class="">22,000원<br/></strong><br/><strong class="displaynone">22000</strong>
 </td>
-                <td style="width:0px"></td>
                 <td>
 </div></td>
                 <td>
 <span class="">3,000원<br/></span></td>
-                <td class="price right">25,000원</td>
+                <td class="price right" style="text-align:center">25,000원</td>
                 <td class="button">
                     <a href="#none" onclick="NewWishlist.actionOrder('order', 2)" class="btnSubmit ">주문하기</a>
                     <a href="#none" onclick="NewWishlist.actionOrder('basket', 2)" class="btnNormal ">장바구니담기</a>

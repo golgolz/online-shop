@@ -33,7 +33,7 @@
 </div>
 <div class="main_pro_title width1240 cboth">
 		<div class="txt_01"><font color="#555555">REVIEW</font></div>
-		<div class="txt_02">오브젝트 문의게시판입니다.</div>
+		<!-- <div class="txt_02">오브젝트 내 리뷰게시판입니다.</div> -->
 </div>
 
 <div class="boardSort">
@@ -352,10 +352,10 @@
 </tbody>
 </table><p class="xans-element- xans-board xans-board-empty-4 xans-board-empty xans-board-4 message displaynone "></p>
     </div>
-<div class="xans-element- xans-board xans-board-buttonlist-4 xans-board-buttonlist xans-board-4  ec-base-button typeBG "><span class="gRight">
+<!-- <div class="xans-element- xans-board xans-board-buttonlist-4 xans-board-buttonlist xans-board-4  ec-base-button typeBG "><span class="gRight">
             <a href="/board/product/write.html?board_no=4" class="btnSubmitFix sizeS ">글쓰기</a>
         </span>
-</div>
+</div> -->
 </div>
 <div class="xans-element- xans-board xans-board-paging-4 xans-board-paging xans-board-4 ec-base-paginate"><a href="?board_no=4&page=1"><img src="//img.echosting.cafe24.com/skin/base/common/btn_page_prev.gif" alt="이전 페이지"/></a>
 <ol>
@@ -378,18 +378,18 @@
 <input id="board_sort" name="board_sort" value="" type="hidden"  /><div class="xans-element- xans-board xans-board-search-4 xans-board-search xans-board-4 "><fieldset class="boardSearch">
 <legend>게시물 검색</legend>
         <p class="category displaynone"></p>
-        <p><select id="search_date" name="search_date" fw-filter="" fw-label="" fw-msg=""  >
+        <p> <!-- <select id="search_date" name="search_date" fw-filter="" fw-label="" fw-msg=""  >
 <option value="week">일주일</option>
 <option value="month">한달</option>
-<option value="month3">세달</option>
+<option value="month3">1년</option>
 <option value="all">전체</option>
-</select> <select id="search_key" name="search_key" fw-filter="" fw-label="" fw-msg=""  >
+</select>--> <select id="search_key" name="search_key" fw-filter="" fw-label="" fw-msg=""  >
 <option value="subject">제목</option>
 <option value="content">내용</option>
-<option value="writer_name">글쓴이</option>
+<!-- <option value="writer_name">글쓴이</option> -->
 <option value="member_id">아이디</option>
-<option value="nick_name">별명</option>
-<option value="product">상품정보</option>
+<!-- <option value="nick_name">별명</option>
+<option value="product">상품정보</option> -->
 </select> <input id="search" name="search" fw-filter="" fw-label="" fw-msg="" class="inputTypeText" placeholder="" value="" type="text"  /> <a href="#none" class="btnEmFix" onclick="BOARD.form_submit('boardSearchForm');">찾기</a></p>
     </fieldset>
 </div>
