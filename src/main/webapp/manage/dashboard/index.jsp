@@ -1,3 +1,5 @@
+<%@page import="admin.dashboard.DashboardOrderVO"%>
+<%@page import="admin.dashboard.DashboardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <!DOCTYPE html>
@@ -10,7 +12,7 @@
 	});
 </script>
 <!-- golgolz start -->
-<link href="../assets/css/manage/dashboard/index.css" rel="stylesheet" />
+<link href="../../assets/css/manage/dashboard/index.css" rel="stylesheet" />
 <style>
 .dashboard-container{
 	margin-left:24px;
@@ -29,6 +31,10 @@
 </head>
 <body>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
+	<%
+		DashboardDAO dashboardDAO = DashboardDAO.getInstance();
+		DashboardOrderVO orderVO = dashboardDAO.selectOrderInfo();	
+	%>
 	<main
 		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
 		<nav
@@ -63,9 +69,9 @@
 	                      	<th scope="col" width="310">이번달</th>
 	                  	</tr>
 	                    <tr id="data_stat_month" bgcolor="#f1f1f1">
-	                    	<td><strong>0건</strong></td>
-	                      	<td><strong>0건</strong></td>
-	                      	<td><strong>0건</strong></td>
+	                    	<td><strong><%= orderVO.getToday() %>건</strong></td>
+	                      	<td><strong><%= orderVO.getWeek() %>건</strong></td>
+	                      	<td><strong><%= orderVO.getMonth() %>건</strong></td>
 	                  	</tr>
 	             	</tbody>
 	          	</table>
@@ -116,7 +122,7 @@
 	                      	<th scope="col" width="310">반품건수</th>
 	                  	</tr>
 	                    <tr id="data_stat_month" bgcolor="#f1f1f1">
-	                    	<td><strong>0건</strong></td>
+	                    	<td><strong><%= orderVO.getRefund() %>건</strong></td>
 	                  	</tr>
 	             	</tbody>
 	          	</table>

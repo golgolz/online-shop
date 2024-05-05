@@ -21,7 +21,7 @@
 				<a
 					id="dashboard_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shop/manage/dashboard/dashboard.jsp">
+					href="http://localhost/online-shop/manage/dashboard/index.jsp">
 					<span class="nav-link-text ms-1">대시보드</span>
 				</a>
 			</li>

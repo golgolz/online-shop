@@ -1,4 +1,4 @@
-package Database;
+package database;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -39,7 +39,6 @@ public class DbConnection {
         return con;
     }// getConn
 
-
     public void closeCon(ResultSet rs, Statement stmt, Connection con) throws SQLException {
         try {
             if (rs != null) {
@@ -53,7 +52,6 @@ public class DbConnection {
                 con.close();
             } // end if
         } // end finally
-
     }// closeCon
 }// class
 
