@@ -433,10 +433,10 @@
 </table>
 </div>
 <div class="ec-base-button ">
-            <span class="gLeft">
+            <!-- <span class="gLeft">
                 <span class="displaynone"><a href="#none" class="btnNormal sizeS" onclick="">관리자 답변보기</a></span>
                 <a href="" class="btnNormalFix sizeS">목록</a>
-            </span>
+            </span> -->
             <span class="gRight">
                 <a href="#none" class="btnSubmitFix sizeS" onclick="BOARD_WRITE.form_submit('boardWriteForm');">등록</a>
                 <a href="/board/review/4/" class="btnBasicFix sizeS">취소</a>
