@@ -22,7 +22,7 @@
 <body>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
-		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
+		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps--active-y">
 		<nav
 			class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
 			id="navbarBlur" data-scroll="true">
@@ -31,13 +31,13 @@
 					<ol
 						class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
 						<li class="breadcrumb-item text-sm"><a
-							class="opacity-5 text-dark" href="javascript:;">
+							class="opacity-5 text-dark" href="http://localhost/online-shop/manage/index.jsp">
 							관리자 기능</a></li>
 						<!-- 하단의 대시보드 텍스트를 본인 기능으로 변경 필요  -->
 						<li class="breadcrumb-item text-sm text-dark active"
-							aria-current="page">리뷰 관리</li>
+							aria-current="page"><a href="http://localhost/online-shop/manage/review/review.jsp">리뷰 관리</a></li>
 					</ol>
-					<h6 class="font-weight-bolder mb-0">리뷰 관리</h6>
+					<!-- <h6 class="font-weight-bolder mb-0"><a href="http://localhost/online-shop/manage/review/review.jsp">리뷰 관리</a></h6> -->
 				</nav>
 			</div>
 		</nav>
@@ -186,7 +186,7 @@
 		            <th>작성시각</th>
 		            <th>글쓴이</th>
 					<!-- <th>평점</th> -->
-					<th>승인</th>
+					<!-- <th>승인</th> -->
 		            <th class="thR">조회</th>
 		        </tr>
 		    </thead>
@@ -207,7 +207,7 @@
 																		<!-- <img src="/admin/images/community/icon_best.gif"> -->																													</td>
 		            <td class="tdL" align="center">23.04.25 11:13</td>
 		            <td class="tdL" align="center"><a href="#" class="fc_gray77" seq="imean882" ui_user="imean882" style="color:;">최고관리자 (imean882)</a></td>
-		            <td class="tdL" align="center">O</td>
+		            <!-- <td class="tdL" align="center">O</td> -->
 		            <td class="tdR" align="center">11</td>
 		            <!-- <td class="tdL" align="center">
 												<img src="/admin/images/community/icon_star05.gif">
@@ -229,7 +229,7 @@
 																																															</td>
 		            <td class="tdL" align="center">23.04.21 17:50</td>
 		            <td class="tdL" align="center"><a href="#" class="fc_gray77" seq="imean882" ui_user="imean882" style="color:;">최고관리자 (imean882)</a></td>
-		            <td class="tdL" align="center">O</td>
+		            <!-- <td class="tdL" align="center">O</td> -->
 		            <td class="tdR" align="center">15</td>
 		            <!-- <td class="tdL" align="center">
 												<img src="/admin/images/community/icon_star05.gif">
