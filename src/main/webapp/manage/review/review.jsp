@@ -1,3 +1,7 @@
+<%@page import="java.sql.SQLException"%>
+<%@page import="admin.review.ReviewVO"%>
+<%@page import="java.util.List"%>
+<%@page import="admin.review.AdminReviewDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <!DOCTYPE html>
@@ -43,6 +47,38 @@
 		</nav>
 		<div class="container-fluid py-4">
 			<!-- golgolz start -->
+			<%
+			request.setCharacterEncoding("UTF-8");
+			%>
+			<jsp:useBean id="sVO" class="admin.review.SearchVO" scope="page"/><!-- VO객체를 연결할 때만 씀 -->
+			<jsp:setProperty property="*" name="sVO"/>
+			<%
+		try{
+			AdminReviewDAO arDAO=AdminReviewDAO.getInstance();
+			int totalCount=arDAO.selectTotalCount(sVO);
+			int pageScale=10;
+			
+			int totalPage=(int)Math.ceil((double)totalCount/pageScale);
+			
+			String tempPage=sVO.getCurrentPage();
+			int currentPage=1;
+			if(tempPage != null){
+			  try{
+			    currentPage=Integer.parseInt(tempPage);
+			  }catch(NumberFormatException nfe){
+			    
+			  }
+			}
+			int startNum=currentPage * pageScale - pageScale + 1;
+			
+			int endNum=startNum + pageScale - 1;
+			
+			sVO.setStartNum(startNum);
+			sVO.setEndNum(endNum);
+			
+			List<ReviewVO> list=arDAO.selectAllReview(sVO);
+			pageContext.setAttribute("list", list);
+			%>
 			<!-- <div id="contentcolumn" class="">
 	<div id="spot" class=""> 
 		<h3><img src="/admin/images/common/sub/contents_title_icon.gif" alt=""> 사용후기</h3>
@@ -249,7 +285,16 @@
 						<img src="https://demo01.swm.whoismall.com/data/images/default/button/btn_navi_arrLL.gif" border="0" align="absmiddle"></a>
 					<a href="/admin/?act=community&ch=community&bbs_code=user_review&bbs_mode=list&page=1" class="pre">
 						<img src="https://demo01.swm.whoismall.com/data/images/default/button/btn_navi_arrL.gif" border="0" align="absmiddle"></a>
-					<a href="/admin/?act=community&ch=community&bbs_code=user_review&bbs_mode=list&page=1" class="on"> 1 </a>
+ 					<% for(int i=1; i <= totalPage; i++){ %>
+ 					[<a href="review.jsp?currentPage=<%= i %>"><%= i %></a>]
+ 					<% } %>
+ 					<%
+		}catch(SQLException se){
+		  se.printStackTrace();
+		 
+		}
+ 					%>
+					<!-- <a href="/admin/?act=community&ch=community&bbs_code=user_review&bbs_mode=list&page=1" class="on"> 1 </a> -->
 					<a href="/admin/?act=community&ch=community&bbs_code=user_review&bbs_mode=list&page=1" class="next">
 						<img src="https://demo01.swm.whoismall.com/data/images/default/button/btn_navi_arrR.gif" border="0" align="absmiddle"></a>
 					<a href="/admin/?act=community&ch=community&bbs_code=user_review&bbs_mode=list&page=1" class="last">
