@@ -1,3 +1,5 @@
+<%@page import="user.goods.UserGoodsDAO"%>
+<%@page import="user.main.GoodsSimpleVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <!DOCTYPE html>
@@ -44,13 +46,22 @@
 	
 	function setTotalInfo(quantity){
 		$("#quantity").val(quantity);
+		var price_text = $("#price").text();
+		var price = parseInt(price_text.substring(0, price_text.length - 1));
 		$("#total_quantity").html("(" + quantity + "개)");
-		$("#total_price").html((quantity * 3000) + "원");
+		$("#total_price").text(price * quantity + "원");
 	}
 </script>
 <!-- golgolz end -->
 </head>
 <body>
+	<%
+		String code = (String)request.getParameter("goods");
+		GoodsSimpleVO currentGoods = null;
+		if(code != null){
+			currentGoods = UserGoodsDAO.getInstance().selectOneGoods(code);
+		}
+	%>
 	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="container">
@@ -69,15 +80,9 @@
 						<div class="xans-element- xans-product xans-product-image imgArea">
 							<div class="keyImg">
 								<div class="thumbnail">
-									<a
-										href="https://insideobject.com/product/image_zoom2.html?product_no=6027&amp;cate_no=428&amp;display_group=1"
-										alt="P0000IXV"
-										onclick="window.open(this.href, &#39;image_zoom2&#39;, &#39;toolbar=no,scrollbars=auto,resizable=yes,width=450,height=693,left=0,top=0&#39;, this);return false;">
 										<img
-										src="http://localhost/online-shop/assets/images/goods/${param.goods}.png"
-										alt="[오브젝트] 오브젝트 2023 로고키링" class="BigImage" />
-									</a>
-									<div id="zoom_wrap"></div>
+										src="http://localhost/online-shop/assets/images/goods/<%= currentGoods.getDefaultImage() %>"
+										alt="<%= currentGoods.getName() %>" class="BigImage" />
 								</div>
 							</div>
 							<div class="cboth"></div>
@@ -88,46 +93,27 @@
 							<div class="infoArea" style="">
 								<div class="headingArea">
 									<div class="icon"></div>
-									<h2>[오브젝트] 오브젝트 2023 로고키링</h2>
+									<h2><%= currentGoods.getName() %></h2>
 								</div>
 								<div
 									class="xans-element- xans-product xans-product-detaildesign">
-									<!--
-                    출력 갯수 지정 변수, 없으면 설정된 전체가 나옵니다.
-                    count = 10
-                -->
 									<table border="3" summary="">
 										<caption>기본 정보</caption>
 										<tbody>
 											<tr rel="상품명" class="xans-record-">
 												<th scope="row"><span
 													style="font-size: 16px; color: #555555">상품명</span></th>
-												<td><span style="font-size: 16px; color: #555555">[오브젝트]
-														오브젝트 2023 로고키링</span></td>
+												<td><span style="font-size: 16px; color: #555555"><%= currentGoods.getName() %></span></td>
 											</tr>
 											<tr rel="판매가" class="xans-record-">
 												<th scope="row"><span
 													style="font-size: 11px; color: #333333">판매가</span></th>
 												<td><span style="font-size: 11px; color: #333333"><strong
-														id="span_product_price_text">6,500원</strong><input
-														id="product_price" name="product_price" value=""
-														type="hidden" /></span></td>
+														id="span_product_price_text"><%= currentGoods.getPrice() %>원</strong></span></td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
-								<table border="1" summary=""
-									class="xans-element- xans-product xans-product-option xans-record-">
-									<caption>상품 옵션</caption>
-									<tbody></tbody>
-									<tbody>
-										<tr class="displaynone" id="">
-											<td colspan="2" class="selectButton"><a
-												href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
-												class="btnSubmit sizeS" onclick="">옵션선택</a></td>
-										</tr>
-									</tbody>
-								</table>
 								<div class="guideArea">
 									<p class="info">(최소주문수량 1개 이상)</p>
 								</div>
@@ -152,7 +138,7 @@
 										</thead>
 										<tbody>
 											<tr>
-												<td>[오브젝트] 오브젝트 2023 로고키링</td>
+												<td><%= currentGoods.getName() %></td>
 												<td><span class="quantity">
 														<input id="quantity" name="quantity_name" style="" value="1" type="text">
 														<img
@@ -162,44 +148,21 @@
 															src="http://localhost/online-shop/assets/images/goods/btn_count_down.gif"
 															class="QuantityDown down" id="quantity_down"/>
 												</span></td>
-												<td class="right"><span class="quantity_price">6500</span>
-													<span class="mileage displaynone">(<img
-														src="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/" />
-														&nbsp;<span class="mileage_price"></span>)
-												</span></td>
+												<td class="right">
+													<span id="price" class="quantity_price"><%= currentGoods.getPrice() %>원</span>
+												</td>
 											</tr>
 										</tbody>
-										<!-- 옵션선택 또는 세트상품 선택시 상품이 추가되는 영역입니다. 쇼핑몰 화면에는 아래와 같은 마크업구조로 표시됩니다. 삭제시 기능이 정상동작 하지 않습니다. -->
-										<tbody>
-											<!-- tr>
-                            <td>
-                                <p class="product">
-                                    $상품명<br />
-                                    <span>$옵션</span>
-                                </p>
-                            </td>
-                            <td>
-                                <span class="quantity">
-                                    <input type="text" class="quantity_opt" />
-                                    &nbsp;<a href="#none"><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif" alt="수량증가" class="up" /></a>
-                                    <a href="#none"><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_down.gif" alt="수량감소" class="down" /></a>
-                                </span>
-                                <a href="#none"><img src="//img.echosting.cafe24.com/design/skin/default/product/btn_price_delete.gif" alt="삭제" class="option_box_del" /></a>
-                            </td>
-                            <td class="right">
-                                <span>$가격</span>
-                                <span class="mileage">(<img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/product/ico_pay_point.gif" /> &nbsp;<span class="mileage_price">$적립금</span>)</span>
-                            </td>
-                        </tr -->
-										</tbody>
-										<!-- // 옵션선택 또는 세트상품 선택시 상품이 추가되는 영역입니다. 쇼핑몰 화면에는 아래와 같은 마크업구조로 표시됩니다. 삭제시 기능이 정상동작 하지 않습니다. -->
 									</table>
 								</div>
 								<div id="totalPrice" class="totalPrice">
-									<strong>총 상품금액</strong>
-									(수량) : <span class="total">
-									<strong><em id="total_price">0원</em></strong>
-										<span id="total_quantity">(0개)</span></span>
+									<strong>총 상품금액</strong> (수량) : 
+									<span class="total">
+										<strong>
+											<em id="total_price"><%= currentGoods.getPrice() %>원</em>
+										</strong>
+										<span id="total_quantity">(0개)</span>
+									</span>
 								</div>
 								<div class="xans-element- xans-product xans-product-action">
 									<div class="ec-base-button">
@@ -238,7 +201,7 @@
 						<div class="cont">
 							<p>
 								<img
-									src="http://localhost/online-shop/assets/images/goods/${param.goods}_description.png"
+									src="http://localhost/online-shop/assets/images/goods/<%= currentGoods.getDetailImage() %>"
 									style="display: block; vertical-align: top; margin: 0px auto; text-align: center;"
 									name="APPLE_IPHONE14_1_description.png" />
 							</p>
