@@ -1,3 +1,6 @@
+<%@page import="user.main.GoodsSimpleVO"%>
+<%@page import="java.util.List"%>
+<%@page import="user.main.UserMainDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     info=""%>
@@ -31,6 +34,11 @@
 	<!-- golgolz end -->
 </head>
 <body>
+	<%
+		UserMainDAO userMainDAO = UserMainDAO.getInstance();
+		List<GoodsSimpleVO> newGoods = userMainDAO.selectGoods(true);
+		List<GoodsSimpleVO> bestGoods = userMainDAO.selectGoods(false);
+	%>
 	<jsp:include page="./assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
@@ -40,93 +48,31 @@
 					<img src="http://localhost/online-shop/assets/images/index/left-arrow.png" />
 				</span>
           		<div class="carousel-slides">
-            		<div class="carousel-slide">
+					<% 
+						GoodsSimpleVO tempVO = null;
+						for(int i = 0; i < 5; i++){ 
+						    tempVO = bestGoods.get(i);
+					%>
+					<div class="carousel-slide">
 		            	<!-- 메인 키비주얼 01 : 링크수정 -->
-		              	<a href="https://insideobject.com/product/detail.html?product_no=6633">
+		              	<a href="http://localhost/online-shop/goods/detail.jsp?goods=<%= tempVO.getCode() %>">
 		              		<div class="img">
 		                  		<img 
-		                  		src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_1.png" 
+		                  		src="http://localhost/online-shop/assets/images/goods/<%= tempVO.getDefaultImage() %>" 
                     			style="width: 50%; margin: 0px auto"/>
 		                	</div>
 		                	<div class="swiper1_txt">
 		                  		<div class="inner">
 		                    	<!-- 메인 키비주얼 01 : 텍스트 수정 -->
-		                    		<div class="t01">STEADINARY</div>
-		                    		<div class="t02">스테디너리 맹한 오니기리 인센스 홀더</div>
-		                    		<div class="t03">맹한 표정의 도자기 오니기리 인센스 홀더</div>
+		                    		<div class="t01"><%= tempVO.getName() %></div>
+		                    		<div class="t02"><%= tempVO.getDetailDescription() %></div>
+		                    		<div class="t03"><%= tempVO.getPrice() %></div>
 		                  		</div>
 		                	</div>
 		              	</a>
 		         	</div>
-		            <div class="carousel-slide">
-		            	<!-- 메인 키비주얼 01 : 링크수정 -->
-		              	<a href="https://insideobject.com/product/detail.html?product_no=6633">
-		              		<div class="img">
-		                  		<img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_2.png"
-                    			style="width: 50%; margin: 0px auto" />
-		                	</div>
-		                	<div class="swiper1_txt">
-		                  		<div class="inner">
-		                    	<!-- 메인 키비주얼 01 : 텍스트 수정 -->
-		                    		<div class="t01">STEADINARY</div>
-		                    		<div class="t02">스테디너리 맹한 오니기리 인센스 홀더</div>
-		                    		<div class="t03">맹한 표정의 도자기 오니기리 인센스 홀더</div>
-		                  		</div>
-		                	</div>
-		              	</a>
-		         	</div>
-		            <div class="carousel-slide">
-		            	<!-- 메인 키비주얼 01 : 링크수정 -->
-		              	<a href="https://insideobject.com/product/detail.html?product_no=6633">
-		              		<div class="img">
-		                  		<img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_3.png"
-                    			style="width: 50%; margin: 0px auto" />
-		                	</div>
-		                	<div class="swiper1_txt">
-		                  		<div class="inner">
-		                    	<!-- 메인 키비주얼 01 : 텍스트 수정 -->
-		                    		<div class="t01">STEADINARY</div>
-		                    		<div class="t02">스테디너리 맹한 오니기리 인센스 홀더</div>
-		                    		<div class="t03">맹한 표정의 도자기 오니기리 인센스 홀더</div>
-		                  		</div>
-		                	</div>
-		              	</a>
-		         	</div>
-		            <div class="carousel-slide">
-		            	<!-- 메인 키비주얼 01 : 링크수정 -->
-		              	<a href="https://insideobject.com/product/detail.html?product_no=6633">
-		              		<div class="img">
-		                  		<img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_4.png"
-                    			style="width: 50%; margin: 0px auto" />
-		                	</div>
-		                	<div class="swiper1_txt">
-		                  		<div class="inner">
-		                    	<!-- 메인 키비주얼 01 : 텍스트 수정 -->
-		                    		<div class="t01">STEADINARY</div>
-		                    		<div class="t02">스테디너리 맹한 오니기리 인센스 홀더</div>
-		                    		<div class="t03">맹한 표정의 도자기 오니기리 인센스 홀더</div>
-		                  		</div>
-		                	</div>
-		              	</a>
-		         	</div>
-		            <div class="carousel-slide">
-		            	<!-- 메인 키비주얼 01 : 링크수정 -->
-		              	<a href="https://insideobject.com/product/detail.html?product_no=6633">
-		              		<div class="img">
-		                  		<img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_5.png"
-                    			style="width: 50%; margin: 0px auto" />
-		                	</div>
-		                	<div class="swiper1_txt">
-		                  		<div class="inner">
-		                    	<!-- 메인 키비주얼 01 : 텍스트 수정 -->
-		                    		<div class="t01">STEADINARY</div>
-		                    		<div class="t02">스테디너리 맹한 오니기리 인센스 홀더</div>
-		                    		<div class="t03">맹한 표정의 도자기 오니기리 인센스 홀더</div>
-		                  		</div>
-		                	</div>
-		              	</a>
-		         	</div>
-        		</div>
+					<% } %>
+            	</div>
 				<span class="carousel-next">
 					<img src="http://localhost/online-shop/assets/images/index/right-arrow.png" />
 				</span>
@@ -138,14 +84,14 @@
 		    <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product typeThumb sort_pro">
 		        <ul class="prdList grid5">
 		        	<%
-		        		for(int i = 1; i < 9; i++){
+		        		for(GoodsSimpleVO goods : newGoods){
 		        	%>
 		            <li id="anchorBoxId_6371" class="xans-record-">
 		                <div class="box">
 		                    <div class="thumbnail">
 		                        <div class="prdImg">
-		                            <a href="http://localhost/online-shop/goods/detail.jsp?goods=APPLE_IPHONE14_<%= i %>" name="anchorBoxName_6371">
-		                                <img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_<%=i %>.png" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
+		                            <a href="http://localhost/online-shop/goods/detail.jsp?goods=<%= goods.getCode() %>" name="anchorBoxName_6371">
+		                                <img src="http://localhost/online-shop/assets/images/goods/<%= goods.getDefaultImage() %>" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
 		                            </a>
 		                        </div>
 		                        <span class="wish">
@@ -155,12 +101,12 @@
 		                    <div class="description">
 		                        <div class="name">
 		                            <a href="http://localhost/online-shop/goods/detail.jsp" class="">
-		                                <span style="font-size:12px;color:#000000;">[오브젝트] 2024 오브젝트 다이어리 (날짜형)</span>
+		                                <span style="font-size:12px;color:#000000;"><%= goods.getName() %></span>
 		                            </a>
 		                        </div>
 		                        <ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
 		                            <li class=" xans-record-">
-		                                <span style="font-size:12px;color:#000000;font-weight:bold;">13,000원</span>
+		                                <span style="font-size:12px;color:#000000;font-weight:bold;"><%= goods.getPrice() %>원</span>
 		                            </li>
 		                        </ul>
 		                    </div>
@@ -176,14 +122,14 @@
 		    <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product typeThumb sort_pro">
 		        <ul class="prdList grid5">
 		        	<%
-		        		for(int i = 1; i < 9; i++){
+		        		for(GoodsSimpleVO goods : bestGoods){
 		        	%>
 		            <li id="anchorBoxId_6371" class="xans-record-">
 		                <div class="box">
 		                    <div class="thumbnail">
 		                        <div class="prdImg">
-		                            <a href="http://localhost/online-shop/goods/detail.jsp?goods=APPLE_IPHONE15_<%= i %>" name="anchorBoxName_6371">
-		                                <img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE15_<%=i %>.png" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
+		                            <a href="http://localhost/online-shop/goods/detail.jsp?goods=<%= goods.getCode() %>" name="anchorBoxName_6371">
+		                                <img src="http://localhost/online-shop/assets/images/goods/<%= goods.getDefaultImage() %>" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
 		                            </a>
 		                        </div>
 		                        <span class="wish">
@@ -193,12 +139,12 @@
 		                    <div class="description">
 		                        <div class="name">
 		                            <a href="http://localhost/online-shop/goods/detail.jsp" class="">
-		                                <span style="font-size:12px;color:#000000;">[오브젝트] 2024 오브젝트 다이어리 (날짜형)</span>
+		                                <span style="font-size:12px;color:#000000;"><%= goods.getName() %></span>
 		                            </a>
 		                        </div>
 		                        <ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
 		                            <li class=" xans-record-">
-		                                <span style="font-size:12px;color:#000000;font-weight:bold;">13,000원</span>
+		                                <span style="font-size:12px;color:#000000;font-weight:bold;"><%= goods.getPrice() %>원</span>
 		                            </li>
 		                        </ul>
 		                    </div>

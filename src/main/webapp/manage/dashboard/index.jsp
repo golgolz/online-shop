@@ -1,3 +1,4 @@
+<%@page import="admin.dashboard.DashboardOrderProgressVO"%>
 <%@page import="admin.dashboard.DashboardOrderVO"%>
 <%@page import="admin.dashboard.DashboardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -34,6 +35,7 @@
 	<%
 		DashboardDAO dashboardDAO = DashboardDAO.getInstance();
 		DashboardOrderVO orderVO = dashboardDAO.selectOrderInfo();	
+		DashboardOrderProgressVO progressVO = dashboardDAO.selectPregressInfo();
 	%>
 	<main
 		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
@@ -105,11 +107,11 @@
 	                      	<th scope="col">구매확정</th>
 	                  	</tr>
 	                    <tr id="data_stat_month" bgcolor="#f1f1f1">
-	                    	<td><strong>0건</strong></td>
-	                      	<td><strong>0건</strong></td>
-	                      	<td><strong>0건</strong></td>
-	                      	<td><strong>0건</strong></td>
-	                      	<td><strong>0건</strong></td>
+	                    	<td><strong><%= progressVO.getOrderDone() %>건</strong></td>
+	                      	<td><strong><%= progressVO.getDeliveryReady() %>건</strong></td>
+	                      	<td><strong><%= progressVO.getDeliveryInProgress() %>건</strong></td>
+	                      	<td><strong><%= progressVO.getDeliveryDone() %>건</strong></td>
+	                      	<td><strong><%= progressVO.getOrderConfirmed() %>건</strong></td>
 	                  	</tr>
 	             	</tbody>
 	          	</table>
