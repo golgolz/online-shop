@@ -31,7 +31,7 @@
 <body>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
-		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
+		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps--active-y">
 		<nav
 			class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
 			id="navbarBlur" data-scroll="true">
@@ -84,7 +84,6 @@
 						<div class="tbl_head01">
 							<table id="sodr_list">
 								<colgroup>
-									
 									<col class="w60">
 									<col>
 									<col class="w90">
@@ -93,12 +92,10 @@
 									<col class="w70">
 									<col class="w70">
 									
-									
 									<col class="w70">
 								</colgroup>
 								<thead>
 									<tr>
-										
 										<th scope="col">이미지</th>
 										<th scope="col">주문상품</th>
 										<th scope="col">주문상태</th>
@@ -107,13 +104,11 @@
 										<th scope="col">상품금액</th>
 										<th scope="col">배송비</th>
 										
-										
 										<th scope="col">실결제액</th>
 									</tr>
 								</thead>
 								<tbody class="list">
 									<tr class="list0">
-										
 										<td><a href="http://demofran.com/shop/view.php?index_no=14" target="_blank"><img src="http://demofran.com/data/order/2404/24040511530204/thumb-95S2lNwQks3caPhpLyDPjPWygyeCsC_40x40.jpg" width="40" height="40"></a></td>
 										<td class="tal"><a href="http://demofran.com/admin/goods.php?code=form&amp;w=u&amp;gs_id=14" target="_blank">Mathey-Tissot 심플 서류가방+백팩 블랙세트</a> [비과세상품]
 											<div class="sod_opt">
@@ -125,7 +120,6 @@
 										<td>1</td>
 										<td class="tar">70,000</td>
 										<td class="tar">0</td>
-										
 										
 										<td class="td_price">70,000</td>
 									</tr>
@@ -160,7 +154,6 @@
 										<td>1</td>
 										<td class="tar">36,720</td>
 										<td class="tar">0</td>
-										
 										
 										<td class="td_price">36,720</td>
 									</tr>
@@ -298,7 +291,7 @@
 						</div>
 
 						<div class="btn_confirm">
-							<input type="submit" value="주문자/배송지 정보 수정" class="btn_medium">
+							<input type="submit" value="배송지 정보 수정" class="btn_medium">
 							<a href="javascript:window.close();" class="btn_medium bx-white">닫기</a>
 						</div>
 					</form>
