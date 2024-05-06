@@ -49,7 +49,7 @@ public class UserMainDAO {
             GoodsSimpleVO tempVO = null;
             while (rs.next()) {
                 goods.add(new GoodsSimpleVO(rs.getString("code"), rs.getString("name"), rs.getString("default_img"),
-                        rs.getString("detail_description"), 0, 0, 0, rs.getInt("price"), null));
+                        rs.getString("detail_description"), rs.getInt("price")));
             }
         } finally {
             dbConn.closeCon(rs, pstmt, conn);
