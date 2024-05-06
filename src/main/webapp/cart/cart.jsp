@@ -1,3 +1,4 @@
+<%@page import="user.order.CartDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <!DOCTYPE html>
@@ -53,6 +54,12 @@ table, td {
 	    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 	
+	function modifyQuantity() {
+		var cartFrm = document.cart_frm;
+		
+		cartFrm.submit();
+	}
+	
 </script>
 <!-- golgolz end -->
 </head>
@@ -96,7 +103,7 @@ table, td {
 							<div class="xans-element- xans-order xans-order-normtitle title ">
 								<h6>장바구니 상품 (1)</h6>
 							</div>
-
+							<form name="cart_frm" action="cart_process.jsp" method="post">
 							<table border="1" summary=""
 								class="xans-element- xans-order xans-order-normnormal xans-record-">
 								<caption>배송상품</caption>
@@ -161,7 +168,7 @@ table, td {
 											</div>
 										</td>
 										<td><span class=""> <span class="ec-base-qty"><input
-													id="quantity_id_0" name="quantity_name_0" size="2"
+													id="quantity_id_0" name="quantity" size="2"
 													value="1" type="text"><a href="javascript:;"
 													onclick="addQuantity('quantity_id_0','product_price_div0');"><img
 														src="//img.echosting.cafe24.com/skin/base/common/btn_quantity_up.gif"
@@ -169,7 +176,7 @@ table, td {
 													onclick="decQuantity('quantity_id_0','product_price_div0');"><img
 														src="//img.echosting.cafe24.com/skin/base/common/btn_quantity_down.gif"
 														alt="수량감소" class="down"></a></span> <a href="javascript:;"
-												class="btnNormal gBlank5" onclick="Basket.modifyQuantity()">변경</a>
+												class="btnNormal gBlank5" onclick="modifyQuantity()">변경</a>
 										</span> <span class="displaynone">1</span></td>
 
 
@@ -191,7 +198,8 @@ table, td {
 									</tr>
 								</tbody>
 							</table>
-
+						</form>
+						
 						</div>
 						<div class="orderListArea ec-base-table typeList gBorder"></div>
 						<div

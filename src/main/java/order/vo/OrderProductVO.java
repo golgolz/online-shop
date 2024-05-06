@@ -18,4 +18,15 @@ public class OrderProductVO {
     private int quantity;
     private int price;
     private int delivertyFee;
+
+    private String cartId;
+    private String code;
+
+    public OrderProductVO(String cartId, String code, int quantity) {
+        super();
+        this.cartId = cartId;
+        this.code = code;
+        this.quantity = quantity;
+    }
+
 }
