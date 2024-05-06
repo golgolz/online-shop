@@ -97,25 +97,23 @@ jQuery(function($){
 			<select name="sfl">
 				<option value="id">아이디</option>
 				<option value="name">회원명</option>
-				<option value="cellphone">핸드폰</option>
-				<option value="telephone">전화번호</option>
 			</select>
 			<input type="text" name="stx" value="" class="frm_input" size="30">
 		</td>
 	</tr>
 	<tr>
-		<th scope="row">기간검색</th>
+		<th scope="row">가입일</th>
 		<td>
-			<select name="spt">
-				<option value="reg_time">가입날짜</option>
-				<option value="today_login">최근접속</option>
-			</select>
 			<label for="fr_date" class="sound_only">시작일</label>
 <input type="text" name="fr_date" value="" id="fr_date" class="frm_input w80 hasDatepicker" maxlength="10">
  ~ 
 <label for="to_date" class="sound_only">종료일</label>
 <input type="text" name="to_date" value="" id="to_date" class="frm_input w80 hasDatepicker" maxlength="10">
-<span class="btn_group"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="오늘"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="어제"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="일주일"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="지난달"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="1개월"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="3개월"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="전체"></span>		</td>
+<span class="btn_group">
+<input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="오늘">
+<input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="일주일">
+<input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="1개월">
+</span>		</td>
 	</tr>
 	
 	</tbody>
