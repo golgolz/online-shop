@@ -22,6 +22,37 @@ public class UserGoodsDAO {
         return userGoodsDAO;
     }
 
+    public GoodsSimpleVO selectOneGoods(String code) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder selectQuery = new StringBuilder();
+
+        DbConnection dbConn = DbConnection.getInstance();
+
+        GoodsSimpleVO goods = null;
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+
+            selectQuery.append(
+                    "select code, name, price, default_img, description, detail_description from goods where code=?");
+            pstmt = conn.prepareStatement(selectQuery.toString());
+            pstmt.setString(1, code);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                goods = new GoodsSimpleVO(rs.getString("code"), rs.getString("name"), rs.getString("default_img"),
+                        rs.getString("description"), rs.getString("detail_description"), rs.getInt("price"));
+            }
+        } finally {
+            dbConn.closeCon(rs, pstmt, conn);
+        }
+
+        return goods;
+    }
+
     public List<GoodsSimpleVO> selectGoodsSort(String category, String sort) throws SQLException {
         List<GoodsSimpleVO> goods = new ArrayList<GoodsSimpleVO>();
 
@@ -35,7 +66,7 @@ public class UserGoodsDAO {
         try {
             conn = dbConn.getConn("online-shop-dbcp");
             selectQuery.append(
-                    " select rnum, code, name, price, default_img, detail_description from ( select row_number() over(order by ");
+                    " select rnum, code, name, price, default_img, description, detail_description from ( select row_number() over(order by ");
             switch (sort) {
                 case "NEW":
                     selectQuery.append("input_date desc) ");
@@ -59,7 +90,7 @@ public class UserGoodsDAO {
                     return null;
             }
 
-            selectQuery.append(" as rnum, code, name, price, default_img, detail_description from goods ");
+            selectQuery.append(" as rnum, code, name, price, default_img, description, detail_description from goods ");
             switch (category) {
                 case "SAMSUNG":
                     selectQuery.append("where maker='삼성'");
@@ -94,7 +125,7 @@ public class UserGoodsDAO {
 
             while (rs.next()) {
                 goods.add(new GoodsSimpleVO(rs.getString("code"), rs.getString("name"), rs.getString("default_img"),
-                        rs.getString("detail_description"), rs.getInt("price")));
+                        rs.getString("description"), rs.getString("detail_description"), rs.getInt("price")));
             }
         } finally {
             dbConn.closeCon(rs, pstmt, conn);
