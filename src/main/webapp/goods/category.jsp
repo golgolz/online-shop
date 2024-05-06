@@ -1,3 +1,6 @@
+<%@page import="user.goods.UserGoodsDAO"%>
+<%@page import="user.main.GoodsSimpleVO"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     info=""%>
@@ -14,10 +17,24 @@
 	<%
 		String category = (String)request.getParameter("category");
 		String subCategory = (String)request.getParameter("sub_category");
+		String sort = (String)request.getParameter("sort");
+		UserGoodsDAO userGoodsDAO = UserGoodsDAO.getInstance();
 		
 		if(category != null){
 		    category = category.toUpperCase();
+		}	
+		
+		if(subCategory != null){
+		    subCategory = subCategory.toUpperCase();
 		}
+		
+		if(sort != null){
+		    sort = sort.toUpperCase();
+		} else {
+		    sort = "";
+		}
+		
+		List<GoodsSimpleVO> selectedGoods = userGoodsDAO.selectGoodsSort(subCategory == null ? category : subCategory, sort);
 	%>
 	<div id="wrap">
 		<div id="main">
@@ -30,9 +47,7 @@
 	            		<li class="">
 	              			<a href="http://localhost/online-shop/goods/category.jsp?category=${param.category}"><%= category %></a>
 	            		</li>
-	            		<% if(subCategory != null){
-	            		    subCategory = subCategory.toUpperCase();
-	            		%>
+	            		<% if(subCategory != null){ %>
 	            			<li class=""><%= subCategory %></li>
 	            		<% } %>
 	          		</ol>
@@ -56,19 +71,19 @@
 	              		id="type"
 	              		class="xans-element- xans-product xans-product-orderby">
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/new.jsp">신상품</a>
+	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=new<%= subCategory == null ? "": "&sub_category=" + subCategory %>">신상품</a>
 	              			</li>
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/best.jsp">판매순</a>
+	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=best<%= subCategory == null ? "": "&sub_category=" + subCategory %>">판매순</a>
 	              			</li>
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/highprice.jsp">높은가격</a>
+	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=high_price<%= subCategory == null ? "": "&sub_category=" + subCategory %>">높은가격</a>
 	              			</li>
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/lowprice.jsp">낮은가격</a>
+	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=low_price<%= subCategory == null ? "": "&sub_category=" + subCategory %>">낮은가격</a>
 	              			</li>
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/mostreview.jsp">리뷰수</a>
+	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=most_review<%= subCategory == null ? "": "&sub_category=" + subCategory %>">리뷰순</a>
 	              			</li>
 	            		</ul>
 	          		</div>
@@ -76,15 +91,13 @@
 	        </div>
 	        <div class="xans-element- xans-product xans-product-listmain-2 xans-product-listmain xans-product-2 ec-base-product typeThumb sort_pro">
 		        <ul class="prdList grid5">
-		        	<%
-		        		for(int i = 1; i < 9; i++){
-		        	%>
+		        	<% for(GoodsSimpleVO goods: selectedGoods){ %>
 		            <li id="anchorBoxId_6371" class="xans-record-">
 		                <div class="box">
 		                    <div class="thumbnail">
 		                        <div class="prdImg">
-		                            <a href="http://localhost/online-shop/goods/detail.jsp?goods=APPLE_IPHONE14_<%= i %>" name="anchorBoxName_6371">
-		                                <img src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_<%=i %>.png" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
+		                            <a href="http://localhost/online-shop/goods/detail.jsp?goods=<%= goods.getCode() %>" name="anchorBoxName_6371">
+		                                <img src="http://localhost/online-shop/assets/images/goods/<%= goods.getDefaultImage() %>" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
 		                            </a>
 		                        </div>
 		                        <span class="wish">
@@ -94,12 +107,12 @@
 		                    <div class="description">
 		                        <div class="name">
 		                            <a href="http://localhost/online-shop/goods/detail.jsp" class="">
-		                                <span style="font-size:12px;color:#000000;">[오브젝트] 2024 오브젝트 다이어리 (날짜형)</span>
+		                                <span style="font-size:12px;color:#000000;"><%= goods.getName() %></span>
 		                            </a>
 		                        </div>
 		                        <ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
 		                            <li class=" xans-record-">
-		                                <span style="font-size:12px;color:#000000;font-weight:bold;">13,000원</span>
+		                                <span style="font-size:12px;color:#000000;font-weight:bold;"><%= goods.getPrice() %>원</span>
 		                            </li>
 		                        </ul>
 		                    </div>

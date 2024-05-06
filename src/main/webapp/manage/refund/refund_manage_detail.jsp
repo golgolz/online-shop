@@ -31,7 +31,7 @@
 <body>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
-		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
+		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps--active-y">
 		<nav
 			class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
 			id="navbarBlur" data-scroll="true">
@@ -60,7 +60,6 @@
 					<ul class="anchor">
 						<li><a href="#anc_sodr_list">주문상품 목록</a></li>
 						<li><a href="#anc_sodr_pay">주문결제 내역</a></li>
-						<li><a href="#anc_sodr_addr">배송지 정보</a></li>
 					</ul>
 					<div class="local_desc02 local_desc">
 						<p>
@@ -174,7 +173,6 @@
 					<ul class="anchor">
 						<li><a href="#anc_sodr_list">주문상품 목록</a></li>
 						<li><a href="#anc_sodr_pay">주문결제 내역</a></li>
-						<li><a href="#anc_sodr_addr">배송지 정보</a></li>
 					</ul>
 					<form name="frmorderreceiptform" action="./pop_orderformupdate.php"
 						method="post" autocomplete="off">

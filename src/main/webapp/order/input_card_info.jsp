@@ -44,9 +44,6 @@
 .middle-left{
 	float: left;
 }
-input-payarea{
-	text-align: center;
-}
 .input-payarea-tab{
 	border: 1px solid #dedede;
 }
@@ -85,6 +82,7 @@ input{
 .btn-cancle{
 	background-color: #dedede;
 }
+
 </style>
 <script type="text/javascript">
 	$(function() {

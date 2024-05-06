@@ -113,48 +113,73 @@ input[type=text], input[type=password] {
 th {
 	text-align: center;
 }
-/* 모달 창 스타일 */
-.modal {
-	display: none; /* 기본적으로 숨김 상태 */
-	position: fixed; /* 화면 고정 */
-	z-index: 1; /* 다른 요소 위에 표시 */
+
+.card-pay-area {
+	border: 1px solid #dedede;
+}
+
+#modal {
+	padding: 0;
+	display: none; /* 모달 창 숨김 */
+	position: fixed;
+	z-index: 1;
 	left: 0;
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4); /* 배경 불투명도 */
 }
 
-/* 모달 내용 스타일 */
-.modal-content {
+#card-container {
+	width: 530px;
+	height: 550px;
+	border: 1px solid #dedede;
 	background-color: #fefefe;
-	margin: 15% auto;
+	margin: auto; /* 수평 가운데 정렬 */
 	padding: 20px;
 	border: 1px solid #888;
 	width: 80%;
+	max-width: 600px;
+	/* 모달 창의 최대 너비 지정 */
+	position: relative;
+	top: 50%;
+	/* 모달 창을 화면 상단에서 50% 위치로 이동 */
+	transform: translateY(-50%);
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	max-width: 600px; /* 모달 창의 최대 너비 지정 */
+	position: relative;
+	top: 50%;
+	border: 1px solid #888;
+	width: 80%;
+	max-width: 600px; /* 모달 창의 최대 너비 지정 */
+	position: relative;
+	top: 50%;
+	width: 80%;
+	max-width: 600px;
+	/* 모달 창의 최대 너비 지정 */
+	position: relative;
+	top: 50%;
+	max-width: 600px;
+	/* 모달 창의 최대 너비 지정 */
+	position: relative;
+	top: 50%;
+	position: relative;
+	top: 50%;
+	top: 50%; /* 모달 창을 수직 가운데로 이동 */
 }
 
-/* 모달 닫기 버튼 스타일 */
-.close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
 
-.close:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
 </style>
 
 <script>
-	$(function(){
-		
+	$(function() {
+
 	})//ready
 
-	// 모달 열기 버튼 클릭 시 모달 표시
+	/* // 모달 열기 버튼 클릭 시 모달 표시
 	$("#openModalBtn").onclick = function() {
 		document.getElementById("myModal").style.display = "block";
 	}
@@ -170,7 +195,7 @@ th {
 		if (event.target == modal) {
 			modal.style.display = "none";
 		}
-	}
+	} */
 </script>
 <!-- golgolz end -->
 </head>
@@ -333,7 +358,7 @@ th {
 								<div class="title">
 									<h6>배송상품 주문내역</h6>
 								</div>
-								
+
 								<div class="ec-base-table typeList gBorder ">
 									<table border="1" summary="">
 										<caption>기본배송</caption>
@@ -402,8 +427,7 @@ th {
 												<td>1</td>
 												<td rowspan="1" class="">3,000원</td>
 												<td class="right"><strong><span
-														id="product_total_price_front0">20,000</span>원</strong>
-													</td>
+														id="product_total_price_front0">20,000</span>원</strong></td>
 											</tr>
 										</tbody>
 									</table>
@@ -485,9 +509,8 @@ th {
 												<td class=""></td>
 												<td colspan="8"><span class="gLeft">[개별배송]</span>
 													상품구매금액 <strong><span class="displaynone">
-															()</span></strong> + 배송비 <span
-													id=""></span> = 합계 : <strong class="txtEm gIndent10"><span id=""
-														class="txt18"></span></strong></td>
+															()</span></strong> + 배송비 <span id=""></span> = 합계 : <strong
+													class="txtEm gIndent10"><span id="" class="txt18"></span></strong></td>
 											</tr>
 										</tfoot>
 									</table>
@@ -531,9 +554,9 @@ th {
 											<tr>
 												<td class=""></td>
 												<td colspan="7"><span class="gLeft">[해외배송]</span>
-													상품구매금액 <strong>()</strong> + 배송비 <span id="f_list_total_delv_price_id"></span>원
-													 = 합계 : <strong class="txtEm gIndent10"><span id=""
-														class="txt18"></span></strong></td>
+													상품구매금액 <strong>()</strong> + 배송비 <span
+													id="f_list_total_delv_price_id"></span>원 = 합계 : <strong
+													class="txtEm gIndent10"><span id="" class="txt18"></span></strong></td>
 											</tr>
 										</tfoot>
 									</table>
@@ -558,7 +581,7 @@ th {
 							<div id="lShippingCompanyLists" class="shippingArea displaynone">
 								<div class="title">
 									<h6>배송업체(방식) 선택</h6>
-								</div> 
+								</div>
 								<table border="1" summary="">
 									<caption>배송업체(방식) 선택</caption>
 									<thead>
@@ -776,8 +799,7 @@ th {
 												</th>
 												<td><textarea id="omessage" name="omessage"
 														fw-filter="" fw-label="배송 메세지" fw-msg="" maxlength="255"
-														cols="70"></textarea>
-													</td>
+														cols="70"></textarea></td>
 											</tr>
 										</tbody>
 									</table>
@@ -1213,10 +1235,6 @@ th {
 										EC_ROUTE.init();
 									}
 								</script>
-								<meta http-equiv="Content-Type"
-									content="text/html; charset=utf-8">
-								<link rel="shortcut icon"
-									href="/web/upload/favicon_20180123182356.ico">
 								<script type="text/javascript"
 									src="/app/Eclog/js/cid.generate.js?vs=be4910e13365511fd914ba822d84c067&amp;u=lifelab0301.1"></script>
 								<script type="text/javascript">
@@ -2553,22 +2571,83 @@ th {
 											동의합니다.</label>
 									</p>
 									<div class="ec-base-button gColumn">
-										<a href="#none" id="btn_payment" class="btnSubmit sizeL">결제하기</a>
+										<a href="#none" id="btn_payment" class="btnSubmit sizeL">
+											<script>
+												$("#btn_payment").click(
+														function() {
+															$("#modal").css(
+																	"display",
+																	"block");
+														})
+											</script> 결제하기
+										</a>
 									</div>
 									<div class="mileage "></div>
 								</div>
 							</div>
 
-							<!-- 모달을 열기 위한 버튼 -->
-							<button id="openModalBtn">모달 열기</button>
-							<!-- 모달 창 -->
-							<div id="myModal" class="modal">
-								<div class="modal-content">
-									<span class="close">&times;</span>
-									<!-- 모달 닫기 버튼 -->
-									<p>카드 결제하기</p>
+							<div id="modal">
+								<div id="card-container"
+									style="width: 534px; height: 550px; border: 1px solid #dedede; padding: 0;">
+									<div class="card-top-title"
+										style="background-color: #dedede; padding: 10px; padding-right: 15px; text-align: right;">
+										<h6>카드 결제</h6>
+									</div>
+									<form id="card-payment-form">
+										<div class="card-middle-title"
+											style="padding: 20px; font-size: 20px;">
+											<span class="card-middle-left" style="float: left;"><label>(주)오브젝트
+													생활연구소</label></span> <span class="card-middle-right"
+												style="float: right; font-size: 25px; margin-bottom: 10px;"><label><strong>23,000원</strong></label></span>
+										</div>
+
+										<div class="card-input-payarea"
+											style="text-align: center; margin: 20px;">
+											<table class="card-input-payarea-tab" style="border: 1px solid #dedede;">
+												<tr>
+													<th class="card-th"
+														style="width: 130px; border-bottom: 1px solid #dedede; padding: 5px; font-size: 17px; vertical-align: middle">카드번호</th>
+													<td class="card-td" style="border-bottom: 1px solid #dedede; padding: 5px;"><input type="text" maxlength="16"
+														placeholder="[-]없이 입력" class="card-input"
+														style="width: 350px; height: 50px; border: none; font-size: 20px; "></td>
+												</tr>
+												<tr>
+													<th class="card-th"
+														style="width: 130px; border-bottom: 1px solid #dedede; padding: 5px; font-size: 17px; vertical-align: middle">카드식별번호</th>
+													<td class="card-td" style="border-bottom: 1px solid #dedede; padding: 5px;"><input type="text" maxlength="3"
+														placeholder="카드 뒷면 3자리" class="card-input"
+														style="width: 350px; height: 50px; border: none; font-size: 20px;"></td>
+												</tr>
+												<tr>
+													<th class="card-th"
+														style="width: 130px; border-bottom: 1px solid #dedede; padding: 5px; font-size: 17px; vertical-align: middle" >휴대폰
+														번호</th>
+													<td class="card-td" style="border-bottom: 1px solid #dedede; padding: 5px;"><input type="text" maxlength="11"
+														placeholder="[-]없이 입력" class="card-input"
+														style="width: 350px; height: 50px; border: none; font-size: 20px;"></td>
+												</tr>
+											</table>
+										</div>
+
+										<div class="card-payarea-btn"
+											style="text-align: center; vertical-align: bottom; margin-top: 200px; font-size: 20px; display: grid; grid-template-columns: 1fr 1fr; ">
+											<input type="button" value="결제취소" class="card-btn-cancle"
+												style="/* width: 265px; */ height: 60px; padding: 0; margin: 0; border: 1px solid #dedede; background-color: #dedede;">
+											<input type="button" value="결제하기" class="card-btn-success"
+												style="/* width: 265px;  */height: 60px; padding: 0; margin: 0; border: 1px solid #dedede;">
+										</div>
+											<script>
+											$(".card-btn-cancle").click(function() {
+												$("#modal").css("display","none");
+											})
+											$(".card-btn-success").click(function() {
+												location.href = "order_complete.jsp";
+											})
+											</script>
+									</form>
 								</div>
 							</div>
+
 							<!-- 안심번호 팝업 레이어 -->
 							<div id="safe_phone_popup_layer"></div>
 							<div id="ec-shop_orderConfirmLayer" class="orderConfirmLayer">

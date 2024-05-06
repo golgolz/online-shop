@@ -273,9 +273,9 @@
 						</div>
 						<div class="xans-element- xans-order xans-order-totalorder ec-base-button justify" style="margin-bottom: 60px;">
 							<span class="gRight">
-								<a href="http://localhost/user_src/index_user.html"
+								<a href="http://localhost/online-shop/index.jsp"
 									class="btnNormalFix sizeM">쇼핑계속하기</a>
-								<a href="http://localhost/user_src/index_user.html"
+								<a href="http://localhost/online-shop/user/OrderReturn/order_list.jsp"
 									class="btnSubmitFix sizeM">주문확인하기</a>
 							</span>
 					</div>

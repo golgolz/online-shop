@@ -134,19 +134,17 @@ table, td {
 											name="basket_product_normal_type_normal"></td>
 										<td class="thumb gClearLine"><a
 											href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-												src="//insideobject.com/web/product/tiny/202307/dc3d88d084c7dee41b2c4dbd08933e6c.jpg"
+												src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE15_6.png"
 												onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
-												alt="[i live with six cats] 고양이의 바다 유광 카드 하드 케이스"
+												alt="APPLE_IPHONE15_6"
 												width="100px"></a></td>
 										<td class="left gClearLine"><strong class="name"><a
 												href="/product/i-live-with-six-cats-고양이의-바다-유광-카드-하드-케이스/6183/category/523/"
-												class="ec-product-name">[i live with six cats] 고양이의 바다
-													유광 카드 하드 케이스</a></strong> <span class="displaynone engName">(영문명
+												class="ec-product-name">APPLE_IPHONE15_6</a></strong> <span class="displaynone engName">(영문명
 												: )</span>
 											<ul
 												class="xans-element- xans-order xans-order-optionall option">
-												<li class="xans-record-"><strong class="displaynone">[i
-														live with six cats] 고양이의 바다 유광 카드 하드 케이스</strong>[옵션: galaxy s22] <span
+												<li class="xans-record-"><strong class="displaynone">[APPLE_IPHONE15_6]</strong>[옵션: APPLE_IPHONE15] <span
 													class="displaynone">(1개)</span><br> <span class=""><a
 														href="#none"
 														onclick="Basket.showOptionChangeLayer('option_modify_layer_0', $(this))"
@@ -185,7 +183,7 @@ table, td {
 											<div class="displaynone"></div></td>
 										<td class="button">
 											<!--임시 주석처리 : 주문서 작성 페이지 이동--> <!--<a href="javascript:;" class="btnSubmit" onclick="Basket.orderBasketItem(0);">주문하기</a>-->
-											<a href="http://localhost/user_src/order/orderform.html"
+											<a href="http://localhost/online-shop/order/order_form.jsp"
 											class="btnSubmit">주문하기</a> <a href="javascript:;"
 											class="btnNormal" onclick="Basket.deleteBasketItem(0);"><i
 												class="icoDelete"></i> 삭제</a>

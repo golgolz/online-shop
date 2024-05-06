@@ -65,7 +65,7 @@
                   </li>
                   <li class="xans-record-">
                     <a
-                      href="http://localhost/online-shop/goods/category.jsp?category=model"
+                      href="http://localhost/online-shop/goods/category.jsp?category=samsung"
                       class="cate"
                       cate="?cate_no=44"
                       >MODEL</a
@@ -133,7 +133,7 @@
                   </li>
                   <li class="xans-record-">
                     <a
-                      href="http://localhost/online-shop/goods/category.jsp?category=material"
+                      href="http://localhost/online-shop/goods/category.jsp?category=실리콘"
                       class="cate"
                       cate="?cate_no=44"
                       >MATERIAL</a
@@ -141,7 +141,7 @@
                     <ul class="slideSubMenu">
                       <li class="noChild">
                         <a
-                          href="http://localhost/online-shop/goods/category.jsp?category=material&sub_category=실리콘"
+                      	  href="http://localhost/online-shop/goods/category.jsp?category=실리콘"
                           class="cate"
                           cate="?cate_no=45"
                           >실리콘</a
@@ -149,7 +149,7 @@
                       </li>
                       <li class="noChild">
                         <a
-                          href="http://localhost/online-shop/goods/category.jsp?category=material&sub_category=하드"
+                      	  href="http://localhost/online-shop/goods/category.jsp?category=하드"
                           class="cate"
                           cate="?cate_no=47"
                           >하드</a
