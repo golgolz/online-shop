@@ -34,14 +34,14 @@ public class UserMainDAO {
         try {
             conn = dbConn.getConn("online-shop-dbcp");
 
-            selectQuery.append(" select rnum, code, name, price, default_img, detail_description ");
+            selectQuery.append(" select rnum, code, name, price, default_img, description, detail_description ");
             if (isNew) {
                 selectQuery.append(" , input_date from ( select row_number() over(order by input_date desc) ");
             } else {
                 selectQuery.append(" , sold_count from ( select row_number() over(order by sold_count desc) ");
             }
             selectQuery.append(
-                    " as rnum, code, name, price, default_img, detail_description, sold_count, input_date from goods)where rnum between 1 and 15 ");
+                    " as rnum, code, name, price, default_img, description, detail_description, sold_count, input_date from goods)where rnum between 1 and 15 ");
 
             pstmt = conn.prepareStatement(selectQuery.toString());
             rs = pstmt.executeQuery();
@@ -49,7 +49,7 @@ public class UserMainDAO {
             GoodsSimpleVO tempVO = null;
             while (rs.next()) {
                 goods.add(new GoodsSimpleVO(rs.getString("code"), rs.getString("name"), rs.getString("default_img"),
-                        rs.getString("detail_description"), rs.getInt("price")));
+                        rs.getString("description"), rs.getString("detail_description"), rs.getInt("price")));
             }
         } finally {
             dbConn.closeCon(rs, pstmt, conn);
