@@ -223,7 +223,7 @@ table, td {
 								link-order="/order/orderform.html?basket_type=all_buy"
 								link-login="/member/login.html" class="btnEmFix sizeM ">선택상품주문</a><span
 								class="gRight"> <a
-								href="http://localhost/user_src/index_user.html"
+								href="http://localhost/online-shop/index.jsp"
 								class="btnNormalFix sizeM">쇼핑계속하기</a>
 							</span>
 							<!-- 네이버 체크아웃 구매 버튼  -->
