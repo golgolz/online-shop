@@ -62,6 +62,7 @@ public class UserManageDAO {
                 rs.getInt("total_amount"), rs.getString("withdrawal_flag"), rs.getString("access_limit_flag"));
       } else {
         System.out.println("No user found with ID: " + id);
+
       }
 
     } catch (Exception e) {
