@@ -36,7 +36,9 @@
 		</nav>
 		<div class="container-fluid py-4">
 			<!-- golgolz start -->
-			사용자 관리 페이지 입니다.
+			<%
+			response.sendRedirect("userManage/userInfoManage.jsp");
+			%>
 			<!-- golgolz end -->
 		</div>
 	</main>

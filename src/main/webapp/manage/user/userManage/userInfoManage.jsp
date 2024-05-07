@@ -90,44 +90,7 @@ jQuery(function($){
 	$.datepicker.setDefaults($.datepicker.regional["ko"]);
 });
 
-function handleFormSubmit(event) {
-	event.preventDefault();
-    var form = document.getElementById('fsearch');
-    form.submit();
-    
-    
-    System.out.println(userInfo);
-    
-    
-    if (userInfo) {
-        // Table 로직
-        var listTable = document.querySelector('.list');
-        
-        // 새로운 테이블 행을 생성합니다.
-        var newRow = document.createElement('tr');
-        
-        // 각 셀에 데이터 값을 설정합니다.
-        newRow.innerHTML = `
-            <td>1</td>
-            <td class="tal"><span class="sv_wrap">${userInfo.getName()}</span></td>
-            <td class="tal">${userInfo.getId()}</td>
-            <td>${userInfo.getTel()}</td>
-            <td>${userInfo.getInput_date()}</td>
-            <td>${userInfo.getTotal_amount()}</td>
-            <td>${userInfo.getWithdrawal_flag()}</td>
-            <td>${userInfo.getAccess_limit_flag()}</td>
-        `;
-        
-        // 테이블에 새로 생성된 행을 추가합니다.
-        listTable.appendChild(newRow);
-    } else {
-        console.log("해당 ID에 대한 사용자를 찾을 수 없습니다.");
-    }
-}
-</script>
-<script>
-    var userInfo = ${userInfoJson};
-}
+
 </script>
 
 
@@ -170,9 +133,10 @@ function handleFormSubmit(event) {
 </div>
 <div class="btn_confirm">
 	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
 </div>
 </form>
+
+
 
 <div class="local_ov mart30">
 	총 회원수 : <b class="fc_red">3</b>명
@@ -207,15 +171,12 @@ function handleFormSubmit(event) {
 	<tbody class="list">
 	
 				 <% 
-				 
-				    
-				    
 					String inputId = request.getParameter("stx");
 				    String sfl = request.getParameter("sfl");
 				    
-				 // inputId를 trim()하여 공백을 제거한 후, 빈 문자열인지 확인합니다.
+				 // inputId를 trim()하여 공백을 제거한 후, 빈 문자열인지 확인.
 				    if (inputId != null && inputId.trim().isEmpty()) {
-				        inputId = null; // 공백 값인 경우 inputId를 null로 설정합니다.
+				        inputId = null; // 공백 값인 경우 inputId를 null로 설정.
 				    }
 
 				    System.out.println("------"+inputId+"-----"+sfl);
@@ -225,11 +186,11 @@ function handleFormSubmit(event) {
 				        // 사용자 정보 목록을 얻는 로직
 				        UserManageDAO dao = new UserManageDAO();
 
-				        // 사용자 정보를 반환하는 메서드를 가정합니다.
-				        // 조건에 따라 userList를 초기화합니다.
+				        // 사용자 정보를 반환하는 메서드를 가정.
+				        // 조건에 따라 userList를 초기화.
 				        List<UserManageVO> userList = null;
 
-				        // 조건에 따라 userList를 설정합니다.
+				        // 조건에 따라 userList를 설정.
 				        if(inputId == null) {
 				            // inputId가 null이거나, sfl이 "id"가 아닐 경우,
 				            // 전체 사용자 목록을 반환하는 메서드를 호출.
@@ -247,25 +208,20 @@ function handleFormSubmit(event) {
 				            } catch (Exception e) {
 				                e.printStackTrace();
 				            }
-				        } 
+				        }else if (inputId != null && sfl != null && sfl.equals("name")){
+				          try 	{
+			                userList = dao.selectUserInfoByName(inputId); // 사용자를 name를 통해 조회
+			                	System.out.println("------ 사용자의 정보가 조회되었습니다. ------");
+			            	} catch (Exception e) {
+			                	e.printStackTrace();
+			            	}
+				        }
 				        
 
 				        // 사용자의 정보를 반복적으로 출력합니다.
 				        for (int i = 0; i < userList.size(); i++) {
 				            userInfo = userList.get(i);
 				    %>
-<!-- 		<td>3</td> -->
-<!-- 		<td class="tal"><span class="sv_wrap"> -->
-<!--  <a href="#" onclick="openInNewWindow('http://localhost/online-shop/manage/user/userManage/detailedInfoManage.jsp');" class="sv_member">세글만</a> -->
-
-<!-- </noscript></span></td> -->
-<!-- 		<td class="tal">tubeweb3</td> -->
-<!-- 		<td>010-3333-3333</td> -->
-<!-- 		<td>2020-10-04 18:05:42</td> -->
-<!-- 		<td>1</td> -->
-<!-- 		<td>X</td> -->
-<!-- 		<td>X</td> -->
-<!-- 		<td>1</td> -->
 
             <tr>
         <td><%= i + 1 %></td>
