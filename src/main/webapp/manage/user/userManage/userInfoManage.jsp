@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+	<%@ page import="admin.userManage.UserManageDAO" %>
+	<%@ page import="admin.userManage.UserManageVO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,6 +59,39 @@
 			<div class="s_wrap">
 	<h4>회원 정보관리</h4>
 	
+	<%
+		    // 폼에서 입력된 ID 값을 가져옵니다.
+		    String inputId = request.getParameter("stx");
+		    String sfl = request.getParameter("sfl");
+
+		    UserManageVO userInfo = null;
+
+		    if (inputId != null && sfl != null && sfl.equals("id")) {
+		        try {
+		            // UserManageDAO의 인스턴스를 생성합니다.
+		            UserManageDAO dao = new UserManageDAO();
+
+		            // selectUserInfoById 함수를 호출하여 사용자의 정보를 가져옵니다.
+		            userInfo = dao.selectUserInfoById(inputId);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
+
+		    // userInfo 객체를 JSON 형식으로 변환하여 JavaScript 코드로 전달합니다.
+		    out.print("<script>");
+		    out.print("var userInfo = " + (userInfo != null ? ("{"
+		        + "name: '" + userInfo.getName() + "',"
+		        + "id: '" + userInfo.getId() + "',"
+		        + "tel: '" + userInfo.getTel() + "',"
+		        + "inputDate: '" + userInfo.getInput_date() + "',"
+		        + "totalAmount: '" + userInfo.getTotal_amount() + "',"
+		        + "withdrawalFlag: '" + userInfo.getWithdrawal_flag() + "',"
+		        + "accessLimitFlag: '" + userInfo.getAccess_limit_flag() + "'"
+		        + "}") : "null") + ";");
+		    out.print("</script>");
+		%>
+	
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
 <script>
 jQuery(function($){
@@ -79,10 +114,33 @@ jQuery(function($){
     };
 	$.datepicker.setDefaults($.datepicker.regional["ko"]);
 });
+
+function handleFormSubmit(event) {
+    event.preventDefault();
+
+    // `userInfo` 변수를 사용하여 사용자 정보를 테이블에 출력합니다.
+    if (userInfo) {
+        var listTable = document.querySelector('.list');
+        var newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td>1</td>
+            <td class="tal"><span class="sv_wrap">${userInfo.name}</span></td>
+            <td class="tal">${userInfo.id}</td>
+            <td>${userInfo.tel}</td>
+            <td>${userInfo.inputDate}</td>
+            <td>${userInfo.totalAmount}</td>
+            <td>${userInfo.withdrawalFlag}</td>
+            <td>${userInfo.accessLimitFlag}</td>
+        `;
+        listTable.appendChild(newRow);
+    } else {
+        console.log("해당 ID에 대한 사용자를 찾을 수 없습니다.");
+    }
+}
 </script>
 
 
-<form name="fsearch" id="fsearch" method="get">
+<form name="fsearch" id="fsearch" method="get" onsubmit="return handleFormSubmit(event);">
 <input type="hidden" name="code" value="list">
 <div class="tbl_frm01">
 	<table>
@@ -97,25 +155,23 @@ jQuery(function($){
 			<select name="sfl">
 				<option value="id">아이디</option>
 				<option value="name">회원명</option>
-				<option value="cellphone">핸드폰</option>
-				<option value="telephone">전화번호</option>
 			</select>
 			<input type="text" name="stx" value="" class="frm_input" size="30">
 		</td>
 	</tr>
 	<tr>
-		<th scope="row">기간검색</th>
+		<th scope="row">가입일</th>
 		<td>
-			<select name="spt">
-				<option value="reg_time">가입날짜</option>
-				<option value="today_login">최근접속</option>
-			</select>
 			<label for="fr_date" class="sound_only">시작일</label>
 <input type="text" name="fr_date" value="" id="fr_date" class="frm_input w80 hasDatepicker" maxlength="10">
  ~ 
 <label for="to_date" class="sound_only">종료일</label>
 <input type="text" name="to_date" value="" id="to_date" class="frm_input w80 hasDatepicker" maxlength="10">
-<span class="btn_group"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="오늘"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="어제"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="일주일"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="지난달"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="1개월"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="3개월"><input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="전체"></span>		</td>
+<span class="btn_group">
+<input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="오늘">
+<input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="일주일">
+<input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="1개월">
+</span>		</td>
 	</tr>
 	
 	</tbody>

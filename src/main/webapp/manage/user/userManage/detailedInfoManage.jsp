@@ -89,9 +89,9 @@
 			<td>31,560 원</td>
 		</tr>
 		<tr>
-			<th scope="row">접근차단일자</th>
+			<th scope="row">접근차단여부</th>
 			<td>
-				<input type="text" name="intercept_date" value="" id="intercept_date" class="frm_input" size="10" maxlength="8">
+				<input type="text" name="intercept_date" value="X" id="intercept_date" class="frm_input" size="1" maxlength="8">
 				<a href="" class="btn_small grey">접근차단</a>
 			</td>
 		</tr>
