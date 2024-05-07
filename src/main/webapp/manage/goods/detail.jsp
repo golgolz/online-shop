@@ -76,8 +76,8 @@
 								</tr>
 								<tr>
 									<td class="label">상품명</td>
-									<td class="box text"><input type="text" name="good_name"
-										value="" size="50" class="inputbox naver_shopping_prodName" />
+									<td class="box text">
+									<input type="text" name="good_name" value="" size="50" class="inputbox naver_shopping_prodName" />
 									</td>
 								</tr>
 
@@ -88,46 +88,43 @@
 								</tr>
 								<tr>
 									<td class="label">제조사</td>
-									<td class="box text"><label><input type="radio"
+									<td class="box text">
+										<label>
+											<input type="radio"
 											id="good_code_type1" name="good_code_type" value="1"
-											checked="" /> 삼성</label>&nbsp;&nbsp; <label><input
+											checked="" /> 삼성
+										</label>
+										<label>
+											<input
 											type="radio" id="good_code_type0" name="good_code_type"
-											value="0" /> 애플</label> <span id="good_code_area"
-										style="display: none"> <input id="good_code"
-											type="text" name="good_code" value="" size="24"
-											class="inputbox" maxlength="30" /> <a
-											href="https://demo01.swm.whoismall.com/admin/?act=goods.good_form&amp;cate_code=GD&amp;ch=goods#"
-											id="good_code_check"><img
-												src="http://localhost/online-shop/assets/images/manage/goods/register/btn_goodoverCheck.gif" /></a><br />
-											<span class="fc_s fc_blue">※ 상품코드는 중복 설정 불가합니다. 중복되는
-												관리용 정보가 필요하시다면 관리코드 기능을 이용하십시오.</span>
-									</span></td>
+											value="0" /> 애플
+										</label> 
+									</td>
 								</tr>
 
 								<tr>
 									<td class="label">모델</td>
-									<td class="box text"><select name="discount_type[]"
-										id="discount_type00">
+									<td class="box text">
+										<select name="discount_type[]" id="discount_type00">
 											<option value="0">S24</option>
 											<option value="1" selected="">ZFLIP</option>
-									</select></td>
+										</select>
+									</td>
 								</tr>
 								<tr>
 									<td class="label">재질</td>
-									<td class="box text"><label><input type="radio"
+									<td class="box text">
+										<label>
+											<input type="radio"
 											id="good_code_type1" name="good_code_type" value="1"
-											checked="" /> 자동입력</label>&nbsp;&nbsp; <label><input
+											checked="" /> 자동입력
+										</label>&nbsp;&nbsp; 
+										<label>
+											<input
 											type="radio" id="good_code_type0" name="good_code_type"
-											value="0" /> 수동입력</label> <span id="good_code_area"
-										style="display: none"> <input id="good_code"
-											type="text" name="good_code" value="" size="24"
-											class="inputbox" maxlength="30" /> <a
-											href="https://demo01.swm.whoismall.com/admin/?act=goods.good_form&amp;cate_code=GD&amp;ch=goods#"
-											id="good_code_check"><img
-												src="http://localhost/online-shop/assets/images/manage/goods/register/btn_goodoverCheck.gif" /></a><br />
-											<span class="fc_s fc_blue">※ 상품코드는 중복 설정 불가합니다. 중복되는
-												관리용 정보가 필요하시다면 관리코드 기능을 이용하십시오.</span>
-									</span></td>
+											value="0" /> 수동입력
+										</label> 
+									</td>
 								</tr>
 							</tbody>
 						</table>
