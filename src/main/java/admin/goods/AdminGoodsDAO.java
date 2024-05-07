@@ -51,6 +51,17 @@ public class AdminGoodsDAO {
                 selectQuery.append(" and price <= ? ");
             }
 
+            if (searchVO.getSort() != null) {
+                switch (searchVO.getSort()) {
+                    case "price":
+                        selectQuery.append(" order by price desc ");
+                        break;
+                    case "input_date":
+                        selectQuery.append(" order by input_date desc ");
+                        break;
+                }
+            }
+
             if (searchVO.getDate() != null) {
                 switch (searchVO.getDate()) {
                     case "today":
@@ -68,7 +79,7 @@ public class AdminGoodsDAO {
                 }
             }
 
-            System.out.println(selectQuery.toString());
+            // System.out.println(selectQuery.toString());
 
             pstmt = conn.prepareStatement(selectQuery.toString());
             int bindIndex = 0;

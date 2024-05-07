@@ -23,6 +23,10 @@
 .clicked {
   border-color: red; 
 }
+
+#sortCategory li{
+	display:inline;
+}
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -61,6 +65,11 @@
 			$("#btn_week").removeClass('clicked');
 			$("#btn_month").removeClass('clicked');
 			$(this).addClass('clicked');
+		});
+		
+		$(".sort").click(function(){
+			$("#sort").val($(this).text() === "가격순" ? "price" : "input_date");
+    		$("#frmGoods").submit();
 		});
 	});
 </script>
@@ -152,7 +161,6 @@
             					</tr>
           					</tbody>
         				</table>
-        			</form>
         				<div class="alignCenter">
           					<input
             				type="image"
@@ -179,15 +187,22 @@
         				</div>
         				<!--정렬-->
         				<div class="alignContainer01">
-          					<table cellpadding="0" cellspacing="0" border="0" width="100%">
+          					<table id="sortCategory" cellpadding="0" cellspacing="0" border="0" width="100%">
             					<tbody>
               						<tr>
 	                					<td align="left"></td>
-	                					<td align="right">등록일 | 상품명 | 가격</td>
+	                					<td align="right">
+	                						<input type="hidden" name="sort" id="sort" />
+	                						<ul>
+	                							<li class="sort">등록일</li>
+	                							<li class="sort">가격순</li>
+	                						</ul>
+	                					</td>
 				              		</tr>
 				            	</tbody>
 				          	</table>
 				        </div>
+        			</form>
 				        <!--테이블 header-->
 				        <div class="bgtbheader01">
 				         	<table width="100%" class="tablelistH31" id="goodsTable">
