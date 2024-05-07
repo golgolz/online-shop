@@ -90,6 +90,26 @@ jQuery(function($){
 	$.datepicker.setDefaults($.datepicker.regional["ko"]);
 });
 
+$(function() {
+    $("#btnToday").click(function() {
+        const today = new Date();
+        console.log("today : ", today);
+        const year = today.getFullYear();
+        console.log("year :", year)
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        
+        const formattedDate = year + '-' + month + '-' + day;
+        console.log("Formatted date: ", formattedDate);
+        
+        $("#fr_date").val(formattedDate);
+        $("#to_date").val(formattedDate);
+        
+     	// 페이지를 새로 고침하여 스크립틀릿에서 값을 다시 읽을 수 있도록 합니다.
+        $("#fsearch").submit();
+        
+    });
+});
 
 </script>
 
@@ -117,12 +137,12 @@ jQuery(function($){
 		<th scope="row">가입일</th>
 		<td>
 			<label for="fr_date" class="sound_only">시작일</label>
-<input type="text" name="fr_date" value="" id="fr_date" class="frm_input w80 hasDatepicker" maxlength="10">
+<input type="text" name="fr_date" value="<%= (request.getParameter("fr_date") != null ? request.getParameter("fr_date") : "") %>" id="fr_date" class="frm_input w80 hasDatepicker" maxlength="10">
  ~ 
 <label for="to_date" class="sound_only">종료일</label>
-<input type="text" name="to_date" value="" id="to_date" class="frm_input w80 hasDatepicker" maxlength="10">
+<input type="text" name="to_date" value="<%= (request.getParameter("to_date") != null ? request.getParameter("to_date") : "") %>" id="to_date" maxlength="10">
 <span class="btn_group">
-<input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="오늘">
+<input type="button" id="btnToday" onclick="" class="btn_small white" value="오늘">
 <input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="일주일">
 <input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="1개월">
 </span>		</td>
@@ -174,6 +194,12 @@ jQuery(function($){
 					String inputId = request.getParameter("stx");
 				    String sfl = request.getParameter("sfl");
 				    
+				    String frDate = request.getParameter("fr_date");
+				    String toDate = request.getParameter("to_date");
+
+				    // 입력값을 디버깅합니다.
+				    System.out.println("fr_date: " + frDate + ", to_date: " + toDate);
+				    
 				 // inputId를 trim()하여 공백을 제거한 후, 빈 문자열인지 확인.
 				    if (inputId != null && inputId.trim().isEmpty()) {
 				        inputId = null; // 공백 값인 경우 inputId를 null로 설정.
@@ -216,6 +242,20 @@ jQuery(function($){
 			                	e.printStackTrace();
 			            	}
 				        }
+				        
+				        if (frDate != null && !frDate.trim().isEmpty()) {
+				          try {
+				              // fr_date 값을 매개변수로 DAO 메소드 호출
+				              userList = dao.selectUserInfoByDate(frDate);
+				              System.out.println("------ 날짜에 해당하는 사용자가 조회되었습니다. ------");
+				          } catch (Exception e) {
+				              e.printStackTrace();
+				          }
+				      } else {
+				          // 입력 창 값이 비어 있을 경우, 별다른 데이터를 출력하지 않고 입력 창 값을 비웁니다.
+				          // 사용자 정보 목록을 null로 유지하여 아무 데이터도 출력되지 않도록 합니다.
+				          System.out.println("입력 필드가 비어 있습니다. 아무 데이터도 출력하지 않습니다.");
+				      }
 				        
 
 				        // 사용자의 정보를 반복적으로 출력합니다.

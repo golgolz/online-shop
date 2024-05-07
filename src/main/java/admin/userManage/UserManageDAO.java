@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import database.DbConnection;
 
@@ -185,7 +184,7 @@ public class UserManageDAO {
   }// selectUserInfoByName
 
   // 날짜로 검색 (일별)
-  public List<UserManageVO> selectUserInfoByDate(Date inputDate) throws SQLException {
+  public List<UserManageVO> selectUserInfoByDate(String inputDateString) throws SQLException {
     List<UserManageVO> userManageVOList = new ArrayList<>();
 
     Connection conn = null;
@@ -210,7 +209,7 @@ public class UserManageDAO {
       pstmt = conn.prepareStatement(selectQuery.toString());
 
       // 입력받은 날짜를 PreparedStatement의 첫 번째 파라미터로 바인딩
-      pstmt.setDate(1, new java.sql.Date(inputDate.getTime()));
+      pstmt.setString(1, inputDateString);
 
       // 쿼리 실행
       rs = pstmt.executeQuery();
