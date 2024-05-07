@@ -11,9 +11,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoticeVO {
-    private String notice_id, author, title, content;
+    private String notice_id;
     private Date input_date;
+    private String author;
     private int view_count;
+    private String title, content;
 
-    private int startNum, endNum;
+
 }
+
+// , NOTICE_ID, INPUT_DATE, AUTHOR, VIEW_COUNT, TITLE, CONTENT
