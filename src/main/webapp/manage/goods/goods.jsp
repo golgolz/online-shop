@@ -1,12 +1,67 @@
+<%@page import="admin.goods.AdminGoodsSimpleVO"%>
+<%@page import="java.util.List"%>
+<%@page import="admin.goods.AdminGoodsDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <!DOCTYPE html>
 <html>
 <head>
 <jsp:include page="../../assets/jsp/admin/lib.jsp" />
+<style type="text/css">
+#goodsTable thead tr th{
+	font-weight: bold;
+}
+
+#goodsTable tbody{
+	font-size: 15px;
+}
+
+.clickable-image{
+	border: 2px solid transparent;
+}
+
+.clicked {
+  border-color: red; 
+}
+</style>
 <script type="text/javascript">
 	$(function(){
     	$("#goods_menu").addClass("bg-gradient-primary");
+    	$("#btn_search").click(function(){
+    		$("#frmGoods").submit();
+    	});
+    	
+		$("#btn_today").click(function(){
+			$("#date").val("today");
+			$("#btn_week").removeClass('clicked');
+			$("#btn_month").removeClass('clicked');
+			$("#btn_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_week").click(function(){
+			$("#date").val("week");
+			$("#btn_today").removeClass('clicked');
+			$("#btn_month").removeClass('clicked');
+			$("#btn_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_month").click(function(){
+			$("#date").val("month");
+			$("#btn_today").removeClass('clicked');
+			$("#btn_week").removeClass('clicked');
+			$("#btn_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_total").click(function(){
+			$("#date").val("total");
+			$("#btn_today").removeClass('clicked');
+			$("#btn_week").removeClass('clicked');
+			$("#btn_month").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
 	});
 </script>
 <!-- golgolz start -->
@@ -15,9 +70,26 @@
 <!-- golgolz end -->
 </head>
 <body>
+	<jsp:useBean id="searchVO" class="admin.goods.SearchVO" scope="page" />
+	<jsp:setProperty property="*" name="searchVO" />
+	<%
+		String nameCodeValue = (String)request.getParameter("ss");
+		int nameCodeField = searchVO.getField();
+		
+		if(nameCodeValue != null && nameCodeValue != ""){
+			if(nameCodeField == 1){
+			    searchVO.setName(nameCodeValue);
+			} else if(nameCodeField == 2){
+			    searchVO.setCode(nameCodeValue);
+			}
+		}
+		
+		AdminGoodsDAO adminGoodsDAO = AdminGoodsDAO.getInstance();
+		List<AdminGoodsSimpleVO> goods = adminGoodsDAO.selectGoods(searchVO);
+	%>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
-		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
+		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps--active-y">
 		<nav
 			class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
 			id="navbarBlur" data-scroll="true">
@@ -41,11 +113,8 @@
 			<div id="contentcolumn" class="">
       			<div class="contents">
 			        <!--subtitle-->
-			        <div class="pa_t_20"></div>
-				        <table
-				          class="tbstyleB"
-				          width="100%"
-				        >
+			        <form id="frmGoods">
+				        <table class="tbstyleB" width="100%" >
 				          	<colgroup>
 				            	<col align="left" width="100px" />
 				            	<col align="left" />
@@ -57,51 +126,33 @@
             					<tr>
               						<td class="label">검색어</td>
               						<td class="box text">
-                						<select name="sc" style="width: 90px">
-                  							<option value="good_name">상품명</option>
-                  							<option value="good_code">상품코드</option>
+                						<select name="field" style="width: 90px">
+                  							<option value="1"${param.field eq '1' ? " selected" : "" }>상품명</option>
+                  							<option value="2"${param.field eq '2' ? " selected" : "" }>상품코드</option>
                 						</select>
-                						<input type="text" name="ss" value="" class="inputbox" size="20" />
+                						<input type="text" name="ss" value="${param.ss}" class="inputbox" size="20" />
               						</td>
             					</tr>
             					<tr>
               						<td class="label">판매가</td>
               						<td class="box text">
-                						<input type="text" name="ss_price_min" value="" class="inputbox2 price_only" size="10" />원 ~
-                						<input type="text" name="ss_price_max" value="" class="inputbox2 price_only" size="10" />원
+                						<input type="text" name="priceMin" value="${param.priceMin}" class="inputbox2 price_only" size="10" />원 ~
+                						<input type="text" name="priceMax" value="${param.priceMax}" class="inputbox2 price_only" size="10" />원
               						</td>
             					</tr>
             					<tr>
               						<td class="label">등록일</td>
               						<td class="box text">
-                						<a
-                  						href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header#"
-                  						id="date_term2"
-                  						mode="this_day"
-                  						><img src="http://localhost/online-shop/assets/images/manage/goods/btn_today.gif"
-                						/></a>
-                						<a
-                  						href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header#"
-					                  	id="date_term3"
-					                  	mode="this_week"
-					                  	><img src="http://localhost/online-shop/assets/images/manage/goods/btn_thisWeek.gif"
-					                	/></a>
-					                	<a
-					                  	href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header#"
-					                  	id="date_term4"
-					                  	mode="this_month"
-					                  	><img src="http://localhost/online-shop/assets/images/manage/goods/btn_thisMonth.gif"
-					                	/></a>
-					                	<a
-					                  	href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header#"
-					                  	id="date_term5"
-					                  	mode=""
-					                  	><img src="http://localhost/online-shop/assets/images/manage/goods/btn_total.gif"
-					                	/></a>
+              							<input type="hidden" id="date" name="date" value="" />
+              							<img id="btn_today" class="clickable-image${param.date eq 'today' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_today.gif" />
+										<img id="btn_week" class="clickable-image${param.date eq 'week' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisWeek.gif" />
+										<img id="btn_month" class="clickable-image${param.date eq 'month' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisMonth.gif" />
+					                	<img id="btn_total" class="clickable-image${param.date eq 'total' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_total.gif" />
               						</td>
             					</tr>
           					</tbody>
         				</table>
+        			</form>
         				<div class="alignCenter">
           					<input
             				type="image"
@@ -139,15 +190,15 @@
 				        </div>
 				        <!--테이블 header-->
 				        <div class="bgtbheader01">
-				         	<table width="100%" class="tablelistH31">
+				         	<table width="100%" class="tablelistH31" id="goodsTable">
 				            	<colgroup>
-				              		<col width="110" />
-				              		<col width="100" />
-				              		<col width="60" />
-				              		<col width="35" />
-				              		<col width="45" />
-				              		<col width="45" />
-				              		<col width="45" />
+				              		<col width="20%" />
+				              		<col width="15%" />
+				              		<col width="15%" />
+				              		<col width="15%" />
+				              		<col width="10%" />
+				              		<col width="10%" />
+				              		<col width="10%" />
 				            	</colgroup>
 					            <thead>
 					             	<tr>
@@ -161,151 +212,39 @@
 					            	</tr>
 					            </thead>
 				            	<tbody>
+				            		<% for(AdminGoodsSimpleVO product : goods){ %>
 				              		<tr>
 				                		<td class="tdL" align="left">
-				                  			<div class="left_layer">
-				                    			<a
-						                      	href="https://demo01.swm.whoismall.com/?act=shop.goods_view&amp;GS=21&amp;GC="
-						                      	target="_blank">
-						                      	<img
-				                        		src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_1.png"
-				                        		width="60"
-				                        		height="60"
-				                        		class="imgborder" />
-				                    			</a>
-				                  			</div>
-				                  			<div
-				                    		xclass="left_layer"
-				                    		style="
-				                      		line-height: 160%;
-				                      		margin-left: 72px;
-				                      		position: relative;">
-				                    			<strong>G638DA46797295</strong>
-				                    			<br />
-				                    			<input
-				                      			type="text"
-				                      			name="good_name[21]"
-				                      			value="안젤라 미스 오 드 퍼퓸"
-				                      			class="inputbox"
-				                      			style="width: 100%; box-sizing: border-box"
-				                    			/>
-				                  			</div>
-				                		</td>
-				                		<td class="tdL" align="center">22.12.05 16:57</td>
-				                		<td class="tdL" align="center">
-					                  		<input
-					                    	type="text"
-					                    	name="good_price[21]"
-					                    	value="84000"
-					                    	style="width: 70px"
-					                    	class="inputbox2 price_only"
-					                  		/>
-					                  		<input
-					                    	type="hidden"
-					                    	name="good_price_org[21]"
-					                    	value="84000"
-					                  		/>
-				                		</td>
-				                		<td class="tdL" align="center">무한대</td>
-				                		<td class="tdL" align="center">
-				                  			<a
-				                    		href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header#"
-				                    		id="btn_good_copy19"
-				                    		seq="21">
-				                    			<input type="button" value="품절" />
+				                    		<a href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?code=<%= product.getCode() %>">
+				                  				<div class="left_layer">
+						                      		<img src="http://localhost/online-shop/assets/images/goods/<%= product.getDefaultImage() %>" width="60" height="60" class="imgborder" />
+				                  				</div>
+				                  				<div style="line-height: 160%; margin-left: 72px; position: relative;">
+				                    				<strong><%= product.getCode() %></strong>
+				                    				<br />
+				                    				<span><%= product.getName() %></span>
+				                  				</div>
 				                    		</a>
 				                		</td>
+				                		<td class="tdL" align="center"><%= product.getInputDate() %></td>
+				                		<td class="tdL" align="center">
+					                  		<span><%= product.getPrice() %>원</span>
+				                		</td>
+				                		<td class="tdL" align="center"><%= product.getAmount() %></td>
+				                		<td class="tdL" align="center">
+				                    			<input type="button" value="품절" class="btn" />
+				                		</td>
 				                		<td class="tdL" align="center">
 				                  			<a
-				                    		href="https://demo01.swm.whoismall.com/admin/?act=goods.good_form&amp;good_seq=21&amp;ch=goods&amp;page=1">
-				                    			<input type="button" value="수정" />
+				                    		href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?req=update">
+				                    			<input type="button" value="수정" class="btn" />
 				                    		</a>
 				                		</td>
 				                		<td class="tdR" align="center">
-				                  			<a
-				                    		href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header#"
-				                    		id="btn_good_delete19"
-				                    		seq="21"
-				                    		cate_multi_seq="21"
-				                    		multi="0"
-				                    		>
-				                    			<input type="button" value="삭제" />
-				                  			</a>
+				                    			<input type="button" value="삭제" class="btn" />
 				                		</td>
 				              		</tr>
-				              		
-				              		<tr>
-				                		<td class="tdL" align="left">
-				                  			<div class="left_layer">
-				                    			<a
-						                      	href="https://demo01.swm.whoismall.com/?act=shop.goods_view&amp;GS=21&amp;GC="
-						                      	target="_blank">
-						                      	<img
-				                        		src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_1.png"
-				                        		width="60"
-				                        		height="60"
-				                        		class="imgborder" />
-				                    			</a>
-				                  			</div>
-				                  			<div
-				                    		xclass="left_layer"
-				                    		style="
-				                      		line-height: 160%;
-				                      		margin-left: 72px;
-				                      		position: relative;">
-				                    			<strong>G638DA46797295</strong>
-				                    			<br />
-				                    			<input
-				                      			type="text"
-				                      			name="good_name[21]"
-				                      			value="안젤라 미스 오 드 퍼퓸"
-				                      			class="inputbox"
-				                      			style="width: 100%; box-sizing: border-box"
-				                    			/>
-				                  			</div>
-				                		</td>
-				                		<td class="tdL" align="center">22.12.05 16:57</td>
-				                		<td class="tdL" align="center">
-					                  		<input
-					                    	type="text"
-					                    	name="good_price[21]"
-					                    	value="84000"
-					                    	style="width: 70px"
-					                    	class="inputbox2 price_only"
-					                  		/>
-					                  		<input
-					                    	type="hidden"
-					                    	name="good_price_org[21]"
-					                    	value="84000"
-					                  		/>
-				                		</td>
-				                		<td class="tdL" align="center">무한대</td>
-				                		<td class="tdL" align="center">
-				                  			<a
-				                    		href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header#"
-				                    		id="btn_good_copy19"
-				                    		seq="21">
-				                    			<input type="button" value="품절" />
-				                    		</a>
-				                		</td>
-				                		<td class="tdL" align="center">
-				                  			<a
-				                    		href="https://demo01.swm.whoismall.com/admin/?act=goods.good_form&amp;good_seq=21&amp;ch=goods&amp;page=1">
-				                    			<input type="button" value="수정" />
-				                    		</a>
-				                		</td>
-				                		<td class="tdR" align="center">
-				                  			<a
-				                    		href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header#"
-				                    		id="btn_good_delete19"
-				                    		seq="21"
-				                    		cate_multi_seq="21"
-				                    		multi="0"
-				                    		>
-				                    			<input type="button" value="삭제" />
-				                  			</a>
-				                		</td>
-				              		</tr>
+				              		<% } %>
 				            	</tbody>
 				          	</table>
 				      	</div>
@@ -359,7 +298,7 @@
                 					</td>
                 					<td width="10%" align="right">
                   						<a
-                    					href="https://demo01.swm.whoismall.com/admin/?act=goods.good_form&amp;cate_code=GD&amp;ch=goods"
+                    					href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?req=create"
                     					>
                     						<img src="http://localhost/online-shop/assets/images/manage/goods/btn_goodsAdd.gif" />
                   						</a>
