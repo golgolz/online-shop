@@ -42,6 +42,13 @@
 			$("#tab01").removeClass("tab_open");
 			$("#tab02").addClass("tab_open");
 		});
+		
+		$("#sub_cart").click(function(){
+			var quantity = $("#quantity").val();
+			$("#sub_cart").attr("href", function(){
+				return $("#sub_cart").attr("href") + quantity;
+			});
+		});
 	});
 	
 	function setTotalInfo(quantity){
@@ -167,9 +174,8 @@
 								<div class="xans-element- xans-product xans-product-action">
 									<div class="ec-base-button">
 										<a
-											href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
-											class="sub_cart"
-											onclick="product_submit(2, &#39;/exec/front/order/basket/&#39;, this)">장바구니</a>
+											href="http://localhost/online-shop/cart/cart.jsp?code=<%= currentGoods.getCode()  %>&quantity="
+											class="sub_cart" id="sub_cart">장바구니</a>
 										<a
 											href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
 											onclick="add_wishlist(this, true);" class="sub_wish">관심상품</a>
