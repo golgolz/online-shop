@@ -1,7 +1,10 @@
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 	<%@ page import="admin.userManage.UserManageDAO" %>
 	<%@ page import="admin.userManage.UserManageVO" %>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,35 +64,7 @@
 	
 	<%
 		    // 폼에서 입력된 ID 값을 가져옵니다.
-		    String inputId = request.getParameter("stx");
-		    String sfl = request.getParameter("sfl");
 
-		    UserManageVO userInfo = null;
-
-		    if (inputId != null && sfl != null && sfl.equals("id")) {
-		        try {
-		            // UserManageDAO의 인스턴스를 생성합니다.
-		            UserManageDAO dao = new UserManageDAO();
-
-		            // selectUserInfoById 함수를 호출하여 사용자의 정보를 가져옵니다.
-		            userInfo = dao.selectUserInfoById(inputId);
-		        } catch (Exception e) {
-		            e.printStackTrace();
-		        }
-		    }
-
-		    // userInfo 객체를 JSON 형식으로 변환하여 JavaScript 코드로 전달합니다.
-		    out.print("<script>");
-		    out.print("var userInfo = " + (userInfo != null ? ("{"
-		        + "name: '" + userInfo.getName() + "',"
-		        + "id: '" + userInfo.getId() + "',"
-		        + "tel: '" + userInfo.getTel() + "',"
-		        + "inputDate: '" + userInfo.getInput_date() + "',"
-		        + "totalAmount: '" + userInfo.getTotal_amount() + "',"
-		        + "withdrawalFlag: '" + userInfo.getWithdrawal_flag() + "',"
-		        + "accessLimitFlag: '" + userInfo.getAccess_limit_flag() + "'"
-		        + "}") : "null") + ";");
-		    out.print("</script>");
 		%>
 	
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
@@ -115,32 +90,31 @@ jQuery(function($){
 	$.datepicker.setDefaults($.datepicker.regional["ko"]);
 });
 
-function handleFormSubmit(event) {
-    event.preventDefault();
+$(function() {
+    $("#btnToday").click(function() {
+        const today = new Date();
+        console.log("today : ", today);
+        const year = today.getFullYear();
+        console.log("year :", year)
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        
+        const formattedDate = year + '-' + month + '-' + day;
+        console.log("Formatted date: ", formattedDate);
+        
+        $("#fr_date").val(formattedDate);
+        $("#to_date").val(formattedDate);
+        
+     	// 페이지를 새로 고침하여 스크립틀릿에서 값을 다시 읽을 수 있도록 합니다.
+        $("#fsearch").submit();
+        
+    });
+});
 
-    // `userInfo` 변수를 사용하여 사용자 정보를 테이블에 출력합니다.
-    if (userInfo) {
-        var listTable = document.querySelector('.list');
-        var newRow = document.createElement('tr');
-        newRow.innerHTML = `
-            <td>1</td>
-            <td class="tal"><span class="sv_wrap">${userInfo.name}</span></td>
-            <td class="tal">${userInfo.id}</td>
-            <td>${userInfo.tel}</td>
-            <td>${userInfo.inputDate}</td>
-            <td>${userInfo.totalAmount}</td>
-            <td>${userInfo.withdrawalFlag}</td>
-            <td>${userInfo.accessLimitFlag}</td>
-        `;
-        listTable.appendChild(newRow);
-    } else {
-        console.log("해당 ID에 대한 사용자를 찾을 수 없습니다.");
-    }
-}
 </script>
 
 
-<form name="fsearch" id="fsearch" method="get" onsubmit="return handleFormSubmit(event);">
+<form name="fsearch" id="fsearch" method="get" onsubmit="return handleFormSubmit(event); " action="userInfoManage.jsp">
 <input type="hidden" name="code" value="list">
 <div class="tbl_frm01">
 	<table>
@@ -163,12 +137,12 @@ function handleFormSubmit(event) {
 		<th scope="row">가입일</th>
 		<td>
 			<label for="fr_date" class="sound_only">시작일</label>
-<input type="text" name="fr_date" value="" id="fr_date" class="frm_input w80 hasDatepicker" maxlength="10">
+<input type="text" name="fr_date" value="<%= (request.getParameter("fr_date") != null ? request.getParameter("fr_date") : "") %>" id="fr_date" class="frm_input w80 hasDatepicker" maxlength="10">
  ~ 
 <label for="to_date" class="sound_only">종료일</label>
-<input type="text" name="to_date" value="" id="to_date" class="frm_input w80 hasDatepicker" maxlength="10">
+<input type="text" name="to_date" value="<%= (request.getParameter("to_date") != null ? request.getParameter("to_date") : "") %>" id="to_date" maxlength="10">
 <span class="btn_group">
-<input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="오늘">
+<input type="button" id="btnToday" onclick="" class="btn_small white" value="오늘">
 <input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="일주일">
 <input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="1개월">
 </span>		</td>
@@ -179,9 +153,10 @@ function handleFormSubmit(event) {
 </div>
 <div class="btn_confirm">
 	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
 </div>
 </form>
+
+
 
 <div class="local_ov mart30">
 	총 회원수 : <b class="fc_red">3</b>명
@@ -215,20 +190,92 @@ function handleFormSubmit(event) {
 	</thead>
 	<tbody class="list">
 	
-	<tr class="list0">
-		<td>3</td>
-		<td class="tal"><span class="sv_wrap">
- <a href="#" onclick="openInNewWindow('http://localhost/online-shop/manage/user/userManage/detailedInfoManage.jsp');" class="sv_member">세글만</a>
+				 <% 
+					String inputId = request.getParameter("stx");
+				    String sfl = request.getParameter("sfl");
+				    
+				    String frDate = request.getParameter("fr_date");
+				    String toDate = request.getParameter("to_date");
 
-</noscript></span></td>
-		<td class="tal">tubeweb3</td>
-		<td>010-3333-3333</td>
-		<td>2020-10-04 18:05:42</td>
-		<td>1</td>
-		<td>X</td>
-		<td>X</td>
-				
-	</tr>
+				    // 입력값을 디버깅합니다.
+				    System.out.println("fr_date: " + frDate + ", to_date: " + toDate);
+				    
+				 // inputId를 trim()하여 공백을 제거한 후, 빈 문자열인지 확인.
+				    if (inputId != null && inputId.trim().isEmpty()) {
+				        inputId = null; // 공백 값인 경우 inputId를 null로 설정.
+				    }
+
+				    System.out.println("------"+inputId+"-----"+sfl);
+				    System.out.println("inputId 값 디버깅: " + (inputId == null ? "null" : inputId));
+				    UserManageVO userInfo = null;
+				     
+				        // 사용자 정보 목록을 얻는 로직
+				        UserManageDAO dao = new UserManageDAO();
+
+				        // 사용자 정보를 반환하는 메서드를 가정.
+				        // 조건에 따라 userList를 초기화.
+				        List<UserManageVO> userList = null;
+
+				        // 조건에 따라 userList를 설정.
+				        if(inputId == null) {
+				            // inputId가 null이거나, sfl이 "id"가 아닐 경우,
+				            // 전체 사용자 목록을 반환하는 메서드를 호출.
+				            try {
+				                userList = dao.selectUserInfoById2(inputId); // 전체 사용자를 반환
+				                System.out.println("------ 전체 사용자가 조회되었습니다. ------");
+				            } catch (Exception e) {
+				                e.printStackTrace();
+				            }
+				        }
+				   		else if (inputId != null && sfl != null && sfl.equals("id")) {
+				            try {
+				                userList = dao.selectUserInfoById(inputId); // 사용자를 ID를 통해 조회
+				                System.out.println("------ 사용자의 정보가 조회되었습니다. ------");
+				            } catch (Exception e) {
+				                e.printStackTrace();
+				            }
+				        }else if (inputId != null && sfl != null && sfl.equals("name")){
+				          try 	{
+			                userList = dao.selectUserInfoByName(inputId); // 사용자를 name를 통해 조회
+			                	System.out.println("------ 사용자의 정보가 조회되었습니다. ------");
+			            	} catch (Exception e) {
+			                	e.printStackTrace();
+			            	}
+				        }
+				        
+				        if (frDate != null && !frDate.trim().isEmpty()) {
+				          try {
+				              // fr_date 값을 매개변수로 DAO 메소드 호출
+				              userList = dao.selectUserInfoByDate(frDate);
+				              System.out.println("------ 날짜에 해당하는 사용자가 조회되었습니다. ------");
+				          } catch (Exception e) {
+				              e.printStackTrace();
+				          }
+				      } else {
+				          // 입력 창 값이 비어 있을 경우, 별다른 데이터를 출력하지 않고 입력 창 값을 비웁니다.
+				          // 사용자 정보 목록을 null로 유지하여 아무 데이터도 출력되지 않도록 합니다.
+				          System.out.println("입력 필드가 비어 있습니다. 아무 데이터도 출력하지 않습니다.");
+				      }
+				        
+
+				        // 사용자의 정보를 반복적으로 출력합니다.
+				        for (int i = 0; i < userList.size(); i++) {
+				            userInfo = userList.get(i);
+				    %>
+
+            <tr>
+        <td><%= i + 1 %></td>
+        <td class="tal"><span class="sv_wrap"><%= userInfo.getName() %></span></td>
+        <td class="tal"><%= userInfo.getId() %></td>
+        <td><%= userInfo.getTel() %></td>
+        <td><%= userInfo.getInput_date() %></td>
+        <td><%= userInfo.getTotal_amount() %></td>
+        <td><%= userInfo.getWithdrawal_flag() %></td>
+        <td><%= userInfo.getAccess_limit_flag() %></td>
+    </tr>
+    <% 
+        } 
+    %>
 	
 	
 	
