@@ -1,3 +1,5 @@
+<%@page import="admin.goods.AdminGoodsDetailVO"%>
+<%@page import="admin.goods.AdminGoodsDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <!DOCTYPE html>
@@ -42,10 +44,23 @@
 .container-fluid py-4 {
 	padding-top: 0px;!important
 }
+
+.detail-control {
+	font-size: 15px;
+	margin-right: 2px;
+}
 </style>
 <!-- golgolz end -->
 </head>
 <body>
+	<jsp:useBean id="goods" class="admin.goods.AdminGoodsDetailVO" />
+	<jsp:setProperty property="*" name="goods" />
+	<%
+		AdminGoodsDAO adminGoodsDAO = AdminGoodsDAO.getInstance();
+		if(request.getParameter("code") != null){
+			goods = adminGoodsDAO.selectOneGoods((String)request.getParameter("code"));
+		}
+	%>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
 		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
@@ -93,27 +108,23 @@
 								<tr>
 									<td class="label">상품명</td>
 									<td class="box text">
-									<input type="text" name="good_name" value="" size="50" class="inputbox naver_shopping_prodName" />
+									<input type="text" name="good_name" value="<%= goods.getName() == null ? "" : goods.getName() %>" size="50" class="inputbox naver_shopping_prodName" />
 									</td>
 								</tr>
 
 								<tr>
 									<td class="label">간략설명</td>
 									<td class="box text"><input type="text" name="good_note"
-										value="" style="width: 100%" class="inputbox" /></td>
+										value="<%= goods.getDescription() == null ? "" : goods.getDescription() %>" style="width: 100%" class="inputbox" /></td>
 								</tr>
 								<tr>
 									<td class="label">제조사</td>
 									<td class="box text">
 										<label>
-											<input type="radio"
-											id="good_code_type1" name="good_code_type" value="1"
-											checked="" /> 삼성
+											<input type="radio" id="good_code_type1" name="good_code_type" value="1"<%= "삼성".equals(goods.getMaker()) ? " checked" : "" %> /> 삼성
 										</label>
 										<label>
-											<input
-											type="radio" id="good_code_type0" name="good_code_type"
-											value="0" /> 애플
+											<input type="radio" id="good_code_type0" name="good_code_type" value="0"<%= "애플".equals(goods.getMaker()) ? " checked" : "" %> /> 애플
 										</label> 
 									</td>
 								</tr>
@@ -122,8 +133,8 @@
 									<td class="label">모델</td>
 									<td class="box text">
 										<select name="discount_type[]" id="discount_type00">
-											<option value="0">S24</option>
-											<option value="1" selected="">ZFLIP</option>
+											<option value="0"<%= "S24".equals(goods.getModel()) ? " selected" : "" %>>S24</option>
+											<option value="1"<%= "ZFLIP".equals(goods.getModel()) ? " selected" : "" %>>ZFLIP</option>
 										</select>
 									</td>
 								</tr>
@@ -133,12 +144,13 @@
 										<label>
 											<input type="radio"
 											id="good_code_type1" name="good_code_type" value="1"
-											checked="" /> 실리콘
+											<%= "실리콘".equals(goods.getMaterial()) ? " checked" : "" %>/> 실리콘
 										</label>&nbsp;&nbsp; 
 										<label>
 											<input
 											type="radio" id="good_code_type0" name="good_code_type"
-											value="0" /> 하드
+											value="0" 
+											<%= "하드".equals(goods.getMaterial()) ? " checked" : "" %>/> 하드
 										</label> 
 									</td>
 								</tr>
@@ -161,22 +173,34 @@
 								<tr>
 									<td colspan="4" class="top2"></td>
 								</tr>
-
 								<tr>
 									<td class="label">가격</td>
 									<td class="box text"><input type="text"
-										name="good_buy_price" id="good_buy_price" value="" size="10"
+										name="good_buy_price" id="good_buy_price" value="<%= goods.getPrice() %>" size="10"
+										class="inputbox2 price_only" />원&nbsp;&nbsp;</td>
+								</tr>
+								<tr>
+									<td class="label">배송비</td>
+									<td class="box text"><input type="text"
+										name="good_buy_price" id="good_buy_price" value="<%= goods.getDeliveryCharge() %>" size="10"
 										class="inputbox2 price_only" />원&nbsp;&nbsp;</td>
 								</tr>
 								<tr>
 									<td class="label">재고량</td>
-									<td class="box text"><label><input type="radio"
-											id="good_stock_type1" name="good_stock_type" value="1" /> 품절</label>&nbsp;&nbsp;
-										<label><input type="radio" id="good_stock_type2"
-											name="good_stock_type" value="2" /> 잔여수량</label> <input type="text"
-										id="good_stock" name="good_stock" value="" size="5"
-										class="inputbox2 number_only" disabled="disabled" /><span
-										id="good_stock_unit"> 개</span></td>
+									<td class="box text">
+										<label>
+											<input type="radio"
+											id="good_stock_type1" name="good_stock_type" value="1" 
+											<%= "T".equals(goods.getSoldOutFlag()) ? " checked" : "" %>/> 품절
+										</label>&nbsp;&nbsp;
+										<label>
+											<input type="radio" id="good_stock_type2"
+											name="good_stock_type" value="2" 
+											<%= "F".equals(goods.getSoldOutFlag()) ? " checked" : "" %>/> 잔여수량
+										</label> 
+										<input type="text"
+										id="good_stock" name="good_stock" value="<%= "F".equals(goods.getSoldOutFlag()) ? goods.getAmount() : "" %>" size="5"
+										class="inputbox2 number_only"/>
 								</tr>
 							</tbody>
 						</table>
@@ -239,11 +263,11 @@
 							</table>
 						<div class="alignCenter">
 							<% if(request.getParameter("code") == null){ %>
-								<input type="button" class="btn btn-success" value="등록하기" />
+								<input type="button" class="btn btn-success btn-sm detail-control" value="등록하기" />
 							<% } else { %>
-								<input type="button" class="btn btn-warning" value="수정하기" />
-								<input type="button" class="btn btn-danger" value="삭제하기" />
-								<input type="button" class="btn btn-secondary" value="품절처리하기" />
+								<input type="button" class="btn btn-warning btn-sm detail-control" value="수정하기" />
+								<input type="button" class="btn btn-danger btn-sm detail-control" value="삭제하기" />
+								<input type="button" class="btn btn-secondary btn-sm detail-control" value="품절처리하기" />
 							<% } %>
 						</div>
 					</form>

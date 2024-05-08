@@ -308,7 +308,7 @@
                   						<a
                     					href="http://192.168.10.211/online-shop/manage/goods/detail.jsp"
                     					>
-                    						<img src="http://localhost/online-shop/assets/images/manage/goods/btn_goodsAdd.gif" />
+											<input type="button" class="btn btn-success btn-sm" value="등록하기" />
                   						</a>
                 					</td>
               					</tr>
