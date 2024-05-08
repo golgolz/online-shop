@@ -1,6 +1,31 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="order.vo.OrderProductVO"%>
+<%@page import="java.util.List"%>
 <%@page import="user.order.CartDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="opVO" class="order.vo.OrderProductVO" scope="page" />
+<jsp:setProperty property="*" name="opVO" />
+<%
+//개발의 편의성을 위해 로그인한 것 처럼 코드를 작성한 후 작업 진행
+
+opVO.setCartId("20240419131338");
+pageContext.setAttribute("cartId", opVO);
+
+%>
+<%
+	String cartId = opVO.getCartId();
+	CartDAO cDAO = CartDAO.getInstance();
+	
+	List<OrderProductVO> list = new ArrayList<OrderProductVO>();
+	
+	try{
+		list = cDAO.selectCart(cartId);
+	}catch(Exception e){
+	    e.printStackTrace();
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,6 +84,7 @@ table, td {
 	}
 	
 </script>
+
 <!-- golgolz end -->
 </head>
 <body>
@@ -133,6 +159,9 @@ table, td {
 
 									</tr>
 								</tfoot>
+								<%
+								for(OrderProductVO oVO : list){
+								%>
 								<tbody class="xans-element- xans-order xans-order-list center">
 									<tr class="xans-record-">
 										<td><input type="checkbox" id="basket_chk_id_0"
@@ -145,29 +174,29 @@ table, td {
 												width="100px"></a></td>
 										<td class="left gClearLine"><strong class="name"><a
 												href="/product/i-live-with-six-cats-고양이의-바다-유광-카드-하드-케이스/6183/category/523/"
-												class="ec-product-name">APPLE_IPHONE15_6</a></strong> <span class="displaynone engName">(영문명
+												class="ec-product-name"><%= oVO.getProductName() %></a></strong> <span class="displaynone engName">(영문명
 												: )</span>
 											<ul
 												class="xans-element- xans-order xans-order-optionall option">
-												<li class="xans-record-"><strong class="displaynone">[APPLE_IPHONE15_6]</strong>[옵션: APPLE_IPHONE15] <span
-													class="displaynone">(1개)</span><br> <span class=""><a
+												<li class="xans-record-"><strong class="displaynone"><%= oVO.getCode() %></strong>[옵션: <%= oVO.getCode() %>] <span
+													class="displaynone">(<%= list.size() %>)</span><br> <span class=""><a
 														href="#none"
 														onclick="Basket.showOptionChangeLayer('option_modify_layer_0', $(this))"
 														class="btnNormal gBlank5 displaynone">옵션변경</a></span></li>
 											</ul></td>
 										<td class="right">
 											<div id="product_price_div0" class="">
-												<strong>20,000원</strong>
+												<strong><%= oVO.getPrice() %>원</strong>
 												<p class="displaynone"></p>
 											</div>
 											<div id="product_sale_price_div0" class="displaynone">
-												<strong><span id="product_sale_price_front0">20,000</span>원</strong>
+												<strong><span id="product_sale_price_front0"><%= oVO.getPrice() %></span>원</strong>
 												<p class="displaynone"></p>
 											</div>
 										</td>
 										<td><span class=""> <span class="ec-base-qty"><input
 													id="quantity_id_0" name="quantity" size="2"
-													value="1" type="text"><a href="javascript:;"
+													value="<%= oVO.getQuantity() %>" type="text"><a href="javascript:;"
 													onclick="addQuantity('quantity_id_0','product_price_div0');"><img
 														src="//img.echosting.cafe24.com/skin/base/common/btn_quantity_up.gif"
 														alt="수량증가" class="up"></a><a href="javascript:;"
@@ -175,16 +204,16 @@ table, td {
 														src="//img.echosting.cafe24.com/skin/base/common/btn_quantity_down.gif"
 														alt="수량감소" class="down"></a></span> <a href="javascript:;"
 												class="btnNormal gBlank5" onclick="modifyQuantity()">변경</a>
-										</span> <span class="displaynone">1</span></td>
+										</span> <span class="displaynone"><%= oVO.getQuantity() %></span></td>
 
-
+	
 										<td rowspan="1" class="">
 											<p class="">
-												3,000원<span class="displaynone"><br></span><br>
+												<%= oVO.getDelivertyFee() %>원<span class="displaynone"><br></span><br>
 											</p>
 										</td>
 										<td class="right"><strong><span
-												id="sum_price_front0">20,000</span>원</strong>
+												id="sum_price_front0"><%= oVO.getTotal() %></span>원</strong>
 											<div class="displaynone"></div></td>
 										<td class="button">
 											<!--임시 주석처리 : 주문서 작성 페이지 이동--> <!--<a href="javascript:;" class="btnSubmit" onclick="Basket.orderBasketItem(0);">주문하기</a>-->
@@ -195,6 +224,7 @@ table, td {
 										</td>
 									</tr>
 								</tbody>
+								<% }//end for %>
 							</table>
 						</form>
 						
