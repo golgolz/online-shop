@@ -373,5 +373,36 @@ public class UserManageDAO {
     return userDetailedVO;
   }
 
+  // 유저 상세 업데이트
+  public void updateUserDetails(String inputId, String newEmail, String newTel, String newZipcode,
+      String newDefaultAddr, String newAdditionalAddr, String newAdminMemo) throws SQLException {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    DbConnection dbConn = DbConnection.getInstance();
+
+    try {
+      conn = dbConn.getConn("online-shop-dbcp");
+
+      String updateQuery =
+          "UPDATE customer SET email = ?, tel = ?, zipcode = ?, default_addr = ?, additional_addr = ?, admin_memo = ? WHERE id = ?";
+
+      pstmt = conn.prepareStatement(updateQuery);
+
+      pstmt.setString(1, newEmail);
+      pstmt.setString(2, newTel);
+      pstmt.setString(3, newZipcode);
+      pstmt.setString(4, newDefaultAddr);
+      pstmt.setString(5, newAdditionalAddr);
+      pstmt.setString(6, newAdminMemo);
+      pstmt.setString(7, inputId);
+
+      pstmt.executeUpdate();
+
+    } finally {
+      dbConn.closeCon(rs, pstmt, conn);
+    }
+  }
+
 
 }
