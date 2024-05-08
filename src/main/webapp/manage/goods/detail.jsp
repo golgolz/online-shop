@@ -4,12 +4,28 @@
 <html>
 <head>
 <jsp:include page="../../assets/jsp/admin/lib.jsp" />
+<!-- golgolz start -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		$("#goods_menu").addClass("bg-gradient-primary");
+		$('#goods_content').summernote({
+	        placeholder: 'Hello stand alone ui',
+	        tabsize: 2,
+	        height: 120,
+	        toolbar: [
+	          ['style', ['style']],
+	          ['font', ['bold', 'underline', 'clear']],
+	          ['color', ['color']],
+	          ['para', ['ul', 'ol', 'paragraph']],
+	          ['table', ['table']],
+	          ['insert', ['link', 'picture', 'video']],
+	          ['view', ['fullscreen', 'codeview', 'help']]
+	        ]
+	      });
 	});
 </script>
-<!-- golgolz start -->
 <link href="../../assets/css/manage/goods/general.css" rel="stylesheet" />
 <link href="../../assets/css/manage/goods/goods.css" rel="stylesheet" />
 <link href="../../assets/css/manage/goods/default.css" rel="stylesheet" />
@@ -117,12 +133,12 @@
 										<label>
 											<input type="radio"
 											id="good_code_type1" name="good_code_type" value="1"
-											checked="" /> 자동입력
+											checked="" /> 실리콘
 										</label>&nbsp;&nbsp; 
 										<label>
 											<input
 											type="radio" id="good_code_type0" name="good_code_type"
-											value="0" /> 수동입력
+											value="0" /> 하드
 										</label> 
 									</td>
 								</tr>
@@ -147,106 +163,10 @@
 								</tr>
 
 								<tr>
-									<td class="label">매입가</td>
+									<td class="label">가격</td>
 									<td class="box text"><input type="text"
 										name="good_buy_price" id="good_buy_price" value="" size="10"
 										class="inputbox2 price_only" />원&nbsp;&nbsp;</td>
-								</tr>
-
-								<tr id="good_opt_grid_setting" style="display: none">
-									<td class="label">가격선택옵션 설정</td>
-									<td class="box text"><input type="hidden"
-										id="saved_price_option" name="saved_price_option" value="" />
-										<table cellpadding="0" cellspacing="1" border="0"
-											class="tbstyle06" width="100%">
-											<colgroup>
-												<col width="*" />
-												<col width="*" />
-												<col width="*" />
-												<col width="*" />
-											</colgroup>
-											<tbody>
-												<tr>
-													<th>옵션 개수</th>
-													<td class="boxA"><select name="good_opt_info_count"
-														id="good_opt_info_count">
-															<option value="1">1개</option>
-															<option value="2">2개</option>
-													</select></td>
-													<th>출력 방식</th>
-													<td class="boxA"><select name="good_opt_sel_type"
-														id="good_opt_sel_type">
-															<option value="0">단일선택</option>
-															<option value="1">분리선택</option>
-													</select></td>
-												</tr>
-											</tbody>
-										</table>
-										<div class="subtitle">
-											<img
-												src="http://localhost/online-shop/assets/images/manage/goods/register/bul_ssubtitle.gif" />
-											옵션정보 입력<span class="fc_s fc_blue">※ 옵션명과 옵션값을 입력한 뒤 <img
-												src="http://localhost/online-shop/assets/images/manage/goods/register/btn_setPriceRestock.gif"
-												alt="가격+재고 설정하기" />버튼을 클릭해 주세요.
-											</span>
-										</div>
-										<table cellpadding="0" cellspacing="0" border="0"
-											class="tbstyle06" width="100%">
-											<colgroup>
-												<col width="20%" />
-												<col width="55%" />
-												<col width="20%" />
-											</colgroup>
-											<tbody>
-												<tr>
-													<th>옵션명</th>
-													<th>옵션값(';'로 구분)</th>
-													<td class="boxA" id="option_info_cols" rowspan="3"><a
-														href="https://demo01.swm.whoismall.com/admin/?act=goods.good_form&amp;cate_code=GD&amp;ch=goods#"
-														id="good_opt_grid_set"><img
-															src="http://localhost/online-shop/assets/images/manage/goods/register/btn_setPriceRestock.gif"
-															alt="가격+재고 설정하기" /></a></td>
-												</tr>
-												<tr id="option_info_name_1">
-													<td class="box text"><input type="text"
-														id="good_opt_row_name" name="good_opt_row_name" value=""
-														class="inputbox" style="width: 95%" /></td>
-													<td class="box text"><input type="text"
-														id="good_opt_row_val" name="good_opt_row_val" value=""
-														class="inputbox" style="width: 95%" /></td>
-												</tr>
-												<tr id="option_info_name_2">
-													<td class="box text"><input type="text"
-														id="good_opt_col_name" name="good_opt_col_name" value=""
-														class="inputbox" style="width: 95%" /></td>
-													<td class="box text"><input type="text"
-														id="good_opt_col_val" name="good_opt_col_val" value=""
-														class="inputbox" style="width: 95%" /></td>
-												</tr>
-											</tbody>
-										</table>
-										<div id="good_grid_option_table" style="display: none">
-											<div class="subtitle">
-												<img
-													src="http://localhost/online-shop/assets/images/manage/goods/register/bul_ssubtitle.gif" />
-												옵션별 가격+재고 설정
-											</div>
-											<span>일괄 입력하기 : 판매가 <input type="text"
-												id="batch_good_opt_val_price"
-												name="batch_good_opt_val_price" class="inputbox price_only"
-												size="10" />원, 재고량 <input type="text"
-												id="batch_good_opt_val_stock"
-												name="batch_good_opt_val_stock" class="inputbox price_only"
-												size="10" />개, 관리코드 <input type="text"
-												id="batch_good_opt_manage_code"
-												name="batch_good_opt_manage_code" class="inputbox" size="15" />
-												<a
-												href="https://demo01.swm.whoismall.com/admin/?act=goods.good_form&amp;cate_code=GD&amp;ch=goods#"
-												id="good_opt_grid_batch"><img
-													src="http://localhost/online-shop/assets/images/manage/goods/register/btn_batch_input.gif" /></a>
-											</span>
-											<div id="good_grid_option_area"></div>
-										</div></td>
 								</tr>
 								<tr>
 									<td class="label">재고량</td>
@@ -284,40 +204,7 @@
 										<td class="label">기본 이미지</td>
 										<td class="box text">
 											<div id="good_file_big_input_area">
-												확대 <span name="good_file_upload_area"> <a
-													href="https://demo01.swm.whoismall.com/admin/?act=goods.good_form&amp;cate_code=GD&amp;ch=goods#"
-													name="good_file_big_name"
-													onclick="onUploadClick(this); return false;"><img
-														src="http://localhost/online-shop/assets/images/manage/goods/register/btn_popupSearch.gif"
-														align="absmiddle" /></a> <span name="good_file_upload_result"></span>
-												</span> <span name="good_file_url_area" style="display: none">
-													<input type="text" name="good_file_big_url" value=""
-													size="50" class="inputbox" />
-												</span> <span class="fc_s"><span class="fc_blue">권장사이즈(700X700)</span></span>
-											</div>
-											<div id="good_file_view_input_area" style="display: none">
-												상세 <span name="good_file_upload_area"> <a
-													href="https://demo01.swm.whoismall.com/admin/?act=goods.good_form&amp;cate_code=GD&amp;ch=goods#"
-													name="good_file_view_name"
-													onclick="onUploadClick(this); return false;"><img
-														src="http://localhost/online-shop/assets/images/manage/goods/register/btn_popupSearch.gif"
-														align="absmiddle" /></a> <span id="good_file_upload_result1"
-													name="good_file_upload_result"></span>
-												</span> <span name="good_file_url_area" style="display: none">
-													<input type="text" name="good_file_view_url" value=""
-													size="50" class="inputbox" />
-												</span> <span class="fc_s"><span class="fc_blue">권장사이즈(550X550)</span></span>
-												<br /> 목록 <span name="good_file_upload_area"> <a
-													href="https://demo01.swm.whoismall.com/admin/?act=goods.good_form&amp;cate_code=GD&amp;ch=goods#"
-													name="good_file_list_name"
-													onclick="onUploadClick(this); return false;"><img
-														src="http://localhost/online-shop/assets/images/manage/goods/register/btn_popupSearch.gif"
-														align="absmiddle" /></a> <span id="good_file_upload_result2"
-													name="good_file_upload_result"></span>
-												</span> <span name="good_file_url_area" style="display: none">
-													<input type="text" name="good_file_list_url" value=""
-													size="50" class="inputbox" />
-												</span> <span class="fc_s"><span class="fc_blue">권장사이즈(410X410)</span></span>
+												<input type="file" name="upFile" style="width: 300px" />
 											</div>
 										</td>
 									</tr>
@@ -329,10 +216,9 @@
 						<div class="subtitle">
 							<img
 								src="http://localhost/online-shop/assets/images/manage/goods/register/bul_subtitle.gif" />
-							상세설명
+							상세설명 이미지
 						</div>
 
-						<div id="area_content">
 							<table cellpadding="0" cellspacing="1" border="0"
 								class="tbstyleB" width="100%">
 								<colgroup>
@@ -343,24 +229,22 @@
 									<tr>
 										<td colspan="2" class="top2"></td>
 									</tr>
-
 									<tr>
-										<td class="label">상세설명</td>
-										<td class="box text"><textarea class="textarea"
-												id="good_content" name="good_content"
-												style="width: 100%; height: 300px; display: none;"></textarea>
-											<iframe frameborder="0" scrolling="no"
-												src="./smart_editor/SmartEditor2Skin.html"
-												style="width: 100%; height: 349px"></iframe></td>
+										<td class="label">상세설명 이미지</td>
+										<td class="box text">
+											<input type="file" name="upFile" style="width: 300px" />
+										</td>
 									</tr>
 								</tbody>
 							</table>
-						</div>
-						<!--관련상품-->
 						<div class="alignCenter">
-							<img
-								src="http://localhost/online-shop/assets/images/manage/goods/register/btn_allApply.gif"
-								onclick="onSubmit(event);" style="cursor: pointer" />
+							<% if(request.getParameter("code") == null){ %>
+								<input type="button" class="btn btn-success" value="등록하기" />
+							<% } else { %>
+								<input type="button" class="btn btn-warning" value="수정하기" />
+								<input type="button" class="btn btn-danger" value="삭제하기" />
+								<input type="button" class="btn btn-secondary" value="품절처리하기" />
+							<% } %>
 						</div>
 					</form>
 				</div>
