@@ -7,6 +7,7 @@
 	<%@ page import="admin.userManage.UserManageVO" %>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -155,6 +156,26 @@ $(function() {
     $("#btnReset").click(function() {
         // 초기화 버튼을 누르면 userInfoManage.jsp로 리다이렉트합니다.
         window.location.href = "userInfoManage.jsp";
+    });
+    // tr 요소에 클릭 이벤트를 추가합니다.
+    $("tr").on("click", function() {
+        // 해당 tr 요소의 id 속성에서 userId를 가져옵니다.
+        const userId = $(this).attr('id');
+        
+     // 디버깅: userId 값을 콘솔에 출력합니다.
+        console.log("클릭된 tr 요소의 userId:", userId);
+        
+        // encodeURIComponent를 사용하여 userId를 URL 인코딩합니다.
+        const encodedUserId = encodeURIComponent(userId);
+        
+     // 디버깅: 인코딩된 userId 값을 콘솔에 출력합니다.
+        console.log("URL 인코딩된 userId:", encodedUserId);
+        
+        // 다른 JSP로 리다이렉트할 URL을 만듭니다.
+		const url = "detailedInfoManage.jsp?userId=" + encodedUserId;
+        
+        // 해당 URL로 리다이렉트합니다.
+        window.location.href = url;
     });
 });
 

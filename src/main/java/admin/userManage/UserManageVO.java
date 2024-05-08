@@ -15,4 +15,5 @@ public class UserManageVO {
   private String withdrawal_flag;
   private String access_limit_flag;
 
+
 }
