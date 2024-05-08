@@ -12,15 +12,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class OrderProductVO {
-    private String productName;
     private String productImg;
-    private String productExplanation;
-    private int quantity;
+    private String productName;
+    private String code;
     private int price;
+    private int quantity;
     private int delivertyFee;
+    private int total;
 
     private String cartId;
-    private String code;
 
     public OrderProductVO(String cartId, String code, int quantity) {
         super();
@@ -28,5 +28,7 @@ public class OrderProductVO {
         this.code = code;
         this.quantity = quantity;
     }
+
+
 
 }
