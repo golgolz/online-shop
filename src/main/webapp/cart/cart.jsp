@@ -55,9 +55,7 @@ table, td {
 	}
 	
 	function modifyQuantity() {
-		var cartFrm = document.cart_frm;
-		
-		cartFrm.submit();
+		$("#cartFrm").submit();
 	}
 	
 </script>
@@ -103,7 +101,7 @@ table, td {
 							<div class="xans-element- xans-order xans-order-normtitle title ">
 								<h6>장바구니 상품 (1)</h6>
 							</div>
-							<form name="cart_frm" action="cart_process.jsp" method="post">
+							<form id="cartFrm" name="cartFrm" action="cart_process.jsp" method="post">
 							<table border="1" summary=""
 								class="xans-element- xans-order xans-order-normnormal xans-record-">
 								<caption>배송상품</caption>
