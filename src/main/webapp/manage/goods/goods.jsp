@@ -27,6 +27,10 @@
 #sortCategory li{
 	display:inline;
 }
+
+#sortCategory li:hover {
+	font-weight:bold;
+}
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -211,9 +215,7 @@
 				              		<col width="15%" />
 				              		<col width="15%" />
 				              		<col width="15%" />
-				              		<col width="10%" />
-				              		<col width="10%" />
-				              		<col width="10%" />
+				              		<col width="30%" />
 				            	</colgroup>
 					            <thead>
 					             	<tr>
@@ -221,9 +223,7 @@
 						                <th>등록일</th>
 						                <th>가격</th>
 						                <th>재고</th>
-						                <th>복사</th>
-						                <th>수정</th>
-						                <th>삭제</th>
+						                <th>재고 및 기타 정보 수정</th>
 					            	</tr>
 					            </thead>
 				            	<tbody>
@@ -246,17 +246,10 @@
 					                  		<span><%= product.getPrice() %>원</span>
 				                		</td>
 				                		<td class="tdL" align="center"><%= product.getAmount() %></td>
-				                		<td class="tdL" align="center">
-				                    			<input type="button" value="품절" class="btn" />
-				                		</td>
-				                		<td class="tdL" align="center">
-				                  			<a
-				                    		href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?req=update">
-				                    			<input type="button" value="수정" class="btn" />
-				                    		</a>
-				                		</td>
 				                		<td class="tdR" align="center">
-				                    			<input type="button" value="삭제" class="btn" />
+				                			<a href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?code=<%= product.getCode() %>">
+				                    			<input id="btnEditor" type="button" value="바로가기" class="btn btn-primary btn-small" style="font-weight: bold;" />
+				                			</a>
 				                		</td>
 				              		</tr>
 				              		<% } %>
@@ -313,9 +306,9 @@
                 					</td>
                 					<td width="10%" align="right">
                   						<a
-                    					href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?req=create"
+                    					href="http://192.168.10.211/online-shop/manage/goods/detail.jsp"
                     					>
-                    						<img src="http://localhost/online-shop/assets/images/manage/goods/btn_goodsAdd.gif" />
+											<input type="button" class="btn btn-success btn-sm" value="등록하기" />
                   						</a>
                 					</td>
               					</tr>
