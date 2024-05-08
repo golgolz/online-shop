@@ -1,9 +1,12 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 	<%@ page import="admin.userManage.UserManageDAO" %>
 	<%@ page import="admin.userManage.UserManageVO" %>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	
 	
 <!DOCTYPE html>
 <html>
@@ -91,7 +94,9 @@ jQuery(function($){
 });
 
 $(function() {
-    $("#btnToday").click(function() {
+	
+	
+    $("#btnToday").click(function() {// 오늘 날짜 불러오기
         const today = new Date();
         console.log("today : ", today);
         const year = today.getFullYear();
@@ -108,6 +113,69 @@ $(function() {
      	// 페이지를 새로 고침하여 스크립틀릿에서 값을 다시 읽을 수 있도록 합니다.
         $("#fsearch").submit();
         
+    });
+    $("#btnWeekly").click(function() { // 1주일 전 날짜 불러오기
+        // 현재 날짜를 가져옵니다.
+        const today = new Date();
+
+        // 일주일 전 날짜를 계산합니다.
+        const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+
+        const year = lastWeek.getFullYear();
+        const month = String(lastWeek.getMonth() + 1).padStart(2, '0');
+        const day = String(lastWeek.getDate()).padStart(2, '0');
+        const formattedDate = year + '-' + month + '-' + day;
+
+        $("#fr_date").val(formattedDate);
+        $("#to_date").val(today.toISOString().slice(0, 10));
+
+        // 폼을 제출합니다.
+        $("#fsearch").submit();
+    });
+    $("#btnMonthly").click(function() {
+        // 현재 날짜를 가져옵니다.
+        const today = new Date();
+
+        // 한 달 전 날짜를 계산합니다.
+        const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+
+        // 한 달 전 날짜를 "yyyy-mm-dd" 형식으로 조합합니다.
+        const year = lastMonth.getFullYear();
+        const month = String(lastMonth.getMonth() + 1).padStart(2, '0');
+        const day = String(lastMonth.getDate()).padStart(2, '0');
+        const formattedDate = year + '-' + month + '-' + day;
+
+        // 'fr_date' 입력 필드의 값을 한 달 전의 날짜로 설정합니다.
+        $("#fr_date").val(formattedDate);
+        // 'to_date' 입력 필드의 값을 오늘의 날짜로 설정합니다.
+        $("#to_date").val(today.toISOString().slice(0, 10));
+
+        // 폼을 제출합니다.
+        $("#fsearch").submit();
+    });
+    $("#btnReset").click(function() {
+        // 초기화 버튼을 누르면 userInfoManage.jsp로 리다이렉트합니다.
+        window.location.href = "userInfoManage.jsp";
+    });
+    // tr 요소에 클릭 이벤트를 추가합니다.
+    $("tr").on("click", function() {
+        // 해당 tr 요소의 id 속성에서 userId를 가져옵니다.
+        const userId = $(this).attr('id');
+        
+     // 디버깅: userId 값을 콘솔에 출력합니다.
+        console.log("클릭된 tr 요소의 userId:", userId);
+        
+        // encodeURIComponent를 사용하여 userId를 URL 인코딩합니다.
+        const encodedUserId = encodeURIComponent(userId);
+        
+     // 디버깅: 인코딩된 userId 값을 콘솔에 출력합니다.
+        console.log("URL 인코딩된 userId:", encodedUserId);
+        
+        // 다른 JSP로 리다이렉트할 URL을 만듭니다.
+		const url = "detailedInfoManage.jsp?userId=" + encodedUserId;
+        
+        // 해당 URL로 리다이렉트합니다.
+        window.location.href = url;
     });
 });
 
@@ -143,8 +211,9 @@ $(function() {
 <input type="text" name="to_date" value="<%= (request.getParameter("to_date") != null ? request.getParameter("to_date") : "") %>" id="to_date" maxlength="10">
 <span class="btn_group">
 <input type="button" id="btnToday" onclick="" class="btn_small white" value="오늘">
-<input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="일주일">
-<input type="button" onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="1개월">
+<input type="button" id="btnWeekly" onclick="" class="btn_small white" value="일주일">
+<input type="button" id="btnMonthly"onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="1개월">
+<input type="button" id="btnReset"onclick="" class="btn_small white" value="초기화">
 </span>		</td>
 	</tr>
 	
@@ -191,90 +260,96 @@ $(function() {
 	<tbody class="list">
 	
 				 <% 
-					String inputId = request.getParameter("stx");
-				    String sfl = request.getParameter("sfl");
-				    
-				    String frDate = request.getParameter("fr_date");
-				    String toDate = request.getParameter("to_date");
+				 String inputId = request.getParameter("stx");
+				 String sfl = request.getParameter("sfl");
 
-				    // 입력값을 디버깅합니다.
-				    System.out.println("fr_date: " + frDate + ", to_date: " + toDate);
-				    
+				 String frDate = request.getParameter("fr_date");
+				 String toDate = request.getParameter("to_date");
+
+				 // 입력값을 디버깅합니다.
+				 System.out.println("fr_date: " + frDate + ", to_date: " + toDate);
+
 				 // inputId를 trim()하여 공백을 제거한 후, 빈 문자열인지 확인.
-				    if (inputId != null && inputId.trim().isEmpty()) {
-				        inputId = null; // 공백 값인 경우 inputId를 null로 설정.
-				    }
+				 if (inputId != null && inputId.trim().isEmpty()) {
+				     inputId = null; // 공백 값인 경우 inputId를 null로 설정.
+				 }
 
-				    System.out.println("------"+inputId+"-----"+sfl);
-				    System.out.println("inputId 값 디버깅: " + (inputId == null ? "null" : inputId));
-				    UserManageVO userInfo = null;
-				     
-				        // 사용자 정보 목록을 얻는 로직
-				        UserManageDAO dao = new UserManageDAO();
+				 System.out.println("------"+inputId+"-----"+sfl);
+				 System.out.println("inputId 값 디버깅: " + (inputId == null ? "null" : inputId));
 
-				        // 사용자 정보를 반환하는 메서드를 가정.
-				        // 조건에 따라 userList를 초기화.
-				        List<UserManageVO> userList = null;
+				 // 사용자 정보 목록을 얻는 로직
+				 UserManageDAO dao = new UserManageDAO();
+				 List<UserManageVO> userList = null;
 
-				        // 조건에 따라 userList를 설정.
-				        if(inputId == null) {
-				            // inputId가 null이거나, sfl이 "id"가 아닐 경우,
-				            // 전체 사용자 목록을 반환하는 메서드를 호출.
-				            try {
-				                userList = dao.selectUserInfoById2(inputId); // 전체 사용자를 반환
-				                System.out.println("------ 전체 사용자가 조회되었습니다. ------");
-				            } catch (Exception e) {
-				                e.printStackTrace();
-				            }
-				        }
-				   		else if (inputId != null && sfl != null && sfl.equals("id")) {
-				            try {
-				                userList = dao.selectUserInfoById(inputId); // 사용자를 ID를 통해 조회
-				                System.out.println("------ 사용자의 정보가 조회되었습니다. ------");
-				            } catch (Exception e) {
-				                e.printStackTrace();
-				            }
-				        }else if (inputId != null && sfl != null && sfl.equals("name")){
-				          try 	{
-			                userList = dao.selectUserInfoByName(inputId); // 사용자를 name를 통해 조회
-			                	System.out.println("------ 사용자의 정보가 조회되었습니다. ------");
-			            	} catch (Exception e) {
-			                	e.printStackTrace();
-			            	}
-				        }
-				        
-				        if (frDate != null && !frDate.trim().isEmpty()) {
-				          try {
-				              // fr_date 값을 매개변수로 DAO 메소드 호출
-				              userList = dao.selectUserInfoByDate(frDate);
-				              System.out.println("------ 날짜에 해당하는 사용자가 조회되었습니다. ------");
-				          } catch (Exception e) {
-				              e.printStackTrace();
-				          }
-				      } else {
-				          // 입력 창 값이 비어 있을 경우, 별다른 데이터를 출력하지 않고 입력 창 값을 비웁니다.
-				          // 사용자 정보 목록을 null로 유지하여 아무 데이터도 출력되지 않도록 합니다.
-				          System.out.println("입력 필드가 비어 있습니다. 아무 데이터도 출력하지 않습니다.");
-				      }
-				        
+				 // 날짜 포맷팅 및 초기값 설정
+				 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				 String today = formatter.format(new Date());
 
-				        // 사용자의 정보를 반복적으로 출력합니다.
-				        for (int i = 0; i < userList.size(); i++) {
-				            userInfo = userList.get(i);
-				    %>
+				 if (frDate == null || frDate.trim().isEmpty()) {
+				     frDate = "1970-01-01"; // 시작 날짜가 입력되지 않았을 때, 초기 날짜 설정
+				 }
+				 if (toDate == null || toDate.trim().isEmpty()) {
+				     toDate = today; // 종료 날짜가 입력되지 않았을 때, 오늘 날짜로 설정
+				 }
 
-            <tr>
-        <td><%= i + 1 %></td>
-        <td class="tal"><span class="sv_wrap"><%= userInfo.getName() %></span></td>
-        <td class="tal"><%= userInfo.getId() %></td>
-        <td><%= userInfo.getTel() %></td>
-        <td><%= userInfo.getInput_date() %></td>
-        <td><%= userInfo.getTotal_amount() %></td>
-        <td><%= userInfo.getWithdrawal_flag() %></td>
-        <td><%= userInfo.getAccess_limit_flag() %></td>
-    </tr>
-    <% 
-        } 
+				// 검색 조건에 따라 DAO 메소드 호출
+				 if (sfl != null && sfl.equals("id") && inputId != null && !inputId.trim().isEmpty() && frDate != null && !frDate.trim().isEmpty() && toDate != null && !toDate.trim().isEmpty()) {
+				     // inputId와 날짜 범위에 따른 검색 수행
+				     try {
+				         userList = dao.selectUserInfoByIdAndDateRange(inputId, frDate, toDate);
+				         System.out.println("------ inputId와 날짜 범위 조건에 따른 사용자가 조회되었습니다. ------");
+				         System.out.println("inputId: " + inputId + ", frDate: " + frDate + ", toDate: " + toDate);
+				     } catch (Exception e) {
+				         e.printStackTrace();
+				     }
+				 } else if (inputId != null && !inputId.trim().isEmpty() && sfl != null && sfl.equals("name")) {
+				     // inputName과 날짜 범위에 따른 검색 수행
+				     try {
+				         userList = dao.selectUserInfoByNameAndDateRange(inputId, frDate, toDate);
+				         System.out.println("------ inputName과 날짜 범위 조건에 따른 사용자가 조회되었습니다. ------");
+				         System.out.println("inputName: " + inputId + ", frDate: " + frDate + ", toDate: " + toDate);
+				     } catch (Exception e) {
+				         e.printStackTrace();
+				     }
+				 } else if (inputId != null && sfl != null) {
+				     // sfl 값에 따라 다른 검색 수행
+				     switch (sfl) {
+				         case "id":
+				             userList = dao.selectUserInfoById(inputId);
+				             System.out.println("------ 사용자 ID에 따른 정보가 조회되었습니다. ------");
+				             break;
+				         case "name":
+				             userList = dao.selectUserInfoByName(inputId);
+				             System.out.println("------ 사용자 이름에 따른 정보가 조회되었습니다. ------");
+				             break;
+				         default:
+				             System.out.println("sfl 값이 유효하지 않습니다.");
+				             break;
+				     }
+				 } else {
+				     // 날짜 범위에 따른 검색 수행
+				     userList = dao.selectUserInfoByDateRange(frDate, toDate);
+				     System.out.println("------ 날짜 범위에 따른 사용자 정보가 조회되었습니다. ------");
+				 }
+
+				// 사용자 정보 출력
+				 for (int i = 0;i < userList.size(); i++) {
+				     UserManageVO userInfo = userList.get(i);
+				     // 각 사용자에 대한 행 번호(rowNum)를 i + 1로 설정
+				     int rowNum = i + 1;
+				     %>
+				     <tr id="<%=userInfo.getId() %>">
+				         <td><%= rowNum %></td> <!-- 행 번호 출력 -->
+				         <td class="tal"><span class="sv_wrap"><%= userInfo.getName() %></span></td>
+				         <td class="tal"><%= userInfo.getId() %></td>
+				         <td><%= userInfo.getTel() %></td>
+				         <td><%= userInfo.getInput_date() %></td>
+				         <td><%= userInfo.getTotal_amount() %></td>
+				         <td><%= userInfo.getWithdrawal_flag() %></td>
+				         <td><%= userInfo.getAccess_limit_flag() %></td>
+				     </tr>
+				     <%
+				 } 
     %>
 	
 	
