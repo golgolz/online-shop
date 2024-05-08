@@ -10,8 +10,12 @@ import database.DbConnection;
 
 public class NoticeDAO {
     public static NoticeDAO noticeDAO;
+    private String[] columnNames;
 
-    private NoticeDAO() {}
+    private NoticeDAO() {
+        columnNames = new String[] {"title", "content"};
+
+    }
 
     public static NoticeDAO getInstance() {
         if (noticeDAO == null) {
@@ -21,7 +25,7 @@ public class NoticeDAO {
     }// getInstance
 
     // 조회수
-    public int SelectTotalCount(NoticeVO nVO) throws SQLException {
+    public int SelectTotalCount(SearchVO sVO) throws SQLException {
         int totalCnt = 0;
 
         Connection con = null;
@@ -36,7 +40,16 @@ public class NoticeDAO {
             StringBuilder selectCnt = new StringBuilder();
             selectCnt.append("select count(*) view_count from notice");
 
+            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+                selectCnt.append("where").append(columnNames[Integer.parseInt(sVO.getField())])
+                        .append("like  '%'||?||'%'");
+            }
             pstmt = con.prepareStatement(selectCnt.toString());
+
+            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+                pstmt.setString(1, sVO.getKeyword());
+            } // end if
+
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 totalCnt = rs.getInt("view_count");
@@ -48,7 +61,7 @@ public class NoticeDAO {
     }// SelectTotalCount
 
     // 공지사할 조회
-    public List<NoticeVO> selectNotice(NoticeVO nVO) throws SQLException {
+    public List<NoticeVO> selectNotice(SearchVO sVO) throws SQLException {
         List<NoticeVO> list = new ArrayList<NoticeVO>();
 
         Connection con = null;
@@ -61,25 +74,30 @@ public class NoticeDAO {
             StringBuilder selectNotice = new StringBuilder();
             selectNotice.append("select notice_id, input_date, author, view_count, title, content ")
                     .append("from (select notice_id, input_date, author, view_count, title, content,")
-                    .append("row_number() over (order by input_date desc) as rnum from notice)")
-                    .append("where rnum between ? and ?");
+                    .append("row_number() over (order by input_date desc) as rnum from notice)");
+
+            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+                selectNotice.append("where instr(").append(columnNames[Integer.parseInt(sVO.getField())])
+                        .append(",?)>0");
+            } // end if
+            selectNotice.append("where rnum between ? and ?");
+
             pstmt = con.prepareStatement(selectNotice.toString());
-
-            // pstmt.setInt(1, nVO.getStartNum());
-            // pstmt.setInt(2, nVO.getEndNum());
-
+            int bindIndex = 0;
+            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+                pstmt.setString(++bindIndex, sVO.getKeyword());
+            } // end if
+            pstmt.setInt(++bindIndex, sVO.getStartNum());
+            pstmt.setInt(++bindIndex, sVO.getEndNum());
             rs = pstmt.executeQuery();
-            // NoticeVO nVO = null;
+            NoticeVO nVO = null;
+
             while (rs.next()) {
                 // String, date, string, int, string,string
-                // nVO = new NoticeVO(rs.getString("notice_id"), rs.getString("title"), rs.getString("author"),
-                // rs.getDate("input_date"), rs.getInt("view_count"), "");
-                // nVO = new NoticeVO(rs.getString("notice_id"), rs.getDate("input_date"), rs.getString("author"),
-                // rs.getInt("view_count"), rs.getString("title"), "");
-                // notice_id String이어도 ㄱㅊ은지??
+                nVO = new NoticeVO(rs.getString("notice_id"), rs.getDate("input_date"), rs.getString("author"),
+                        rs.getInt("view_count"), rs.getString("title"), "");
                 list.add(nVO);
             } // end while
-
         } finally {
             dbConn.closeCon(rs, pstmt, con);
         }
@@ -89,7 +107,6 @@ public class NoticeDAO {
     public void insertNotice(NoticeVO nVO) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
-        ResultSet rs = null;
 
         DbConnection dbConn = DbConnection.getInstance();
         try {
@@ -104,20 +121,46 @@ public class NoticeDAO {
 
             pstmt.executeUpdate();
         } finally {
-            dbConn.closeCon(rs, pstmt, con);
+            dbConn.closeCon(null, pstmt, con);
         }
     }// insertNotice
 
-    public void updateNotice(NoticeVO nVO) throws SQLException {
+    public NoticeVO selectDetailNotice(int seq) throws SQLException {
+        NoticeVO nVO = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
+
+        DbConnection db = DbConnection.getInstance();
+
+        try {
+            StringBuilder selectNotice = new StringBuilder();
+            selectNotice.append("select notice_id, input_date, author, view_count, title, content ")
+                    .append("from notice").append("where notice_id=?");
+
+            pstmt = con.prepareStatement(selectNotice.toString());
+
+            pstmt.setInt(1, seq);
+            rs = pstmt.executeQuery();
+
+        } finally {
+            db.closeCon(rs, pstmt, con);
+        }
+        return nVO;
+    }// selectDetailNotice
+
+    public int updateNotice(NoticeVO nVO) throws SQLException {
+        int cnt = 0;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
 
         DbConnection dbConn = DbConnection.getInstance();
 
         try {
             StringBuilder updateNotice = new StringBuilder();
-            updateNotice.append("update notice").append("set  title=?, content=?").append("where notice_id=?");
+            updateNotice.append("update notice").append("set  title=?, content=?, view-count=?")
+                    .append("where notice_id=?");
 
             pstmt = con.prepareStatement(updateNotice.toString());
 
@@ -128,14 +171,14 @@ public class NoticeDAO {
             pstmt.setString(5, nVO.getTitle());
             pstmt.setString(6, nVO.getContent());
 
-            pstmt.executeUpdate();
+            cnt = pstmt.executeUpdate();
         } finally {
-            dbConn.closeCon(rs, pstmt, con);
+            dbConn.closeCon(null, pstmt, con);
         } // end finally
-
+        return cnt;
     }// updateNotice
 
-    public boolean deleteNotice(String noticeId) throws SQLException {
+    public int deleteNotice(NoticeVO nVO) throws SQLException {
         int cnt = 0;
         DbConnection dbConn = DbConnection.getInstance();
 
@@ -143,17 +186,40 @@ public class NoticeDAO {
         PreparedStatement pstmt = null;
 
         try {
-            String deleteNotice = "delete from notice where notice_id=?";
-            pstmt = con.prepareStatement(deleteNotice);
-            cnt = pstmt.executeUpdate();
+            StringBuilder deleteNotice = new StringBuilder();
+            deleteNotice.append("delete notice where notice_id=?");
+            pstmt = con.prepareStatement(deleteNotice.toString());
 
-            if (cnt == 1) {
-                return true;
-            }
-            return false;
+            pstmt.setString(1, nVO.getNotice_id());
+
+            cnt = pstmt.executeUpdate();
         } finally {
             dbConn.closeCon(null, pstmt, con);
         }
+        return cnt;
     }// deleteNotice
+
+    public int updateCnt(int num) throws SQLException {
+        int cnt = 0;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        DbConnection db = DbConnection.getInstance();
+
+        try {
+            StringBuilder updateCnt = new StringBuilder();
+            updateCnt.append("update notice set cnt=cnt+1");
+            updateCnt.append("where notice_id=? ");
+
+            pstmt = con.prepareStatement(updateCnt.toString());
+
+            pstmt.setInt(1, num);
+
+            cnt = pstmt.executeUpdate();
+        } finally {
+            db.closeCon(null, pstmt, con);
+        }
+        return cnt;
+    }// updateCnt
 
 }// class
