@@ -93,6 +93,8 @@ jQuery(function($){
 });
 
 $(function() {
+	
+	
     $("#btnToday").click(function() {// 오늘 날짜 불러오기
         const today = new Date();
         console.log("today : ", today);
@@ -128,6 +130,31 @@ $(function() {
 
         // 폼을 제출합니다.
         $("#fsearch").submit();
+    });
+    $("#btnMonthly").click(function() {
+        // 현재 날짜를 가져옵니다.
+        const today = new Date();
+
+        // 한 달 전 날짜를 계산합니다.
+        const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+
+        // 한 달 전 날짜를 "yyyy-mm-dd" 형식으로 조합합니다.
+        const year = lastMonth.getFullYear();
+        const month = String(lastMonth.getMonth() + 1).padStart(2, '0');
+        const day = String(lastMonth.getDate()).padStart(2, '0');
+        const formattedDate = year + '-' + month + '-' + day;
+
+        // 'fr_date' 입력 필드의 값을 한 달 전의 날짜로 설정합니다.
+        $("#fr_date").val(formattedDate);
+        // 'to_date' 입력 필드의 값을 오늘의 날짜로 설정합니다.
+        $("#to_date").val(today.toISOString().slice(0, 10));
+
+        // 폼을 제출합니다.
+        $("#fsearch").submit();
+    });
+    $("#btnReset").click(function() {
+        // 초기화 버튼을 누르면 userInfoManage.jsp로 리다이렉트합니다.
+        window.location.href = "userInfoManage.jsp";
     });
 });
 
@@ -165,7 +192,7 @@ $(function() {
 <input type="button" id="btnToday" onclick="" class="btn_small white" value="오늘">
 <input type="button" id="btnWeekly" onclick="" class="btn_small white" value="일주일">
 <input type="button" id="btnMonthly"onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="1개월">
-<input type="button" id="btnClear"onclick="" class="btn_small white" value="초기화">
+<input type="button" id="btnReset"onclick="" class="btn_small white" value="초기화">
 </span>		</td>
 	</tr>
 	
@@ -244,8 +271,27 @@ $(function() {
 				     toDate = today; // 종료 날짜가 입력되지 않았을 때, 오늘 날짜로 설정
 				 }
 
-				 // 검색 조건에 따라 DAO 메소드 호출
-				 if (inputId != null ) {
+				// 검색 조건에 따라 DAO 메소드 호출
+				 if (sfl != null && sfl.equals("id") && inputId != null && !inputId.trim().isEmpty() && frDate != null && !frDate.trim().isEmpty() && toDate != null && !toDate.trim().isEmpty()) {
+				     // inputId와 날짜 범위에 따른 검색 수행
+				     try {
+				         userList = dao.selectUserInfoByIdAndDateRange(inputId, frDate, toDate);
+				         System.out.println("------ inputId와 날짜 범위 조건에 따른 사용자가 조회되었습니다. ------");
+				         System.out.println("inputId: " + inputId + ", frDate: " + frDate + ", toDate: " + toDate);
+				     } catch (Exception e) {
+				         e.printStackTrace();
+				     }
+				 } else if (inputId != null && !inputId.trim().isEmpty() && sfl != null && sfl.equals("name")) {
+				     // inputName과 날짜 범위에 따른 검색 수행
+				     try {
+				         userList = dao.selectUserInfoByNameAndDateRange(inputId, frDate, toDate);
+				         System.out.println("------ inputName과 날짜 범위 조건에 따른 사용자가 조회되었습니다. ------");
+				         System.out.println("inputName: " + inputId + ", frDate: " + frDate + ", toDate: " + toDate);
+				     } catch (Exception e) {
+				         e.printStackTrace();
+				     }
+				 } else if (inputId != null && sfl != null) {
+				     // sfl 값에 따라 다른 검색 수행
 				     switch (sfl) {
 				         case "id":
 				             userList = dao.selectUserInfoById(inputId);
@@ -255,9 +301,12 @@ $(function() {
 				             userList = dao.selectUserInfoByName(inputId);
 				             System.out.println("------ 사용자 이름에 따른 정보가 조회되었습니다. ------");
 				             break;
-				         
+				         default:
+				             System.out.println("sfl 값이 유효하지 않습니다.");
+				             break;
 				     }
 				 } else {
+				     // 날짜 범위에 따른 검색 수행
 				     userList = dao.selectUserInfoByDateRange(frDate, toDate);
 				     System.out.println("------ 날짜 범위에 따른 사용자 정보가 조회되었습니다. ------");
 				 }
@@ -268,7 +317,7 @@ $(function() {
 				     // 각 사용자에 대한 행 번호(rowNum)를 i + 1로 설정
 				     int rowNum = i + 1;
 				     %>
-				     <tr>
+				     <tr id="<%=userInfo.getId() %>">
 				         <td><%= rowNum %></td> <!-- 행 번호 출력 -->
 				         <td class="tal"><span class="sv_wrap"><%= userInfo.getName() %></span></td>
 				         <td class="tal"><%= userInfo.getId() %></td>
