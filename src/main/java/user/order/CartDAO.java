@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import database.DbConnection;
 import order.vo.CardVO;
 import order.vo.DeliveryVO;
@@ -292,7 +294,8 @@ public class CartDAO {
         return cnt;
     }// deleteShopCart
 
-    public OrderProductVO selectCart(String cartId) throws SQLException {
+    public List<OrderProductVO> selectCart(String cartId) throws SQLException {
+        List<OrderProductVO> list = new ArrayList<OrderProductVO>();
         OrderProductVO opVO = null;
 
         Connection con = null;
@@ -306,14 +309,33 @@ public class CartDAO {
 
             StringBuilder selectQuery = new StringBuilder();
 
-            selectQuery.append("    select    ").append("    from    ").append("    where    ");
+            // 해당 주문번호의 모든 장바구니 상품 조회
+            selectQuery.append(
+                    "    select gd.default_img,gd.name,og.code,gd.price,og.amount,gd.delivery_charge,(gd.price*og.amount+gd.delivery_charge) total    ")
+                    .append("    from goods gd, order_goods og, cart ct   ")
+                    .append("    where ((og.code=gd.code) and (ct.cart_id=og.cart_id)) and og.cart_id=? and order_flag='장바구니'    ");
+
+            pstmt = con.prepareStatement(selectQuery.toString());
+
+            pstmt.setString(1, cartId);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                opVO = new OrderProductVO(rs.getString("default_img"), rs.getString("name"), rs.getString("code"),
+                        rs.getInt("price"), rs.getInt("amount"), rs.getInt("delivery_charge"), rs.getInt("total"),
+                        cartId);
+
+                list.add(opVO);
+            } // end while
 
         } finally {
             dbCon.closeCon(rs, pstmt, con);
         } // end finally
 
-        return opVO;
+        return list;
     }// selectCart
+
 
 
 }

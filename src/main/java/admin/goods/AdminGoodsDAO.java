@@ -21,6 +21,45 @@ public class AdminGoodsDAO {
         return adminGoodsDAO;
     }
 
+    public AdminGoodsDetailVO selectOneGoods(String code) throws SQLException {
+        AdminGoodsDetailVO adminGoodsDetailVO = null;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder selectQuery = new StringBuilder();
+
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+            selectQuery.append(
+                    "select code, name, sold_out_flag, default_img, description, detail_description, model, material, maker, amount, price, delivery_charge from goods");
+
+            if (code != null) {
+                selectQuery.append(" where code = ? ");
+            }
+
+            pstmt = conn.prepareStatement(selectQuery.toString());
+
+            if (code != null) {
+                pstmt.setString(1, code);
+            }
+
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                adminGoodsDetailVO = new AdminGoodsDetailVO(rs.getString("code"), rs.getString("name"),
+                        rs.getString("sold_out_flag"), rs.getString("default_img"), rs.getString("description"),
+                        rs.getString("detail_description"), rs.getString("model"), rs.getString("material"),
+                        rs.getString("maker"), rs.getInt("amount"), rs.getInt("price"), rs.getInt("delivery_charge"));
+            }
+        } finally {
+            dbConn.closeCon(rs, pstmt, conn);
+        }
+
+        return adminGoodsDetailVO;
+    }
+
     public List<AdminGoodsSimpleVO> selectGoods(SearchVO searchVO) throws SQLException {
         List<AdminGoodsSimpleVO> goods = new ArrayList<AdminGoodsSimpleVO>();
 
