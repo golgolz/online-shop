@@ -104,15 +104,15 @@ public class AdminGoodsDAO {
             if (searchVO.getDate() != null) {
                 switch (searchVO.getDate()) {
                     case "today":
-                        selectQuery.append(" and trunc(input_date) = to_date(sysdate, 'yyyy-mm-dd') ");
+                        selectQuery.append(" and trunc(input_date) = to_date(sysdate, 'yy-mm-dd') ");
                         break;
                     case "week":
                         selectQuery.append(
-                                " and input_date >= trunc(to_date('2024-04-20', 'yyyy-mm-dd'), 'IW') and input_date < trunc(to_date('2024-04-20', 'yyyy-mm-dd'), 'IW') + 7 ");
+                                " and input_date >= trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') and input_date < trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') + 7 ");
                         break;
                     case "month":
                         selectQuery.append(
-                                " and extract(month from input_date) = extract(month from to_date(sysdate, 'yyyy-mm-dd')) and extract(year from input_date) = extract(year from to_date('2024-04-01', 'yyyy-mm-dd'))");
+                                " and extract(month from input_date) = extract(month from to_date(sysdate, 'yy-mm-dd')) and extract(year from input_date) = extract(year from to_date('2024-04-01', 'yy-mm-dd'))");
                         break;
                     default:
                 }

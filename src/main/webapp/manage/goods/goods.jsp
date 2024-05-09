@@ -264,7 +264,7 @@
                   							<!-- 페이징 -->
                   							<span class="paging">
                   							<a
-                      						href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header&amp;page=1"
+                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
                       						class="first">
                       							<img
                         						src="http://localhost/online-shop/assets/images/manage/goods/btn_navi_arrLL.gif"
@@ -272,7 +272,7 @@
                         						align="absmiddle" />
                         					</a>
                         					<a
-					                      	href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header&amp;page=1"
+                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
 					                      	class="pre">
 						                      	<img
 	                        					src="http://localhost/online-shop/assets/images/manage/goods/btn_navi_arrL.gif"
@@ -280,14 +280,14 @@
 	                        					align="absmiddle" />
                         					</a>
                     						<a
-                      						href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header&amp;page=1"
+                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
                       						class="on"> 1 
                       						</a>
                       						<a
-                      						href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header&amp;page=2"
+                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
                       						class="normal"> 2 </a>
                       						<a
-                      						href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header&amp;page=2"
+                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
                       						class="next">
                       							<img
                         						src="http://localhost/online-shop/assets/images/manage/goods/btn_navi_arrR.gif"
@@ -295,7 +295,7 @@
                         						align="absmiddle" />
                         					</a>
                         					<a
-                      						href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header&amp;page=2"
+                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
                       						class="last">
 	                      						<img
 	                        					src="http://localhost/online-shop/assets/images/manage/goods/btn_navi_arrRR.gif"
