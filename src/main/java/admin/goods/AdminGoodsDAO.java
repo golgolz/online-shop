@@ -152,4 +152,39 @@ public class AdminGoodsDAO {
 
         return goods;
     }
+
+    public int updateGoods(AdminGoodsDetailVO adminGoodsDetailVO) throws SQLException {
+        int count = 0;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        StringBuilder updateQuery = new StringBuilder();
+
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+            updateQuery.append("update goods set ").append(
+                    "sold_out_flag = ?, default_img = ?, description = ?, detail_description = ?, material = ?, amount = ?, price = ?, delivery_charge = ?, name = ?, input_date = sysdate")
+                    .append(" where code = ? ");
+            pstmt = conn.prepareStatement(updateQuery.toString());
+
+            pstmt.setString(1, adminGoodsDetailVO.getSoldOutFlag());
+            pstmt.setString(2, adminGoodsDetailVO.getDefaultImage());
+            pstmt.setString(3, adminGoodsDetailVO.getDetailImage());
+            pstmt.setString(4, adminGoodsDetailVO.getDescription());
+            pstmt.setString(5, adminGoodsDetailVO.getMaterial());
+            pstmt.setInt(6, adminGoodsDetailVO.getAmount());
+            pstmt.setInt(7, adminGoodsDetailVO.getPrice());
+            pstmt.setInt(8, adminGoodsDetailVO.getDeliveryCharge());
+            pstmt.setString(9, adminGoodsDetailVO.getName());
+            pstmt.setString(10, adminGoodsDetailVO.getCode());
+
+            count = pstmt.executeUpdate();
+        } finally {
+            dbConn.closeCon(null, pstmt, conn);
+        }
+
+        return count;
+    }
 }
