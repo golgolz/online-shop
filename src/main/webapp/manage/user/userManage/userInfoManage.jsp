@@ -345,8 +345,8 @@ $(function() {
 				         <td><%= userInfo.getTel() %></td>
 				         <td><%= userInfo.getInput_date() %></td>
 				         <td><%= userInfo.getTotal_amount() %></td>
-				         <td><%= userInfo.getWithdrawal_flag() %></td>
 				         <td><%= userInfo.getAccess_limit_flag() %></td>
+				         <td><%= userInfo.getWithdrawal_flag() %></td>
 				     </tr>
 				     <%
 				 } 

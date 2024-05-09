@@ -286,6 +286,7 @@ public class UserManageDAO {
     ResultSet rs = null;
     StringBuilder selectQuery = new StringBuilder();
 
+
     DbConnection dbConn = DbConnection.getInstance();
 
     try {
@@ -371,6 +372,61 @@ public class UserManageDAO {
     }
 
     return userDetailedVO;
+  }
+
+  // 유저 상세 업데이트
+  public void updateUserDetails(String inputId, String newEmail, String newTel, String newZipcode,
+      String newDefaultAddr, String newAdditionalAddr, String newAdminMemo) throws SQLException {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    DbConnection dbConn = DbConnection.getInstance();
+
+    try {
+      conn = dbConn.getConn("online-shop-dbcp");
+
+      String updateQuery =
+          "UPDATE customer SET email = ?, tel = ?, zipcode = ?, default_addr = ?, additional_addr = ?, admin_memo = ? WHERE id = ?";
+
+      pstmt = conn.prepareStatement(updateQuery);
+
+      pstmt.setString(1, newEmail);
+      pstmt.setString(2, newTel);
+      pstmt.setString(3, newZipcode);
+      pstmt.setString(4, newDefaultAddr);
+      pstmt.setString(5, newAdditionalAddr);
+      pstmt.setString(6, newAdminMemo);
+      pstmt.setString(7, inputId);
+
+      pstmt.executeUpdate();
+
+    } finally {
+      dbConn.closeCon(rs, pstmt, conn);
+    }
+  }
+
+  // id를 입력받아 access_limit_flag를 변경하는 메소드
+  public void updateAccessLimitFlag(String inputId) throws SQLException {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    DbConnection dbConn = DbConnection.getInstance();
+
+    try {
+      conn = dbConn.getConn("online-shop-dbcp");
+
+      String updateQuery = "UPDATE customer SET access_limit_flag = CASE " + "WHEN access_limit_flag = 'T' THEN 'F' "
+          + "WHEN access_limit_flag = 'F' THEN 'T' " + "ELSE access_limit_flag END " + "WHERE id = ?";
+
+      pstmt = conn.prepareStatement(updateQuery);
+
+      pstmt.setString(1, inputId);
+
+      pstmt.executeUpdate();
+
+    } finally {
+      dbConn.closeCon(rs, pstmt, conn);
+    }
   }
 
 
