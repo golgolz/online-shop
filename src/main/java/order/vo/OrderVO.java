@@ -20,5 +20,6 @@ public class OrderVO {
     private String deliveryStatus;
     private String purchaseStauts;
     private String paymetMethod;
-    private int statusFlag;
+    private int defaultAddrFlag;
+    private String statusFlag;
 }

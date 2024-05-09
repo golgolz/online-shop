@@ -1,5 +1,7 @@
+<%@page import="admin.login.AdminDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,17 +27,17 @@
     <div id="body">
         <h3><img src="http://www.treehospital.or.kr/board/_jns/img/main/h3Title_01.jpg" alt="ADMIN LOGIN"></h3>
         <form class="memberLogin" name="flogin" method="post" onsubmit="return flogin_submit(this);" autocomplete="off">
-            <input type="hidden" name="url" value="%2Fboard%2F_jns%2Findex.php%3F">
+            <input type="hidden" name="url" value="/board/_jns/index.jsp?">
             <div class="login-wrapper">
                 <div class="row-input">
                     <ul>
                         <li>
-                            <label for="user_id"><img src="http://www.treehospital.or.kr/board/_jns/img/main/imgId.gif" alt="아이디"></label>
-                            <input id="user_id" type="text" name="mb_id" class="inputText login" itemname="아이디" required="" value="">
+                            <label for="adminId"><img src="http://www.treehospital.or.kr/board/_jns/img/main/imgId.gif" alt="아이디"></label>
+                            <input id="adminId" type="text" name="adminId" class="inputText login" required="">
                         </li>
                         <li>
-                            <label for="password"><img src="http://www.treehospital.or.kr/board/_jns/img/main/imgPw.gif" alt="비밀번호"></label>
-                            <input id="password" type="password" name="mb_password" class="inputText login" itemname="패스워드" required="" value="">
+                            <label for="adminPassword"><img src="http://www.treehospital.or.kr/board/_jns/img/main/imgPw.gif" alt="비밀번호"></label>
+                            <input id="adminPassword" type="password" name="adminPassword" class="inputText login" required="">
                         </li>
                     </ul>
                 </div>
@@ -50,22 +52,22 @@
     <hr>
 </div>
 <script type="text/javascript">
-    document.flogin.mb_id.focus();
+    document.flogin.adminId.focus();
 
     function flogin_submit(f) {
-        if (f.mb_id.value == "") {
+        if (f.adminId.value == "") {
             alert("아이디를 입력해주세요.");
-            f.mb_id.focus();
+            f.adminId.focus();
             return false;
         }
 
-        if (f.mb_password.value == "") {
+        if (f.adminPassword.value == "") {
             alert("패스워드를 입력해주세요.");
-            f.mb_password.focus();
+            f.adminPassword.focus();
             return false;
         }
 
-        f.action = "./login_check.php";
+        f.action = "./login_process.jsp"; // 변경: PHP 대신 JSP 페이지로 요청 전송
         return true;
     }
 </script>

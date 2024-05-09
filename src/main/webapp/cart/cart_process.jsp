@@ -14,7 +14,7 @@
 	
 	if(cnt != 0){
 	    pageContext.setAttribute("msg", "수량이 변경되었습니다.");
-	    pageContext.setAttribute("url", "http://localhost/online-shop/cart.jsp");
+	    pageContext.setAttribute("url", "http://localhost/online-shop/cart/cart.jsp");
 	}//end if
 %>
 

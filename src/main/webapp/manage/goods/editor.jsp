@@ -6,7 +6,7 @@
 <jsp:include page="../../assets/jsp/admin/lib.jsp" />
 <script type="text/javascript">
 	$(function(){
-    	$("#user_menu").addClass("bg-gradient-primary");
+    	$("#dashboard_menu").addClass("bg-gradient-primary");
 	});
 </script>
 <!-- golgolz start -->
@@ -24,23 +24,18 @@
 					<ol
 						class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
 						<li class="breadcrumb-item text-sm"><a
-							class="opacity-5 text-dark" href="javascript:;">
-							관리자 기능</a></li>
+							class="opacity-5 text-dark" href="javascript:;"> 관리자 기능</a></li>
 						<!-- 하단의 대시보드 텍스트를 본인 기능으로 변경 필요  -->
 						<li class="breadcrumb-item text-sm text-dark active"
-							aria-current="page">사용자 관리</li>
+							aria-current="page">상품 관리</li>
 					</ol>
-					<h6 class="font-weight-bolder mb-0">사용자 관리</h6>
+					<h6 class="font-weight-bolder mb-0">상품 관리</h6>
 				</nav>
 			</div>
 		</nav>
-		<div class="container-fluid py-4">
-			<!-- golgolz start -->
-			<%
-			response.sendRedirect("userManage/userInfoManage.jsp");
-			%>
-			<!-- golgolz end -->
-		</div>
 	</main>
+	<!-- golgolz start -->
+	대시보드 페이지 입니다.
+	<!-- golgolz end -->
 </body>
 </html>

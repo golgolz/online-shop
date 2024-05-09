@@ -8,18 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 import database.DbConnection;
 
-public class NoticeDAO {
-    public static NoticeDAO noticeDAO;
+public class UserNoticeDAO {
+    public static UserNoticeDAO noticeDAO;
     private String[] columnNames;
 
-    private NoticeDAO() {
+    private UserNoticeDAO() {
         columnNames = new String[] {"title", "content"};
 
     }
 
-    public static NoticeDAO getInstance() {
+    public static UserNoticeDAO getInstance() {
         if (noticeDAO == null) {
-            noticeDAO = new NoticeDAO();
+            noticeDAO = new UserNoticeDAO();
         }
         return noticeDAO;
     }// getInstance
@@ -149,77 +149,6 @@ public class NoticeDAO {
         return nVO;
     }// selectDetailNotice
 
-    public int updateNotice(NoticeVO nVO) throws SQLException {
-        int cnt = 0;
 
-        Connection con = null;
-        PreparedStatement pstmt = null;
-
-        DbConnection dbConn = DbConnection.getInstance();
-
-        try {
-            StringBuilder updateNotice = new StringBuilder();
-            updateNotice.append("update notice").append("set  title=?, content=?, view-count=?")
-                    .append("where notice_id=?");
-
-            pstmt = con.prepareStatement(updateNotice.toString());
-
-            pstmt.setString(1, nVO.getNotice_id());
-            pstmt.setDate(2, nVO.getInput_date());
-            pstmt.setString(3, nVO.getAuthor());
-            pstmt.setInt(4, nVO.getView_count());
-            pstmt.setString(5, nVO.getTitle());
-            pstmt.setString(6, nVO.getContent());
-
-            cnt = pstmt.executeUpdate();
-        } finally {
-            dbConn.closeCon(null, pstmt, con);
-        } // end finally
-        return cnt;
-    }// updateNotice
-
-    public int deleteNotice(NoticeVO nVO) throws SQLException {
-        int cnt = 0;
-        DbConnection dbConn = DbConnection.getInstance();
-
-        Connection con = null;
-        PreparedStatement pstmt = null;
-
-        try {
-            StringBuilder deleteNotice = new StringBuilder();
-            deleteNotice.append("delete notice where notice_id=?");
-            pstmt = con.prepareStatement(deleteNotice.toString());
-
-            pstmt.setString(1, nVO.getNotice_id());
-
-            cnt = pstmt.executeUpdate();
-        } finally {
-            dbConn.closeCon(null, pstmt, con);
-        }
-        return cnt;
-    }// deleteNotice
-
-    public int updateCnt(int num) throws SQLException {
-        int cnt = 0;
-        Connection con = null;
-        PreparedStatement pstmt = null;
-
-        DbConnection db = DbConnection.getInstance();
-
-        try {
-            StringBuilder updateCnt = new StringBuilder();
-            updateCnt.append("update notice set cnt=cnt+1");
-            updateCnt.append("where notice_id=? ");
-
-            pstmt = con.prepareStatement(updateCnt.toString());
-
-            pstmt.setInt(1, num);
-
-            cnt = pstmt.executeUpdate();
-        } finally {
-            db.closeCon(null, pstmt, con);
-        }
-        return cnt;
-    }// updateCnt
 
 }// class
