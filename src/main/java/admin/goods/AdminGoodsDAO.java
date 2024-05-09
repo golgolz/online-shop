@@ -72,7 +72,8 @@ public class AdminGoodsDAO {
 
         try {
             conn = dbConn.getConn("online-shop-dbcp");
-            selectQuery.append("select code, name, default_img, input_date, price, amount from goods where 1=1");
+            selectQuery.append(
+                    "select code, name, default_img, input_date, update_date, price, amount from goods where 1=1");
 
             if (searchVO.getCode() != null) {
                 selectQuery.append(" and code like '%'||?||'%' ");
@@ -88,17 +89,6 @@ public class AdminGoodsDAO {
 
             if (searchVO.getPriceMax() != 0) {
                 selectQuery.append(" and price <= ? ");
-            }
-
-            if (searchVO.getSort() != null) {
-                switch (searchVO.getSort()) {
-                    case "price":
-                        selectQuery.append(" order by price desc ");
-                        break;
-                    case "input_date":
-                        selectQuery.append(" order by input_date desc ");
-                        break;
-                }
             }
 
             if (searchVO.getDate() != null) {
@@ -118,7 +108,33 @@ public class AdminGoodsDAO {
                 }
             }
 
-            // System.out.println(selectQuery.toString());
+            if (searchVO.getUpdateDate() != null) {
+                switch (searchVO.getUpdateDate()) {
+                    case "today":
+                        selectQuery.append(" and trunc(update_date) = to_date(sysdate, 'yy-mm-dd') ");
+                        break;
+                    case "week":
+                        selectQuery.append(
+                                " and update_date >= trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') and update_date < trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') + 7 ");
+                        break;
+                    case "month":
+                        selectQuery.append(
+                                " and extract(month from update_date) = extract(month from to_date(sysdate, 'yy-mm-dd')) and extract(year from update_date) = extract(year from to_date('2024-04-01', 'yy-mm-dd'))");
+                        break;
+                    default:
+                }
+            }
+
+            if (searchVO.getSort() != null) {
+                switch (searchVO.getSort()) {
+                    case "price":
+                        selectQuery.append(" order by price desc ");
+                        break;
+                    case "input_date":
+                        selectQuery.append(" order by input_date desc ");
+                        break;
+                }
+            }
 
             pstmt = conn.prepareStatement(selectQuery.toString());
             int bindIndex = 0;
@@ -142,9 +158,9 @@ public class AdminGoodsDAO {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                goods.add(
-                        new AdminGoodsSimpleVO(rs.getString("code"), rs.getString("name"), rs.getString("default_img"),
-                                rs.getDate("input_date"), rs.getInt("price"), rs.getInt("amount")));
+                goods.add(new AdminGoodsSimpleVO(rs.getString("code"), rs.getString("name"),
+                        rs.getString("default_img"), rs.getDate("input_date"), rs.getDate("update_date"),
+                        rs.getInt("price"), rs.getInt("amount")));
             }
         } finally {
             dbConn.closeCon(rs, pstmt, conn);

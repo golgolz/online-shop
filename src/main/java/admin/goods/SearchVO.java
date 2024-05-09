@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class SearchVO {
     private int field;
     private String code;
@@ -16,5 +18,6 @@ public class SearchVO {
     private int priceMin;
     private int priceMax;
     private String date;
+    private String updateDate;
     private String sort;
 }
