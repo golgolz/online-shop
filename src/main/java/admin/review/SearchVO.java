@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SearchVO {
-  private StringBuilder field, keyword;
+  private String field, keyword;
   private String currentPage;
   private int startNum, endNum;
 }
