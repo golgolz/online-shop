@@ -13,7 +13,7 @@
 	    out.println("안녕하세요, " + adminId + "님! 비밀번호: " + adminPassword);
 	} else {
 	    // 세션에 데이터가 없을 때 로그인 페이지로 리다이렉트
-	     %>
+	  %>
       <script type='text/javascript'>
       alert('로그인 하세요!');
       location='adminLogin/adminLogin.jsp';
