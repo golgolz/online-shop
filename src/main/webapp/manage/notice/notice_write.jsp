@@ -12,7 +12,15 @@
 <script type="text/javascript">
 	$(function(){
     	$("#notice_menu").addClass("bg-gradient-primary");
-	});
+    	
+		$("#btnList").click(function(){
+			history.back();
+		});//click
+		$("#btnWrite").click(function(){
+			$("#frmWrite").submit();
+		});//click
+	});//ready
+		
 </script>
 
 <!-- golgolz start -->
@@ -98,18 +106,6 @@
 <option value="1">선택</option>
 <option value="2">공지사항</option>
 </select> <input id="subject" name="subject" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" maxLength="125" value="" type="text"  />  </td>
-                </tr>
-<tr class="displaynone">
-<th scope="row">작성자</th>
-                    <td></td>
-                </tr>
-<tr class="displaynone">
-<th scope="row">이메일</th>
-                    <td></td>
-                </tr>
-<tr class="displaynone">
-<th scope="row">평점</th>
-                    <td></td>
                 </tr>
 <tr>
 <td colspan="2" class="clear">
@@ -544,12 +540,15 @@
 </div>
 <div class="ec-base-button ">
             <span class="gLeft">
-                <span class="displaynone"><a href="#none" class="btnNormal sizeS" onclick="">관리자 답변보기</a></span>
-                <a href="notice.jsp" class="btnNormalFix sizeS">목록</a>
+                <input type="button" value="목록" class="btnNormalFix sizeS" id="btnList"/>
             </span>
             <span class="gRight">
-                <a href="#none" class="btnSubmitFix sizeS" onclick=";">등록</a>
-                <a href="notice.jsp" class="btnBasicFix sizeS">취소</a>
+            	<input type="button" value="등록" class="btnSubmitFix sizeS" id="btnWrite"/>
+            	<input type="button" value="취소" class="btnBasicFix sizeS" id="btnCancel"/>
+            	
+            	
+               <!--  <a href="#none" class="btnSubmitFix sizeS" onclick=";">등록</a>
+                <a href="notice.jsp" class="btnBasicFix sizeS">취소</a> -->
             </span>
         </div>
 </div>

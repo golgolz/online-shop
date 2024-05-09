@@ -1,6 +1,10 @@
+<%@page import="notice.NoticeVO"%>
+<%@page import="java.util.List"%>
+<%@page import="notice.NoticeDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     info=""%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -17,6 +21,11 @@
 th {background-color: #F5F5F5; text-align: center}
 .btnInsert {float: right}
 </style>
+<script type="text/javascript">
+	$(function() {
+		$("#btn")
+	});//ready
+</script>
 
 <body>
 
@@ -27,7 +36,43 @@ th {background-color: #F5F5F5; text-align: center}
 			<!-- golgolz start -->
 			<div id="container">
 				<div id="contents">
+<%
+request.setCharacterEncoding("UTF-8");
+%>
+<jsp:useBean id="sVO" class="notice.SearchVO" scope="page"></jsp:useBean>
+<jsp:setProperty property="*" name="sVO"/>
 
+<%
+try{
+    NoticeDAO nDAO=NoticeDAO.getInstance();
+    int totalCount = nDAO.SelectTotalCount(sVO);
+    int pageScale=10;
+    int totalPage=(int)Math.ceil((double)totalCount/pageScale);
+    String tempPage=sVO.getCurrentPage();
+    int currentPage=1;
+    if(tempPage !=null) {
+        try{
+        currentPage=Integer.parseInt(tempPage);
+        }catch(NumberFormatException nfe){
+        }//end catch
+    }//end if
+    int startNum=currentPage *pageScale-pageScale+1;
+    int endNum=startNum+pageScale-1;
+    
+    sVO.setStartNum(startNum);
+    sVO.setEndNum(endNum);
+    
+    List<NoticeVO> list=nDAO.selectNotice(sVO);
+    pageContext.setAttribute("list", list);
+    pageContext.setAttribute("totalCount", totalCount);
+    pageContext.setAttribute("pageScale", pageScale);
+    pageContext.setAttribute("currentPage", currentPage);
+	
+} catch (Exception e) {
+   	 e.printStackTrace(); 
+   	out.println("다시 시도해주세요.");
+}
+%>
 					<div
 						class="xans-element- xans-board xans-board-listpackage-1002 xans-board-listpackage xans-board-1002 ">
 						<div
@@ -76,11 +121,23 @@ th {background-color: #F5F5F5; text-align: center}
 									</thead>
 									<tbody
 										class="xans-element- xans-board xans-board-list-1002 xans-board-list xans-board-1002 center">
+										
+										<c:forEach var="nVO" items="${list}" varStatus="i">
+										<tr>
+										<td> <c:out value="${totalCount-(currentPage-1)*pageScale -i.index }"/></td>
+										<td> <a href="notice_read_frm.jsp?seq=${nVO.notice_id}&currentPage=${empty param.currentPage ?1:param.currentPage }"><c:out value="${nVO.title }"/></a></td>
+										<td> <c:out value="${nVO.author}"/></td>
+										<td> <c:out value="${nVO.input_date}"/></td>
+										<td> <c:out value="${nVO.view_count}"/></td>
+										
+										</tr>
+										</c:forEach>
+										
 										<!--
                     $login_page_url = /member/login.html
                     $deny_access_url = /index.html
                 -->
-										<tr style="background-color: #FFFFFF; color: #555555;"
+										<!-- <tr style="background-color: #FFFFFF; color: #555555;"
 											class="xans-record-">
 											<td>37</td>
 											<td class="displaynone"></td>
@@ -190,7 +247,7 @@ th {background-color: #F5F5F5; text-align: center}
 											<td class=""><span class="txtNum">2021-03-10</span></td>
 											<td class=""><span class="txtNum">545</span></td>
 										</tr>
-									</tbody>
+									</tbody> -->
 								</table>
 								<p
 									class="xans-element- xans-board xans-board-empty-1002 xans-board-empty xans-board-1002 message displaynone "></p>
@@ -229,24 +286,26 @@ th {background-color: #F5F5F5; text-align: center}
 							<fieldset class="boardSearch">
 								<legend>게시물 검색</legend>
 								<p style="padding-bottom:30px">
-									<select id="search_date" name="search_date" fw-filter=""
+								<!-- 	<select id="search_date" name="search_date" fw-filter=""
 										fw-label="" fw-msg="">
 										<option value="week">일주일</option>
 										<option value="month">한달</option>
 										<option value="month3">세달</option>
 										<option value="all">전체</option>
-									</select> <select id="search_key" name="search_key" fw-filter=""
+									</select>  -->
+									<select id="search_key" name="search_key" fw-filter=""
 										fw-label="" fw-msg="">
 										<option value="subject">제목</option>
 										<option value="content">내용</option>
-										<option value="writer_name">글쓴이</option>
+										<!-- <option value="writer_name">글쓴이</option>
 										<option value="member_id">아이디</option>
-										<option value="nick_name">별명</option>
+										<option value="nick_name">별명</option> -->
 									</select> <input id="search" name="search" fw-filter="" fw-label="" fw-msg="" class="inputTypeText" placeholder="" value="" type="text" /> 
-										<a href="#none" class="btnEmFix" onclick="BOARD.form_submit('boardSearchForm');">검색</a> 
-										<!-- <a href="#none" class="btnEmFix2" onclick="BOARD.form_submit('boardModifyForm');">수정</a> 
-										<a href="#none" class="btnEmFix3" onclick="BOARD.form_submit('boardDeleteForm');">삭제</a> 
-										<a id="btnInsert" href="notice_write.jsp" class="btnEmFix4">작성</a> -->
+										<input type="button" class="btnEmFix" id="btnSearch" value="검색">
+										<!-- <a href="#none" class="btnEmFix" onclick="BOARD.form_submit('boardSearchForm');">검색</a> 
+										<a href="#none" class="btnEmFix2" onclick="BOARD.form_submit('boardModifyForm');">수정</a> 
+										<a href="#none" class="btnEmFix3" onclick="BOARD.form_submit('boardDeleteForm');">삭제</a> --> 
+										<!-- <input type="button" class="btnEmFix4" id="btnInsert" value="글 작성"href="notice_write.jsp" ></a> -->
 							</fieldset>
 						</div>
 				</div>
