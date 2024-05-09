@@ -1,3 +1,8 @@
+<%@page import="java.sql.SQLException"%>
+<%@page import="admin.goods.AdminGoodsDAO"%>
+<%@page import="java.io.File"%>
+<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
+<%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <!DOCTYPE html>
@@ -13,12 +18,32 @@
 <!-- golgolz end -->
 </head>
 <body>
-<% request.setCharacterEncoding("UTF-8"); %>
-	<jsp:useBean id="goodsVO" class="admin.goods.AdminGoodsDetailVO" scope="page" />
-	<jsp:setProperty property="*" name="goodsVO" />
 	<%
-		System.out.println(goodsVO.toString());
+	try{
+		File saveDir = new File("C:/Users/user/git/online-shop/src/main/webapp/assets/images/goods");
+		int maxSize = 1024 * 1024 * 100;
+		MultipartRequest mr = new MultipartRequest(request, saveDir.getAbsolutePath(), maxSize, "UTF-8", new DefaultFileRenamePolicy());
+		
+		AdminGoodsDAO adminGoodsDAO = AdminGoodsDAO.getInstance();
+	    
+	    int count = adminGoodsDAO.updateSoldOut(mr.getParameter("code"));
+	    
+	    if(count != 1){
+	        // undo transaction or throws exception
+	        return;
+	    }
+	    %>
+	    <script type="text/javascript">
+		    alert("수정이 완료되었습니다.");
+		    location.href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?code=<%= mr.getParameter("code") %>";
+	    </script>
+	    <%
+	} catch(SQLException se){
+	    se.printStackTrace();
+	    // location.href="http://192.168.10.211/online-shop/error/err_500.html"
+	} catch(Exception e){
+	    e.printStackTrace();
+	}
 	%>
-	${param.name }
 </body>
 </html>

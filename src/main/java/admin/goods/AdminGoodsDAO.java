@@ -187,4 +187,29 @@ public class AdminGoodsDAO {
 
         return count;
     }
+
+    public int updateSoldOut(String code) throws SQLException {
+        int count = 0;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        StringBuilder updateQuery = new StringBuilder();
+
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+            updateQuery.append("update goods set ").append("sold_out_flag = 'T', input_date = sysdate")
+                    .append(" where code = ? ");
+            pstmt = conn.prepareStatement(updateQuery.toString());
+
+            pstmt.setString(1, code);
+
+            count = pstmt.executeUpdate();
+        } finally {
+            dbConn.closeCon(null, pstmt, conn);
+        }
+
+        return count;
+    }
 }
