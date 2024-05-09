@@ -286,6 +286,7 @@ public class UserManageDAO {
     ResultSet rs = null;
     StringBuilder selectQuery = new StringBuilder();
 
+
     DbConnection dbConn = DbConnection.getInstance();
 
     try {
