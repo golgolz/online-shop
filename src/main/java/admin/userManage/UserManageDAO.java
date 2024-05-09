@@ -404,5 +404,29 @@ public class UserManageDAO {
     }
   }
 
+  // id를 입력받아 access_limit_flag를 변경하는 메소드
+  public void updateAccessLimitFlag(String inputId) throws SQLException {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    DbConnection dbConn = DbConnection.getInstance();
+
+    try {
+      conn = dbConn.getConn("online-shop-dbcp");
+
+      String updateQuery = "UPDATE customer SET access_limit_flag = CASE " + "WHEN access_limit_flag = 'T' THEN 'F' "
+          + "WHEN access_limit_flag = 'F' THEN 'T' " + "ELSE access_limit_flag END " + "WHERE id = ?";
+
+      pstmt = conn.prepareStatement(updateQuery);
+
+      pstmt.setString(1, inputId);
+
+      pstmt.executeUpdate();
+
+    } finally {
+      dbConn.closeCon(rs, pstmt, conn);
+    }
+  }
+
 
 }

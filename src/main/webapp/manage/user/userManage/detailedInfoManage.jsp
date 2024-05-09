@@ -50,7 +50,7 @@ if (request.getParameter("saveBtn") != null) {
     String newAdminMemo = request.getParameter("memo");
     System.out.println("새로운 사용자 관리자 메모: " + newAdminMemo);
 
-    // 사용자 정보를 업데이트합니다.
+    // 사용자 정보를 업데이트
     try {
             dao.updateUserDetails(userId, newEmail, newTel, newZipcode, newDefaultAddr, newAdditionalAddr, newAdminMemo);
             System.out.println("사용자 정보 업데이트 완료");
@@ -71,7 +71,20 @@ if (request.getParameter("saveBtn") != null) {
   		response.sendRedirect("userInfoManage.jsp");
 	}
 
-    // 이후 코드는 수정된 userInfo 객체의 값을 사용하여 JSP 페이지에 데이터를 출력합니다.
+	
+	// "접근차단" 버튼이 클릭되었는지 확인
+	if (request.getParameter("toggleAccessBtn") != null) {
+	    try {
+	        dao.updateAccessLimitFlag(userId);
+	        System.out.println("access_limit_flag를 토글하였습니다.");
+	        
+	        // 변경 후 페이지를 다시 로드합니다.
+	        response.sendRedirect("detailedInfoManage.jsp?userId=" + userId);
+	    } catch (Exception e) {
+	        System.out.println("DAO updateAccessLimitFlag(userId) 호출 중 예외 발생: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	}
 %>
 
 
@@ -172,7 +185,7 @@ if (request.getParameter("saveBtn") != null) {
        						}
        					 %>
                             <input type="text" name="intercept_date" value="<%= accessLimitDisplay %>" class="frm_input" size="1" maxlength="8" readonly>
-                            <a href="" class="btn_small grey">접근차단</a>
+                            <input type="submit" name="toggleAccessBtn" value="접근차단" class="btn_medium">
                             
                         </td>
                     </tr>
