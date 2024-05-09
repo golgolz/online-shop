@@ -4,6 +4,7 @@
 <%@page import="admin.review.AdminReviewDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+	   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,12 +51,12 @@
 			<%
 			request.setCharacterEncoding("UTF-8");
 			%>
-			<jsp:useBean id="sVO" class="admin.review.SearchVO" scope="page"/><!-- VO객체를 연결할 때만 씀 -->
-			<jsp:setProperty property="*" name="sVO"/>
+			<jsp:useBean id="rVO" class="admin.review.SearchVO" scope="page"/><!-- VO객체를 연결할 때만 씀 -->
+			<jsp:setProperty property="*" name="rVO"/>
 			<%
-		try{
+		 try{
 			AdminReviewDAO arDAO=AdminReviewDAO.getInstance();
-			int totalCount=arDAO.selectTotalCount(sVO);
+			/* int totalCount=arDAO.selectTotalCount(sVO);
 			int pageScale=10;
 			
 			int totalPage=(int)Math.ceil((double)totalCount/pageScale);
@@ -74,9 +75,9 @@
 			int endNum=startNum + pageScale - 1;
 			
 			sVO.setStartNum(startNum);
-			sVO.setEndNum(endNum);
+			sVO.setEndNum(endNum); */
 			
-			List<ReviewVO> list=arDAO.selectAllReview(sVO);
+			List<ReviewVO> list=arDAO.selectAllReview(rVO);
 			pageContext.setAttribute("list", list);
 			%>
 			<!-- <div id="contentcolumn" class="">
@@ -227,7 +228,22 @@
 		        </tr>
 		    </thead>
 		    <tbody>
-								<tr>
+		   <c:forEach var="rVO" items="${ list }" varStatus="i">
+			<tr>
+			<td><c:out value="${ i.count }"/></td>
+			<td><%-- <a href="read.jsp?num=${ rVO.reviewId }"> --%><c:out value="${ rVO.defaultImg }"/><c:out value="${ rVO.name }"/><!-- </a> --></td>
+			<td><c:out value="${ rVO.title }"/></td>
+			<td><c:out value="${ rVO.inputDate }"/></td>
+			<td><c:out value="${ rVO.id }"/></td>
+			</tr>
+			</c:forEach>
+ 					<%
+					}catch(SQLException se){
+					se.printStackTrace();
+					out.println("ㅈㅅ");
+					}
+ 					%>
+								<!-- <tr>
 		        	<td class="tdL" align="center"><input type="checkbox" name="bbs_seq[]" value="23"></td>
 					<td class="tdL" align="center">2</td>
 					<td class="tdL" align="center">
@@ -240,14 +256,10 @@
 					</td>
 		            <td class="tdL" align="left">
 												<a href="http://localhost/online-shop/manage/review/review_select.jsp" class="fc_blue"><u>반신반의하면서 샀거든요? 효과 짱이에요.</u></a> 
-																		<!-- <img src="/admin/images/community/icon_best.gif"> -->																													</td>
 		            <td class="tdL" align="center">23.04.25 11:13</td>
 		            <td class="tdL" align="center"><a href="#" class="fc_gray77" seq="imean882" ui_user="imean882" style="color:;">최고관리자 (imean882)</a></td>
-		            <!-- <td class="tdL" align="center">O</td> -->
+		            <td class="tdL" align="center">O</td>
 		            <td class="tdR" align="center">11</td>
-		            <!-- <td class="tdL" align="center">
-												<img src="/admin/images/community/icon_star05.gif">
-											</td> -->
 				</tr>
 								<tr>
 		        	<td class="tdL" align="center"><input type="checkbox" name="bbs_seq[]" value="21"></td>
@@ -265,12 +277,9 @@
 																																															</td>
 		            <td class="tdL" align="center">23.04.21 17:50</td>
 		            <td class="tdL" align="center"><a href="#" class="fc_gray77" seq="imean882" ui_user="imean882" style="color:;">최고관리자 (imean882)</a></td>
-		            <!-- <td class="tdL" align="center">O</td> -->
+		            <td class="tdL" align="center">O</td>
 		            <td class="tdR" align="center">15</td>
-		            <!-- <td class="tdL" align="center">
-												<img src="/admin/images/community/icon_star05.gif">
-											</td> -->
-				</tr>
+				</tr> -->
 						    </tbody>
 		</table>
 		</div>  
@@ -285,15 +294,9 @@
 						<img src="https://demo01.swm.whoismall.com/data/images/default/button/btn_navi_arrLL.gif" border="0" align="absmiddle"></a>
 					<a href="/admin/?act=community&ch=community&bbs_code=user_review&bbs_mode=list&page=1" class="pre">
 						<img src="https://demo01.swm.whoismall.com/data/images/default/button/btn_navi_arrL.gif" border="0" align="absmiddle"></a>
- 					<% for(int i=1; i <= totalPage; i++){ %>
+ 					<%-- <% for(int i=1; i <= totalPage; i++){ %>
  					[<a href="review.jsp?currentPage=<%= i %>"><%= i %></a>]
- 					<% } %>
- 					<%
-		}catch(SQLException se){
-		  se.printStackTrace();
-		 
-		}
- 					%>
+ 					<% } %> --%>
 					<!-- <a href="/admin/?act=community&ch=community&bbs_code=user_review&bbs_mode=list&page=1" class="on"> 1 </a> -->
 					<a href="/admin/?act=community&ch=community&bbs_code=user_review&bbs_mode=list&page=1" class="next">
 						<img src="https://demo01.swm.whoismall.com/data/images/default/button/btn_navi_arrR.gif" border="0" align="absmiddle"></a>
