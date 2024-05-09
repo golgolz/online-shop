@@ -9,25 +9,6 @@
 <!-- golgolz start -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<script type="text/javascript">
-	$(function() {
-		$("#goods_menu").addClass("bg-gradient-primary");
-		$('#goods_content').summernote({
-	        placeholder: 'Hello stand alone ui',
-	        tabsize: 2,
-	        height: 120,
-	        toolbar: [
-	          ['style', ['style']],
-	          ['font', ['bold', 'underline', 'clear']],
-	          ['color', ['color']],
-	          ['para', ['ul', 'ol', 'paragraph']],
-	          ['table', ['table']],
-	          ['insert', ['link', 'picture', 'video']],
-	          ['view', ['fullscreen', 'codeview', 'help']]
-	        ]
-	      });
-	});
-</script>
 <link href="../../assets/css/manage/goods/general.css" rel="stylesheet" />
 <link href="../../assets/css/manage/goods/goods.css" rel="stylesheet" />
 <link href="../../assets/css/manage/goods/default.css" rel="stylesheet" />
@@ -50,6 +31,30 @@
 	margin-right: 2px;
 }
 </style>
+<script type="text/javascript">
+	$(function() {
+		$("#goods_menu").addClass("bg-gradient-primary");
+		
+		$("#btn-register").click(function(){
+	        $("#dataForm").submit();
+		});
+		
+		$("#btn-update").click(function(){
+	        $("#dataForm").attr("action", "http://localhost/online-shop/manage/goods/update_process.jsp");
+	        $("#dataForm").submit();
+		});
+		
+		$("#btn-soldout").click(function(){
+	        $("#dataForm").attr("action", "http://localhost/online-shop/manage/goods/soldout_process.jsp");
+	        $("#dataForm").submit();
+		});
+		
+		$("#btn-delete").click(function(){
+	        $("#dataForm").attr("action", "http://localhost/online-shop/manage/goods/delete_process.jsp");
+	        $("#dataForm").submit();
+		});
+	});
+</script>
 <!-- golgolz end -->
 </head>
 <body>
@@ -59,8 +64,6 @@
 		AdminGoodsDAO adminGoodsDAO = AdminGoodsDAO.getInstance();
 		if(request.getParameter("code") != null){
 			goods = adminGoodsDAO.selectOneGoods((String)request.getParameter("code"));
-			System.out.println(goods.getMaker());
-			System.out.println("삼성".equals(goods.getMaker()));
 		}
 	%>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
@@ -87,11 +90,7 @@
 			<!-- golgolz start -->
 			<div id="contentcolumn" class="">
 				<div class="contents">
-					<form
-						id="dataForm" 
-						name="dataForm"
-						action="https://demo01.swm.whoismall.com/admin/" method="post"
-						enctype="multipart/form-data" autocomplete="off">
+					<form id="dataForm" name="dataForm" action="http://localhost/online-shop/manage/goods/register_process.jsp" method="post" enctype="multipart/form-data">
 						<div class="subtitle">
 							<img
 								src="http://localhost/online-shop/assets/images/manage/goods/register/bul_subtitle.gif" />
@@ -110,13 +109,14 @@
 								<tr>
 									<td class="label">상품명</td>
 									<td class="box text">
+									<input type="hidden" name="code" value="<%= goods.getCode() %>" />
 									<input type="text" name="name" value="<%= goods.getName() == null ? "" : goods.getName() %>" size="50" class="inputbox naver_shopping_prodName" />
 									</td>
 								</tr>
-
 								<tr>
 									<td class="label">간략설명</td>
-									<td class="box text"><input type="text" name="description"
+									<td class="box text">
+									<input type="text" name="description"
 										value="<%= goods.getDescription() == null ? "" : goods.getDescription() %>" style="width: 100%" class="inputbox" /></td>
 								</tr>
 								<tr>
@@ -134,9 +134,9 @@
 								<tr>
 									<td class="label">모델</td>
 									<td class="box text">
-										<select name="discount_type[]" id="discount_type00">
-											<option value="0"<%= "S24".equals(goods.getModel()) ? " selected" : "" %>>S24</option>
-											<option value="1"<%= "ZFLIP".equals(goods.getModel()) ? " selected" : "" %>>ZFLIP</option>
+										<select name="model" id="discount_type00">
+											<option value="S24"<%= "S24".equals(goods.getModel()) ? " selected" : "" %>>S24</option>
+											<option value="ZFLIP"<%= "ZFLIP".equals(goods.getModel()) ? " selected" : "" %>>ZFLIP</option>
 										</select>
 									</td>
 								</tr>
@@ -144,14 +144,11 @@
 									<td class="label">재질</td>
 									<td class="box text">
 										<label>
-											<input type="radio"
-											id="good_code_type1" name="material" value="1"
+											<input type="radio" id="good_code_type1" name="material" value="1"
 											<%= "실리콘".equals(goods.getMaterial()) ? " checked" : "" %>/> 실리콘
 										</label>&nbsp;&nbsp; 
 										<label>
-											<input
-											type="radio" id="good_code_type0" name="material"
-											value="0" 
+											<input type="radio" id="good_code_type0" name="material" value="0" 
 											<%= "하드".equals(goods.getMaterial()) ? " checked" : "" %>/> 하드
 										</label> 
 									</td>
@@ -192,12 +189,12 @@
 									<td class="box text">
 										<label>
 											<input type="radio"
-											id="good_stock_type1" name="soldOutFlag" value="1" 
+											id="good_stock_type1" name="soldOutFlag" value="T" 
 											<%= "T".equals(goods.getSoldOutFlag()) ? " checked" : "" %>/> 품절
 										</label>&nbsp;&nbsp;
 										<label>
 											<input type="radio" id="good_stock_type2"
-											name="soldOutFlag" value="2" 
+											name="soldOutFlag" value="F" 
 											<%= "F".equals(goods.getSoldOutFlag()) ? " checked" : "" %>/> 잔여수량
 										</label> 
 										<input type="text"
@@ -230,6 +227,7 @@
 										<td class="label">기본 이미지</td>
 										<td class="box text">
 											<div id="good_file_big_input_area">
+												<input type="hidden" name="defaultImageOrigin" value="<%= goods.getDefaultImage() %>" />
 												<input type="file" name="defaultImage" style="width: 300px" />
 											</div>
 										</td>
@@ -258,6 +256,7 @@
 									<tr>
 										<td class="label">상세설명 이미지</td>
 										<td class="box text">
+											<input type="hidden" name="detailImageOrigin" value="<%= goods.getDetailImage() %>" />
 											<input type="file" name="detailImage" style="width: 300px" />
 										</td>
 									</tr>
@@ -265,12 +264,13 @@
 							</table>
 						<div class="alignCenter">
 							<% if(request.getParameter("code") == null){ %>
-								<input type="button" class="btn btn-success btn-sm detail-control" value="등록하기" />
+								<input type="button" id="btn-register" class="btn btn-success btn-sm detail-control" value="등록하기" />
 							<% } else { %>
-								<input type="button" class="btn btn-warning btn-sm detail-control" value="수정하기" />
-								<input type="button" class="btn btn-danger btn-sm detail-control" value="삭제하기" />
-								<input type="button" class="btn btn-secondary btn-sm detail-control" value="품절처리하기" />
+								<input type="button" id="btn-update" class="btn btn-warning btn-sm detail-control" value="수정하기" />
+								<input type="button" id="btn-delete" class="btn btn-danger btn-sm detail-control" value="삭제하기" />
+								<input type="button" id="btn-soldout" class="btn btn-secondary btn-sm detail-control" value="품절처리하기" />
 							<% } %>
+								<input type="button" id="btn-back" class="btn btn-success btn-sm detail-control" value="뒤로" onClick="javascript:history.back();"/>
 						</div>
 					</form>
 				</div>
