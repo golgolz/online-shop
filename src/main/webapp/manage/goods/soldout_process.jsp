@@ -1,4 +1,5 @@
 <%@page import="java.sql.SQLException"%>
+<%@page import="admin.goods.AdminGoodsDetailVO"%>
 <%@page import="admin.goods.AdminGoodsDAO"%>
 <%@page import="java.io.File"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
@@ -18,13 +19,15 @@
 <!-- golgolz end -->
 </head>
 <body>
-	<%
+<% request.setCharacterEncoding("UTF-8"); %>
+<%
+	File saveDir = new File("C:/Users/user/git/online-shop/src/main/webapp/assets/images/goods");
+	int maxSize = 1024 * 1024 * 100;
+	
 	try{
-		File saveDir = new File("C:/Users/user/git/online-shop/src/main/webapp/assets/images/goods");
-		int maxSize = 1024 * 1024 * 100;
+		// 3. 업로드 컴포넌트 생성 (cos.jar), 생성과 동시에 파일이 업로드된다.
 		MultipartRequest mr = new MultipartRequest(request, saveDir.getAbsolutePath(), maxSize, "UTF-8", new DefaultFileRenamePolicy());
-		
-		AdminGoodsDAO adminGoodsDAO = AdminGoodsDAO.getInstance();
+	    AdminGoodsDAO adminGoodsDAO = AdminGoodsDAO.getInstance();
 	    
 	    int count = adminGoodsDAO.updateSoldOut(mr.getParameter("code"));
 	    
@@ -44,6 +47,6 @@
 	} catch(Exception e){
 	    e.printStackTrace();
 	}
-	%>
+%>
 </body>
 </html>

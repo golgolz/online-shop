@@ -113,6 +113,7 @@
 <link href="../../assets/css/manage/goods/general.css" rel="stylesheet" />
 <link href="../../assets/css/manage/goods/goods.css" rel="stylesheet" />
 <!-- golgolz end -->
+<jsp:include page="../../assets/jsp/admin/lib.jsp" />
 </head>
 <body>
 	<jsp:useBean id="searchVO" class="admin.goods.SearchVO" scope="page" />
