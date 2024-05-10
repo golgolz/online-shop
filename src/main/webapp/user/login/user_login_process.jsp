@@ -9,14 +9,15 @@
     response.setHeader("Pragma", "no-cache"); // HTTP 1.0
     response.setDateHeader("Expires", 0); // Proxies
 
-    // 폼 데이터에서 유저 아이디와 비밀번호를 가져오기
+ // 폼 데이터에서 유저 아이디와 비밀번호를 가져옴
     String userId = request.getParameter("member_id");
     String password = request.getParameter("member_passwd");
 
     // 디버깅을 위한 출력
     System.out.println("받은 userId: " + userId);
     System.out.println("받은 password: " + password);
-
+    
+    
     // UserDAO 객체 생성
     UserDAO userDAO = new UserDAO();
 
@@ -34,14 +35,17 @@
         System.out.println("세션에 userId 저장 완료");
 
         // 메인 페이지로 리다이렉트
-        response.sendRedirect("../index.jsp");
+        response.sendRedirect("../../index.jsp");
     } else {
         // 로그인 실패 시 로그인 페이지로 리다이렉트
-%>
+        %>
         <script type='text/javascript'>
-        alert('로그인 실패!');
-        location='userLogin.jsp';
+            alert('로그인 실패야!');
+        	<%System.out.println("받은 userId: " + userId);
+        	System.out.println("받은 password: " + password);
+        	System.out.println("---------------------------- " );%>
+            location='userLogin.jsp';
         </script>
-<%
+        <%
     }
 %>
