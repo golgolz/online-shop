@@ -67,7 +67,7 @@
             return false;
         }
 
-        f.action = "./login_process.jsp"; // 변경: PHP 대신 JSP 페이지로 요청 전송
+        f.action = "./admin_login_process.jsp"; // 변경: PHP 대신 JSP 페이지로 요청 전송
         return true;
     }
 </script>
