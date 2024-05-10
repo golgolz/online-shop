@@ -11,19 +11,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="icon" href="http://192.168.10.216/jsp_prj/common/favicon.ico"/>
-<!--bootstrap시작-->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<!--bootstrap끝-->
-<link rel="stylesheet" href="http://192.168.10.216/jsp_prj/common/css/main.css" media="all" />
-<link rel="stylesheet" href="http://192.168.10.216/jsp_prj/common/css/board.css" type="text/css" media="all" />
+<jsp:include page="../../assets/jsp/admin/lib.jsp" />
+<script type="text/javascript">
+	$(function(){
+    	$("#review_menu").addClass("bg-gradient-primary");
+	});
+</script>
+<!-- golgolz start -->
+<link rel="stylesheet" href="https://demo01.swm.whoismall.com/common/css/admin_community.css?v=202008110000" type="text/css" />
+	<link href="https://demo01.swm.whoismall.com/common/css/bbs_data_naver.css?v=202008110000" type="text/css" rel="stylesheet" >
+<body class="mainlayout">
 
-<!--jQuery CDN 시작-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<!--jQuery CDN 끝-->
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td height="125" valign="top"><link type="text/css" href="https://demo01.swm.whoismall.com/common/css/admin_general.css?v=202008110000" rel="stylesheet">
+<!-- golgolz end -->
 
 <style type="text/css">
 	#wrap{width: 1462px; height:749; margin:0px auto;}
@@ -64,6 +66,29 @@
 </script>
 </head>
 <body>
+<jsp:include page="../../assets/jsp/admin/header.jsp" />
+	<main
+		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps--active-y">
+		<nav
+			class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
+			id="navbarBlur" data-scroll="true">
+			<div class="container-fluid py-1 px-3">
+				<nav aria-label="breadcrumb">
+					<ol
+						class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+						<li class="breadcrumb-item text-sm"><a
+							class="opacity-5 text-dark" href="http://localhost/online-shop/manage/index.jsp">
+							관리자 기능</a></li>
+						<!-- 하단의 대시보드 텍스트를 본인 기능으로 변경 필요  -->
+						<li class="breadcrumb-item text-sm text-dark active"
+							aria-current="page"><a href="http://localhost/online-shop/manage/review/review.jsp">리뷰 관리</a></li>
+					</ol>
+					<!-- <h6 class="font-weight-bolder mb-0"><a href="http://localhost/online-shop/manage/review/review.jsp">리뷰 관리</a></h6> -->
+				</nav>
+			</div>
+		</nav>
+		<div class="container-fluid py-4">
+			<!-- golgolz start -->
 <div id="wrap">
 <div id="header"></div>
 <div id="content">
@@ -118,10 +143,125 @@
 	    시작번호 :<%=startNum%>번<br/>
 	    끝번호 :<%=endNum%>번<br/> --%>
 	    
+	    <div class="contents">
+		<!--begin of submain-->
+		<form name="dataForm" action="./" method="post">
+		<input type="hidden" name="act"  value="community">
+		<input type="hidden" name="ch"   value="community">
+		<input type="hidden" name="mode" value="search">
+		<input type="hidden" name="oc"   value="">
+		<input type="hidden" name="os"   value="">
+		<input type="hidden" name="bbs_code"  value="user_review">
+		<input type="hidden" name="bbs_mode"  value="list">
+		<input type="hidden" name="cate_code" value="GD">
+		<input type="hidden" name="seq"  value="">
+		
+		<!-- <div class="subtitle"><img src="/admin/images/event/bul_subtitle.gif"> 사용후기 리스트</div> -->
+		
+		<table cellpadding="0" cellspacing="1" border="0" class="tbstyleB" width="100%">
+			<col width="120">
+		    <col width="*">
+			<tr><td colspan="2" class="top5"></td></tr>
+		    <tr>
+		    	<td class="label">상품검색</td>
+		        <td class="box text">
+					<input type='radio' name='category' value='apple' />애플
+					<input type='radio' name='category' value='samsung' />삼성
+		        </td>
+		    </tr>
+			<tr>
+				<td class="label">등록일</td>
+				<td class="box text">
+				<input type="text" id="bbs_sdate" name="bbs_sdate" style="width:68px;" class="inputbox" value=""> ~ <input type="text" id="bbs_edate" name="bbs_edate" style="width:68px;" class="inputbox" value="">
+				<a href="#" id="date_term1" mode="yesterday"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_yesterday.gif"></a>
+				<a href="#" id="date_term2" mode="this_day"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_today.gif"></a>
+				<a href="#" id="date_term3" mode="this_week"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_thisWeek.gif"></a>
+				<a href="#" id="date_term4" mode="this_month"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_thisMonth.gif"></a>
+				<a href="#" id="date_term5" mode=""><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_total.gif"></a></td>
+			</tr>
+		    <!-- <tr>
+		    	<td class="label">평점</td>
+		        <td class="box text">
+		        	<input type="checkbox" id="bbs_review_grade1" name="bbs_review_grade[]" value="100"> <img src="/admin/images/community/icon_star05.gif"> 
+		            <input type="checkbox" id="bbs_review_grade2" name="bbs_review_grade[]" value="80"> <img src="/admin/images/community/icon_star04.gif"> 
+		            <input type="checkbox" id="bbs_review_grade3" name="bbs_review_grade[]" value="60"> <img src="/admin/images/community/icon_star03.gif"> 
+		            <input type="checkbox" id="bbs_review_grade4" name="bbs_review_grade[]" value="40"> <img src="/admin/images/community/icon_star02.gif"> 
+		            <input type="checkbox" id="bbs_review_grade5" name="bbs_review_grade[]" value="20"> <img src="/admin/images/community/icon_star01.gif"> 
+		        </td>
+		    </tr> -->
+			<tr>
+				<td class="label">검색 키워드</td>
+				<td class="box text">
+					<select id="sc" name="sc" style="width:75px;">
+						<option value="good_name">상품명</option>
+						<option value="good_code">상품코드</option>
+						<option value="user_id">아이디</option>
+						<!-- <option value="bbs_name">이름</option>
+						<option value="user_nick">닉네임</option> -->
+						<option value="bbs_title">제목</option>
+						<option value="bbs_content">내용</option>
+					</select>
+					<input type="text" id="ss" name="ss" value="" style="width:145px;" class="inputbox">
+				</td>
+			</tr>
+		</table>
+		
+		<!--검색버튼-->
+		<div class="alignCenter"><input type="image" src="https://demo01.swm.whoismall.com/admin/images/button/btn_Search.gif" id="submit1" mode="search"></div>
+		
+		<!-- 리스트 -->
+		<div class="boxContainer">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<tr>
+					<td class="left"> 
+						<!-- <select id="bbs_cate_code" name="bbs_cate_code" style="width:100px;">
+							<option value="">전체</option>
+														<option value="01">기본</option>
+													</select> -->
+						<span class="bul">검색결과 : </span><span class="fc_red"><strong>2</strong>건</span>
+					</td>
+					<td align="right" class="right">
+						<select id="list_num" name="list_num" style="width:95px;">
+							<option value="5">5개 출력</option>
+		                    <option value="10">10개 출력</option>
+		                    <option value="20">20개 출력</option>
+		                    <option value="50">50개 출력</option>
+		                    <option value="100">100개 출력</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<!--정렬-->
+		<div class="alignContainer">
+			<table cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td class="bul04">
+						정렬 :
+						등록일
+						<a href="#" id="change_order00" oc="bbs_reg_date" os="desc"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_arrowDown.gif"></a>
+						<a href="#" id="change_order01" oc="bbs_reg_date" os="asc"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_arrowUp.gif"></a>
+						|
+						제목
+						<a href="#" id="change_order02" oc="bbs_title" os="desc"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_arrowDown.gif"></a>
+						<a href="#" id="change_order03" oc="bbs_title" os="asc"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_arrowUp.gif"></a>
+						|
+						작성자
+						<a href="#" id="change_order04" oc="bbs_name" os="desc"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_arrowDown.gif"></a>
+						<a href="#" id="change_order05" oc="bbs_name" os="asc"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_arrowUp.gif"></a>
+					</td>
+					<!-- <td width="20"></td>
+					<td><a href="#" id="change_order06" oc="" os=""><img src=""></a></td> -->
+				</tr>
+			</table>
+		</div>
+	    	    
 	   <div>
 	    <table class="table">
 	    	<thead>
-	    	<tr>
+	    	<tr align="center">
+	    		<th class="thL"><input type="checkbox" id="check_all" name="check_all" value="bbs_seq[]"></th>
 	    		<th class="num">번호</th>
 	    		<th class="title">이미지</th>
 	    		<th class="title">상품명</th>
@@ -133,8 +273,9 @@
 	    	</thead>
 	    	<tbody>
 	    		<c:forEach var="rVO" items="${list }" varStatus="i">
-				<tr>
+				<tr align="center">
 				<%-- <td> <c:out value="${totalCount - (currentPage - 1) * pageScale - i.index}"/></td> --%>
+				<td class="tdL" align="center"><input type="checkbox" name="bbs_seq[]" value="23"></td>
 				<td> <c:out value="${rVO.reviewId}"/></td>
 				<td> <c:out value="${rVO.defaultImg}"/></td>
 				<td> <c:out value="${rVO.name}"/></td>
@@ -154,7 +295,7 @@
 	    		<option value="1" ${param.field eq 1?" selected='selected'":""}>내용</option>
 	    		<option value="2" ${param.field eq 2?" selected='selected'":""}>작성자</option>
 	    	</select>
-	    	<input type="text" name="keyword" id="keyword" value="${param.keyword }" style="width:230px;"/>
+	    	<input type="text" name="keyword" id="keyword" value="${param.keyword }" style="width:230px; border:1px solid #dedede;"/>
 	    	<input type="button"  value="검색" id="btnSearch" class="btn btn-info btn-sm"/>
 	    	<input type="button"  value="전체글" id="btnAllSearch" class="btn btn-info btn-sm"/>
 	    	<input type="text" style="display: none;">
@@ -238,6 +379,8 @@
 	    </div>
 	    
 </div>
-	
+			<!-- golgolz end -->
+</div>
+	</main>
 </body>
 </html>
