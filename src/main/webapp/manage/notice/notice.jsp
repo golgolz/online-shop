@@ -16,10 +16,17 @@
 <script type="text/javascript">
 	$(function(){
     	$("#notice_menu").addClass("bg-gradient-primary");
+    	
+    	$("#btnSearch").click(function() {
+    		chkNull();
+    	});//click
 	});
-		$("#btnSearch").click(function() {
-			chkNull;
-	});//click
+	
+	function chkNull() {
+		if($("#keyword").val().trim() !="") {
+			$("#searchForm").submit();
+		}//end if
+	}
 </script>
 
 <!-- golgolz start -->
@@ -35,31 +42,6 @@
 </style>
 
 <body>
-	<jsp:include page="../../assets/jsp/admin/header.jsp" />
-	<main
-		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
-		<nav
-			class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
-			id="navbarBlur" data-scroll="true">
-			<div class="container-fluid py-1 px-3">
-				<nav aria-label="breadcrumb">
-					<ol
-						class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-						<li class="breadcrumb-item text-sm"><a
-							class="opacity-5 text-dark" href="javascript:;">
-							관리자 기능</a></li>
-						<!-- 하단의 대시보드 텍스트를 본인 기능으로 변경 필요  -->
-						<li class="breadcrumb-item text-sm text-dark active"
-							aria-current="page">공지사항 관리</li>
-					</ol>
-					<h6 class="font-weight-bolder mb-0">공지사항 관리</h6>
-				</nav>
-			</div>
-		</nav>
-		<div class="container-fluid py-4">
-			<!-- golgolz start -->
-			<div id="container">
-				<div id="contents">
 <%
 request.setCharacterEncoding("UTF-8");
 %>
@@ -90,24 +72,43 @@ try{
     pageContext.setAttribute("totalCount", totalCount);
     pageContext.setAttribute("pageScale", pageScale);
     pageContext.setAttribute("currentPage", currentPage);
-    
-	}catch (Exception e){
-	    e.printStackTrace();
-	    out.println("다시 시도해주세요.");
-	}
-%>
-
-					<div
-						class="xans-element- xans-board xans-board-listpackage-1002 xans-board-listpackage xans-board-1002 ">
-						<div
-							class="xans-element- xans-board xans-board-title-1002 xans-board-title xans-board-1002 ">
+	%>
+	
+	<jsp:include page="../../assets/jsp/admin/header.jsp" />
+	<main
+		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
+		<nav
+			class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
+			id="navbarBlur" data-scroll="true">
+			<div class="container-fluid py-1 px-3">
+				<nav aria-label="breadcrumb">
+					<ol
+						class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+						<li class="breadcrumb-item text-sm"><a
+							class="opacity-5 text-dark" href="javascript:;">
+							관리자 기능</a></li>
+						<!-- 하단의 대시보드 텍스트를 본인 기능으로 변경 필요  -->
+						<li class="breadcrumb-item text-sm text-dark active"
+							aria-current="page">공지사항 관리</li>
+					</ol>
+					<h6 class="font-weight-bolder mb-0">공지사항 관리</h6>
+				</nav>
+			</div>
+		</nav>
+		<div class="container-fluid py-4">
+			<!-- golgolz start -->
+			<div id="container">
+				<div id="contents">
+				<%-- <form action="${pageContext.request.contextPath}/manage/notice/notice.jsp" name="frmBoard" id="frmBoard"> --%>
+					<div class="xans-element- xans-board xans-board-listpackage-1002 xans-board-listpackage xans-board-1002 ">
+						<div class="xans-element- xans-board xans-board-title-1002 xans-board-title xans-board-1002 ">
 							<!-- <div class="path">
 								<span>현재 위치</span>
 								<ol>
 									<li><a href="/">홈</a></li>
 									<li title="현재 위치"><strong>NOTICE</strong></li>
 								</ol>
-							</div> -->
+								</div> -->
 							<div class="main_pro_title width1240 cboth" style="margin-top: 0px ; padding-top : 3px " >
 								<div class="txt_01">
 									<font color="#555555">NOTICE</font>
@@ -149,7 +150,7 @@ try{
 										<c:forEach var="nVO" items="${list}" varStatus="i">
 										<tr>
 										<td> <c:out value="${totalCount-(currentPage-1)*pageScale -i.index }"/></td>
-										<td> <a href="notice_read_frm.jsp?seq=${nVO.notice_id}&currentPage=${empty param.currentPage ?1:param.currentPage }"><c:out value="${nVO.title }"/></a></td>
+										<td> <a href="notice_detail.jsp?seq=${nVO.notice_id}&currentPage=${empty param.currentPage ?1:param.currentPage }"><c:out value="${nVO.title }"/></a></td>
 										<td> <c:out value="${nVO.author}"/></td>
 										<td> <c:out value="${nVO.input_date}"/></td>
 										<td> <c:out value="${nVO.view_count}"/></td>
@@ -186,33 +187,25 @@ try{
 							src="https://img.echosting.cafe24.com/skin/base/common/btn_page_next.gif"
 							alt="다음 페이지" /></a>
 					</div>
-					<form id="boardSearchForm" name="" action="/board/free/list.html"
-						method="get" target="_top" enctype="multipart/form-data">
+					<form id="searchForm" name="" method="get" target="_top">
 						<input id="board_no" name="board_no" value="1" type="hidden" />
-						<input id="page" name="page" value="1" type="hidden" /> <input
-							id="board_sort" name="board_sort" value="" type="hidden" />
-						<div
-							class="xans-element- xans-board xans-board-search-1002 xans-board-search xans-board-1002 ">
-							<fieldset class="boardSearch">
+						<input id="page" name="page" value="1" type="hidden" />
+						<input id="board_sort" name="board_sort" value="" type="hidden" />
+						<div class="xans-element- xans-board xans-board-search-1002 xans-board-search xans-board-1002 ">
 								<!-- <legend>게시물 검색</legend> -->
 								<p>
-									
-									<!-- <select id="search_key" name="search_key" fw-filter=""
-										fw-label="" fw-msg="">
-										<option value="subject">제목</option>
-										<option value="content">내용</option>
-										<option value="writer_name">글쓴이</option>
-										<option value="member_id">아이디</option>
-										<option value="nick_name">별명</option>
-									</select>  -->
-										<input id="keyword" name="keyword" fw-filter="" fw-label=""fw-msg="" class="inputTypeText" placeholder="" value="${param.keyword}"
-										type="text" /> 
-										<input type="button" class="btnEmFix" id="btnSearch" value="검색">
-										<!-- <a href="#none" class="btnEmFix2" onclick="BOARD.form_submit('boardModifyForm');">수정</a> 
-										<a href="#none" class="btnEmFix3" onclick="BOARD.form_submit('boardDeleteForm');">삭제</a>  -->
-										<a id="btnInsert" href="notice_write.jsp" class="btnEmFix4">작성</a>
-							</fieldset>
+									<select id="field" name="field">
+										<option value="0">제목</option>
+										<option value="1">내용</option>
+									</select>
+									<input id="keyword" name="keyword" class="inputTypeText" placeholder="" value="${param.keyword}" type="text" /> 
+									<input type="button" class="btnEmFix" id="btnSearch" value="검색">
+									<!-- <a href="#none" class="btnEmFix2" onclick="BOARD.form_submit('boardModifyForm');">수정</a> 
+									<a href="#none" class="btnEmFix3" onclick="BOARD.form_submit('boardDeleteForm');">삭제</a>  -->
+									<a id="btnInsert" href="notice_write.jsp" class="btnEmFix4">작성</a>
+								</p>
 						</div>
+					</form>
 			
 					<%
 					String param="";
@@ -221,11 +214,22 @@ try{
 					<%
 					param="&field="+request.getParameter("field")+"&keyword="
 					+request.getParameter("keyword");
+					/* param="&field="+sVO.getField()+"&keyword="+sVO.getKeyword(); */
 					%>
-					<c:set var="link2" value="&field =${param.field }&keyword=${param.ketword }"/>
+					<%-- <c:set var="link2" value="&field =${param.field }&keyword=${param.keyword }"/> --%>
+					<c:set var="link2" value="&field=${param.field}&keyword=${param.keyword}" />
+					<% System.out.println(param);%>
 					</c:if>
+					
 			<!-- golgolz end -->
 		</div>
+		<%
+		}catch (Exception e){
+	    e.printStackTrace();
+	    out.println("다시 시도해주세요.");
+		}
+		%>
+
 	</main>
 </body>
 </html>

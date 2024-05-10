@@ -24,7 +24,7 @@ public class NoticeDAO {
         return noticeDAO;
     }// getInstance
 
-    // 조회수
+    // 조회수, 글번호 부여
     public int SelectTotalCount(SearchVO sVO) throws SQLException {
         int totalCnt = 0;
 
@@ -38,21 +38,24 @@ public class NoticeDAO {
             con = dbConn.getConn("online-shop-dbcp");
 
             StringBuilder selectCnt = new StringBuilder();
-            selectCnt.append("select count(*) view_count from notice");
+            selectCnt.append("select count(*) as count from notice");
 
-            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
-                selectCnt.append("where").append(columnNames[Integer.parseInt(sVO.getField())])
-                        .append("like  '%'||?||'%'");
+            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword()) && sVO.getField() != null
+                    && !"".equals(sVO.getField())) {
+                selectCnt.append(" where ").append(columnNames[Integer.parseInt(sVO.getField())])
+                        .append(" like '%' || ? || '%'");
             }
+
             pstmt = con.prepareStatement(selectCnt.toString());
 
-            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword()) && sVO.getField() != null
+                    && !"".equals(sVO.getField())) {
                 pstmt.setString(1, sVO.getKeyword());
             } // end if
 
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                totalCnt = rs.getInt("view_count");
+                totalCnt = rs.getInt("count");
             } // end if
         } finally {
             dbConn.closeCon(rs, pstmt, con);
@@ -72,19 +75,20 @@ public class NoticeDAO {
         try {
             con = dbConn.getConn("online-shop-dbcp");
             StringBuilder selectNotice = new StringBuilder();
-            selectNotice.append("select notice_id, input_date, author, view_count, title, content ")
-                    .append("from (select notice_id, input_date, author, view_count, title, content,")
-                    .append("row_number() over (order by input_date desc) as rnum from notice)");
+            selectNotice.append("   select notice_id, input_date, author, view_count, title, content ")
+                    .append("   from (select notice_id, input_date, author, view_count, title, content, ")
+                    .append("   row_number() over (order by input_date desc) as rnum from notice    ");
 
-            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
-                selectNotice.append("where instr(").append(columnNames[Integer.parseInt(sVO.getField())])
-                        .append(",?)>0");
-            } // end if
-            selectNotice.append("where rnum between ? and ?");
-
+            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword()) && sVO.getField() != null
+                    && !"".equals(sVO.getField())) {
+                selectNotice.append("   where instr(").append(columnNames[Integer.parseInt(sVO.getField())])
+                        .append("   ,?)>0   ");
+            }
+            selectNotice.append(" ) where rnum between ? and ?  ");
             pstmt = con.prepareStatement(selectNotice.toString());
             int bindIndex = 0;
-            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword()) && sVO.getField() != null
+                    && !"".equals(sVO.getField())) {
                 pstmt.setString(++bindIndex, sVO.getKeyword());
             } // end if
             pstmt.setInt(++bindIndex, sVO.getStartNum());

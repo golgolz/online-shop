@@ -134,6 +134,7 @@
                 <a href="#void" class="btnNormalFix sizeS" id="btnMod">수정</a>
                 <a href="#void" class="btnNormalFix sizeS" id="btnDel">삭제</a>
             </span>
+            
           <!--   <span class="gRight">
                 <a href="#none" onclick="BOARD_READ.article_delete('BoardDelForm','1');" class="btnNormalFix sizeS displaynone">삭제</a>
                 <a href="/board/free/modify.html?board_act=edit&no=27192&board_no=1" class="btnEmFix sizeS displaynone">수정</a>
