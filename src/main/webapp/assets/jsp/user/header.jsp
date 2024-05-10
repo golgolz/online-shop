@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     info=""%>
+    
 <div id="mheader" class="cboth">
       <div class="header_sec02">
         <div class="inner">
@@ -13,9 +14,25 @@
           <div class="top_comm">
             <ul>
               <!-- 상단 추가메뉴 01 -->
-              <li class="xans-element- xans-layout xans-layout-statelogoff">
-                <a href="http://localhost/online-shop/user/login/login.jsp">LOGIN</a>
-              </li>
+              <!-- 로그인 상태에 따라 링크를 동적으로 렌더링 -->
+                    <%
+                    String userId = (String) session.getAttribute("userId");
+                    if (userId != null) {
+                        // 사용자가 로그인한 경우: 로그아웃 링크를 포함
+                        %>
+                        <li class="xans-element- xans-layout xans-layout-statelogon">
+                            <a href="http://localhost/online-shop/user/login/userLogout.jsp">LOGOUT</a>
+                        </li>
+                    <%
+                    } else {
+                        // 사용자가 로그인하지 않은 경우: 로그인 링크를 포함
+                        %>
+                        <li class="xans-element- xans-layout xans-layout-statelogoff">
+                            <a href="http://localhost/online-shop/user/login/userLogin.jsp">LOGIN</a>
+                        </li>
+                    <%
+                    }
+                    %>
               <li>
                 <a href="http://localhost/online-shop/user/mypage/mypage.jsp">MYPAGE</a>
               </li>
