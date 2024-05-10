@@ -5,7 +5,12 @@
     
     
     <%
-	
+	//캐시 제어문 (세션 보안, 실시간 데이터 업데이트 위해)
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+    response.setDateHeader("Expires", 0); // Proxies 
+    
+    
 	HttpSession adminSession = request.getSession();
     Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
     System.out.println("세션 로그인 상태: " + isLoggedIn);

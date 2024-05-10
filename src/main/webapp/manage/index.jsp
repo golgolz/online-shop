@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 	
- 	
-	<% 
-	
+ <!-- 세션 로그인 테스트 적용 (location 경로 수정 필요)  -->	
+	<%--  <% 	
 	session = request.getSession();
 	String adminId = (String) session.getAttribute("adminId");
 	String adminPassword = (String) session.getAttribute("adminPassword");
 	
 	if (adminId != null && adminPassword != null) {
-	    // 세션에 저장된 데이터 사용
+	    // 세션에 저장된 데이터 확인
 	    out.println("안녕하세요, " + adminId + "님! 비밀번호: " + adminPassword);
 	} else {
 	    // 세션에 데이터가 없을 때 로그인 페이지로 리다이렉트
@@ -19,9 +18,8 @@
       location='adminLogin/adminLogin.jsp';
       </script>
       <%
-	    //response.sendRedirect("adminLogin/adminLogin.jsp");
 	}
-	%>
+	%> --%>
 
 	
 <!DOCTYPE html>
