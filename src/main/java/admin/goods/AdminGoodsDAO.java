@@ -72,7 +72,8 @@ public class AdminGoodsDAO {
 
         try {
             conn = dbConn.getConn("online-shop-dbcp");
-            selectQuery.append("select code, name, default_img, input_date, price, amount from goods where 1=1");
+            selectQuery.append(
+                    "select code, name, default_img, input_date, update_date, price, amount from goods where 1=1");
 
             if (searchVO.getCode() != null) {
                 selectQuery.append(" and code like '%'||?||'%' ");
@@ -90,6 +91,40 @@ public class AdminGoodsDAO {
                 selectQuery.append(" and price <= ? ");
             }
 
+            if (searchVO.getDate() != null) {
+                switch (searchVO.getDate()) {
+                    case "today":
+                        selectQuery.append(" and trunc(input_date) = to_date(sysdate, 'yy-mm-dd') ");
+                        break;
+                    case "week":
+                        selectQuery.append(
+                                " and input_date >= trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') and input_date < trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') + 7 ");
+                        break;
+                    case "month":
+                        selectQuery.append(
+                                " and extract(month from input_date) = extract(month from to_date(sysdate, 'yy-mm-dd')) and extract(year from input_date) = extract(year from to_date('2024-04-01', 'yy-mm-dd'))");
+                        break;
+                    default:
+                }
+            }
+
+            if (searchVO.getUpdateDate() != null) {
+                switch (searchVO.getUpdateDate()) {
+                    case "today":
+                        selectQuery.append(" and trunc(update_date) = to_date(sysdate, 'yy-mm-dd') ");
+                        break;
+                    case "week":
+                        selectQuery.append(
+                                " and update_date >= trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') and update_date < trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') + 7 ");
+                        break;
+                    case "month":
+                        selectQuery.append(
+                                " and extract(month from update_date) = extract(month from to_date(sysdate, 'yy-mm-dd')) and extract(year from update_date) = extract(year from to_date('2024-04-01', 'yy-mm-dd'))");
+                        break;
+                    default:
+                }
+            }
+
             if (searchVO.getSort() != null) {
                 switch (searchVO.getSort()) {
                     case "price":
@@ -100,25 +135,6 @@ public class AdminGoodsDAO {
                         break;
                 }
             }
-
-            if (searchVO.getDate() != null) {
-                switch (searchVO.getDate()) {
-                    case "today":
-                        selectQuery.append(" and trunc(input_date) = to_date(sysdate, 'yyyy-mm-dd') ");
-                        break;
-                    case "week":
-                        selectQuery.append(
-                                " and input_date >= trunc(to_date('2024-04-20', 'yyyy-mm-dd'), 'IW') and input_date < trunc(to_date('2024-04-20', 'yyyy-mm-dd'), 'IW') + 7 ");
-                        break;
-                    case "month":
-                        selectQuery.append(
-                                " and extract(month from input_date) = extract(month from to_date(sysdate, 'yyyy-mm-dd')) and extract(year from input_date) = extract(year from to_date('2024-04-01', 'yyyy-mm-dd'))");
-                        break;
-                    default:
-                }
-            }
-
-            // System.out.println(selectQuery.toString());
 
             pstmt = conn.prepareStatement(selectQuery.toString());
             int bindIndex = 0;
@@ -142,9 +158,9 @@ public class AdminGoodsDAO {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                goods.add(
-                        new AdminGoodsSimpleVO(rs.getString("code"), rs.getString("name"), rs.getString("default_img"),
-                                rs.getDate("input_date"), rs.getInt("price"), rs.getInt("amount")));
+                goods.add(new AdminGoodsSimpleVO(rs.getString("code"), rs.getString("name"),
+                        rs.getString("default_img"), rs.getDate("input_date"), rs.getDate("update_date"),
+                        rs.getInt("price"), rs.getInt("amount")));
             }
         } finally {
             dbConn.closeCon(rs, pstmt, conn);
@@ -179,6 +195,31 @@ public class AdminGoodsDAO {
             pstmt.setInt(8, adminGoodsDetailVO.getDeliveryCharge());
             pstmt.setString(9, adminGoodsDetailVO.getName());
             pstmt.setString(10, adminGoodsDetailVO.getCode());
+
+            count = pstmt.executeUpdate();
+        } finally {
+            dbConn.closeCon(null, pstmt, conn);
+        }
+
+        return count;
+    }
+
+    public int updateSoldOut(String code) throws SQLException {
+        int count = 0;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        StringBuilder updateQuery = new StringBuilder();
+
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+            updateQuery.append("update goods set ").append("sold_out_flag = 'T', input_date = sysdate")
+                    .append(" where code = ? ");
+            pstmt = conn.prepareStatement(updateQuery.toString());
+
+            pstmt.setString(1, code);
 
             count = pstmt.executeUpdate();
         } finally {

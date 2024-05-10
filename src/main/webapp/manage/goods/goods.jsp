@@ -70,6 +70,38 @@
 			$("#btn_month").removeClass('clicked');
 			$(this).addClass('clicked');
 		});
+    	
+		$("#btn_update_today").click(function(){
+			$("#updateDate").val("today");
+			$("#btn_update_week").removeClass('clicked');
+			$("#btn_update_month").removeClass('clicked');
+			$("#btn_update_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_update_week").click(function(){
+			$("#updateDate").val("week");
+			$("#btn_update_today").removeClass('clicked');
+			$("#btn_update_month").removeClass('clicked');
+			$("#btn_update_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_update_month").click(function(){
+			$("#updateDate").val("month");
+			$("#btn_update_today").removeClass('clicked');
+			$("#btn_update_week").removeClass('clicked');
+			$("#btn_update_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_update_total").click(function(){
+			$("#updateDate").val("total");
+			$("#btn_update_today").removeClass('clicked');
+			$("#btn_update_week").removeClass('clicked');
+			$("#btn_update_month").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
 		
 		$(".sort").click(function(){
 			$("#sort").val($(this).text() === "가격순" ? "price" : "input_date");
@@ -81,6 +113,7 @@
 <link href="../../assets/css/manage/goods/general.css" rel="stylesheet" />
 <link href="../../assets/css/manage/goods/goods.css" rel="stylesheet" />
 <!-- golgolz end -->
+<jsp:include page="../../assets/jsp/admin/lib.jsp" />
 </head>
 <body>
 	<jsp:useBean id="searchVO" class="admin.goods.SearchVO" scope="page" />
@@ -156,11 +189,21 @@
             					<tr>
               						<td class="label">등록일</td>
               						<td class="box text">
-              							<input type="hidden" id="date" name="date" value="" />
+              							<input type="hidden" id="date" name="date" value="${param.date}" />
               							<img id="btn_today" class="clickable-image${param.date eq 'today' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_today.gif" />
 										<img id="btn_week" class="clickable-image${param.date eq 'week' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisWeek.gif" />
 										<img id="btn_month" class="clickable-image${param.date eq 'month' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisMonth.gif" />
 					                	<img id="btn_total" class="clickable-image${param.date eq 'total' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_total.gif" />
+              						</td>
+            					</tr>
+            					<tr>
+              						<td class="label">최근 등록일</td>
+              						<td class="box text">
+              							<input type="hidden" id="updateDate" name="updateDate" value="${param.updateDate}" />
+              							<img id="btn_update_today" class="clickable-image${param.updateDate eq 'today' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_today.gif" />
+										<img id="btn_update_week" class="clickable-image${param.updateDate eq 'week' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisWeek.gif" />
+										<img id="btn_update_month" class="clickable-image${param.updateDate eq 'month' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisMonth.gif" />
+					                	<img id="btn_update_total" class="clickable-image${param.updateDate eq 'total' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_total.gif" />
               						</td>
             					</tr>
           					</tbody>
@@ -215,12 +258,14 @@
 				              		<col width="15%" />
 				              		<col width="15%" />
 				              		<col width="15%" />
+				              		<col width="15%" />
 				              		<col width="30%" />
 				            	</colgroup>
 					            <thead>
 					             	<tr>
 					                	<th>상품명(상품코드)</th>
 						                <th>등록일</th>
+						                <th>최근 수정일</th>
 						                <th>가격</th>
 						                <th>재고</th>
 						                <th>재고 및 기타 정보 수정</th>
@@ -242,6 +287,7 @@
 				                    		</a>
 				                		</td>
 				                		<td class="tdL" align="center"><%= product.getInputDate() %></td>
+				                		<td class="tdL" align="center"><%= product.getUpdateDate() %></td>
 				                		<td class="tdL" align="center">
 					                  		<span><%= product.getPrice() %>원</span>
 				                		</td>
@@ -264,7 +310,7 @@
                   							<!-- 페이징 -->
                   							<span class="paging">
                   							<a
-                      						href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header&amp;page=1"
+                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
                       						class="first">
                       							<img
                         						src="http://localhost/online-shop/assets/images/manage/goods/btn_navi_arrLL.gif"
@@ -272,7 +318,7 @@
                         						align="absmiddle" />
                         					</a>
                         					<a
-					                      	href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header&amp;page=1"
+                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
 					                      	class="pre">
 						                      	<img
 	                        					src="http://localhost/online-shop/assets/images/manage/goods/btn_navi_arrL.gif"
@@ -280,14 +326,14 @@
 	                        					align="absmiddle" />
                         					</a>
                     						<a
-                      						href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header&amp;page=1"
+                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
                       						class="on"> 1 
                       						</a>
                       						<a
-                      						href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header&amp;page=2"
+                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
                       						class="normal"> 2 </a>
                       						<a
-                      						href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header&amp;page=2"
+                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
                       						class="next">
                       							<img
                         						src="http://localhost/online-shop/assets/images/manage/goods/btn_navi_arrR.gif"
@@ -295,7 +341,7 @@
                         						align="absmiddle" />
                         					</a>
                         					<a
-                      						href="https://demo01.swm.whoismall.com/admin/?act=goods.good_list&amp;ch=goods&amp;menu=header&amp;page=2"
+                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
                       						class="last">
 	                      						<img
 	                        					src="http://localhost/online-shop/assets/images/manage/goods/btn_navi_arrRR.gif"

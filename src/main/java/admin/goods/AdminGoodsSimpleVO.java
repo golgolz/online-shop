@@ -11,6 +11,7 @@ public class AdminGoodsSimpleVO {
     private String name;
     private String defaultImage;
     private Date inputDate;
+    private Date updateDate;
     private int price;
     private int amount;
 }
