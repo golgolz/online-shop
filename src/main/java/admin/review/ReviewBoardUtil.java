@@ -51,7 +51,7 @@ public class ReviewBoardUtil {
 
       movePage++;
     }
-    System.out.println(endPage);
+    /* System.out.println(endPage); */
     // 7. 뒤에 페이지가 더 있는 경우
     String endMark = "[&gt;&gt;]";
     if (totalPage > endPage) {
