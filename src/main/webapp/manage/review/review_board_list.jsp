@@ -56,6 +56,64 @@
 			});//keydown
 		});//ready
 		
+		/*
+		5,10,15,20을 눌렀을때 발생하는 함수 [테이블 새로 생성,]
+		*/
+		function changePageScale(){
+			var selectOption = document.getElementById("list_num").value;
+			$.ajax({
+				type: "GET",
+				url: "reviewTableAjax.jsp",
+				data: {
+					selectOption: selectOption
+				},
+				success: function(data){
+					displayTable(data);
+				},
+				error: function(xhr){
+					alert("에러발생  : " + xhr.status)
+				}
+			})
+		}
+
+		function displayTable(data){
+			var tbody = document.getElementById("tbody");
+			var paging = document.getElementById("paging");
+			tbody.innerHTML="";
+			paging.innerHTML="";
+			
+			
+			alert(data);
+			var object = JSON.parse(data);
+			
+			var boardList = object.boardList;
+			
+			for(var i=0 ; i < boardList.length; i++){
+				var row = tbody.insertRow(i);
+				
+				//각속성에 대한 열 추가
+				var cell1 = row.insertCell(0);
+				var cell2 = row.insertCell(1);
+				var cell3 = row.insertCell(2);
+				var cell4 = row.insertCell(3);
+				var cell5 = row.insertCell(4);
+				var cell6 = row.insertCell(5);
+				var cell7 = row.insertCell(6);
+				
+				 // 각 열에 체크박스 요소 추가
+			    cell1.innerHTML = '<input type="checkbox" name="checkbox' + i + '">'; // 체크박스 추가
+			    cell2.innerHTML = boardList[i].reviewId;
+			    cell3.innerHTML = boardList[i].defaultImg;
+			    cell4.innerHTML = boardList[i].name;
+			    cell5.innerHTML = boardList[i].title;
+			    cell6.innerHTML = boardList[i].inputDate;
+			    cell7.innerHTML = boardList[i].id;
+			}
+			
+
+
+		}
+		
 		function chkNull() {
 			if($("#keyword").val().trim() !="") {
 				//alert("검색 키워드를 입력해주세요.")
@@ -104,17 +162,12 @@
 		    int totalCount = rDAO.selectTotalCount(sVO);
 		    
 		    //2.한 화면에 보여줄 게시물의 수
-		    int pageScale=10;
+		    int pageScale=  10;
 		    //3.총 페이지 수
-		    /*
-		    int totalPage=totalCount/pageScale;
-		    if(totalPage % pageScale !=0){
-		        totalPage++;
-		    }//end if
-		    */
 		    int totalPage=(int)Math.ceil((double)totalCount/pageScale);
 		    //4.게시물의 시작번호
 		    String tempPage=sVO.getCurrentPage();
+		    System.out.println(totalPage);
 		    int currentPage=1;
 		    if(tempPage !=null) {
 		        try{
@@ -221,9 +274,9 @@
 						<span class="bul">검색결과 : </span><span class="fc_red"><strong>2</strong>건</span>
 					</td>
 					<td align="right" class="right">
-						<select id="list_num" name="list_num" style="width:95px;">
-							<option value="5">5개 출력</option>
-		                    <option value="10">10개 출력</option>
+						<select id="list_num" name="list_num" style="width:95px;" onchange="changePageScale()">
+							<option value="5" >5개 출력</option>
+		                    <option value="10" selected>10개 출력</option>
 		                    <option value="20">20개 출력</option>
 		                    <option value="50">50개 출력</option>
 		                    <option value="100">100개 출력</option>
@@ -271,7 +324,7 @@
 <!-- 	    		<th class="cnt">조회수</th> -->
 	    	</tr>
 	    	</thead>
-	    	<tbody>
+	    	<tbody id="tbody">
 	    		<c:forEach var="rVO" items="${list }" varStatus="i">
 				<tr align="center">
 				<%-- <td> <c:out value="${totalCount - (currentPage - 1) * pageScale - i.index}"/></td> --%>
@@ -279,13 +332,14 @@
 				<td> <c:out value="${rVO.reviewId}"/></td>
 				<td> <c:out value="${rVO.defaultImg}"/></td>
 				<td> <c:out value="${rVO.name}"/></td>
-				<td> <c:out value="${rVO.title}"/></td>
+				<td><a href="review_board_read_frm.jsp?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}"><c:out value="${rVO.title}"/></a></td>
 				<td> <c:out value="${rVO.inputDate}"/></td>
 				<td> <c:out value="${rVO.id}"/></td>
 				</tr>	    	
 	    	</c:forEach>
 	    	</tbody>
 	    </table>
+	    
 </div>
 
 	    <div style="text-align: center;">
@@ -307,6 +361,9 @@
 	  
 	  <%
 	  	  String param="";
+	  		pageContext.setAttribute("param", param);
+	  		pageContext.setAttribute("param", totalPage );
+	  		pageContext.setAttribute("param", currentPage );
 	  	  %>
         <c:if test="${not empty param.keyword }">
         <%
@@ -365,8 +422,9 @@
         <br/>
         끝번호 <%= endPage %>
         <br/> --%>
-        <%=ReviewBoardUtil.getInstance().pageNation("board_list.jsp", param, totalPage, currentPage)%>
-        
+        <div id="paging">
+        <%=ReviewBoardUtil.getInstance().pageNation("review_board_list.jsp", param, totalPage, currentPage)%>
+        </div>
         <%-- <%= prevMark %> ... <%= pageLink %> ...<%= endMark %> --%>
     </div>
     
@@ -382,5 +440,6 @@
 			<!-- golgolz end -->
 </div>
 	</main>
+
 </body>
 </html>
