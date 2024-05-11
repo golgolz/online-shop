@@ -1,3 +1,4 @@
+<%@page import="admin.login.AdminVO"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="notice.NoticeDAO"%>
 <%@page import="notice.NoticeVO"%>
@@ -28,11 +29,16 @@
 <%request.setCharacterEncoding("UTF-8"); %>
 <jsp:useBean id="nVO" class="notice.NoticeVO" scope="page"/>
 <jsp:setProperty property="*" name="nVO"/>
+
 <script type="text/javascript">
 		<%
+		System.out.println(request.getParameter("title"));
+		System.out.println(request.getParameter("content"));
 		try{
 		//nVO.setAuthor((NoticeVO)session.getAttribute("adminData")).getAuthor();
-		//관리자 아이디 어케 받는지 물어보쇼..
+		/* AdminVO.setId(((AdminVO)session.getAttribute("loginData")).getId()); */
+		/* nVO.setAuthor((NoticeVO)session.getAttribute("loginData")).getAuthor()); */
+		/* nVO.setAuthor((AdminVO)session.getAttribute("loginData")).getId()); */
 		
 		NoticeDAO nDAO=NoticeDAO.getInstance();
 		nDAO.insertNotice(nVO);
@@ -44,6 +50,7 @@
 			se.printStackTrace();
 		 %>
 		 alert("오류가 발생했습니다.");
+		location.href="notice_write.jsp";
 		 <% 
 		}//end catch
 		%>
