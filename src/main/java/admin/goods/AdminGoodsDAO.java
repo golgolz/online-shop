@@ -178,6 +178,40 @@ public class AdminGoodsDAO {
         return count;
     }
 
+    public int selectAllGoodsCount(String maker) throws SQLException {
+        int count = 0;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder selectQuery = new StringBuilder();
+
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+            selectQuery.append("select count(*) as count from goods");
+
+            if (maker != null) {
+                selectQuery.append(" where maker=? ");
+            }
+
+            pstmt = conn.prepareStatement(selectQuery.toString());
+
+            if (maker != null) {
+                pstmt.setString(1, maker);
+            }
+
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } finally {
+            dbConn.closeCon(rs, pstmt, conn);
+        }
+
+        return count;
+    }
+
     public List<AdminGoodsSimpleVO> selectGoods(SearchVO searchVO) throws SQLException {
         List<AdminGoodsSimpleVO> goods = new ArrayList<AdminGoodsSimpleVO>();
 
@@ -284,6 +318,43 @@ public class AdminGoodsDAO {
             dbConn.closeCon(null, pstmt, conn);
         }
 
+        return count;
+    }
+
+    public int insertGoods(AdminGoodsDetailVO adminGoodsDetailVO) throws SQLException {
+        int count = 0;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder insertQuery = new StringBuilder();
+
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+            insertQuery.append(
+                    "insert into goods(code, name, amount, sold_out_flag, price, default_img, detail_description, description, delivery_charge, maker, model, material) ")
+                    .append("values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            pstmt = conn.prepareStatement(insertQuery.toString());
+
+            pstmt.setString(1, adminGoodsDetailVO.getCode());
+            pstmt.setString(2, adminGoodsDetailVO.getName());
+            pstmt.setInt(3, adminGoodsDetailVO.getAmount());
+            pstmt.setString(4, adminGoodsDetailVO.getSoldOutFlag());
+            pstmt.setInt(5, adminGoodsDetailVO.getPrice());
+            pstmt.setString(6, adminGoodsDetailVO.getDefaultImage());
+            pstmt.setString(7, adminGoodsDetailVO.getDescription());
+            pstmt.setString(8, adminGoodsDetailVO.getDetailImage());
+            pstmt.setInt(9, adminGoodsDetailVO.getDeliveryCharge());
+            pstmt.setString(10, adminGoodsDetailVO.getMaker());
+            pstmt.setString(11, adminGoodsDetailVO.getModel());
+            pstmt.setString(12, adminGoodsDetailVO.getMaterial());
+
+            pstmt.execute();
+        } finally {
+            dbConn.closeCon(rs, pstmt, conn);
+        }
         return count;
     }
 }

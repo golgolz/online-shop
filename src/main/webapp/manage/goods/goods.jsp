@@ -225,9 +225,7 @@
 					                  		<span class="bul">검색결과 : </span>
 					                  		<span class="fc_red"><strong><%= searchResultCount %></strong>건</span>
 					                  		<span class="bul">전체상품 : </span>
-						                  	<span class="fc_red"><strong>40</strong>건</span>
-						                  	<span class="bul">품절 : </span>
-						                  	<span class="fc_red"><strong>0</strong>건 </span>
+						                  	<span class="fc_red"><strong><%= adminGoodsDAO.selectAllGoodsCount(null) %></strong>건</span>
                 						</td>
               						</tr>
             					</tbody>
