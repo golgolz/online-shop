@@ -60,83 +60,141 @@ public class AdminGoodsDAO {
         return adminGoodsDetailVO;
     }
 
+    public String createSelectQuery(SearchVO searchVO, boolean isCount) throws SQLException {
+        StringBuilder selectQuery = new StringBuilder();
+        selectQuery.append(" select ");
+        if (isCount) {
+            selectQuery.append(" count(*) as count from goods where 1=1 ");
+        } else {
+            selectQuery
+                    .append(" code, name, default_img, input_date, update_date, price, amount from goods where 1=1 ");
+        }
+
+        if (searchVO.getCode() != null) {
+            selectQuery.append(" and code like '%'||?||'%' ");
+        }
+
+        if (searchVO.getName() != null) {
+            selectQuery.append(" and name like '%'||?||'%' ");
+        }
+
+        if (searchVO.getPriceMin() != 0) {
+            selectQuery.append(" and price >= ? ");
+        }
+
+        if (searchVO.getPriceMax() != 0) {
+            selectQuery.append(" and price <= ? ");
+        }
+
+        if (searchVO.getDate() != null) {
+            switch (searchVO.getDate()) {
+                case "today":
+                    selectQuery.append(" and trunc(input_date) = to_date(sysdate, 'yy-mm-dd') ");
+                    break;
+                case "week":
+                    selectQuery.append(
+                            " and input_date >= trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') and input_date < trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') + 7 ");
+                    break;
+                case "month":
+                    selectQuery.append(
+                            " and extract(month from input_date) = extract(month from to_date(sysdate, 'yy-mm-dd')) and extract(year from input_date) = extract(year from to_date('2024-04-01', 'yy-mm-dd'))");
+                    break;
+                default:
+            }
+        }
+
+        if (searchVO.getUpdateDate() != null) {
+            switch (searchVO.getUpdateDate()) {
+                case "today":
+                    selectQuery.append(" and trunc(update_date) = to_date(sysdate, 'yy-mm-dd') ");
+                    break;
+                case "week":
+                    selectQuery.append(
+                            " and update_date >= trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') and update_date < trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') + 7 ");
+                    break;
+                case "month":
+                    selectQuery.append(
+                            " and extract(month from update_date) = extract(month from to_date(sysdate, 'yy-mm-dd')) and extract(year from update_date) = extract(year from to_date('2024-04-01', 'yy-mm-dd'))");
+                    break;
+                default:
+            }
+        }
+
+        if (searchVO.getSort() != null) {
+            switch (searchVO.getSort()) {
+                case "price":
+                    selectQuery.append(" order by price desc ");
+                    break;
+                case "input_date":
+                    selectQuery.append(" order by input_date desc ");
+                    break;
+            }
+        }
+
+        return selectQuery.toString();
+    }
+
+    public int selectGoodsCount(SearchVO searchVO) throws SQLException {
+        int count = 0;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String selectQuery = "";
+
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+            selectQuery = createSelectQuery(searchVO, true);
+            pstmt = conn.prepareStatement(selectQuery);
+
+            int bindIndex = 0;
+
+            if (searchVO.getCode() != null) {
+                pstmt.setString(++bindIndex, searchVO.getCode());
+            }
+
+            if (searchVO.getName() != null) {
+                pstmt.setString(++bindIndex, searchVO.getName());
+            }
+
+            if (searchVO.getPriceMin() != 0) {
+                pstmt.setInt(++bindIndex, searchVO.getPriceMin());
+            }
+
+            if (searchVO.getPriceMax() != 0) {
+                pstmt.setInt(++bindIndex, searchVO.getPriceMax());
+            }
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } finally {
+            dbConn.closeCon(rs, pstmt, conn);
+        }
+
+        return count;
+    }
+
     public List<AdminGoodsSimpleVO> selectGoods(SearchVO searchVO) throws SQLException {
         List<AdminGoodsSimpleVO> goods = new ArrayList<AdminGoodsSimpleVO>();
 
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        StringBuilder selectQuery = new StringBuilder();
+        String selectQuery = "";
 
         DbConnection dbConn = DbConnection.getInstance();
 
         try {
             conn = dbConn.getConn("online-shop-dbcp");
-            selectQuery.append(
-                    "select code, name, default_img, input_date, update_date, price, amount from goods where 1=1");
 
-            if (searchVO.getCode() != null) {
-                selectQuery.append(" and code like '%'||?||'%' ");
-            }
+            selectQuery = createSelectQuery(searchVO, false);
 
-            if (searchVO.getName() != null) {
-                selectQuery.append(" and name like '%'||?||'%' ");
-            }
+            pstmt = conn.prepareStatement(selectQuery);
 
-            if (searchVO.getPriceMin() != 0) {
-                selectQuery.append(" and price >= ? ");
-            }
-
-            if (searchVO.getPriceMax() != 0) {
-                selectQuery.append(" and price <= ? ");
-            }
-
-            if (searchVO.getDate() != null) {
-                switch (searchVO.getDate()) {
-                    case "today":
-                        selectQuery.append(" and trunc(input_date) = to_date(sysdate, 'yy-mm-dd') ");
-                        break;
-                    case "week":
-                        selectQuery.append(
-                                " and input_date >= trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') and input_date < trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') + 7 ");
-                        break;
-                    case "month":
-                        selectQuery.append(
-                                " and extract(month from input_date) = extract(month from to_date(sysdate, 'yy-mm-dd')) and extract(year from input_date) = extract(year from to_date('2024-04-01', 'yy-mm-dd'))");
-                        break;
-                    default:
-                }
-            }
-
-            if (searchVO.getUpdateDate() != null) {
-                switch (searchVO.getUpdateDate()) {
-                    case "today":
-                        selectQuery.append(" and trunc(update_date) = to_date(sysdate, 'yy-mm-dd') ");
-                        break;
-                    case "week":
-                        selectQuery.append(
-                                " and update_date >= trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') and update_date < trunc(to_date(sysdate, 'yy-mm-dd'), 'IW') + 7 ");
-                        break;
-                    case "month":
-                        selectQuery.append(
-                                " and extract(month from update_date) = extract(month from to_date(sysdate, 'yy-mm-dd')) and extract(year from update_date) = extract(year from to_date('2024-04-01', 'yy-mm-dd'))");
-                        break;
-                    default:
-                }
-            }
-
-            if (searchVO.getSort() != null) {
-                switch (searchVO.getSort()) {
-                    case "price":
-                        selectQuery.append(" order by price desc ");
-                        break;
-                    case "input_date":
-                        selectQuery.append(" order by input_date desc ");
-                        break;
-                }
-            }
-
-            pstmt = conn.prepareStatement(selectQuery.toString());
             int bindIndex = 0;
 
             if (searchVO.getCode() != null) {
