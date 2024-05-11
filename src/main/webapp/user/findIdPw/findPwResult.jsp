@@ -9,44 +9,47 @@
 	<!-- golgolz end -->
 </head>
 <body>
-	<jsp:include page="../../assets/jsp/user/header.jsp" />
-	<div id="wrap">
-		<div id="main">
-			<!-- golgolz start -->
-			<div id="wrap">
-    
+    <jsp:include page="../../assets/jsp/user/header.jsp" />
+    <div id="wrap">
+        <div id="main">
+            <!-- golgolz start -->
+            <div id="wrap">
+                <div id="container">
+                    <div id="contents">
+                        <div class="path">
+                            <span>현재 위치</span>
+                            <ol>
+                                <li><a href="/">홈</a></li>
+                                <li title="현재 위치"><strong>아이디 찾기</strong></li>
+                            </ol>
+                        </div>
 
-    <div id="container">
-		<div id="contents">
-		
-<div class="path">
-    <span>현재 위치</span>
-    <ol><li><a href="/">홈</a></li>
-        <li title="현재 위치"><strong>아이디 찾기</strong></li>
-    </ol></div>
+                        <div class="xans-element- xans-member xans-member-findidresult">
+                            <div class="findId">
+                                <h3>Forgot ID</h3>
+                                <div class="memberInfo">
+                                    <p class="info">저희 쇼핑몰를 이용해주셔서 감사합니다.<br>비밀번호는 다음과 같습니다.</p>
+                                    <ul>
+                                        <li>
+                                            <label>
+                                                <input type="radio" name="fid" onclick="set_findpwdid( '' , 'indi' );" checked="">
+                                                <span class="id"><%= request.getAttribute("foundUserPw") %></span>
+                                            </label><br>
+                                        </li>
+                                        <li>고객님 즐거운 쇼핑 하세요!</li>
+                                    </ul>
+                                </div>
+                                <p class="button1 ">
+                                    <a href="http://localhost/online-shop/user/login/userLogin.jsp">로그인</a>
+                                </p>
+                            </div>
+                        </div>
 
-<div class="xans-element- xans-member xans-member-findidresult"><div class="findId">
-		<h3>Forgot ID</h3>
-        <div class="memberInfo">
-            <p class="info">저희 쇼핑몰를 이용해주셔서 감사합니다.<br>비밀번호는 다음과 같습니다.</p>
-            <ul>
-</li>
-                <li><label><input type="radio" name="fid" onclick="set_findpwdid( '' , 'indi' );" checked=""> <span class="id">123*******</span> </label><br></li>
-                <li>고객님 즐거운 쇼핑 하세요!</li>
-            </ul>
-</div>
-        <p class="button1 ">
-			<a href="http://localhost/online-shop/user/login/login.jsp">로그인</a>
-        </p>
-    </div>
-</div>
+                    </div>
+                </div>
+            </div>
+            <!-- golgolz end -->
         </div>
     </div>
-    <hr class="layout"><div id="banner"></div>
-<div id="quick"></div>
-</div>
-			<!-- golgolz end -->
-		</div>
-	</div>
 </body>
 </html>
