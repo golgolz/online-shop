@@ -59,6 +59,7 @@ public class UserDAO {
     return loginSuccess;
   }// userLogin
 
+  // 회원가입 메소드
   public boolean userSignUp(String id, String password, String name, String tel, String email, String zipcode,
       String defaultAddr, String additionalAddr) throws SQLException {
     Connection conn = null;
@@ -73,7 +74,7 @@ public class UserDAO {
       StringBuilder sqlBuilder = new StringBuilder();
       sqlBuilder.append(
           "INSERT INTO customer (ID, PASSWORD, NAME, TEL, EMAIL, INPUT_DATE, ZIPCODE, DEFAULT_ADDR, ADDITIONAL_ADDR, WITHDRAWAL_FLAG, ACCESS_LIMIT_FLAG) ")
-          .append("VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, 'F', 'F')");
+          .append("VALUES (?, ?, ?, ?, ?, TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-DD'), ?, ?, ?, 'F', 'F')");
 
       pstmt = conn.prepareStatement(sqlBuilder.toString());
       pstmt.setString(1, id);
