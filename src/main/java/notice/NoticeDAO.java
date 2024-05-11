@@ -114,14 +114,24 @@ public class NoticeDAO {
 
         DbConnection dbConn = DbConnection.getInstance();
         try {
-            String insertNotice = " insert into notice (notice_id, input_date, author, view_count, title, content)\r\n"
-                    + "values (? ,? ,? ,? ,? ,?) ";
-            pstmt.setString(1, nVO.getNotice_id());
-            pstmt.setDate(2, nVO.getInput_date());
-            pstmt.setString(3, nVO.getAuthor());
-            pstmt.setInt(4, nVO.getView_count());
-            pstmt.setString(5, nVO.getTitle());
-            pstmt.setString(6, nVO.getContent());
+            con = dbConn.getConn("online-shop-dbcp");
+
+            String insertNotice = " insert into notice (notice_id, author, view_count, title, content)\r\n"
+                    + "values ((select count(*)+1 notice_id from notice) ,'관리자' ,0 ,? ,?) ";
+
+
+            pstmt = con.prepareStatement(insertNotice.toString());
+
+            System.out.println(nVO.getNotice_id());
+            System.out.println(nVO.getTitle());
+            System.out.println(nVO.getContent());
+
+            // pstmt.setString(1, nVO.getNotice_id());
+            // pstmt.setDate(2, nVO.getInput_date());
+            // pstmt.setString(3, nVO.getAuthor());
+            // pstmt.setInt(4, nVO.getView_count());
+            pstmt.setString(1, nVO.getTitle());
+            pstmt.setString(2, nVO.getContent());
 
             pstmt.executeUpdate();
         } finally {
