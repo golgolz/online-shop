@@ -59,4 +59,39 @@ public class UserDAO {
     return loginSuccess;
   }// userLogin
 
+  public boolean userSignUp(String id, String password, String name, String tel, String email, String zipcode,
+      String defaultAddr, String additionalAddr) throws SQLException {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    boolean result = false;
+
+    DbConnection dbConn = DbConnection.getInstance();
+
+    try {
+      conn = dbConn.getConn("online-shop-dbcp");
+
+      StringBuilder sqlBuilder = new StringBuilder();
+      sqlBuilder.append(
+          "INSERT INTO customer (ID, PASSWORD, NAME, TEL, EMAIL, INPUT_DATE, ZIPCODE, DEFAULT_ADDR, ADDITIONAL_ADDR, WITHDRAWAL_FLAG, ACCESS_LIMIT_FLAG) ")
+          .append("VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, 'F', 'F')");
+
+      pstmt = conn.prepareStatement(sqlBuilder.toString());
+      pstmt.setString(1, id);
+      pstmt.setString(2, password);
+      pstmt.setString(3, name);
+      pstmt.setString(4, tel);
+      pstmt.setString(5, email);
+      pstmt.setString(6, zipcode);
+      pstmt.setString(7, defaultAddr);
+      pstmt.setString(8, additionalAddr);
+
+      int affectedRows = pstmt.executeUpdate();
+      result = affectedRows > 0; // 성공적으로 추가되었는지 결과 반환
+    } finally {
+      dbConn.closeCon(null, pstmt, conn); // 리소스 해제
+    }
+
+    return result;
+  }
+
 }

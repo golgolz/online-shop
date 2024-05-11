@@ -13,7 +13,10 @@
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
-			<form id="joinForm" name="joinForm" action="/exec/front/Member/join/" method="post" target="_self" enctype="multipart/form-data">
+			
+			<form id="joinForm" name="joinForm" action="signUp_process.jsp" method="post">
+                <input type="hidden" id="useSimpleSignin" name="useSimpleSignin" value="T">
+                
 <input id="useSimpleSignin" name="useSimpleSignin" value="T" type="hidden">
 <input id="member_name_cert_flag" name="member_name_cert_flag" value="F" type="hidden">
 <input id="is_name_auth_use" name="is_name_auth_use" value="F" type="hidden">
@@ -140,7 +143,7 @@
 <th scope="row">비밀번호 <img src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif" alt="필수"></th>
                 <td>
                     <div class="eTooltip">
-                        <input id="passwd" name="passwd" fw-filter="isFill&amp;isMin[4]&amp;isMax[16]" fw-label="비밀번호" fw-msg="" autocomplete="off" maxlength="16" 0="disabled" value="" type="password">                        <div class="ec-base-tooltip typeUpper">
+                        <input id="passwd" name="passwd" fw-filter="isFill&amp;isMin[4]&amp;isMax[16]" fw-label="비밀번호" fw-msg="" autocomplete="off" maxlength="16" 0=" type="password">                        <div class="ec-base-tooltip typeUpper">
                             <div class="content">
                                 <strong class="txtWarn">※ 비밀번호 입력 조건</strong>
                                 <ul class="ec-base-help typeDash gBlank10 txtWarn">
@@ -161,10 +164,6 @@
                 <td><input id="user_passwd_confirm" name="user_passwd_confirm" fw-filter="isFill&amp;isMatch[passwd]" fw-label="비밀번호 확인" fw-msg="비밀번호가 일치하지 않습니다." autocomplete="off" maxlength="16" 0="disabled" value="" type="password"> <span id="pwConfirmMsg"></span> </td>
             </tr>
 
-<tr class="displaynone">
-<th scope="row">비밀번호 확인 답변 <img src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif" alt="필수"></th>
-                <td><input id="hint_answer" name="hint_answer" fw-filter="" fw-label="비밀번호 확인시 답변" fw-msg="" class="inputTypeText" placeholder="" value="" type="text"></td>
-            </tr>
 <tr>
 <th scope="row" id="nameTitle">이름 <img src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif" alt="필수"></th>
                 <td>
@@ -212,14 +211,12 @@
 </div>
 
 
-    <div class="ec-base-button">
-        <a href="#none" class="btnSubmitFix sizeS" id="ec_shop_confirm-checkingjoininfo_action">회원가입</a>
-        <a href="#none" class="btnNormalFix sizeS" onclick="CheckingJoinInfoLayerClose()">닫기</a>
-    </div>
-    <a href="#none" class="close"><img src="//img.echosting.cafe24.com/skin/base/common/btn_close.gif" alt="닫기" onclick="CheckingJoinInfoLayerClose()"></a>
-</div>
-</div>
-</form>
+   <div class="ec-base-button">
+                    <button type="submit" class="btnSubmitFix sizeS" id="ec_shop_confirm-checkingjoininfo_action">회원가입</button>
+                    <a href="#none" class="btnNormalFix sizeS" onclick="CheckingJoinInfoLayerClose()">닫기</a>
+                </div>
+                <a href="#none" class="close"><img src="//img.echosting.cafe24.com/skin/base/common/btn_close.gif" alt="닫기" onclick="CheckingJoinInfoLayerClose()"></a>
+            </form>
 			<!-- golgolz end -->
 		</div>
 	</div>

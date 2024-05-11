@@ -63,7 +63,7 @@
             </div>
             <!-- 회원가입 버튼의 디자인 개선 -->
             <div class="join_btn">
-                <a href="/member/join.html" class="join_btn_link">회원가입</a>
+                <a href="../signUp/signUp.jsp" class="join_btn_link">회원가입</a>
             </div>
     </div>
     </div>
