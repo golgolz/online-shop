@@ -150,7 +150,7 @@ try{
 										<c:forEach var="nVO" items="${list}" varStatus="i">
 										<tr>
 										<td> <c:out value="${totalCount-(currentPage-1)*pageScale -i.index }"/></td>
-										<td> <a href="notice_detail.jsp?seq=${nVO.notice_id}&currentPage=${empty param.currentPage ?1:param.currentPage }"><c:out value="${nVO.title }"/></a></td>
+										<td> <a href="notice_detail.jsp?id=${nVO.notice_id}"><c:out value="${nVO.title }"/></a></td>
 										<td> <c:out value="${nVO.author}"/></td>
 										<td> <c:out value="${nVO.input_date}"/></td>
 										<td> <c:out value="${nVO.view_count}"/></td>
