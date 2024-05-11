@@ -1,3 +1,6 @@
+<%@page import="org.json.simple.JSONObject"%>
+<%@page import="netscape.javascript.JSObject"%>
+<%@page import="order.vo.OrderVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="order.vo.OrderProductVO"%>
 <%@page import="java.util.List"%>
@@ -5,27 +8,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- 로그인 한 사용자만 사용 가능하게 체크하는 코드 예시 => 추후 변경 예정
+<c:if test="${empty sessionScope.loginData}">
+	<c:redirect url="http://192.168.10.212/jsp_prj/index.jsp"/>
+</c:if> --%>
 <jsp:useBean id="opVO" class="order.vo.OrderProductVO" scope="page" />
 <jsp:setProperty property="*" name="opVO" />
 <%
-//개발의 편의성을 위해 로그인한 것 처럼 코드를 작성한 후 작업 진행
-
+//개발의 편의성을 위해 코드를 작성한 후 작업 진행
 opVO.setCartId("20240419131338");
-pageContext.setAttribute("cartId", opVO);
+request.setAttribute("cartId", opVO.getCartId()); 
 
+/* String userId = (String)session.getAttribute("id"); */
+CartDAO cDAO = CartDAO.getInstance();
+
+//해당 유저의 ID로 장바구니 번호가 등록되어 있는지?
+// boolean flag = cDAO.checkCartId(userId);
+
+/* if(flag == false){// 장바구니 번호가 존재하지 않을 시 Cart,OrderProduct table에 insert
+     cDAO.insertCart(oVO);
+	 cDAO.insertOrderProduct(opVO) 
+}//end if */
+
+/* String code = (String)request.getParameter("code");
+int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+opVO.setCode(code);
+opVO.setQuantity(quantity); */
 %>
+
 <%
 	String cartId = opVO.getCartId();
-	CartDAO cDAO = CartDAO.getInstance();
+	
 	
 	List<OrderProductVO> list = new ArrayList<OrderProductVO>();
 	
 	try{
 		list = cDAO.selectCart(cartId);
+		
 	}catch(Exception e){
 	    e.printStackTrace();
 	}
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,7 +80,7 @@ table, td {
 			var newValue = curval+1;
 			input.value = newValue;
 			
-			var sum = parseInt(productPrice) * newValue;
+			var sum = parseInt(productPrice) * newValue + 3000;
 			document.getElementById('sum_price_front0').innerHTML = formatNumber(sum);
 		}
 	}
@@ -70,7 +95,7 @@ table, td {
 			var newValue = subval-1;
 			input.value = newValue;
 			
-			var sub = parseInt(productPrice) * newValue;
+			var sub = parseInt(productPrice) * newValue + 3000;
 			document.getElementById("sum_price_front0").innerHTML = formatNumber(sub);
 		}
 	}
@@ -80,8 +105,119 @@ table, td {
 	}
 	
 	function modifyQuantity() {
-		$("#cartFrm").submit();
+		/* $("#cartFrm").submit(); */
+		var param = {
+			orderGoodsId : $("#orderProductId").val(),
+			quantity : $("#quantity_id_0").val(),
+			method : "modify"
+		};
+		$.ajax({
+			url : "cart_process.jsp",
+			type : "POST",
+			data : param,
+			dataType : "JSON",
+			error : function(xhr){
+				alert("AJAX 요청 실패: " + xhr.status + " " + xhr.statusText);
+			},
+			success : function(jsonObj){
+				if(jsonObj.result){
+		            $("#quantity_id_0").val(jsonObj.quantity);
+					alert("수량을 변경했습니다.");
+				}else{
+					alert(jsonObj);
+				}
+			}
+		})
 	}
+	
+	function deleteCartItem(){
+		
+		var flag = confirm("정말 삭제하시겠습니까?");
+		
+		if(flag == false){//아니오를 누른 경우
+			return;
+		}//end if
+		
+		//예를 누른 경우 삭제 코드 실행
+		var param = {
+				orderGoodsId : $("#orderProductId").val(),
+				cartId : $("#orderCartId").val(),
+				method : "deleteOne"
+		};
+		$.ajax({
+			url : "cart_process.jsp",
+			type : "POST",
+			data : param,
+			dataType : "JSON",
+			error : function(xhr){
+				alert("AJAX 요청 실패: " + xhr.status + " " + xhr.statusText);
+			},
+			success : function(jsonObj){
+				if(jsonObj.result){
+					alert("삭제가 완료되었습니다.");
+					location.reload();
+				}else{
+					alert("삭제를 실패했습니다. 잠시 후 다시 시도해주세요.");
+				}
+			}
+		})
+		}
+	
+	function deleteCartAll(){
+		
+		var flag = confirm("장바구니가 모두 비워집니다. 삭제하시겠습니까?");
+		
+		if(flag == false){
+			return;
+		}//end if
+		
+		//예를 누른 경우 삭제 코드 실행
+		var param = {
+				cartId : $("#orderCartId").val(),
+				method : "deleteAll"
+		};
+		$.ajax({
+			url : "cart_process.jsp",
+			type : "POST",
+			data : param,
+			dataType : "JSON",
+			error : function(xhr){
+				alert("AJAX 요청 실패:"+ xhr.status + " " + xhr.statusText);
+			},
+			success : function(jsonObj){
+				if(jsonObj.result){
+					alert("장바구니가 비워졌습니다.");
+					location.reload();
+				}else{
+					alert("장바구니 비우기를 실패했습니다. 잠시 후 다시 시도해주세요.");
+				}
+			}
+		})
+	}
+	
+	function refreshCartList(){
+		var param = {
+				cartId : $("#orderCartId").val(),
+				method : "refresh"
+		}
+		
+		$.ajax({
+			url : "cart_process.jsp",
+			type : "POST",
+			data : param,
+			dataType : "JSON",
+			error : function(xhr){
+				alert("AJAX 요청 실패:"+ xhr.status + " " + xhr.statusText);
+			},
+			success : function(data){
+				for(var i=0; i<data.length; i++){
+					$("#quantity_id_0").val(data.quantity);
+				}
+				alert("갱신성공");
+			}
+		})
+	}
+		
 	
 </script>
 
@@ -113,21 +249,23 @@ table, td {
 								src="//img.echosting.cafe24.com/skin/base_ko_KR/order/img_order_step1.gif"
 								alt="01 장바구니">
 						</p>
-
+	
+						
 						<div
 							class="xans-element- xans-order xans-order-tabinfo ec-base-tab typeLight ">
 							<ul class="menu">
 								<li class="selected "><a href="/order/basket.html">배송상품
-										(1)</a></li>
+										(<%= list.size() %>)</a></li>
 								<li class=" "></li>
 							</ul>
 							<p class="right displaynone">장바구니에 담긴 상품은 7일 동안 보관됩니다.</p>
 						</div>
 						<div class="orderListArea ec-base-table typeList gBorder">
 							<div class="xans-element- xans-order xans-order-normtitle title ">
-								<h6>장바구니 상품 (1)</h6>
+								<h6>장바구니 상품 (<%= list.size() %>)</h6>
 							</div>
 							<form id="cartFrm" name="cartFrm" action="cart_process.jsp" method="post">
+							<input type="hidden">
 							<table border="1" summary=""
 								class="xans-element- xans-order xans-order-normnormal xans-record-">
 								<caption>배송상품</caption>
@@ -143,8 +281,7 @@ table, td {
 								</colgroup>
 								<thead>
 									<tr>
-										<th scope="col"><input type="checkbox"
-											onclick="Basket.setCheckBasketList('basket_product_normal_type_normal', this);"></th>
+										<th scope="col"></th>
 										<th scope="col">이미지</th>
 										<th scope="col">상품정보</th>
 										<th scope="col">판매가</th>
@@ -160,37 +297,35 @@ table, td {
 									</tr>
 								</tfoot>
 								<%
-								for(OrderProductVO oVO : list){
-								%>
+						for(OrderProductVO oVO : list){
+						%>
 								<tbody class="xans-element- xans-order xans-order-list center">
 									<tr class="xans-record-">
-										<td><input type="checkbox" id="basket_chk_id_0"
-											name="basket_product_normal_type_normal"></td>
+										<td></td>
 										<td class="thumb gClearLine"><a
 											href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-												src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE15_6.png"
+												src="http://localhost/online-shop/assets/images/goods/<%= oVO.getProductImg() %>"
 												onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
 												alt="APPLE_IPHONE15_6"
 												width="100px"></a></td>
+										<input type="hidden" value="<%= oVO.getOrderGoodsId() %>" name="orderProductId" id="orderProductId"/>
+										<input type="hidden" value="<%= oVO.getCartId() %>" name="orderCartId" id="orderCartId" />
 										<td class="left gClearLine"><strong class="name"><a
 												href="/product/i-live-with-six-cats-고양이의-바다-유광-카드-하드-케이스/6183/category/523/"
 												class="ec-product-name"><%= oVO.getProductName() %></a></strong> <span class="displaynone engName">(영문명
 												: )</span>
-											<ul
+											<uls
 												class="xans-element- xans-order xans-order-optionall option">
 												<li class="xans-record-"><strong class="displaynone"><%= oVO.getCode() %></strong>[옵션: <%= oVO.getCode() %>] <span
-													class="displaynone">(<%= list.size() %>)</span><br> <span class=""><a
-														href="#none"
-														onclick="Basket.showOptionChangeLayer('option_modify_layer_0', $(this))"
-														class="btnNormal gBlank5 displaynone">옵션변경</a></span></li>
+													class="displaynone">(<%= list.size() %>)</span><br></li>
 											</ul></td>
 										<td class="right">
 											<div id="product_price_div0" class="">
-												<strong><%= oVO.getPrice() %>원</strong>
+												<strong><%= String.format("%,d", oVO.getPrice()) %>원</strong>
 												<p class="displaynone"></p>
 											</div>
 											<div id="product_sale_price_div0" class="displaynone">
-												<strong><span id="product_sale_price_front0"><%= oVO.getPrice() %></span>원</strong>
+												<strong><span id="product_sale_price_front0"><script><%= oVO.getPrice() %></script></span>원</strong>
 												<p class="displaynone"></p>
 											</div>
 										</td>
@@ -209,18 +344,15 @@ table, td {
 	
 										<td rowspan="1" class="">
 											<p class="">
-												<%= oVO.getDelivertyFee() %>원<span class="displaynone"><br></span><br>
+												<%= String.format("%,d", oVO.getDelivertyFee()) %>원<span class="displaynone"><br></span><br>
 											</p>
 										</td>
 										<td class="right"><strong><span
-												id="sum_price_front0"><%= oVO.getTotal() %></span>원</strong>
+												id="sum_price_front0"><%= String.format("%,d", oVO.getTotal()) %></span>원</strong>
 											<div class="displaynone"></div></td>
 										<td class="button">
 											<!--임시 주석처리 : 주문서 작성 페이지 이동--> <!--<a href="javascript:;" class="btnSubmit" onclick="Basket.orderBasketItem(0);">주문하기</a>-->
-											<a href="http://localhost/online-shop/order/order_form.jsp"
-											class="btnSubmit">주문하기</a> <a href="javascript:;"
-											class="btnNormal" onclick="Basket.deleteBasketItem(0);"><i
-												class="icoDelete"></i> 삭제</a>
+											<a href="javascript:;" class="btnNormal" onclick="deleteCartItem()"><i class="icoDelete"></i> 삭제</a>
 										</td>
 									</tr>
 								</tbody>
@@ -236,16 +368,10 @@ table, td {
 							<p class="info displaynone">추가증정 이벤트 상품의 옵션 및 수량 변경은 상품상세에서
 								가능합니다.</p>
 						</div>
-						<div
-							class="xans-element- xans-order xans-order-selectorder ec-base-button ">
-							<span class="gLeft"> <strong class="text">선택상품을</strong> <a
-								href="#none" class="btnEm" onclick="Basket.deleteBasket()"><i
-									class="icoDelete"></i> 삭제하기</a>
+						<div class="xans-element- xans-order xans-order-selectorder ec-base-button ">
 
-
-
-							</span> <span class="gRight"> <a href="#none" class="btnNormal"
-								onclick="Basket.emptyBasket()">장바구니비우기</a>
+							</span> <span class="gRight"> <a href="javascript:;" class="btnNormal"
+								onclick="deleteCartAll()">장바구니비우기</a>
 
 							</span>
 						</div>
@@ -255,15 +381,8 @@ table, td {
 							<a href="#none" onclick="Basket.orderAll(this)"
 								link-order="/order/orderform.html?basket_type=all_buy"
 								link-login="/member/login.html" class="btnSubmitFix sizeM  ">전체상품주문</a>
-							<a href="#none" onclick="Basket.orderSelectBasket(this)"
-								link-order="/order/orderform.html?basket_type=all_buy"
-								link-login="/member/login.html" class="btnEmFix sizeM ">선택상품주문</a><span
-								class="gRight"> <a
-								href="http://localhost/online-shop/index.jsp"
-								class="btnNormalFix sizeM">쇼핑계속하기</a>
-							</span>
+							 <a href="http://localhost/online-shop/index.jsp" class="btnNormalFix sizeM">쇼핑계속하기</a>
 							<!-- 네이버 체크아웃 구매 버튼  -->
-							<div id="NaverChk_Button"></div>
 						</div>
 					</div>
 
