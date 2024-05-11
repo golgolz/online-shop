@@ -12,6 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class OrderProductVO {
+    private int orderGoodsId;
     private String productImg;
     private String productName;
     private String code;
