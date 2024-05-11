@@ -40,7 +40,6 @@ public class ReviewBoardUtil {
     }
     pageNation.append(prevMark).append("...");
     // 6. 시작페이지 번호 부터 끝 페이지 번호까지 화면에 출력
-
     movePage = startPage;
     while (movePage <= endPage) {
       if (movePage == currentPage) {// 현재 페이지에 대해서는 링크를 생성하지 않는다.
@@ -49,9 +48,10 @@ public class ReviewBoardUtil {
         pageNation.append("[<a href='").append(url).append("?currentPage=").append(movePage).append(param).append("'>")
             .append(movePage).append("</a>]");
       }
+
       movePage++;
     }
-
+    System.out.println(endPage);
     // 7. 뒤에 페이지가 더 있는 경우
     String endMark = "[&gt;&gt;]";
     if (totalPage > endPage) {
