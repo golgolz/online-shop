@@ -1,3 +1,6 @@
+<%@page import="admin.order.OrderVO"%>
+<%@page import="java.util.List"%>
+<%@page import="admin.order.AdminOrderDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <!DOCTYPE html>
@@ -17,6 +20,78 @@
 <script type="text/javascript">
 	$(function() {
 		$("#order_menu").addClass("bg-gradient-primary");
+    	$("#btn_search").click(function(){
+    		$("#frmGoods").submit();
+    	});
+    	
+		$("#btn_today").click(function(){
+			$("#date").val("today");
+			$("#btn_week").removeClass('clicked');
+			$("#btn_month").removeClass('clicked');
+			$("#btn_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_week").click(function(){
+			$("#date").val("week");
+			$("#btn_today").removeClass('clicked');
+			$("#btn_month").removeClass('clicked');
+			$("#btn_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_month").click(function(){
+			$("#date").val("month");
+			$("#btn_today").removeClass('clicked');
+			$("#btn_week").removeClass('clicked');
+			$("#btn_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_total").click(function(){
+			$("#date").val("total");
+			$("#btn_today").removeClass('clicked');
+			$("#btn_week").removeClass('clicked');
+			$("#btn_month").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_update_today").click(function(){
+			$("#updateDate").val("today");
+			$("#btn_update_week").removeClass('clicked');
+			$("#btn_update_month").removeClass('clicked');
+			$("#btn_update_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_update_week").click(function(){
+			$("#updateDate").val("week");
+			$("#btn_update_today").removeClass('clicked');
+			$("#btn_update_month").removeClass('clicked');
+			$("#btn_update_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_update_month").click(function(){
+			$("#updateDate").val("month");
+			$("#btn_update_today").removeClass('clicked');
+			$("#btn_update_week").removeClass('clicked');
+			$("#btn_update_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_update_total").click(function(){
+			$("#updateDate").val("total");
+			$("#btn_update_today").removeClass('clicked');
+			$("#btn_update_week").removeClass('clicked');
+			$("#btn_update_month").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+		
+		$(".sort").click(function(){
+			$("#sort").val($(this).text() === "가격순" ? "price" : "input_date");
+    		$("#frmGoods").submit();
+		});
 	});
 </script>
 <!-- golgolz start -->
@@ -40,10 +115,22 @@ var tb_admin_url = "http://demofran.com/admin";
 	font-size: 12px;
 	color: black;
 }
+.clickable-image{
+	border: 2px solid transparent;
+}
+
+.clicked {
+  border-color: red; 
+}
+
 </style>
 <!-- golgolz end -->
 </head>
 <body>
+	<%
+	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
+	List<OrderVO> orders = adminOrderDAO.selectOrders();
+	%>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
 		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps--active-y">
@@ -68,7 +155,6 @@ var tb_admin_url = "http://demofran.com/admin";
 			<!-- golgolz start -->
 			<div class="s_wrap">
 				<h5>주문리스트(전체)</h5>
-
 				<script type="text/javascript"
 					src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
 				<script>
@@ -118,37 +204,14 @@ var tb_admin_url = "http://demofran.com/admin";
 								</tr>
 								<tr>
 									<th scope="row">기간검색</th>
-									<td><select name="sel_field">
-											<option value="od_time">주문일</option>
-									</select> <label for="fr_date" class="sound_only">시작일</label> <input
-										type="text" name="fr_date" value="" id="fr_date"
-										class="frm_input w80 hasDatepicker" maxlength="10"> ~
-										<label for="to_date" class="sound_only">종료일</label> <input
-										type="text" name="to_date" value="" id="to_date"
-										class="frm_input w80 hasDatepicker" maxlength="10"> <span
-										class="btn_group"><input type="button"
-											onclick="search_date('fr_date','to_date',this.value);"
-											class="btn_small white" value="오늘"><input
-											type="button"
-											onclick="search_date('fr_date','to_date',this.value);"
-											class="btn_small white" value="어제"><input
-											type="button"
-											onclick="search_date('fr_date','to_date',this.value);"
-											class="btn_small white" value="일주일"><input
-											type="button"
-											onclick="search_date('fr_date','to_date',this.value);"
-											class="btn_small white" value="지난달"><input
-											type="button"
-											onclick="search_date('fr_date','to_date',this.value);"
-											class="btn_small white" value="1개월"><input
-											type="button"
-											onclick="search_date('fr_date','to_date',this.value);"
-											class="btn_small white" value="3개월"><input
-											type="button"
-											onclick="search_date('fr_date','to_date',this.value);"
-											class="btn_small white" value="전체"></span></td>
+              						<td class="box text">
+              							<input type="hidden" id="date" name="date" value="${param.date}" />
+              							<img id="btn_today" class="clickable-image${param.date eq 'today' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_today.gif" />
+										<img id="btn_week" class="clickable-image${param.date eq 'week' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisWeek.gif" />
+										<img id="btn_month" class="clickable-image${param.date eq 'month' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisMonth.gif" />
+					                	<img id="btn_total" class="clickable-image${param.date eq 'total' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_total.gif" />
+              						</td>
 								</tr>
-
 								<tr>
 									<th scope="row">주문상태</th>
 									<td><label class="od_status"><input type="radio"
@@ -167,7 +230,6 @@ var tb_admin_url = "http://demofran.com/admin";
 											value="1"> 구매확정</label> <label class="od_status"><input
 											type="radio" name="od_final" value="0"> 구매미확정</label></td>
 								</tr>
-
 							</tbody>
 						</table>
 					</div>
@@ -176,21 +238,20 @@ var tb_admin_url = "http://demofran.com/admin";
 							type="button" value="초기화" id="frmRest" class="btn_medium grey">
 					</div>
 				</form>
-
 				<div class="local_ov mart30">
-					전체 : <b class="fc_red">n</b> 건 조회 <select id="page_rows"
+					전체 : <b class="fc_red"><%= adminOrderDAO.selectCount() %></b> 건 조회 
+					<!-- <select id="page_rows"
 						onchange="location='/admin/order.php?code=list&amp;page=1&amp;page_rows='+this.value;"
 						class="marl5">
 						<option value="30" selected="selected">30줄 정렬</option>
 						<option value="50">50줄 정렬</option>
 						<option value="100">100줄 정렬</option>
 						<option value="150">150줄 정렬</option>
-					</select> <strong class="ov_a">총주문액 : n원</strong>
+					</select> -->
 				</div>
-
 				<form name="forderlist" id="forderlist" method="post">
-					<input type="hidden" name="q1" value="code=list"> <input
-						type="hidden" name="page" value="1">
+					<input type="hidden" name="q1" value="code=list"> 
+					<input type="hidden" name="page" value="1">
 				</form>
 				<div class="tbl_head01">
 					<table id="sodr_list">
@@ -219,17 +280,19 @@ var tb_admin_url = "http://demofran.com/admin";
 						</tr>
 						</thead>
 						<tbody>
+						<% for(OrderVO order: orders){ %>
 						<tr class="list0">
-							<td>2024-02-01 11:53</td>
-							<td><a href="http://localhost/online-shop/manage/order/order_manage_detail.jsp">202402011153</a></td>
-							<td>lee</td>
-							<td>이명화</td>
-							<td>구매미확정</td>
-							<td>배송완료</td>
-							<td>이명화</td>
-							<td>100,000원</td>
-							<td>카드결제</td>
+							<td><%= order.getOrderDate() %></td>
+							<td><a href="http://localhost/online-shop/manage/order/detail.jsp?id=<%= order.getCartId() %>"><%= order.getCartId() %></a></td>
+							<td><%= order.getCustomerId() %></td>
+							<td><%= order.getCustomerName() %></td>
+							<td><%= order.getPurchaseStatus() %></td>
+							<td><%= order.getDeliveryStatus() %></td>
+							<td><%= order.getReceiver() %></td>
+							<td><%= order.getPurchaseSum() %></td>
+							<td><%= order.getPayment() %></td>
 						</tr>
+						<% } %>
 						</tbody>
 					</table>
 				</div>
