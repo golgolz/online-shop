@@ -63,7 +63,7 @@ public class AdminReviewDAO {
     return totalCnt;
   }
 
-  public List<ReviewBoardVO> selectBoard(SearchVO sVO) throws SQLException {
+  public List<ReviewBoardVO> selectReviewBoard(SearchVO sVO) throws SQLException {
     List<ReviewBoardVO> review = new ArrayList<ReviewBoardVO>();
 
     Connection con = null;
@@ -118,137 +118,119 @@ public class AdminReviewDAO {
     }
 
     return review;
-  }
+  }// selectReviewBoard
 
-  /*
-   * public void insertBoard(ReviewBoardVO rVO) throws SQLException {
-   * 
-   * Connection con = null; PreparedStatement pstmt = null;
-   * 
-   * DbConnection db = DbConnection.getInstance();
-   * 
-   * try { // 1.JNDI 사용 객체 생성 // 2.DataSource 얻기 // 3.Connection 얻기 con =
-   * db.getConn("online-shop-dbcp"); // 4.쿼리문 생성객체 얻기(Dynamic Query) StringBuilder selectBoard = new
-   * StringBuilder(); selectBoard.
-   * append("insert into board(num, title, content, id, cnt) values(seq_board.nextval, ?, ?, ?, ?)");
-   * pstmt = con.prepareStatement(selectBoard.toString());
-   * 
-   * // 바인드 변수에 값 설정 pstmt.setString(1, rVO.getTitle()); pstmt.setString(2, rVO.getContent());
-   * pstmt.setString(3, rVO.getId()); pstmt.setInt(4, rVO.getCnt());
-   * 
-   * pstmt.executeUpdate(); } finally { // 7.연결 끊기 db.closeCon(null, pstmt, con); }
-   * 
-   * }// insertBoard
-   * 
-   * public ReviewBoardVO selectDetailBoard(int seq , String id ) throws SQLException {// 로그인한 사람만 글을
-   * 읽게 하려면 String id // 추가 ReviewBoardVO rVO = null;
-   * 
-   * Connection con = null; PreparedStatement pstmt = null; ResultSet rs = null;
-   * 
-   * DbConnection db = DbConnection.getInstance();
-   * 
-   * try { // 1.JNDI 사용 객체 생성 // 2.DataSource 얻기 // 3.Connection 얻기 con =
-   * db.getConn("online-shop-dbcp"); // 4.쿼리문 생성객체 얻기(Dynamic Query) StringBuilder selectBoard = new
-   * StringBuilder();
-   * selectBoard.append("   select title, content, id, input_date, cnt   ").append("    from board   "
-   * ) .append("    where num=?   ");
-   * 
-   * pstmt = con.prepareStatement(selectBoard.toString()); // 5.바인드 변수 값 설정 pstmt.setInt(1, seq); //
-   * 6.쿼리문 수행 후 결과 얻기 rs = pstmt.executeQuery();
-   * 
-   * if (rs.next()) { StringBuilder content = new StringBuilder(); String temp = "";
-   * 
-   * // content는 clob데이터 형이어서 별도의 Stream을 연결하여 검색한다. BufferedReader br = null; try { br = new
-   * BufferedReader(rs.getClob("content").getCharacterStream()); while ((temp = br.readLine()) !=
-   * null) { content.append(temp).append("\n"); } br.close(); } catch (IOException ie) {
-   * ie.printStackTrace(); }
-   * 
-   * rVO = new ReviewBoardVO(seq, rs.getInt("cnt"), rs.getString("title"), content.toString(),
-   * rs.getString("id"), rs.getDate("input_date"));
-   * 
-   * } // end while
-   * 
-   * } finally { // 7.연결 끊기 db.closeCon(rs, pstmt, con); }
-   * 
-   * return rVO; }
-   * 
-   * 
-   * public int updateBoard(ReviewBoardVO rVO) throws SQLException {
-   * 
-   * int cnt = 0;
-   * 
-   * Connection con = null; PreparedStatement pstmt = null;
-   * 
-   * DbConnection db = DbConnection.getInstance();
-   * 
-   * try { // 1.JNDI 사용 객체 생성 // 2.DataSource 얻기 // 3.Connection 얻기 con =
-   * db.getConn("online-shop-dbcp"); // 4.쿼리문 생성객체 얻기(Dynamic Query)
-   * 
-   * StringBuilder updateBoard = new StringBuilder();
-   * updateBoard.append("  update board    ").append("  set title=?, content=?, cnt=?    ")
-   * .append("  where num=? and id=?   ");
-   * 
-   * pstmt = con.prepareStatement(updateBoard.toString());;
-   * 
-   * // 5. 바인드 변수에 값 설정 pstmt.setString(1, rVO.getTitle()); pstmt.setString(2, rVO.getContent());
-   * pstmt.setInt(3, rVO.getCnt()); pstmt.setInt(4, rVO.getNum()); pstmt.setString(5, rVO.getId());
-   * 
-   * cnt = pstmt.executeUpdate();
-   * 
-   * } finally { // 7.연결 끊기 db.closeCon(null, pstmt, con); }
-   * 
-   * return cnt;
-   * 
-   * }// updateBoard
-   * 
-   * public int deleteBoard(ReviewBoardVO bVO) throws SQLException {
-   * 
-   * int cnt = 0;
-   * 
-   * Connection con = null; PreparedStatement pstmt = null;
-   * 
-   * DbConnection db = DbConnection.getInstance();
-   * 
-   * try { // 1.JNDI 사용 객체 생성 // 2.DataSource 얻기 // 3.Connection 얻기 con =
-   * db.getConn("online-shop-dbcp"); // 4.쿼리문 생성객체 얻기(Dynamic Query)
-   * 
-   * StringBuilder deleteBoard = new StringBuilder();
-   * deleteBoard.append("  delete from board    ").append("  where num=? and id=?   "); pstmt =
-   * con.prepareStatement(deleteBoard.toString());;
-   * 
-   * // 바인드 변수에 값 설정 pstmt.setInt(1, bVO.getNum()); pstmt.setString(2, bVO.getId());
-   * 
-   * cnt = pstmt.executeUpdate();
-   * 
-   * } finally { // 7.연결 끊기 db.closeCon(null, pstmt, con); }
-   * 
-   * return cnt;
-   * 
-   * }// deleteBoard
-   * 
-   * public int updateCnt(int num) throws SQLException {
-   * 
-   * int cnt = 0;
-   * 
-   * Connection con = null; PreparedStatement pstmt = null;
-   * 
-   * DbConnection db = DbConnection.getInstance();
-   * 
-   * try { // 1.JNDI 사용 객체 생성 // 2.DataSource 얻기 // 3.Connection 얻기 con =
-   * db.getConn("online-shop-dbcp"); // 4.쿼리문 생성객체 얻기(Dynamic Query)
-   * 
-   * StringBuilder updateCnt = new StringBuilder();
-   * updateCnt.append("  update board set cnt=cnt+1    ").append("  where num=?   "); pstmt =
-   * con.prepareStatement(updateCnt.toString());
-   * 
-   * // 바인드 변수에 값 설정 pstmt.setInt(1, num);
-   * 
-   * cnt = pstmt.executeUpdate();
-   * 
-   * } finally { // 7.연결 끊기 db.closeCon(null, pstmt, con); }
-   * 
-   * return cnt;
-   * 
-   * }// updateCnt
-   */
+  public ReviewBoardVO selectDetailReview(int seq) throws SQLException {
+    ReviewBoardVO rVO = null;
+
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    DbConnection db = DbConnection.getInstance();
+
+    try {
+      // 1.JNDI 사용 객체 생성
+      // 2.DataSource 얻기
+      // 3.Connection 얻기
+      con = db.getConn("online-shop-dbcp");
+      // 4.쿼리문 생성객체 얻기(Dynamic Query)
+      StringBuilder selectDetailReview = new StringBuilder();
+      selectDetailReview.append("   select title, content, id, input_date   ").append("    from review   ")
+          .append("    where review_id=?   ");
+
+      pstmt = con.prepareStatement(selectDetailReview.toString());
+      // 5.바인드 변수 값 설정
+      pstmt.setInt(1, seq);
+      // 6.쿼리문 수행 후 결과 얻기
+      rs = pstmt.executeQuery();
+
+      if (rs.next()) {
+
+        rVO = ReviewBoardVO.builder()/*
+                                      * .reviewId(rs.getInt("review_id")).defaultImg(rs.getString("default_img"))
+                                      * .name(rs.getString("name"))
+                                      */.title(rs.getString("title")).content(rs.getString("content"))
+            .id(rs.getString("id")).inputDate(rs.getDate("input_date")).build();
+
+      } // end while
+
+    } finally {
+      // 7.연결 끊기
+      db.closeCon(rs, pstmt, con);
+    }
+
+    return rVO;
+
+  }// selectDetailReview
+
+  public int deleteReview(ReviewBoardVO rVO) throws SQLException {
+
+    int cnt = 0;
+
+    Connection con = null;
+    PreparedStatement pstmt = null;
+
+    DbConnection db = DbConnection.getInstance();
+
+    try {
+      // 1.JNDI 사용 객체 생성
+      // 2.DataSource 얻기
+      // 3.Connection 얻기
+      con = db.getConn("online-shop-dbcp");
+      // 4.쿼리문 생성객체 얻기(Dynamic Query)
+
+      StringBuilder deleteBoard = new StringBuilder();
+      deleteBoard.append("  delete from review    ").append("  where review_id=? and id=?   ");
+      pstmt = con.prepareStatement(deleteBoard.toString());
+
+      // 바인드 변수에 값 설정
+      pstmt.setInt(1, rVO.getReviewId());
+      pstmt.setString(2, rVO.getId());
+
+      cnt = pstmt.executeUpdate();
+
+    } finally {
+      // 7.연결 끊기
+      db.closeCon(null, pstmt, con);
+    }
+
+    return cnt;
+
+  }// deleteBoard
+
+  public int updateCnt(int num) throws SQLException {
+
+    int cnt = 0;
+
+    Connection con = null;
+    PreparedStatement pstmt = null;
+
+    DbConnection db = DbConnection.getInstance();
+
+    try {
+      // 1.JNDI 사용 객체 생성
+      // 2.DataSource 얻기
+      // 3.Connection 얻기
+      con = db.getConn("online-shop-dbcp");
+      // 4.쿼리문 생성객체 얻기(Dynamic Query)
+
+      StringBuilder updateCnt = new StringBuilder();
+      updateCnt.append("  update review set cnt=cnt+1    ").append("  where review_id=?   ");
+      pstmt = con.prepareStatement(updateCnt.toString());
+
+      // 바인드 변수에 값 설정
+      pstmt.setInt(1, num);
+
+      cnt = pstmt.executeUpdate();
+
+    } finally {
+      // 7.연결 끊기
+      db.closeCon(null, pstmt, con);
+    }
+
+    return cnt;
+
+  }// updateCnt
+
 }
