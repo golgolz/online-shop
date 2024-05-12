@@ -120,6 +120,33 @@ public class MyPageDAO {
     } finally {
       dbConn.closeCon(null, pstmt, conn); // 리소스 해제
     }
-  }
+  }// updateUser
+
+  // 비밀번호 변경
+  public boolean updatePassword(String userId, String newPassword) throws SQLException {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+
+    DbConnection dbConn = DbConnection.getInstance();
+
+    try {
+      conn = dbConn.getConn("online-shop-dbcp");
+
+
+      StringBuilder sql = new StringBuilder();
+      sql.append("UPDATE customer SET PASSWORD = ? WHERE ID = ?");
+
+      pstmt = conn.prepareStatement(sql.toString());
+      pstmt.setString(1, newPassword);
+      pstmt.setString(2, userId);
+
+      int affectedRows = pstmt.executeUpdate();
+      return affectedRows > 0; // 업데이트가 성공했는지 여부를 반환
+    } finally {
+      dbConn.closeCon(null, pstmt, conn); // 리소스 해제
+    }
+  }// updatePassword
 
 }
