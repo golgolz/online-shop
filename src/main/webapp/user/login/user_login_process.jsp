@@ -32,7 +32,8 @@
         <script type='text/javascript'>
             alert('<%= errorMessage %>');
             location='userLogin.jsp';
-        </script>
+        </script> 
+        
         <%
     } else {
         // 로그인 시도 및 검증
