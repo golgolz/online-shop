@@ -121,4 +121,36 @@ public class AdminOrderDAO {
 
         return detailInfo;
     }
+
+    public List<OrderDetailGoodsVO> selectDetailGoods(String cartId) throws SQLException {
+        List<OrderDetailGoodsVO> goods = new ArrayList<OrderDetailGoodsVO>();
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder selectQuery = new StringBuilder();
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+            selectQuery.append(
+                    "select goods.code, cart.cart_id, default_img, goods.name, price, delivery_charge, order_goods.amount, delivery_state, purchase_state from goods ")
+                    .append(" join order_goods on goods.code = order_goods.code ")
+                    .append(" join cart on cart.cart_id = order_goods.cart_id ").append(" where cart.cart_id = ? ");
+            pstmt = conn.prepareStatement(selectQuery.toString());
+            pstmt.setString(1, cartId);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                goods.add(new OrderDetailGoodsVO(rs.getString("code"), rs.getString("default_img"),
+                        rs.getString("name"), rs.getInt("price"), rs.getInt("delivery_charge"), rs.getInt("amount"),
+                        rs.getString("delivery_state"), rs.getString("purchase_state")));
+            }
+        } finally {
+            dbConn.closeCon(rs, pstmt, conn);
+        }
+
+        return goods;
+    }
 }

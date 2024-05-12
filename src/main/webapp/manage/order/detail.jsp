@@ -1,3 +1,5 @@
+<%@page import="admin.order.OrderDetailGoodsVO"%>
+<%@page import="java.util.List"%>
 <%@page import="admin.order.OrderDetailInfoVO"%>
 <%@page import="admin.order.AdminOrderDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -31,9 +33,22 @@
 <!-- golgolz end -->
 </head>
 <body>
+	<jsp:useBean id="orderInfo" class="admin.order.OrderDetailInfoVO" />
+	<jsp:setProperty property="*" name="orderInfo" />
 	<%
 	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
-			OrderDetailInfoVO orderInfo = adminOrderDAO.selectDetailInfo((String)request.getParameter("id"));
+	String paramId = (String)request.getParameter("id");
+	if(request.getParameter("id") != null){
+		orderInfo = adminOrderDAO.selectDetailInfo(paramId);
+	} else {
+	%>
+	<script>
+		alert("잘못된 요청입니다. 주문 리스트 페이지로 돌아갑니다.");
+		location.href = "http://localhost/online-shop/manage/order/orders.jsp";
+	</script>
+	<%
+	}
+	List<OrderDetailGoodsVO> goodsList = adminOrderDAO.selectDetailGoods(paramId);
 	%>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
@@ -99,21 +114,26 @@
 									</tr>
 								</thead>
 								<tbody class="list">
+									<% for(OrderDetailGoodsVO goods : goodsList){ %>
 									<tr class="list0">
-										<td>
-											<a href="http://demofran.com/shop/view.php?index_no=14" target="_blank">
-												<img src="http://demofran.com/data/order/2404/24040511530204/thumb-95S2lNwQks3caPhpLyDPjPWygyeCsC_40x40.jpg" width="40" height="40">
-											</a>
-										</td>
-										<td class="tal"><a href="http://demofran.com/admin/goods.php?code=form&amp;w=u&amp;gs_id=14" target="_blank">Mathey-Tissot 심플 서류가방+백팩 블랙세트</a>
-										</td>
-										<td>배송준비중</td>
-										<td>구매 미확정</td>
-										<td>1</td>
-										<td class="tar">70,000</td>
-										<td class="tar">0</td>
-										<td class="td_price">70,000</td>
+											<td>
+												<a href="http://localhost/online-shop/goods/detail.jsp?goods=<%= goods.getCode() %>">
+													<img src="http://localhost/online-shop/assets/images/goods/<%= goods.getDefaultImage() %>" width="40" height="40">
+												</a>
+											</td>
+											<td class="tal">
+												<a href="http://localhost/online-shop/goods/detail.jsp?goods=<%= goods.getCode() %>">
+													<%= goods.getName() %>
+												</a>
+											</td>
+											<td><%= goods.getOrderStatus() %></td>
+											<td><%= goods.getPurchaseStatus() %></td>
+											<td><%= goods.getAmount() %></td>
+											<td class="tar"><%= goods.getPrice() %></td>
+											<td class="tar"><%= goods.getDeliveryCharge() %></td>
+											<td class="td_price"><%= goods.getPrice() * goods.getAmount() %></td>
 									</tr>
+									<% } %>
 								</tbody>
 							</table>
 						</div>

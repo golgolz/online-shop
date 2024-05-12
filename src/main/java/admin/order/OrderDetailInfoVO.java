@@ -2,8 +2,10 @@ package admin.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class OrderDetailInfoVO {
     private String cartId;

@@ -67,7 +67,7 @@
 	            $('#discount_type00').append('<option value="ZFLIP">ZFLIP</option>');
 	        } else if (selectedOption === '0') {
 	            $('#discount_type00').append('<option value="IPHONE14">아이폰14</option>');
-	            $('#discount_type00').append('<option value="IPHONE15-Y">아이폰15</option>');
+	            $('#discount_type00').append('<option value="IPHONE15-Y">아잎</option>');
 	        }
 		});
 	});
