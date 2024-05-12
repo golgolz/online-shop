@@ -190,10 +190,10 @@ $(function(){
 </div>
 <div class="ec-base-button ">
             <span class="gLeft">
-                <a href="http://localhost/online-shop/manage/review/review_my.jsp" class="btnNormalFix sizeS">목록</a>
+                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
-                <a href="#none" onclick="BOARD_READ.article_delete('BoardDelForm','4');" class="btnNormalFix sizeS ">삭제</a>
+                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" id="btnDelete" class="btnNormalFix sizeS ">삭제</a>
                 <a href="http://localhost/online-shop/manage/review/review_update.jsp" class="btnEmFix sizeS ">수정</a>
             </span>
         </div>
