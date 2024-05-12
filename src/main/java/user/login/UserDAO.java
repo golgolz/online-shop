@@ -93,6 +93,37 @@ public class UserDAO {
     }
 
     return result;
-  }
+  }// signUP
+
+  public UserVO verifyLogin(String userId) throws SQLException {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    DbConnection dbConn = DbConnection.getInstance();
+
+    try {
+      conn = dbConn.getConn("online-shop-dbcp");
+      StringBuilder sql = new StringBuilder();
+      sql.append("SELECT withdrawal_flag, access_limit_flag FROM customer WHERE id = ?");
+
+      pstmt = conn.prepareStatement(sql.toString());
+      pstmt.setString(1, userId);
+
+      rs = pstmt.executeQuery();
+
+      if (rs.next()) {
+        String withdrawalFlag = rs.getString("withdrawal_flag");
+        String accessLimitFlag = rs.getString("access_limit_flag");
+
+        // UserVO 객체 생성하여 반환
+        return new UserVO(userId, null, null, null, null, null, null, null, null, null, withdrawalFlag,
+            accessLimitFlag);
+      }
+    } finally {
+      dbConn.closeCon(rs, pstmt, conn); // 리소스 해제
+    }
+    return null; // 주어진 아이디에 해당하는 사용자가 없는 경우 null 반환
+  }// verifyLogin
 
 }
