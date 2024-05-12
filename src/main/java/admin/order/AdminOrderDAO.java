@@ -86,4 +86,39 @@ public class AdminOrderDAO {
 
         return orders;
     }
+
+    public OrderDetailInfoVO selectDetailInfo(String cartId) throws SQLException {
+        OrderDetailInfoVO detailInfo = null;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder selectQuery = new StringBuilder();
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+            selectQuery.append(
+                    " select cart.cart_id, cart.id, cart.input_date, purchase_amount.purchase_amount, delivery.receiver, delivery.tel, delivery.zipcode, delivery.default_addr, delivery.additional_addr, delivery.request from cart ")
+                    .append(" join delivery on cart.cart_id = delivery.cart_id ")
+                    .append(" join ( select order_goods.cart_id as cart_id, sum(goods.price * order_goods.amount) as purchase_amount from goods ")
+                    .append(" join order_goods on goods.code = order_goods.code group by cart_id ) purchase_amount on purchase_amount.cart_id = cart.cart_id ")
+                    .append(" where cart.cart_id = ? ");
+            pstmt = conn.prepareStatement(selectQuery.toString());
+            pstmt.setString(1, cartId);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                detailInfo = new OrderDetailInfoVO(rs.getString("cart_id"), rs.getString("id"),
+                        rs.getString("input_date"), rs.getInt("purchase_amount"), rs.getString("receiver"),
+                        rs.getString("tel"), rs.getString("zipcode"), rs.getString("default_addr"),
+                        rs.getString("additional_addr"), rs.getString("request"));
+            }
+        } finally {
+            dbConn.closeCon(rs, pstmt, conn);
+        }
+
+        return detailInfo;
+    }
 }

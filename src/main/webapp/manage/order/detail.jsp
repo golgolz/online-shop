@@ -1,3 +1,5 @@
+<%@page import="admin.order.OrderDetailInfoVO"%>
+<%@page import="admin.order.AdminOrderDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <!DOCTYPE html>
@@ -29,6 +31,10 @@
 <!-- golgolz end -->
 </head>
 <body>
+	<%
+	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
+			OrderDetailInfoVO orderInfo = adminOrderDAO.selectDetailInfo((String)request.getParameter("id"));
+	%>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
 		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps--active-y">
@@ -56,13 +62,13 @@
 					<h4 class="anc_tit">주문상품 목록</h4>
 					<div class="local_desc02 local_desc">
 						<p style="font-size: 13px;">
-							주문번호 : 202404051153
+							주문번호 : <%= orderInfo.getCartId() %>
 						</p>
 						<p style="font-size: 13px;">
-							주문자ID : lee
+							주문자ID : <%= orderInfo.getCustomerId() %>
 						</p>
 						<p style="font-size: 13px;">
-							주문일시 : 2024-04-05 11:53
+							주문일시 : <%= orderInfo.getInputDate() %>
 						</p>
 					</div>
 					<form name="frmorderform" method="post"
@@ -99,7 +105,7 @@
 												<img src="http://demofran.com/data/order/2404/24040511530204/thumb-95S2lNwQks3caPhpLyDPjPWygyeCsC_40x40.jpg" width="40" height="40">
 											</a>
 										</td>
-										<td class="tal"><a href="http://demofran.com/admin/goods.php?code=form&amp;w=u&amp;gs_id=14" target="_blank">Mathey-Tissot 심플 서류가방+백팩 블랙세트</a> [비과세상품]
+										<td class="tal"><a href="http://demofran.com/admin/goods.php?code=form&amp;w=u&amp;gs_id=14" target="_blank">Mathey-Tissot 심플 서류가방+백팩 블랙세트</a>
 										</td>
 										<td>배송준비중</td>
 										<td>구매 미확정</td>
@@ -140,11 +146,11 @@
 											<tbody>
 												<tr>
 													<th scope="row">총 주문금액</th>
-													<td class="td_price">136,240원</td>
+													<td class="td_price"><%= orderInfo.getPurchaseAmount() %>원</td>
 												</tr>
 												<tr>
 													<th scope="row">총 상품금액</th>
-													<td class="td_price bg0">136,240원</td>
+													<td class="td_price bg0"><%= orderInfo.getPurchaseAmount() %>원</td>
 												</tr>
 												<tr>
 													<th scope="row">총 배송비</th>
@@ -152,7 +158,7 @@
 												</tr>
 												<tr>
 													<th scope="row">실 결제금액</th>
-													<td class="td_price bg0">136,240원</td>
+													<td class="td_price bg0"><%= orderInfo.getPurchaseAmount() + 3000 %>원</td>
 												</tr>
 											</tbody>
 										</table>
@@ -178,7 +184,7 @@
 												<tr>
 													<th scope="row"><label for="b_name">수령인</label></th>
 													<td>
-														<input type="text" name="b_name" value="장원영"
+														<input type="text" name="b_name" value="<%= orderInfo.getReceiver() %>"
 														id="b_name" required="" class="frm_input required"
 														style="background-position: right top; background-repeat: no-repeat;">
 													</td>
@@ -187,7 +193,7 @@
 													<th scope="row"><label for="b_cellphone">핸드폰</label></th>
 													<td>
 														<input type="text" name="b_cellphone"
-														value="010-0000-0000" id="b_cellphone" required=""
+														value="<%= orderInfo.getReceiverTel() %>" id="b_cellphone" required=""
 														class="frm_input required"
 														style="background-position: right top; background-repeat: no-repeat;">
 													</td>
@@ -202,23 +208,21 @@
 															onclick="win_zip('frmorderform2', 'b_zip', 'b_addr1', 'b_addr2', 'b_addr3', 'b_addr_jibeon');">주소검색</button>
 														<br> 
 														<input type="text" name="b_addr1"
-														value="서울시 강남구 쌍용교육센터" id="b_addr1" required=""
+														value="<%= orderInfo.getDefaultAddr() %>" id="b_addr1" required=""
 														class="frm_input required" size="35"
 														style="background-position: right top; background-repeat: no-repeat;">
 														<label for="b_addr1">기본주소</label>
 														<br>
-														<input type="text" name="b_addr2" value="8층" id="b_addr2" class="frm_input" size="35"> 
+														<input type="text" name="b_addr2" value="<%= orderInfo.getAdditionalAddr() %>" id="b_addr2" class="frm_input" size="35"> 
 														<label for="b_addr2">상세주소</label>
 														<br>
-														<input type="text" name="b_addr3" value=" (역삼동)" id="b_addr3" class="frm_input" size="35"> 
-														<label for="b_addr3">참고항목</label>
 														<br>
 														<input type="hidden" name="b_addr_jibeon" value="R">
 													</td>
 												</tr>
 												<tr>
 													<th scope="row">전달 메세지</th>
-													<td>없음</td>
+													<td><%= orderInfo.getRequest() %></td>
 												</tr>
 											</tbody>
 										</table>
