@@ -59,4 +59,71 @@ public class UserDAO {
     return loginSuccess;
   }// userLogin
 
+  // 회원가입 메소드
+  public boolean userSignUp(String id, String password, String name, String tel, String email, String zipcode,
+      String defaultAddr, String additionalAddr) throws SQLException {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    boolean result = false;
+
+    DbConnection dbConn = DbConnection.getInstance();
+
+    try {
+      conn = dbConn.getConn("online-shop-dbcp");
+
+      StringBuilder sqlBuilder = new StringBuilder();
+      sqlBuilder.append(
+          "INSERT INTO customer (ID, PASSWORD, NAME, TEL, EMAIL, INPUT_DATE, ZIPCODE, DEFAULT_ADDR, ADDITIONAL_ADDR, WITHDRAWAL_FLAG, ACCESS_LIMIT_FLAG) ")
+          .append("VALUES (?, ?, ?, ?, ?, TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-DD'), ?, ?, ?, 'F', 'F')");
+
+      pstmt = conn.prepareStatement(sqlBuilder.toString());
+      pstmt.setString(1, id);
+      pstmt.setString(2, password);
+      pstmt.setString(3, name);
+      pstmt.setString(4, tel);
+      pstmt.setString(5, email);
+      pstmt.setString(6, zipcode);
+      pstmt.setString(7, defaultAddr);
+      pstmt.setString(8, additionalAddr);
+
+      int affectedRows = pstmt.executeUpdate();
+      result = affectedRows > 0; // 성공적으로 추가되었는지 결과 반환
+    } finally {
+      dbConn.closeCon(null, pstmt, conn); // 리소스 해제
+    }
+
+    return result;
+  }// signUP
+
+  public UserVO verifyLogin(String userId) throws SQLException {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    DbConnection dbConn = DbConnection.getInstance();
+
+    try {
+      conn = dbConn.getConn("online-shop-dbcp");
+      StringBuilder sql = new StringBuilder();
+      sql.append("SELECT withdrawal_flag, access_limit_flag FROM customer WHERE id = ?");
+
+      pstmt = conn.prepareStatement(sql.toString());
+      pstmt.setString(1, userId);
+
+      rs = pstmt.executeQuery();
+
+      if (rs.next()) {
+        String withdrawalFlag = rs.getString("withdrawal_flag");
+        String accessLimitFlag = rs.getString("access_limit_flag");
+
+        // UserVO 객체 생성하여 반환
+        return new UserVO(userId, null, null, null, null, null, null, null, null, null, withdrawalFlag,
+            accessLimitFlag);
+      }
+    } finally {
+      dbConn.closeCon(rs, pstmt, conn); // 리소스 해제
+    }
+    return null; // 주어진 아이디에 해당하는 사용자가 없는 경우 null 반환
+  }// verifyLogin
+
 }

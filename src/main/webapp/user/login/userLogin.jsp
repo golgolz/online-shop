@@ -49,7 +49,7 @@
                     <ul>
                         <li><a href="../findIdPw/findId.jsp">아이디찾기</a></li>
                         <li>&nbsp;|&nbsp;</li>
-                        <li><a href="/member/passwd/find_passwd_info.html">비밀번호찾기</a></li>
+                        <li><a href="../findIdPw/findPw.jsp">비밀번호찾기</a></li>
                     </ul>
                 </div>
             </fieldset>
@@ -63,7 +63,7 @@
             </div>
             <!-- 회원가입 버튼의 디자인 개선 -->
             <div class="join_btn">
-                <a href="/member/join.html" class="join_btn_link">회원가입</a>
+                <a href="../signUp/signUp.jsp" class="join_btn_link">회원가입</a>
             </div>
     </div>
     </div>
