@@ -47,7 +47,7 @@
                 
                 <div class="find_area">
                     <ul>
-                        <li><a href="/member/id/find_id.html">아이디찾기</a></li>
+                        <li><a href="../findIdPw/findId.jsp">아이디찾기</a></li>
                         <li>&nbsp;|&nbsp;</li>
                         <li><a href="/member/passwd/find_passwd_info.html">비밀번호찾기</a></li>
                     </ul>

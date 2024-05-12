@@ -54,7 +54,75 @@
 					chkNull();
 				}//end if
 			});//keydown
+			
 		});//ready
+		
+		/*
+		5,10,15,20을 눌렀을때 발생하는 함수 [테이블 새로 생성,]
+		*/
+		function changePageScale(){
+			var selectOption = document.getElementById("list_num").value;
+			$.ajax({
+				type: "GET",
+				url: "reviewTableAjax.jsp",
+				data: {
+					selectOption: selectOption
+				},
+				success: function(data){
+					displayTable(data);
+					pagination(data);
+				},
+				error: function(xhr){
+					alert("에러발생  : " + xhr.status)
+				}
+			})
+		}
+
+		function displayTable(data){
+			var tbody = document.getElementById("tbody");
+			tbody.innerHTML="";
+			
+			
+			/* alert(data); */
+			var object = JSON.parse(data);
+			
+			var boardList = object.boardList;
+			
+			for(var i=0 ; i < boardList.length; i++){
+				var row = tbody.insertRow(i);
+				
+				//각속성에 대한 열 추가
+				var cell1 = row.insertCell(0);
+				var cell2 = row.insertCell(1);
+				var cell3 = row.insertCell(2);
+				var cell4 = row.insertCell(3);
+				var cell5 = row.insertCell(4);
+				var cell6 = row.insertCell(5);
+				var cell7 = row.insertCell(6);
+				
+				 // 각 열에 체크박스 요소 추가
+			    cell1.innerHTML = '<input type="checkbox" name="checkbox' + i + '">'; // 체크박스 추가
+			    cell2.innerHTML = boardList[i].reviewId;
+			    cell3.innerHTML = boardList[i].defaultImg;
+			    cell4.innerHTML = boardList[i].name;
+			    cell5.innerHTML = '<a href="review_board_read_frm.jsp?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}">'+boardList[i].title+'</a>';
+			    cell6.innerHTML = boardList[i].inputDate;
+			    cell7.innerHTML = boardList[i].id;
+			}//end for
+			
+		}//displayTable
+		
+		function pagination(data){
+			
+			var paging = document.getElementById("paging");
+			paging.innerHTML="";
+			
+			var object = JSON.parse(data);
+			var totalPage = object.totalPage;
+			var currentPage = object.currentPage;
+			
+			$("#paging").html(newPagination);
+		}
 		
 		function chkNull() {
 			if($("#keyword").val().trim() !="") {
@@ -104,17 +172,12 @@
 		    int totalCount = rDAO.selectTotalCount(sVO);
 		    
 		    //2.한 화면에 보여줄 게시물의 수
-		    int pageScale=10;
+		    int pageScale=  10;
 		    //3.총 페이지 수
-		    /*
-		    int totalPage=totalCount/pageScale;
-		    if(totalPage % pageScale !=0){
-		        totalPage++;
-		    }//end if
-		    */
 		    int totalPage=(int)Math.ceil((double)totalCount/pageScale);
 		    //4.게시물의 시작번호
 		    String tempPage=sVO.getCurrentPage();
+		    /* System.out.println(totalPage); */
 		    int currentPage=1;
 		    if(tempPage !=null) {
 		        try{
@@ -162,31 +225,11 @@
 			<col width="120">
 		    <col width="*">
 			<tr><td colspan="2" class="top5"></td></tr>
-		    <tr>
+		    <!-- <tr>
 		    	<td class="label">상품검색</td>
 		        <td class="box text">
 					<input type='radio' name='category' value='apple' />애플
 					<input type='radio' name='category' value='samsung' />삼성
-		        </td>
-		    </tr>
-			<tr>
-				<td class="label">등록일</td>
-				<td class="box text">
-				<input type="text" id="bbs_sdate" name="bbs_sdate" style="width:68px;" class="inputbox" value=""> ~ <input type="text" id="bbs_edate" name="bbs_edate" style="width:68px;" class="inputbox" value="">
-				<a href="#" id="date_term1" mode="yesterday"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_yesterday.gif"></a>
-				<a href="#" id="date_term2" mode="this_day"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_today.gif"></a>
-				<a href="#" id="date_term3" mode="this_week"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_thisWeek.gif"></a>
-				<a href="#" id="date_term4" mode="this_month"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_thisMonth.gif"></a>
-				<a href="#" id="date_term5" mode=""><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_total.gif"></a></td>
-			</tr>
-		    <!-- <tr>
-		    	<td class="label">평점</td>
-		        <td class="box text">
-		        	<input type="checkbox" id="bbs_review_grade1" name="bbs_review_grade[]" value="100"> <img src="/admin/images/community/icon_star05.gif"> 
-		            <input type="checkbox" id="bbs_review_grade2" name="bbs_review_grade[]" value="80"> <img src="/admin/images/community/icon_star04.gif"> 
-		            <input type="checkbox" id="bbs_review_grade3" name="bbs_review_grade[]" value="60"> <img src="/admin/images/community/icon_star03.gif"> 
-		            <input type="checkbox" id="bbs_review_grade4" name="bbs_review_grade[]" value="40"> <img src="/admin/images/community/icon_star02.gif"> 
-		            <input type="checkbox" id="bbs_review_grade5" name="bbs_review_grade[]" value="20"> <img src="/admin/images/community/icon_star01.gif"> 
 		        </td>
 		    </tr> -->
 			<tr>
@@ -203,6 +246,16 @@
 					</select>
 					<input type="text" id="ss" name="ss" value="" style="width:145px;" class="inputbox">
 				</td>
+			</tr>
+			<tr>
+				<td class="label">등록일</td>
+				<td class="box text">
+				<input type="text" id="bbs_sdate" name="bbs_sdate" style="width:68px;" class="inputbox" value=""> ~ <input type="text" id="bbs_edate" name="bbs_edate" style="width:68px;" class="inputbox" value="">
+				<a href="#" id="date_term1" mode="yesterday"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_yesterday.gif"></a>
+				<a href="#" id="date_term2" mode="this_day"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_today.gif"></a>
+				<a href="#" id="date_term3" mode="this_week"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_thisWeek.gif"></a>
+				<a href="#" id="date_term4" mode="this_month"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_thisMonth.gif"></a>
+				<a href="#" id="date_term5" mode=""><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_total.gif"></a></td>
 			</tr>
 		</table>
 		
@@ -221,9 +274,9 @@
 						<span class="bul">검색결과 : </span><span class="fc_red"><strong>2</strong>건</span>
 					</td>
 					<td align="right" class="right">
-						<select id="list_num" name="list_num" style="width:95px;">
-							<option value="5">5개 출력</option>
-		                    <option value="10">10개 출력</option>
+						<select id="list_num" name="list_num" style="width:95px;" onchange="changePageScale()">
+							<option value="5" >5개 출력</option>
+		                    <option value="10" selected>10개 출력</option>
 		                    <option value="20">20개 출력</option>
 		                    <option value="50">50개 출력</option>
 		                    <option value="100">100개 출력</option>
@@ -271,21 +324,22 @@
 <!-- 	    		<th class="cnt">조회수</th> -->
 	    	</tr>
 	    	</thead>
-	    	<tbody>
+	    	<tbody id="tbody" align="center">
 	    		<c:forEach var="rVO" items="${list }" varStatus="i">
-				<tr align="center">
+				<tr>
 				<%-- <td> <c:out value="${totalCount - (currentPage - 1) * pageScale - i.index}"/></td> --%>
 				<td class="tdL" align="center"><input type="checkbox" name="bbs_seq[]" value="23"></td>
 				<td> <c:out value="${rVO.reviewId}"/></td>
 				<td> <c:out value="${rVO.defaultImg}"/></td>
 				<td> <c:out value="${rVO.name}"/></td>
-				<td> <c:out value="${rVO.title}"/></td>
+				<td><a href="review_board_read_frm.jsp?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}"><c:out value="${rVO.title}"/></a></td>
 				<td> <c:out value="${rVO.inputDate}"/></td>
 				<td> <c:out value="${rVO.id}"/></td>
 				</tr>	    	
 	    	</c:forEach>
 	    	</tbody>
 	    </table>
+	    
 </div>
 
 	    <div style="text-align: center;">
@@ -307,6 +361,9 @@
 	  
 	  <%
 	  	  String param="";
+	  		pageContext.setAttribute("param", param);
+	  		pageContext.setAttribute("param", totalPage );
+	  		pageContext.setAttribute("param", currentPage );
 	  	  %>
         <c:if test="${not empty param.keyword }">
         <%
@@ -314,60 +371,9 @@
         %>
             <c:set var="link2" value="&field=${param.field}&keyword=${param.keyword }" />
         </c:if>
-       <%--  <% for(int i = 1; i <= totalPage; i++){ %>
-            [<a href="board_list.jsp?currentPage=<%= i %>${link2}"><%= i %></a>]
-        <% } %> --%>
-        
-        <%-- <%
-        //1. 한 화면에서 보여줄 페이지 인덱스 수
-        int pageNumber=3;
-        //2. 화면에 보여줄 시작 페이지 번호
-        int startPage=((currentPage-1)/pageNumber)*pageNumber+1;
-        //3. 화면에 보여줄 마지막 페이지 번호
-        int endPage=(((startPage-1)+pageNumber)/pageNumber)*pageNumber;
-        //4. 총 페이지의 수가 연산된 마지막 페이지 수보다 작다면 총 페이지 수가 마지막 페이지 번호로 설정된다.
-        if(totalPage <= endPage){
-          endPage=totalPage;
-        }
-        
-        //5. 첫 페이지가 인덱스 화면이 아닌 경우
-        String prevMark="[<<]";
-        int movePage=0;
-        if(currentPage > pageNumber){//시작페이지보다 1 적은 페이지로 이동
-          movePage=startPage-1;
-          prevMark="[<a href='board_list.jsp?currentPage="+movePage+"'>&lt;&lt;</a>]";
-        }
-        
-        //6. 시작페이지 번호 부터 끝 페이지 번호까지 화면에 출력
-        String pageLink="";
-        
-        movePage=startPage;
-        System.out.println( movePage+" / " +startPage+" / " +endPage);
-        while(movePage <= endPage){
-          if(movePage == currentPage){//현재 페이지에 대해서는 링크를 생성하지 않는다.
-            pageLink+="[<span style='font-size:20px'>"+currentPage+"</span>]";
-          }else{
-            pageLink+="[<a href='board_list.jsp?currentPage="+movePage+"'>" + movePage + "</a>]";
-          }
-          movePage++;
-        }
-        
-        //7. 뒤에 페이지가 더 있는 경우
-        String endMark="[&gt;&gt;]";
-        if( totalPage > endPage ){
-          movePage=endPage+1;
-          endMark="[<a href='board_list.jsp?currentPage="+movePage+"'> &gt;&gt; </a>]";
-        }
-        
-        %> --%>
-        <%-- <br/>
-        시작번호 <%= startPage %>
-        <br/>
-        끝번호 <%= endPage %>
-        <br/> --%>
-        <%=ReviewBoardUtil.getInstance().pageNation("board_list.jsp", param, totalPage, currentPage)%>
-        
-        <%-- <%= prevMark %> ... <%= pageLink %> ...<%= endMark %> --%>
+        <div id="paging">
+        <%=ReviewBoardUtil.getInstance().pageNation("review_board_list.jsp", param, totalPage, currentPage)%>
+        </div>
     </div>
     
     <%
@@ -382,5 +388,6 @@
 			<!-- golgolz end -->
 </div>
 	</main>
+
 </body>
 </html>

@@ -43,7 +43,7 @@ public class CartDAO {
 
             pstmt = con.prepareStatement(insertQuery);
             // 4.바인드변수에 값 설정
-            pstmt.setInt(1, 54); // 추후 시퀀스로 변경
+            pstmt.setInt(1, 55); // 추후 시퀀스로 변경
             pstmt.setString(2, opVO.getCartId()); // cartId
             pstmt.setString(3, opVO.getCode()); // code
             pstmt.setInt(4, opVO.getQuantity()); // quantity
@@ -99,13 +99,12 @@ public class CartDAO {
             StringBuilder updateQuery = new StringBuilder();
 
             updateQuery.append("   update order_goods    ").append("   set amount=?    ")
-                    .append("   where cart_id=? and code=?  ");
+                    .append("  where order_goods_id=?  ");
 
             pstmt = con.prepareStatement(updateQuery.toString());
 
             pstmt.setInt(1, opVO.getQuantity());
-            pstmt.setString(2, opVO.getCartId());
-            pstmt.setString(3, opVO.getCode());
+            pstmt.setInt(2, opVO.getOrderGoodsId());
 
             cnt = pstmt.executeUpdate();
 
@@ -262,7 +261,7 @@ public class CartDAO {
         return cnt;
     }// updateDeliveryStatus
 
-    public int deleteCart(String cartId, String code) throws SQLException {
+    public int deleteCart(OrderProductVO opVO) throws SQLException {
         int cnt = 0;
 
         Connection con = null;
@@ -275,16 +274,12 @@ public class CartDAO {
 
             StringBuilder deleteQuery = new StringBuilder();
 
-            deleteQuery.append("    delete from order_goods   ").append("    where cart_id=?    ");
+            deleteQuery.append("    delete from order_goods   ").append("    where order_goods_id=?    ");
 
-            if (code != null) {// 장바구니 상품 개별 삭제 : 상품 코드가 존재할 경우
-                deleteQuery.append(" and code=?");
-            }
 
             pstmt = con.prepareStatement(deleteQuery.toString());
 
-            pstmt.setString(1, cartId);
-            pstmt.setString(2, code);
+            pstmt.setInt(1, opVO.getOrderGoodsId());
 
             cnt = pstmt.executeUpdate();
 
@@ -293,6 +288,34 @@ public class CartDAO {
         } // end fianlly
         return cnt;
     }// deleteShopCart
+
+    public int deleteAllCart(OrderProductVO opVO) throws SQLException {
+        int cnt = 0;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+
+            con = dbCon.getConn("online-shop-dbcp");
+
+            StringBuilder deleteQuery = new StringBuilder();
+
+            deleteQuery.append("   delete from order_goods    ").append("   where cart_id=?    ");
+
+            pstmt = con.prepareStatement(deleteQuery.toString());
+
+            pstmt.setString(1, opVO.getCartId());
+
+            cnt = pstmt.executeUpdate();
+
+        } finally {
+            dbCon.closeCon(null, pstmt, con);
+        } // end finally
+        return cnt;
+    }
 
     public List<OrderProductVO> selectCart(String cartId) throws SQLException {
         List<OrderProductVO> list = new ArrayList<OrderProductVO>();
@@ -311,7 +334,7 @@ public class CartDAO {
 
             // 해당 주문번호의 모든 장바구니 상품 조회
             selectQuery.append(
-                    "    select gd.default_img,gd.name,og.code,gd.price,og.amount,gd.delivery_charge,(gd.price*og.amount+gd.delivery_charge) total    ")
+                    "    select og.order_goods_id,gd.default_img,gd.name,og.code,gd.price,og.amount,gd.delivery_charge,(gd.price*og.amount+gd.delivery_charge) total    ")
                     .append("    from goods gd, order_goods og, cart ct   ")
                     .append("    where ((og.code=gd.code) and (ct.cart_id=og.cart_id)) and og.cart_id=? and order_flag='장바구니'    ");
 
@@ -322,9 +345,9 @@ public class CartDAO {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                opVO = new OrderProductVO(rs.getString("default_img"), rs.getString("name"), rs.getString("code"),
-                        rs.getInt("price"), rs.getInt("amount"), rs.getInt("delivery_charge"), rs.getInt("total"),
-                        cartId);
+                opVO = new OrderProductVO(rs.getInt("order_goods_id"), rs.getString("default_img"),
+                        rs.getString("name"), rs.getString("code"), rs.getInt("price"), rs.getInt("amount"),
+                        rs.getInt("delivery_charge"), rs.getInt("total"), cartId);
 
                 list.add(opVO);
             } // end while
@@ -336,6 +359,40 @@ public class CartDAO {
         return list;
     }// selectCart
 
+    public boolean checkCartId(String userId) throws SQLException {
+
+        boolean flag = false;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+            con = dbCon.getConn("online-shop-dbcp");
+
+            StringBuilder selectQuery = new StringBuilder();
+
+            selectQuery.append("   select cart_id   ").append("   from cart   ")
+                    .append("   where id=? and order_flag='장바구니'  ");
+
+            pstmt = con.prepareStatement(selectQuery.toString());
+
+            pstmt.setString(1, userId);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                flag = true;
+            } // end if
+
+        } finally {
+            dbCon.closeCon(rs, pstmt, con);
+        }
+
+        return flag;
+    }// checkCartId
 
 
 }
