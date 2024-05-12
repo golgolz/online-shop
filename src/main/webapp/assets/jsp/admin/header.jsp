@@ -29,7 +29,7 @@
 				<a 
 					id="order_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shop/manage/order/order_manage_list.jsp">
+					href="http://localhost/online-shop/manage/order/orders.jsp">
 					<span class="nav-link-text ms-1">주문 관리</span>
 				</a>
 			</li>
