@@ -61,7 +61,7 @@
 				<a
 					id="review_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shop/manage/review/review.jsp">
+					href="http://localhost/online-shop/manage/review/review_board_list.jsp">
 					<span class="nav-link-text ms-1">리뷰 관리</span>
 				</a>
 			</li>

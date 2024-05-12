@@ -47,7 +47,7 @@ public class AdminReviewDAO {
       con = db.getConn("online-shop-dbcp");
       // 4. 쿼리문 생성객체 얻기(Dynamic Query)
       StringBuilder selectCnt = new StringBuilder();
-      selectCnt.append("select count(*) cnt from board");
+      selectCnt.append("select count(*) cnt from review");
 
       pstmt = con.prepareStatement(selectCnt.toString());
       // 5. 바인트변수에 값 설정
