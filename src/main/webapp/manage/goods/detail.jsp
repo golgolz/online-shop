@@ -53,6 +53,23 @@
 	        $("#dataForm").attr("action", "http://localhost/online-shop/manage/goods/delete_process.jsp");
 	        $("#dataForm").submit();
 		});
+		
+		$('input[name="maker"]').change(function(){
+			// 선택된 라디오 버튼 값 확인
+	        var selectedOption = $('input[name="maker"]:checked').val();
+	        
+	        // select 박스 초기화
+	        $('#discount_type00').empty();
+	        
+	        // 선택된 값에 따라 옵션 추가
+	        if (selectedOption === '1') {
+	            $('#discount_type00').append('<option value="S24">S24</option>');
+	            $('#discount_type00').append('<option value="ZFLIP">ZFLIP</option>');
+	        } else if (selectedOption === '0') {
+	            $('#discount_type00').append('<option value="IPHONE14">아이폰14</option>');
+	            $('#discount_type00').append('<option value="IPHONE15-Y">아이폰15</option>');
+	        }
+		});
 	});
 </script>
 <!-- golgolz end -->
