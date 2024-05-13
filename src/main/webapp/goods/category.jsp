@@ -1,3 +1,5 @@
+<%@page import="util.PageController"%>
+<%@page import="java.util.Enumeration"%>
 <%@page import="user.goods.SearchVO"%>
 <%@page import="user.goods.UserGoodsDAO"%>
 <%@page import="user.main.GoodsSimpleVO"%>
@@ -21,7 +23,10 @@
 		int currentPage = Integer.parseInt(request.getParameter("page"));
 		int startNum = pageScale * (currentPage - 1) + 1;
 		int endNum = startNum + pageScale - 1;
-	
+		
+		PageController pageController = PageController.getInstance();
+		String params = pageController.createQueryStr(request);
+		
 		// get goods data
 		String category = (String)request.getParameter("category");
 		String subCategory = (String)request.getParameter("sub_category");
@@ -44,6 +49,7 @@
 		
 		SearchVO searchVO = new SearchVO(subCategory == null ? category : subCategory, sort, startNum, endNum);
 		List<GoodsSimpleVO> selectedGoods = userGoodsDAO.selectGoodsSort(searchVO);
+		int goodsCount = userGoodsDAO.selectGoodsCount(subCategory == null ? category : subCategory, sort);
 	%>
 	<div id="wrap">
 		<div id="main">
@@ -75,7 +81,7 @@
 	      	<div class="xans-element- xans-product xans-product-normalpackage">
 	        	<div class="xans-element- xans-product xans-product-normalmenu">
 	          		<div class="function">
-	            		<p class="prdCount">등록 제품 : <%= userGoodsDAO.selectGoodsCount(subCategory == null ? category : subCategory, sort) %></p>
+	            		<p class="prdCount">등록 제품 : <%= goodsCount %></p>
 	            		<ul
 	              		id="type"
 	              		class="xans-element- xans-product xans-product-orderby">
@@ -129,6 +135,12 @@
 		            </li>
 		            <% } %>
 		        </ul>
+		        <%
+		        	String pageNation = 
+		        	pageController.createPagingBtns("http://localhost/online-shop/goods/category.jsp" + params
+		        	        , Integer.parseInt(request.getParameter("page")), (goodsCount / pageScale) + 1);
+		        %>
+		        <%= pageNation %>
 		    </div>
 			<!-- golgolz end -->
 		</div>
