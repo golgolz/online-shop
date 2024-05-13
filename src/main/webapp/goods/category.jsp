@@ -138,7 +138,7 @@
 		        </ul>
 		        <%
 		        	String pageNation = 
-		        	pageController.createPagingBtns("http://localhost/online-shop/goods/category.jsp" + params
+		        	pageController.createPagingBtns("http://localhost/online-shop/goods/category.jsp", params
 		        	        , Integer.parseInt(request.getParameter("page")), (goodsCount / pageScale) + 1);
 		        %>
 		        <div id="pageNation">
