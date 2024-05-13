@@ -1,3 +1,6 @@
+<%@page import="util.PageController"%>
+<%@page import="java.util.Enumeration"%>
+<%@page import="user.goods.SearchVO"%>
 <%@page import="user.goods.UserGoodsDAO"%>
 <%@page import="user.main.GoodsSimpleVO"%>
 <%@page import="java.util.List"%>
@@ -10,11 +13,50 @@
 	<jsp:include page="../assets/jsp/user/lib.jsp" />
 	<!-- golgolz start -->
     <link href="http://localhost/online-shop/assets/css/goods/category.css" rel="stylesheet" />
+    <style type="text/css">
+		#pageNation{
+			font-size: 20px;
+			text-align: center;
+			height: 160px;
+		}
+		.pages{
+			display: inline-block;
+		    margin: 0 0 0 -1px;
+		    border: 1px solid #d7d5d5;
+		    font-size: 12px;
+		    color: #757575;
+		    vertical-align: top;
+		}
+		.pages a{
+		    display: block;
+		    width: 33px;
+		    padding: 9px 0;
+		    font-weight: bold;
+		    color: #939393;
+		    line-height: 14px;
+		    background: #fff;
+    	}
+    	.this{
+    	    padding-bottom: 6px;
+		    border-bottom: 3px solid #495164;
+		    color: #495164;
+    	}
+	</style>
 	<!-- golgolz end -->
 </head>
 <body>
 	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<%
+		// pagenation
+		int pageScale = 10;
+		int currentPage = Integer.parseInt(request.getParameter("page"));
+		int startNum = pageScale * (currentPage - 1) + 1;
+		int endNum = startNum + pageScale - 1;
+		
+		PageController pageController = PageController.getInstance();
+		String params = pageController.createQueryStr(request);
+		
+		// get goods data
 		String category = (String)request.getParameter("category");
 		String subCategory = (String)request.getParameter("sub_category");
 		String sort = (String)request.getParameter("sort");
@@ -34,7 +76,9 @@
 		    sort = "";
 		}
 		
-		List<GoodsSimpleVO> selectedGoods = userGoodsDAO.selectGoodsSort(subCategory == null ? category : subCategory, sort);
+		SearchVO searchVO = new SearchVO(subCategory == null ? category : subCategory, sort, startNum, endNum);
+		List<GoodsSimpleVO> selectedGoods = userGoodsDAO.selectGoodsSort(searchVO);
+		int goodsCount = userGoodsDAO.selectGoodsCount(subCategory == null ? category : subCategory, sort);
 	%>
 	<div id="wrap">
 		<div id="main">
@@ -66,24 +110,24 @@
 	      	<div class="xans-element- xans-product xans-product-normalpackage">
 	        	<div class="xans-element- xans-product xans-product-normalmenu">
 	          		<div class="function">
-	            		<p class="prdCount">등록 제품 : <%= userGoodsDAO.selectGoodsCount(subCategory == null ? category : subCategory, sort) %></p>
+	            		<p class="prdCount">등록 제품 : <%= goodsCount %></p>
 	            		<ul
 	              		id="type"
 	              		class="xans-element- xans-product xans-product-orderby">
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=new<%= subCategory == null ? "": "&sub_category=" + subCategory %>">신상품</a>
+	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=new<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">신상품</a>
 	              			</li>
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=best<%= subCategory == null ? "": "&sub_category=" + subCategory %>">판매순</a>
+	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=best<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">판매순</a>
 	              			</li>
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=high_price<%= subCategory == null ? "": "&sub_category=" + subCategory %>">높은가격</a>
+	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=high_price<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">높은가격</a>
 	              			</li>
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=low_price<%= subCategory == null ? "": "&sub_category=" + subCategory %>">낮은가격</a>
+	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=low_price<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">낮은가격</a>
 	              			</li>
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=most_review<%= subCategory == null ? "": "&sub_category=" + subCategory %>">리뷰순</a>
+	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=most_review<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">리뷰순</a>
 	              			</li>
 	            		</ul>
 	          		</div>
@@ -120,6 +164,14 @@
 		            </li>
 		            <% } %>
 		        </ul>
+		        <%
+		        	String pageNation = 
+		        	pageController.createPagingBtns("http://localhost/online-shop/goods/category.jsp" + params
+		        	        , Integer.parseInt(request.getParameter("page")), (goodsCount / pageScale) + 1);
+		        %>
+		        <div id="pageNation">
+			        <%= pageNation %>
+		        </div>
 		    </div>
 			<!-- golgolz end -->
 		</div>
