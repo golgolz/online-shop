@@ -90,35 +90,36 @@ public class UserGoodsDAO {
                     return null;
             }
 
-            selectQuery.append(" as rnum, code, name, price, default_img, description, detail_description from goods ");
+            selectQuery.append(
+                    " as rnum, code, name, price, default_img, description, detail_description, delete_flag from goods where delete_flag = 'F' ");
             switch (category) {
                 case "SAMSUNG":
-                    selectQuery.append("where maker='삼성'");
+                    selectQuery.append(" and maker='삼성'");
                     break;
                 case "APPLE":
-                    selectQuery.append("where maker='삼성'");
+                    selectQuery.append(" and maker='애플'");
                     break;
                 case "ZFLIP":
-                    selectQuery.append("where model='ZFLIP'");
+                    selectQuery.append(" and model='ZFLIP'");
                     break;
                 case "S24":
-                    selectQuery.append("where model='S24'");
+                    selectQuery.append(" and model='S24'");
                     break;
                 case "아이폰14":
-                    selectQuery.append("where model='IPHONE14'");
+                    selectQuery.append(" and model='IPHONE14'");
                     break;
                 case "아이폰15":
-                    selectQuery.append("where model='IPHONE15'");
+                    selectQuery.append(" and model='IPHONE15'");
                     break;
                 case "실리콘":
-                    selectQuery.append("where material='실리콘'");
+                    selectQuery.append(" and material='실리콘'");
                     break;
                 case "하드":
-                    selectQuery.append("where material='하드'");
+                    selectQuery.append(" and material='하드'");
                     break;
             }
 
-            selectQuery.append(") where rnum between 1 and 15 ");
+            selectQuery.append(" ) where rnum between 1 and 15 ");
 
             pstmt = conn.prepareStatement(selectQuery.toString());
             rs = pstmt.executeQuery();
