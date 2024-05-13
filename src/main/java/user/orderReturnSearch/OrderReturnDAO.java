@@ -95,4 +95,57 @@ public class OrderReturnDAO {
   }// updatePurchaseState
 
 
+  // 환불
+  public List<ReturnVO> searchRefundHistoryByDateAndUserId(String sessionId, String fromDate, String toDate)
+      throws SQLException {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    List<ReturnVO> refundHistoryList = new ArrayList<>();
+    DbConnection dbConn = DbConnection.getInstance();
+
+    try {
+      conn = dbConn.getConn("online-shop-dbcp");
+
+      String sql = "SELECT " + "    rh.input_date AS refund_date, " + "    rh.cart_id, " + "    fg.default_img, "
+          + "    fg.code, " + "    fg.name, " + "    SUM(g.price * og.amount) AS refund_total_price, "
+          + "    rh.refund_state " + "FROM " + "    refund_history rh " + "JOIN "
+          + "    cart c ON rh.cart_id = c.cart_id AND c.order_flag = '반품' " + "JOIN "
+          + "    order_goods og ON og.cart_id = rh.cart_id " + "JOIN " + "    goods g ON g.code = og.code " + "JOIN "
+          + "    ( " + "        SELECT og.cart_id, " + "               g.code, " + "               g.name, "
+          + "               g.default_img, "
+          + "               ROW_NUMBER() OVER (PARTITION BY og.cart_id ORDER BY g.code) AS rn "
+          + "        FROM order_goods og " + "        JOIN goods g ON og.code = g.code "
+          + "    ) fg ON fg.cart_id = rh.cart_id AND fg.rn = 1 " + "WHERE "
+          + "    rh.input_date >= TO_DATE(?, 'YYYY-MM-DD') " + "AND " + "    rh.input_date <= TO_DATE(?, 'YYYY-MM-DD') "
+          + "AND " + "    c.id = ? " + "GROUP BY "
+          + "    rh.input_date, rh.cart_id, fg.default_img, fg.code, fg.name, rh.refund_state " + "ORDER BY "
+          + "    rh.input_date DESC, rh.cart_id";
+
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, fromDate);
+      pstmt.setString(2, toDate);
+      pstmt.setString(3, sessionId);
+
+      rs = pstmt.executeQuery();
+
+      while (rs.next()) {
+        ReturnVO refundHistory = new ReturnVO();
+
+        refundHistory.setRefundDate(rs.getString("refund_date"));
+        refundHistory.setCartId(rs.getString("cart_id"));
+        refundHistory.setDefaultImg(rs.getString("default_img"));
+        refundHistory.setCode(rs.getString("code"));
+        refundHistory.setName(rs.getString("name"));
+        refundHistory.setRefundTotalPrice(rs.getInt("refund_total_price"));
+        refundHistory.setRefundState(rs.getString("refund_state"));
+        refundHistoryList.add(refundHistory);
+      }
+    } finally {
+      dbConn.closeCon(rs, pstmt, conn);
+    }
+
+    return refundHistoryList;
+  }
+
 }
