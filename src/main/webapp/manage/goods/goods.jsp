@@ -253,6 +253,7 @@
 	                					<td align="left"></td>
 	                					<td align="right">
 	                						<input type="hidden" name="sort" id="sort" />
+	                						<input type="hidden" name="page" id="page" value="1"/>
 	                						<ul>
 	                							<li class="sort">등록일</li>
 	                							<li class="sort">가격순</li>
