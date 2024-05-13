@@ -119,17 +119,13 @@ $(function(){
 	try{
 	  String seq=request.getParameter("seq");
 	  
-	  ReviewBoardVO rbVO=rDAO.selectDetailReview(Integer.parseInt(seq));//상세보기
+	  rVO=rDAO.selectDetailReview(Integer.parseInt(seq));//상세보기
 	 /*  rDAO.updateCnt(Integer.parseInt(seq)); *///조회수 올려주기(중요도가 덜한것이 아래로 내려가는게 좋음)
 	  
-	  pageContext.setAttribute("rbVO", rbVO);
+	  pageContext.setAttribute("rVO", rVO);
 	}catch(SQLException se){
 	  se.printStackTrace();
-	  %>
-	  <script type="text/javascript">
-	location.href="http://192.168.10.216/jsp_prj/error/err_500.html";
-</script>
-	  <%
+	  out.print("sql 에러");
 	}
 %>
 <div class="xans-element- xans-board xans-board-product-4 xans-board-product xans-board-4 ec-base-box typeProduct ">
@@ -162,21 +158,21 @@ $(function(){
 <tbody>
 <tr>
 <th scope="row">제목</th>
-                    <td><strong><c:out value="${rbVO.title}"/></strong></td>
+                    <td><strong><c:out value="${rVO.title}"/></strong></td>
                 </tr>
 <tr>
 <th scope="row">작성자</th>
-                    <td><strong><c:out value="${rbVO.id}"/></strong></td>
+                    <td><strong><c:out value="${rVO.id}"/></strong></td>
                 </tr>
 <tr>
 <td colspan="2">
                         <ul class="etcArea">
                              </li>
                             <li class="">
-                                <strong>작성일</strong> <fmt:formatDate value="${rbVO.inputDate}" pattern="yyyy-MM-dd EEEE HH:mm:ss"/>
+                                <strong>작성일</strong> <fmt:formatDate value="${rVO.inputDate}" pattern="yyyy-MM-dd EEEE HH:mm:ss"/>
                             </li>
                         </ul>
-<div class="detail"><div class="fr-view fr-view-article"><p style="font-size: 13px"><c:out value="${ rbVO.content }"/></p></div></div>
+<div class="detail"><div class="fr-view fr-view-article"><p style="font-size: 13px"><c:out value="${ rVO.content }"/></p></div></div>
                     </td>
                 </tr>
 <tr class="attach displaynone">
@@ -194,7 +190,7 @@ $(function(){
             </span>
             <span class="gRight">
                 <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" id="btnDelete" class="btnNormalFix sizeS ">삭제</a>
-                <a href="http://localhost/online-shop/manage/review/review_update.jsp" class="btnEmFix sizeS ">수정</a>
+                <a href="http://localhost/online-shop/manage/review/review_read_frm.jsp?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}" class="btnEmFix sizeS ">수정</a>
             </span>
         </div>
 </div>

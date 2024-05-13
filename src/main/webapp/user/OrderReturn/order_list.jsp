@@ -1,3 +1,8 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.List"%>
+<%@page import="user.orderReturnSearch.OrderReturnDAO"%>
+<%@page import="user.orderReturnSearch.OrderVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <!DOCTYPE html>
@@ -164,72 +169,116 @@ table,td{
 						</ul>
 					</div>
 
-					<form method="GET" id="OrderHistoryForm" name="OrderHistoryForm">
+
+<script>
+$(function() {
+	
+	
+    $("#btnToday").click(function() {// 오늘 날짜 불러오기
+        const today = new Date();
+        console.log("today : ", today);
+        const year = today.getFullYear();
+        console.log("year :", year)
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        
+        const formattedDate = year + '-' + month + '-' + day;
+        console.log("Formatted date: ", formattedDate);
+        
+        $("#fr_date").val(formattedDate);
+        $("#to_date").val(formattedDate);
+        
+     	// 페이지를 새로 고침하여 스크립틀릿에서 값을 다시 읽을 수 있도록 합니다.
+        $("#fsearch").submit();
+        
+    });
+    $("#btnWeekly").click(function() { // 1주일 전 날짜 불러오기
+        // 현재 날짜를 가져옵니다.
+        const today = new Date();
+
+        // 일주일 전 날짜를 계산합니다.
+        const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+
+        const year = lastWeek.getFullYear();
+        const month = String(lastWeek.getMonth() + 1).padStart(2, '0');
+        const day = String(lastWeek.getDate()).padStart(2, '0');
+        const formattedDate = year + '-' + month + '-' + day;
+
+        $("#fr_date").val(formattedDate);
+        $("#to_date").val(today.toISOString().slice(0, 10));
+
+        // 폼을 제출합니다.
+        $("#fsearch").submit();
+    });
+    $("#btnMonthly").click(function() {
+        // 현재 날짜를 가져옵니다.
+        const today = new Date();
+
+        // 한 달 전 날짜를 계산합니다.
+        const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+
+        // 한 달 전 날짜를 "yyyy-mm-dd" 형식으로 조합합니다.
+        const year = lastMonth.getFullYear();
+        const month = String(lastMonth.getMonth() + 1).padStart(2, '0');
+        const day = String(lastMonth.getDate()).padStart(2, '0');
+        const formattedDate = year + '-' + month + '-' + day;
+
+        // 'fr_date' 입력 필드의 값을 한 달 전의 날짜로 설정합니다.
+        $("#fr_date").val(formattedDate);
+        // 'to_date' 입력 필드의 값을 오늘의 날짜로 설정합니다.
+        $("#to_date").val(today.toISOString().slice(0, 10));
+
+        // 폼을 제출합니다.
+        $("#fsearch").submit();
+    });
+    $("#btnReset").click(function() {
+        // 초기화 버튼을 누르면 userInfoManage.jsp로 리다이렉트합니다.
+        window.location.href = "order_list.jsp";
+    });
+/*     
+    // tr 요소에 클릭 이벤트를 추가합니다.
+    $("tr").on("click", function() {
+        // 해당 tr 요소의 id 속성에서 userId를 가져옵니다.
+        const userId = $(this).attr('id');
+        
+     // 디버깅: userId 값을 콘솔에 출력합니다.
+        console.log("클릭된 tr 요소의 userId:", userId);
+        
+        // encodeURIComponent를 사용하여 userId를 URL 인코딩합니다.
+        const encodedUserId = encodeURIComponent(userId);
+        
+     // 디버깅: 인코딩된 userId 값을 콘솔에 출력합니다.
+        console.log("URL 인코딩된 userId:", encodedUserId);
+        
+        // 다른 JSP로 리다이렉트할 URL을 만듭니다.
+		const url = "order_list.jsp?userId=" + encodedUserId;
+        
+        // 해당 URL로 리다이렉트합니다.
+        window.location.href = url;
+    });
+     */
+    
+});
+</script>
+					<form name="fsearch" id="fsearch" method="get" onsubmit="return handleFormSubmit(event); " action="order_list.jsp">
+
 						<div
 							class="xans-element- xans-myshop xans-myshop-orderhistoryhead ">
 							<fieldset class="ec-base-box">
 								<legend>검색기간설정</legend>
-								<div class="stateSelect ">
-									<select id="order_status" name="order_status" class="fSelect">
-										<option value="all">전체 주문처리상태</option>
-										<option value="shipped_before">입금전</option>
-										<option value="shipped_standby">배송준비중</option>
-										<option value="shipped_begin">배송중</option>
-										<option value="shipped_complate">배송완료</option>
-										<option value="order_cancel">취소</option>
-										<option value="order_exchange">교환</option>
-										<option value="order_return">반품</option>
-									</select>
-								</div>
-								<span class="period"> <a href="#none" class="btnNormal"
-									days="00"><img
-										src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date1.gif"
-										offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date1.gif"
-										onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date1_on.gif"
-										alt="오늘"></a> <a href="#none" class="btnNormal" days="07"><img
-										src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date2.gif"
-										offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date2.gif"
-										onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date2_on.gif"
-										alt="1주일"></a> <a href="#none" class="btnNormal" days="30"><img
-										src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date3.gif"
-										offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date3.gif"
-										onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date3_on.gif"
-										alt="1개월"></a> <a href="#none" class="btnNormal" days="90"><img
-										src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date4.gif"
-										offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date4.gif"
-										onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date4_on.gif"
-										alt="3개월"></a> <a href="#none" class="btnNormal" days="180"><img
-										src="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date5.gif"
-										offimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date5.gif"
-										onimage="//img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_date5_on.gif"
-										alt="6개월"></a>
-								</span> <input id="history_start_date" name="history_start_date"
-									class="fText hasDatepicker" readonly="readonly" size="10"
-									value="2024-01-25" type="text">
-								<button type="button" class="ui-datepicker-trigger">
-									<img
-										src="//img.echosting.cafe24.com/skin/admin_ko_KR/myshop/ico_cal.gif"
-										alt="..." title="...">
-								</button>
-								~ <input id="history_end_date" name="history_end_date"
-									class="fText hasDatepicker" readonly="readonly" size="10"
-									value="2024-04-24" type="text">
-								<button type="button" class="ui-datepicker-trigger">
-									<img
-										src="//img.echosting.cafe24.com/skin/admin_ko_KR/myshop/ico_cal.gif"
-										alt="..." title="...">
-								</button>
-								<input alt="조회" id="order_search_btn" type="image"
-									src="//img.echosting.cafe24.com/skin/admin_ko_KR/myshop/btn_search.gif">
+								
+									<input type="button" id="btnToday" onclick="" class="btn_small white" value="오늘">
+									<input type="button" id="btnWeekly" onclick="" class="btn_small white" value="일주일">
+									<input type="button" id="btnMonthly"onclick="search_date('fr_date','to_date',this.value);" class="btn_small white" value="1개월">
+									<input type="button" id="btnReset"onclick="" class="btn_small white" value="초기화">
+									
+									
+								<input type="text" name="fr_date" value="<%= (request.getParameter("fr_date") != null ? request.getParameter("fr_date") : "") %>" id="fr_date" class="frm_input w80 hasDatepicker" maxlength="10">
+ 								~ 
+								<input type="text" name="to_date" value="<%= (request.getParameter("to_date") != null ? request.getParameter("to_date") : "") %>" id="to_date" maxlength="10">
+								<input type="submit" name="btn_confirm" id="btn_confirm" value="검색" class="btn_medium">
 							</fieldset>
-							<ul>
-								<li>기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>
-								<li>주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.</li>
-								<li class="">취소/교환/반품 신청은 주문 완료일 기준 30일까지 가능합니다.</li>
-							</ul>
 						</div>
-						<input id="mode" name="mode" value="" type="hidden"> <input
-							id="term" name="term" value="" type="hidden">
 					</form>
 					<div
 						class="xans-element- xans-myshop xans-myshop-orderhistorylistitem ec-base-table typeList">
@@ -263,6 +312,108 @@ table,td{
 								</tr>
 							</thead>
 							<tbody class="center ">
+							 
+							 <% 
+
+				 String frDate = request.getParameter("fr_date");
+				 String toDate = request.getParameter("to_date");
+				 
+				 String userId = (String) session.getAttribute("userId");
+
+				 // 입력값을 디버깅합니다.
+				 System.out.println("fr_date: " + frDate + ", to_date: " + toDate);
+
+				 // 사용자 정보 목록을 얻는 로직
+				 OrderReturnDAO dao = new OrderReturnDAO();
+				 List<OrderVO> userList = null;
+
+				 // 날짜 포맷팅 및 초기값 설정
+				 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				 String today = formatter.format(new Date());
+
+				 if (frDate == null || frDate.trim().isEmpty()) {
+				     frDate = "1970-01-01"; // 시작 날짜가 입력되지 않았을 때, 초기 날짜 설정
+				 }
+				 if (toDate == null || toDate.trim().isEmpty()) {
+				     toDate = today; // 종료 날짜가 입력되지 않았을 때, 오늘 날짜로 설정
+				 }
+
+				// 날짜 범위에 따른 사용자 정보 검색
+				    try {
+				      
+				      System.out.println("Session User ID: " + userId);
+				      
+				        userList = dao.searchOrdersByDateRange(userId, frDate, toDate);
+				        if (userList != null && !userList.isEmpty()) {
+				          System.out.println("Orders found for user: " + userId);
+				          for (OrderVO order : userList) {
+				              System.out.println("Order ID: " + order.getId() 
+				              + ", Date: " + order.getInputDate() + ", Total Price: " + order.getTotalPrice());
+				              // 필요한 다른 주문 정보들도 출력할 수 있습니다.
+				          }
+				      } else {
+				          System.out.println("No orders found for user: " + userId);
+				      }
+				        System.out.println("------ 날짜 범위에 따른 사용자 정보가 조회되었습니다. ------");
+				        System.out.println("frDate: " + frDate + ", toDate: " + toDate);
+				    } catch (Exception e) {
+				        e.printStackTrace();
+				    }
+				
+				 // 구매확정 버튼 클릭 시 상태 변경 메소드 호출
+				    String purchaseConfirmationBtn = request.getParameter("purchaseConfirmationBtn");
+				    if (purchaseConfirmationBtn != null) {
+				        String cartId = request.getParameter("cartId"); // 클릭된 버튼에 해당하는 주문의 cartId 가져오기
+				        System.out.println("cartid : " + cartId);
+				        
+				        boolean isUpdated = dao.updatePurchaseState(cartId);
+				        System.out.println("업데이트 결과 : " + isUpdated);
+				        if (isUpdated) {
+				            out.println("<script>alert('구매 상태가 성공적으로 변경되었습니다.');  window.location.href = 'order_list.jsp'; </script>");
+				        } else {
+				            out.println("<script>alert('이미 구매 확정 상태입니다.');</script>");
+				        }
+				    }
+
+				// 사용자 정보 출력
+				 for (int i = 0;i < userList.size(); i++) {
+				   	OrderVO orderInfo = userList.get(i);
+				   	String cartId = orderInfo.getCartId(); // 현재 행의 cartId 가져오기
+				   	
+				   	if ("주문".equals(orderInfo.getOrderFlag()) && !"불필요".equals(orderInfo.getDeliveryState())) {
+				     %>
+				     <tr id="<%=orderInfo.getCartId() %>">
+				         <td class="tal"><span class="sv_wrap"><%= orderInfo.getInputDate() %><br><strong>[<%= orderInfo.getCartId() %>]</strong></span>
+				         
+				         <!-- 구매확정 버튼을 감싸는 폼 -->
+						<form id="purchaseConfirmationForm<%= cartId %>" action="<%=request.getRequestURI()%>" method="post" style="display: inline;">
+                			<input type="hidden" name="cartId" value="<%= cartId %>">
+                			<% if (!"구매확정".equals(orderInfo.getPurchaseState())) { %>
+    						<input type="submit" class="btnNormal" name="purchaseConfirmationBtn" value="구매확정" onclick="return confirm('구매를 확정하시겠습니까?');">
+    						<% } else { %>
+    						<input type="button" class="btnNormal" value="구매확정됨" disabled>
+    						<% } %>
+               				<!-- <input type="submit" class="btnNormal" name="purchaseConfirmationBtn" value="구매확정"> -->
+           				</form>
+						
+				         <a	href="return.html?order_id=20240407-0000129" class="btnNormal displaynone">반품신청</a>
+				         </td>
+				         <td>
+				         <img src="../../assets/images/goods/<%= orderInfo.getDefaultImg() %>" alt="Product Image" style="width: 110px; height: auto;">
+				         </td>
+				         <td><%= orderInfo.getCode() %> <br> <%= orderInfo.getName() %></td>
+				         <td><%= orderInfo.getProductAmount() %></td>
+				         <td><strong><%= String.format("%,d", orderInfo.getTotalPrice()) %> 원 </strong></td> <!--이 부분은 주문에 대한 총 가격임  -->
+				         <td><%= orderInfo.getDeliveryState() %></td>
+				         <td><%= orderInfo.getPurchaseState() %></td>
+				     </tr>
+				     <%
+				   	}//조건문
+				 }//반복문
+    %>
+    
+								
+								
 								<tr class="xans-record-">
 									<td class="number ">2024-04-07
 										<p>
@@ -295,7 +446,9 @@ table,td{
 										</p>
 										<p class="displaynone">
 											<a href="#none" class="line" onclick="">[]</a>
-										</p>
+										</p> 
+										
+										
 
 
 
