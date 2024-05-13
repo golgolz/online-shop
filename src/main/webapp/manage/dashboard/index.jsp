@@ -1,3 +1,4 @@
+<%@page import="admin.dashboard.DashboardSalesVO"%>
 <%@page import="admin.dashboard.DashboardOrderProgressVO"%>
 <%@page import="admin.dashboard.DashboardOrderVO"%>
 <%@page import="admin.dashboard.DashboardDAO"%>
@@ -35,6 +36,7 @@
 	<%
 		DashboardDAO dashboardDAO = DashboardDAO.getInstance();
 		DashboardOrderVO orderVO = dashboardDAO.selectOrderInfo();	
+		DashboardSalesVO salesVO = dashboardDAO.selectSalesInfo();
 		DashboardOrderProgressVO progressVO = dashboardDAO.selectPregressInfo();
 	%>
 	<main
@@ -88,9 +90,9 @@
 	                      	<th scope="col" width="310">이번달</th>
 	                  	</tr>
 	                    <tr id="data_stat_month" bgcolor="#f1f1f1">
-	                    	<td><strong>0원</strong></td>
-	                      	<td><strong>0원</strong></td>
-	                      	<td><strong>0원</strong></td>
+	                    	<td><strong><%= salesVO.getToday() %>원</strong></td>
+	                      	<td><strong><%= salesVO.getWeek() %>원</strong></td>
+	                      	<td><strong><%= salesVO.getMonth() %>원</strong></td>
 	                  	</tr>
 	             	</tbody>
 	          	</table>
