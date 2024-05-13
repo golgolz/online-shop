@@ -45,7 +45,7 @@ sVO.setStartNum(startNum);
 sVO.setEndNum(endNum);
 AdminReviewDAO arDAO = AdminReviewDAO.getInstance();
 //여기서는 데이터베이스 조회 결과인 list를 사용하여 tbody 내용을 구성합니다.
-List<ReviewBoardVO> list = arDAO.selectBoard(sVO);
+List<ReviewBoardVO> list = arDAO.selectReviewBoard(sVO);
 //list는 ReviewBoardVO 객체들의 리스트로 가정합니다.
 
 JSONObject jsonObj = new JSONObject();

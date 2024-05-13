@@ -136,8 +136,10 @@ public class AdminReviewDAO {
       con = db.getConn("online-shop-dbcp");
       // 4.쿼리문 생성객체 얻기(Dynamic Query)
       StringBuilder selectDetailReview = new StringBuilder();
-      selectDetailReview.append("   select title, content, id, input_date   ").append("    from review   ")
-          .append("    where review_id=?   ");
+      selectDetailReview
+          .append("   SELECT r.review_id, g.default_img, g.name, r.title, r.content, r.input_date, r.id   ")
+          .append("    from review r  ").append("    JOIN goods g ON r.code = g.code  ")
+          .append("    where r.review_id=?   ");
 
       pstmt = con.prepareStatement(selectDetailReview.toString());
       // 5.바인드 변수 값 설정
@@ -147,11 +149,9 @@ public class AdminReviewDAO {
 
       if (rs.next()) {
 
-        rVO = ReviewBoardVO.builder()/*
-                                      * .reviewId(rs.getInt("review_id")).defaultImg(rs.getString("default_img"))
-                                      * .name(rs.getString("name"))
-                                      */.title(rs.getString("title")).content(rs.getString("content"))
-            .id(rs.getString("id")).inputDate(rs.getDate("input_date")).build();
+        rVO = ReviewBoardVO.builder().reviewId(rs.getInt("review_id")).defaultImg(rs.getString("default_img"))
+            .name(rs.getString("name")).title(rs.getString("title")).content(rs.getString("content"))
+            .inputDate(rs.getDate("input_date")).id(rs.getString("id")).build();
 
       } // end while
 

@@ -81,7 +81,7 @@
 			tbody.innerHTML="";
 			
 			
-			alert(data);
+			/* alert(data); */
 			var object = JSON.parse(data);
 			
 			var boardList = object.boardList;
@@ -103,16 +103,16 @@
 			    cell2.innerHTML = boardList[i].reviewId;
 			    cell3.innerHTML = boardList[i].defaultImg;
 			    cell4.innerHTML = boardList[i].name;
-			    cell5.innerHTML = '<a href="review_detail_admin.jsp?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}">'+boardList[i].title+'</a>';
+			    cell5.innerHTML = '<a href="review_board_list?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}">'+boardList[i].title+'</a>';
 			    cell6.innerHTML = boardList[i].inputDate;
 			    cell7.innerHTML = boardList[i].id;
 			}//end for
 			
-			pagination(data);
+			/* pagination(data); */
 			
 		}//displayTable
 		
-		function pagination(data){
+		/* function pagination(data){
 			
 			var paging = document.getElementById("paging");
 			paging.innerHTML="";
@@ -122,7 +122,7 @@
 			var currentPage = object.currentPage;
 			
 			$("#paging").html(newPagination);
-		}
+		} */
 		
 		function chkNull() {
 			if($("#keyword").val().trim() !="") {
