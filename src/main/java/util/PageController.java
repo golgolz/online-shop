@@ -39,20 +39,38 @@ public class PageController {
     public String createPagingBtns(String baseURL, int currentPage, int totalPage) {
         StringBuilder btns = new StringBuilder();
         int btnScale = 3;
-        int start = currentPage;
-        int end = 0;
+        int start = ((currentPage - 1) / btnScale) * btnScale + 1;
+        int end = start + btnScale - 1;
 
-        if (totalPage >= currentPage + btnScale) {
-            end = currentPage + btnScale - 1;
-        } else {
+        if (end > totalPage) {
             end = totalPage;
         }
 
+        btns.append("<ol id='pageContainer'>");
+
+        if (start != 1) {
+            btns.append("<li class='pages'>").append("<a href='").append(baseURL).append("&page=").append(start - 1)
+                    .append("'");
+            btns.append(">").append(" < ").append("</a>").append("</li>");
+        }
+
         while (start <= end) {
-            btns.append("[<a href='").append(baseURL).append("&page=").append(start).append("'>").append(start)
-                    .append("</a>]");
+            btns.append("<li class='pages'>").append("<a href='").append(baseURL).append("&page=").append(start)
+                    .append("'");
+            if (currentPage == start) {
+                btns.append("class='this'");
+            }
+            btns.append(">").append(start).append("</a>").append("</li>");
             start++;
         }
+
+        if (end != totalPage) {
+            btns.append("<li class='pages'>").append("<a href='").append(baseURL).append("&page=").append(end + 1)
+                    .append("'");
+            btns.append(">").append(" > ").append("</a>").append("</li>");
+        }
+
+        btns.append("</ol>");
 
         return btns.toString();
     }
