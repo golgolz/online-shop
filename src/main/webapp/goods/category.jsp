@@ -66,7 +66,7 @@
 	      	<div class="xans-element- xans-product xans-product-normalpackage">
 	        	<div class="xans-element- xans-product xans-product-normalmenu">
 	          		<div class="function">
-	            		<p class="prdCount">등록 제품 : 1892개</p>
+	            		<p class="prdCount">등록 제품 : <%= userGoodsDAO.selectGoodsCount(subCategory == null ? category : subCategory, sort) %></p>
 	            		<ul
 	              		id="type"
 	              		class="xans-element- xans-product xans-product-orderby">
