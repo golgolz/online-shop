@@ -84,7 +84,11 @@ public class UserGoodsDAO {
                 break;
         }
 
-        selectQuery.append(" ) where rnum between 1 and 15 ");
+        if (isCount) {
+            selectQuery.append(" ) ");
+        } else {
+            selectQuery.append(" ) where rnum between ? and ? ");
+        }
 
         return selectQuery.toString();
     }
@@ -145,19 +149,19 @@ public class UserGoodsDAO {
         return count;
     }
 
-    public List<GoodsSimpleVO> selectGoodsSort(String category, String sort) throws SQLException {
+    public List<GoodsSimpleVO> selectGoodsSort(SearchVO searchVO) throws SQLException {
         List<GoodsSimpleVO> goods = new ArrayList<GoodsSimpleVO>();
 
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        StringBuilder selectQuery = new StringBuilder();
-
         DbConnection dbConn = DbConnection.getInstance();
 
         try {
             conn = dbConn.getConn("online-shop-dbcp");
-            pstmt = conn.prepareStatement(createSelectQuery(category, sort, false));
+            pstmt = conn.prepareStatement(createSelectQuery(searchVO.getCategory(), searchVO.getSort(), false));
+            pstmt.setInt(1, searchVO.getStart());
+            pstmt.setInt(2, searchVO.getEnd());
             rs = pstmt.executeQuery();
 
             while (rs.next()) {

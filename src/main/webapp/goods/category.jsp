@@ -1,3 +1,4 @@
+<%@page import="user.goods.SearchVO"%>
 <%@page import="user.goods.UserGoodsDAO"%>
 <%@page import="user.main.GoodsSimpleVO"%>
 <%@page import="java.util.List"%>
@@ -15,6 +16,13 @@
 <body>
 	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<%
+		// pagenation
+		int pageScale = 10;
+		int currentPage = Integer.parseInt(request.getParameter("page"));
+		int startNum = pageScale * (currentPage - 1) + 1;
+		int endNum = startNum + pageScale - 1;
+	
+		// get goods data
 		String category = (String)request.getParameter("category");
 		String subCategory = (String)request.getParameter("sub_category");
 		String sort = (String)request.getParameter("sort");
@@ -34,7 +42,8 @@
 		    sort = "";
 		}
 		
-		List<GoodsSimpleVO> selectedGoods = userGoodsDAO.selectGoodsSort(subCategory == null ? category : subCategory, sort);
+		SearchVO searchVO = new SearchVO(subCategory == null ? category : subCategory, sort, startNum, endNum);
+		List<GoodsSimpleVO> selectedGoods = userGoodsDAO.selectGoodsSort(searchVO);
 	%>
 	<div id="wrap">
 		<div id="main">

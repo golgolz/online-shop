@@ -66,7 +66,7 @@
                 >
                   <li class="noChild">
                     <a
-                      href="http://localhost/online-shop/goods/category.jsp?category=new"
+                      href="http://localhost/online-shop/goods/category.jsp?category=new&page=1"
                       class="cate"
                       cate="?cate_no=427"
                       >NEW</a
@@ -74,7 +74,7 @@
                   </li>
                   <li class="noChild">
                     <a
-                      href="http://localhost/online-shop/goods/category.jsp?category=best"
+                      href="http://localhost/online-shop/goods/category.jsp?category=best&page=1"
                       class="cate"
                       cate="?cate_no=428"
                       >BEST</a
@@ -82,7 +82,7 @@
                   </li>
                   <li class="xans-record-">
                     <a
-                      href="http://localhost/online-shop/goods/category.jsp?category=samsung"
+                      href="http://localhost/online-shop/goods/category.jsp?category=samsung&page=1"
                       class="cate"
                       cate="?cate_no=44"
                       >MODEL</a
@@ -90,7 +90,7 @@
                     <ul class="slideSubMenu">
                       <li class="xans-record-" id="cate119">
                         <a
-                      	  href="http://localhost/online-shop/goods/category.jsp?category=samsung"
+                      	  href="http://localhost/online-shop/goods/category.jsp?category=samsung&page=1"
                           class="cate"
                           cate="?cate_no=119"
                           onmouseover="subMenuon(this);"
@@ -99,7 +99,7 @@
                         <ul class="slideSubMenu">
                           <li class="xans-record-" id="cate119">
                             <a
-                      	  	  href="http://localhost/online-shop/goods/category.jsp?category=samsung&sub_category=zflip"
+                      	  	  href="http://localhost/online-shop/goods/category.jsp?category=samsung&sub_category=zflip&page=1"
                               class="cate"
                               cate="?cate_no=119"
                               onmouseover="subMenuon(this);"
@@ -108,7 +108,7 @@
                           </li>
                           <li class="noChild" id="cate71">
                             <a
-                      	  	  href="http://localhost/online-shop/goods/category.jsp?category=samsung&sub_category=s24"
+                      	  	  href="http://localhost/online-shop/goods/category.jsp?category=samsung&sub_category=s24&page=1"
                               class="cate"
                               cate="?cate_no=71"
                               onmouseover="subMenuon(this);"
@@ -119,7 +119,7 @@
                       </li>
                       <li class="xans-record-" id="cate71">
                         <a
-                      	  href="http://localhost/online-shop/goods/category.jsp?category=apple"
+                      	  href="http://localhost/online-shop/goods/category.jsp?category=apple&page=1"
                           class="cate"
                           cate="?cate_no=71"
                           onmouseover="subMenuon(this);"
@@ -128,7 +128,7 @@
                         <ul class="slideSubMenu">
                           <li class="noChild">
                             <a
-                              href="http://localhost/online-shop/goods/category.jsp?category=apple&sub_category=아이폰14"
+                              href="http://localhost/online-shop/goods/category.jsp?category=apple&sub_category=아이폰14&page=1"
                               class="cate"
                               cate="?cate_no=119"
                               onmouseover="subMenuon(this);"
@@ -137,7 +137,7 @@
                           </li>
                           <li class="noChild" id="cate71">
                             <a
-                              href="http://localhost/online-shop/goods/category.jsp?category=apple&sub_category=아이폰15"
+                              href="http://localhost/online-shop/goods/category.jsp?category=apple&sub_category=아이폰15&page=1"
                               class="cate"
                               cate="?cate_no=71"
                               onmouseover="subMenuon(this);"
@@ -150,7 +150,7 @@
                   </li>
                   <li class="xans-record-">
                     <a
-                      href="http://localhost/online-shop/goods/category.jsp?category=실리콘"
+                      href="http://localhost/online-shop/goods/category.jsp?category=실리콘&page=1"
                       class="cate"
                       cate="?cate_no=44"
                       >MATERIAL</a
@@ -158,7 +158,7 @@
                     <ul class="slideSubMenu">
                       <li class="noChild">
                         <a
-                      	  href="http://localhost/online-shop/goods/category.jsp?category=실리콘"
+                      	  href="http://localhost/online-shop/goods/category.jsp?category=실리콘&page=1"
                           class="cate"
                           cate="?cate_no=45"
                           >실리콘</a
@@ -166,7 +166,7 @@
                       </li>
                       <li class="noChild">
                         <a
-                      	  href="http://localhost/online-shop/goods/category.jsp?category=하드"
+                      	  href="http://localhost/online-shop/goods/category.jsp?category=하드&page=1"
                           class="cate"
                           cate="?cate_no=47"
                           >하드</a
