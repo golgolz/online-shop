@@ -143,10 +143,10 @@ $(function(){
 	try{
 	  String seq=request.getParameter("seq");
 	  
-	  ReviewBoardVO rbVO=rDAO.selectDetailReview(Integer.parseInt(seq));//상세보기
+	  rVO=rDAO.selectDetailReview(Integer.parseInt(seq));//상세보기
 	 /*  rDAO.updateCnt(Integer.parseInt(seq)); *///조회수 올려주기(중요도가 덜한것이 아래로 내려가는게 좋음)
 	  
-	  pageContext.setAttribute("rbVO", rbVO);
+	  pageContext.setAttribute("rVO", rVO);
 	}catch(SQLException se){
 	  se.printStackTrace();
 	  %>
@@ -198,23 +198,23 @@ $(function(){
 			<tr><td colspan="4" class="top5"></td></tr>
 			<tr>
 				<td class="label">작성자</td>
-				<td class="box text"><strong><c:out value="${rbVO.id}"/></strong></td>
+				<td class="box text"><strong><c:out value="${rVO.id}"/></strong></td>
 				<td class="label">작성시각</td>
-				<td class="box text"><strong><fmt:formatDate value="${rbVO.inputDate}" pattern="yyyy-MM-dd EEEE HH:mm:ss"/></strong></td>
+				<td class="box text"><strong><fmt:formatDate value="${rVO.inputDate}" pattern="yyyy-MM-dd EEEE HH:mm:ss"/></strong></td>
 			</tr>
 						<tr>
 				<td class="label">관련 상품</td>
 				<td class="box text" colspan="3">
-					<a href="#" target="_blank"><img src="http://localhost/online-shop/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px""/><c:out value="${rVO.name}"/></a>
+					<a href="#"><img src="http://localhost/online-shop/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px"/><c:out value="${rVO.name}"/></a>
 				</td>
 			</tr>
 						<tr>
 				<td class="label">제목</td>
-				<td class="box text" colspan="3"><span style="font-size: 13px"><c:out value="${rbVO.title}"/></span></td>
+				<td class="box text" colspan="3"><span style="font-size: 13px"><c:out value="${rVO.title}"/></span></td>
 			</tr>
 			<tr>
 				<td class="label">내용</td>
-				<td width="745" class="box text se2_inputarea" colspan="3"><p style="font-size: 13px"><c:out value="${ rbVO.content }"/></p></td>
+				<td width="745" class="box text se2_inputarea" colspan="3"><p style="font-size: 13px"><c:out value="${ rVO.content }"/></p></td>
 			</tr>
 		</table>
 

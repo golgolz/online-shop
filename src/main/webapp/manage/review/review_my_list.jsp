@@ -39,7 +39,7 @@
 				location.href="board_list.jsp";
 			});//click
 			$("#btnWrite").click(function(){
-				location.href="board_write_frm.jsp";
+				location.href="review_write_test.jsp";
 			});//click
 			
 			$("#keyword").keydown(function(evt) {
@@ -97,7 +97,7 @@
 			    cell2.innerHTML = boardList[i].reviewId;
 			    cell3.innerHTML = boardList[i].defaultImg;
 			    cell4.innerHTML = boardList[i].name;
-			    cell5.innerHTML = '<a href="review_detail_user.jsp?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}">'+boardList[i].title+'</a>';
+			    cell5.innerHTML = '<a href="review_my_list.jsp?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}">'+boardList[i].title+'</a>';
 			    cell6.innerHTML = boardList[i].inputDate;
 			    cell7.innerHTML = boardList[i].id;
 			}//end for
@@ -248,6 +248,7 @@
 	    	</select>
 	    	<input type="text" name="keyword" id="keyword" value="${param.keyword }" style="width:230px; border:1px solid #dedede;"/>
 	    	<input type="button"  value="검색" id="btnSearch" class="btn btn-info btn-sm"/>
+	    	<input type="button"  value="글쓰기" id="btnWrite" class="btn btn-warning btn-sm"/>
 	    	<input type="text" style="display: none;">
 	    </form>
 	    </div>
@@ -268,7 +269,7 @@
             <c:set var="link2" value="&field=${param.field}&keyword=${param.keyword }" />
         </c:if>
         <div id="paging">
-        <%=ReviewBoardUtil.getInstance().pageNation("review_my_test.jsp", param, totalPage, currentPage)%>
+        <%=ReviewBoardUtil.getInstance().pageNation("review_my_list.jsp", param, totalPage, currentPage)%>
         </div>
     </div>
     
