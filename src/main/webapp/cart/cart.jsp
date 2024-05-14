@@ -8,42 +8,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%-- 로그인 한 사용자만 사용 가능하게 체크하는 코드 예시 => 추후 변경 예정
-<c:if test="${empty sessionScope.loginData}">
-	<c:redirect url="http://192.168.10.212/jsp_prj/index.jsp"/>
-</c:if> --%>
+<!-- 로그인 확인 -->
+<%-- <c:if test="${empty sessionScope.userId}">
+	<c:redirect url="http://192.168.10.211/online-shop/user/login/userLogin.jsp"/>
+</c:if>  --%>
 <jsp:useBean id="opVO" class="order.vo.OrderProductVO" scope="page" />
 <jsp:setProperty property="*" name="opVO" />
 <%
-//개발의 편의성을 위해 코드를 작성한 후 작업 진행
-opVO.setCartId("20240419131338");
-request.setAttribute("cartId", opVO.getCartId()); 
-
-/* String userId = (String)session.getAttribute("id"); */
-CartDAO cDAO = CartDAO.getInstance();
-
-//해당 유저의 ID로 장바구니 번호가 등록되어 있는지?
-// boolean flag = cDAO.checkCartId(userId);
-
-/* if(flag == false){// 장바구니 번호가 존재하지 않을 시 Cart,OrderProduct table에 insert
-     cDAO.insertCart(oVO);
-	 cDAO.insertOrderProduct(opVO) 
-}//end if */
-
-/* String code = (String)request.getParameter("code");
-int quantity = Integer.parseInt(request.getParameter("quantity"));
-
-opVO.setCode(code);
-opVO.setQuantity(quantity); */
-%>
-
-<%
-	String cartId = opVO.getCartId();
+	String cartId = "";
+	String userId = (String)session.getAttribute("userId");
 	
-	
+	CartDAO cDAO = CartDAO.getInstance();
+
 	List<OrderProductVO> list = new ArrayList<OrderProductVO>();
 	
 	try{
+		cartId = cDAO.selectCartId(userId);
 		list = cDAO.selectCart(cartId);
 		
 	}catch(Exception e){
@@ -67,12 +47,20 @@ table, td {
 </style>
 <script>
 	$(function() {
+		/* $(".up").click(function(){
+			var inputId = $("#quantity_id_0").val();
+			var price = $("#product_price_div0").text().trim();
+			
+			addQuantity(inputId,price);
+		}); */
 	})//ready
 	
-	function addQuantity(inputId,price) {
-		var input = document.getElementById(inputId);
-		/* var productPrice = document.getElementById(price).innerHTML; */
-		var productPrice = document.getElementById(price).textContent.trim(); // "20,000원"
+	/* function addQuantity(inputClass,price) {
+		var input = document.getElementByClassName(inputClass);
+		for(var i=0; i<input.length; i++){
+			
+		}
+		var productPrice = document.getElementByClassName(price).textContent.trim(); // "20,000원"
 		productPrice = productPrice.replace(/[^0-9]/g, ''); // "20000"
 				
 		if(parseInt(input.value) < 99) {
@@ -81,9 +69,24 @@ table, td {
 			input.value = newValue;
 			
 			var sum = parseInt(productPrice) * newValue + 3000;
-			document.getElementById('sum_price_front0').innerHTML = formatNumber(sum);
+			document.getElementByClassName('sum_price_front0').innerHTML = formatNumber(sum);
 		}
-	}
+	} */
+	
+ 	function addQuantity(inputId,price) {
+		var input = document.getElementById(inputId);
+		var productPrice = document.getElementById(price).textContent.trim(); // "20,000원"
+		productPrice = productPrice.replace(/[^0-9]/g, ''); // "20000" 
+				
+		if(parseInt(input.value) < 99) {
+			var curval = parseInt(input.value);
+			var newValue = curval+1;
+			input.value = newValue;
+			
+			var sum = parseInt(productPrice) * newValue + 3000;
+			document.getElementById('#sum_price_front0').innerHTML = formatNumber(sub);
+		}
+	} 
 	
 	function decQuantity(inputId,price) {
 		var input = document.getElementById(inputId);
@@ -195,29 +198,6 @@ table, td {
 		})
 	}
 	
-	function refreshCartList(){
-		var param = {
-				cartId : $("#orderCartId").val(),
-				method : "refresh"
-		}
-		
-		$.ajax({
-			url : "cart_process.jsp",
-			type : "POST",
-			data : param,
-			dataType : "JSON",
-			error : function(xhr){
-				alert("AJAX 요청 실패:"+ xhr.status + " " + xhr.statusText);
-			},
-			success : function(data){
-				for(var i=0; i<data.length; i++){
-					$("#quantity_id_0").val(data.quantity);
-				}
-				alert("갱신성공");
-			}
-		})
-	}
-		
 	
 </script>
 
@@ -258,7 +238,6 @@ table, td {
 										(<%= list.size() %>)</a></li>
 								<li class=" "></li>
 							</ul>
-							<p class="right displaynone">장바구니에 담긴 상품은 7일 동안 보관됩니다.</p>
 						</div>
 						<div class="orderListArea ec-base-table typeList gBorder">
 							<div class="xans-element- xans-order xans-order-normtitle title ">
@@ -320,7 +299,7 @@ table, td {
 													class="displaynone">(<%= list.size() %>)</span><br></li>
 											</ul></td>
 										<td class="right">
-											<div id="product_price_div0" class="">
+											<div id="product_price_div0" class="product_price_div0">
 												<strong><%= String.format("%,d", oVO.getPrice()) %>원</strong>
 												<p class="displaynone"></p>
 											</div>
@@ -330,9 +309,9 @@ table, td {
 											</div>
 										</td>
 										<td><span class=""> <span class="ec-base-qty"><input
-													id="quantity_id_0" name="quantity" size="2"
+													id="quantity_id_0" class="quantity_id_0" name="quantity" size="2"
 													value="<%= oVO.getQuantity() %>" type="text"><a href="javascript:;"
-													onclick="addQuantity('quantity_id_0','product_price_div0');"><img
+													onclick="addQuantity('quantity_id_0','product_price_div0');"> <img
 														src="//img.echosting.cafe24.com/skin/base/common/btn_quantity_up.gif"
 														alt="수량증가" class="up"></a><a href="javascript:;"
 													onclick="decQuantity('quantity_id_0','product_price_div0');"><img
@@ -348,7 +327,7 @@ table, td {
 											</p>
 										</td>
 										<td class="right"><strong><span
-												id="sum_price_front0"><%= String.format("%,d", oVO.getTotal()) %></span>원</strong>
+												id="sum_price_front0" class="sum_price_front0"><%= String.format("%,d", oVO.getTotal()) %></span>원</strong>
 											<div class="displaynone"></div></td>
 										<td class="button">
 											<!--임시 주석처리 : 주문서 작성 페이지 이동--> <!--<a href="javascript:;" class="btnSubmit" onclick="Basket.orderBasketItem(0);">주문하기</a>-->
@@ -356,7 +335,7 @@ table, td {
 										</td>
 									</tr>
 								</tbody>
-								<% }//end for %>
+								<% } %>
 							</table>
 						</form>
 						

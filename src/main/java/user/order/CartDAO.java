@@ -39,14 +39,15 @@ public class CartDAO {
             // 2.DataSource 얻기
             // 3.쿼리문 생성 객체 얻기
 
-            String insertQuery = ("insert into order_goods(order_goods_id,cart_id,code,amount) values(?,?,?,?)");
+            String insertQuery =
+                    ("insert into order_goods(order_goods_id,cart_id,code,amount) values(or_gds_seq.nextval,?,?,?)");
 
             pstmt = con.prepareStatement(insertQuery);
             // 4.바인드변수에 값 설정
-            pstmt.setInt(1, 55); // 추후 시퀀스로 변경
-            pstmt.setString(2, opVO.getCartId()); // cartId
-            pstmt.setString(3, opVO.getCode()); // code
-            pstmt.setInt(4, opVO.getQuantity()); // quantity
+            /* pstmt.setInt(1, 55); */ // 시퀀스로 변경
+            pstmt.setString(1, opVO.getCartId()); // cartId
+            pstmt.setString(2, opVO.getCode()); // code
+            pstmt.setInt(3, opVO.getQuantity()); // quantity
 
             // 5.쿼리문 수행 후 결과 얻기
             pstmt.execute();
@@ -73,12 +74,12 @@ public class CartDAO {
 
             pstmt = con.prepareStatement(insertQuery);
 
-            pstmt.setString(1, oVO.getCustomerId());
-            pstmt.setString(2, oVO.getCustomerName());
-            pstmt.setString(3, oVO.getPurchaseStauts());
-            pstmt.setString(4, oVO.getStatusFlag());
-            pstmt.setInt(5, oVO.getDefaultAddrFlag());
-            pstmt.setString(6, oVO.getDeliveryStatus());
+            pstmt.setString(1, oVO.getUserId());
+            pstmt.setString(2, oVO.getUserName());
+            pstmt.setString(3, "구매미확정");
+            pstmt.setString(4, "장바구니");
+            pstmt.setString(5, "T");
+            pstmt.setString(6, "불필요");
 
         } finally {
             dbCon.closeCon(null, pstmt, con);
@@ -317,6 +318,7 @@ public class CartDAO {
         return cnt;
     }
 
+
     public List<OrderProductVO> selectCart(String cartId) throws SQLException {
         List<OrderProductVO> list = new ArrayList<OrderProductVO>();
         OrderProductVO opVO = null;
@@ -393,6 +395,82 @@ public class CartDAO {
 
         return flag;
     }// checkCartId
+
+    public boolean isEmptyList(List<OrderProductVO> list, String cartId) throws SQLException {
+        boolean flag = false;
+
+        list = selectCart(cartId);
+
+        if (list.size() != 0) {
+            flag = true;
+        } // end if
+
+        return flag;
+    }// isEmptyList
+
+    public String selectCartId(String userId) throws SQLException {
+
+        String cartId = "";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+            con = dbCon.getConn("online-shop-dbcp");
+
+            StringBuilder selectQuery = new StringBuilder();
+
+            selectQuery.append("   select cart_id   ").append("   from cart   ")
+                    .append("   where id=? and order_flag='장바구니'  ");
+
+            pstmt = con.prepareStatement(selectQuery.toString());
+
+            pstmt.setString(1, userId);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                cartId = rs.getString("cart_id");
+            } // end if
+
+        } finally {
+            dbCon.closeCon(rs, pstmt, con);
+        }
+
+        return cartId;
+    }// selectCartId
+
+    public int updateInputDate(String userId) throws SQLException {
+        int cnt = 0;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+            con = dbCon.getConn("online-shop-dbcp");
+
+            StringBuilder updateQuery = new StringBuilder();
+
+            updateQuery.append("   update cart     ").append("   set input_date=sysdate     ")
+                    .append("   where id=?   ");
+
+            pstmt = con.prepareStatement(updateQuery.toString());
+
+            pstmt.setString(1, userId);
+
+            cnt = pstmt.executeUpdate();
+
+        } finally {
+            dbCon.closeCon(null, pstmt, con);
+        } // end finally
+
+        return cnt;
+    }// updateInputDate
 
 
 }
