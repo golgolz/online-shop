@@ -9,7 +9,7 @@ import java.util.List;
 import database.DbConnection;
 
 public class UserNoticeDAO {
-    public static UserNoticeDAO noticeDAO;
+    public static UserNoticeDAO unDAO;
     private String[] columnNames;
 
     private UserNoticeDAO() {
@@ -18,10 +18,10 @@ public class UserNoticeDAO {
     }
 
     public static UserNoticeDAO getInstance() {
-        if (noticeDAO == null) {
-            noticeDAO = new UserNoticeDAO();
+        if (unDAO == null) {
+            unDAO = new UserNoticeDAO();
         }
-        return noticeDAO;
+        return unDAO;
     }// getInstance
 
     // 조회수
@@ -38,21 +38,24 @@ public class UserNoticeDAO {
             con = dbConn.getConn("online-shop-dbcp");
 
             StringBuilder selectCnt = new StringBuilder();
-            selectCnt.append("select count(*) view_count from notice");
+            selectCnt.append("select count(*) as count from notice");
 
-            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
-                selectCnt.append("where").append(columnNames[Integer.parseInt(sVO.getField())])
-                        .append("like  '%'||?||'%'");
+            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword()) && sVO.getField() != null
+                    && !"".equals(sVO.getField())) {
+                selectCnt.append(" where ").append(columnNames[Integer.parseInt(sVO.getField())])
+                        .append(" like '%' || ? || '%'");
             }
+
             pstmt = con.prepareStatement(selectCnt.toString());
 
-            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+            if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword()) && sVO.getField() != null
+                    && !"".equals(sVO.getField())) {
                 pstmt.setString(1, sVO.getKeyword());
             } // end if
 
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                totalCnt = rs.getInt("view_count");
+                totalCnt = rs.getInt("count");
             } // end if
         } finally {
             dbConn.closeCon(rs, pstmt, con);
@@ -104,28 +107,8 @@ public class UserNoticeDAO {
         return list;
     }// selectNotice
 
-    public void insertNotice(NoticeVO nVO) throws SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
+    public NoticeVO selectDetailNotice(int id) throws SQLException {
 
-        DbConnection dbConn = DbConnection.getInstance();
-        try {
-            String insertNotice = " insert into notice (notice_id, input_date, author, view_count, title, content)\r\n"
-                    + "values (? ,? ,? ,? ,? ,?) ";
-            pstmt.setString(1, nVO.getNotice_id());
-            pstmt.setDate(2, nVO.getInput_date());
-            pstmt.setString(3, nVO.getAuthor());
-            pstmt.setInt(4, nVO.getView_count());
-            pstmt.setString(5, nVO.getTitle());
-            pstmt.setString(6, nVO.getContent());
-
-            pstmt.executeUpdate();
-        } finally {
-            dbConn.closeCon(null, pstmt, con);
-        }
-    }// insertNotice
-
-    public NoticeVO selectDetailNotice(int seq) throws SQLException {
         NoticeVO nVO = null;
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -134,21 +117,53 @@ public class UserNoticeDAO {
         DbConnection db = DbConnection.getInstance();
 
         try {
+            con = db.getConn("online-shop-dbcp");
             StringBuilder selectNotice = new StringBuilder();
             selectNotice.append("select notice_id, input_date, author, view_count, title, content ")
-                    .append("from notice").append("where notice_id=?");
+                    .append(" from notice ").append(" where notice_id= ?");
 
             pstmt = con.prepareStatement(selectNotice.toString());
 
-            pstmt.setInt(1, seq);
+            pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
 
+            if (rs.next()) {
+                // nVO = new NoticeVO(); //기본생성자를 이용해서 객체 생성
+                nVO = new NoticeVO(rs.getString("notice_id"), rs.getDate("input_date"), rs.getString("author"),
+                        rs.getInt("view_count"), rs.getString("title"), rs.getString("content"));// setter는 값을 하나식만 할당되기
+                // 때문에
+                System.out.println(nVO.toString());
+            }
         } finally {
             db.closeCon(rs, pstmt, con);
         }
         return nVO;
     }// selectDetailNotice
 
+    public int updateCnt(int num) throws SQLException {
+        int cnt = 0;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        DbConnection db = DbConnection.getInstance();
+
+        try {
+            con = db.getConn("online-shop-dbcp");
+
+            StringBuilder updateCnt = new StringBuilder();
+            updateCnt.append("update notice set view_count = view_count+1");
+            updateCnt.append("where notice_id=? ");
+
+            pstmt = con.prepareStatement(updateCnt.toString());
+
+            pstmt.setInt(1, num);
+
+            cnt = pstmt.executeUpdate();
+        } finally {
+            db.closeCon(null, pstmt, con);
+        }
+        return cnt;
+    }// updateCnt
 
 
 }// class

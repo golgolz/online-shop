@@ -86,6 +86,13 @@ public class CartDAO {
         }
     }// insertCart
 
+    /**
+     * 수량을 변경하는 일을 하는 method
+     * 
+     * @param opVO
+     * @return
+     * @throws SQLException
+     */
     public int updateCart(OrderProductVO opVO) throws SQLException {
         int cnt = 0;
 
@@ -197,6 +204,14 @@ public class CartDAO {
         } // end finally
     }// insertPayment
 
+    /**
+     * 주문 상태를 변경하는 일을 하는 method
+     * 
+     * @param cartId
+     * @param orderFlag
+     * @return
+     * @throws SQLException
+     */
     public int updateOrderStatus(String cartId, String orderFlag) throws SQLException {
         int cnt = 0;
 
@@ -232,6 +247,14 @@ public class CartDAO {
         return cnt;
     }// updateOrderStatus
 
+    /**
+     * 배송 상태를 변경하는 일을 하는 method
+     * 
+     * @param cartId
+     * @param deliveryStatus
+     * @return
+     * @throws SQLException
+     */
     public int updateDeliveryStatus(String cartId, String deliveryStatus) throws SQLException {
         int cnt = 0;
 
@@ -262,6 +285,13 @@ public class CartDAO {
         return cnt;
     }// updateDeliveryStatus
 
+    /**
+     * 장바구니 상품 리스트의 단일 상품을 삭제하는 method
+     * 
+     * @param opVO
+     * @return
+     * @throws SQLException
+     */
     public int deleteCart(OrderProductVO opVO) throws SQLException {
         int cnt = 0;
 
@@ -290,6 +320,13 @@ public class CartDAO {
         return cnt;
     }// deleteShopCart
 
+    /**
+     * 장바구니의 모든 상품 리스트를 삭제하는 method
+     * 
+     * @param opVO
+     * @return
+     * @throws SQLException
+     */
     public int deleteAllCart(OrderProductVO opVO) throws SQLException {
         int cnt = 0;
 
@@ -443,6 +480,13 @@ public class CartDAO {
         return cartId;
     }// selectCartId
 
+    /**
+     * 주문 상태가 변경되었을 경우 실행되어야 하는 method(input_date를 update)
+     * 
+     * @param userId
+     * @return
+     * @throws SQLException
+     */
     public int updateInputDate(String userId) throws SQLException {
         int cnt = 0;
 
