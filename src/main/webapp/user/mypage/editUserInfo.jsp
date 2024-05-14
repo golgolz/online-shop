@@ -148,7 +148,6 @@ if (request.getParameter("cancelBtn") != null) {
     <jsp:include page="../../assets/jsp/user/header.jsp" />
     <div id="wrap">
         <div id="main">
-            마이 페이지 입니다.
             <!-- golgolz start -->
             
             <div id="wrap">
