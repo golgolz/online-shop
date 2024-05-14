@@ -1,6 +1,26 @@
+<%@page import="admin.review.ReviewBoardVO"%>
+<%@page import="java.util.List"%>
+<%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
-    info=""%>
+    info="게시판 글 작성"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- <%
+WebMemberVO wmVo=(WebMemberVO)session.getAttribute("loginData");
+if(wmVo == null) { //로그인 하지 않았음
+    
+}//end if
+%> --%>
+<%
+//개발의 편의성을 위해 로그인한 것처럼 코드를 작성항 후 작업 진행
+ReviewBoardVO rVO=new ReviewBoardVO();
+rVO.setId("haa");
+session.setAttribute("loginData", rVO);
+%>
+<c:if test="${empty sessionScope.loginData }">
+<c:redirect url="http://192.168.10.216/jsp_prj/index.jsp"/>
+</c:if>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,9 +33,64 @@
 <link rel="canonical" href="https://insideobject.com/board/product/write.html" />
 <link rel="alternate" href="https://m.insideobject.com/board/product/write.html" />
 	<!-- golgolz end -->
+  
+<style type="text/css">
+	#wrap{width: 1462px; height:749; margin:0px auto;}
+
+	    	
+</style>
+<script type="text/javascript">
+	$(function(){
+	    $("#btnList").click(function () {
+	        history.back();
+	    });//click
+	    $("#btnWrite").click(function () {
+	        $("#frmWrite").submit();
+	    });//click
+	});//ready
+	
+	function chkNull() {
+	    if($("#title").val().trim() == "") {
+	        alert("글 제목은 필수입력");
+	        $("#title").focus();
+	        return;
+	    }//end if
+	    if($("#content").val().trim() == "") {
+	        alert("내용은 필수입력");
+	        $("#content").focus();
+	        return;
+	    }//end if
+	    if($("#cnt").val().trim() == "") {
+	        $("#cnt").val(0);
+	    }
+	
+	    $("#frmWrite").submit();
+	
+	}//chkNull
+</script>
+<script>
+$(function(){
+	
+      $('#content').summernote({
+        placeholder: '${sessionScope.loginData.id}님 글을 작성하세요',
+        tabsize: 2,
+        width:600,
+        height: 200,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+      });//summernote
+})//ready
+    </script>
 </head>
-<body>
-	<jsp:include page="../../assets/jsp/user/header.jsp" />
+<body>	
+<jsp:include page="../../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
@@ -71,23 +146,7 @@
 <tbody>
 <tr>
 <th scope="row">제목</th>
-                    <td> <input id="subject" name="subject" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" maxLength="125" value="" type="text"  />  </td>
-                </tr>
-<tr class="displaynone">
-<th scope="row">작성자</th>
-                    <td></td>
-                </tr>
-<tr class="displaynone">
-<th scope="row">이메일</th>
-                    <td></td>
-                </tr>
-<tr class="displaynone">
-<th scope="row">평점</th>
-                    <td><input id="point0" name="point" fw-filter="" fw-label="평점" fw-msg="" value="5" type="radio" checked="checked"  /><label for="point0" ><span class="point5"><em>★★★★★</em></span></label>
-<input id="point1" name="point" fw-filter="" fw-label="평점" fw-msg="" value="4" type="radio"  /><label for="point1" ><span class="point4"><em>★★★★</em></span></label>
-<input id="point2" name="point" fw-filter="" fw-label="평점" fw-msg="" value="3" type="radio"  /><label for="point2" ><span class="point3"><em>★★★</em></span></label>
-<input id="point3" name="point" fw-filter="" fw-label="평점" fw-msg="" value="2" type="radio"  /><label for="point3" ><span class="point2"><em>★★</em></span></label>
-<input id="point4" name="point" fw-filter="" fw-label="평점" fw-msg="" value="1" type="radio"  /><label for="point4" ><span class="point1"><em>★</em></span></label></td>
+                    <td> <input id="subject" name="title" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" maxLength="125" value="" type="text"  />  </td>
                 </tr>
 <tr>
 <td colspan="2" class="clear">

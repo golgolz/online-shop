@@ -134,7 +134,6 @@ public class AdminGoodsDAO {
 
         if (!isCount) {
             selectQuery.append(" ) where rnum between ? and ? ");
-            System.out.println(selectQuery.toString());
             return selectQuery.toString();
         }
 

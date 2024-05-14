@@ -740,7 +740,7 @@ $(function(){
                 <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
-                <input type="button" class="btnSubmitFix sizeS" value="수정" id="btnUpdate"/>
+                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnSubmitFix sizeS" onclick="BOARD_WRITE.form_submit('boardWriteForm');">등록</a>
                 <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>

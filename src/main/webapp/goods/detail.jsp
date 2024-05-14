@@ -173,12 +173,8 @@
 								</div>
 								<div class="xans-element- xans-product xans-product-action">
 									<div class="ec-base-button">
-										<a
-											href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode()  %>&quantity="
-											class="sub_cart" id="sub_cart">장바구니</a>
-										<a
-											href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
-											onclick="add_wishlist(this, true);" class="sub_wish">관심상품</a>
+										<a href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="sub_cart" id="sub_cart">장바구니</a>
+										<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= currentGoods.getCode() %>" class="sub_wish">관심상품</a>
 										<a
 											href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
 											class="first sub_buy"
@@ -256,7 +252,6 @@
 									</table>
 								</div>
 							</div>
-
 							<p class="ec-base-button typeBorder">
 								<span class="gRight"> <a
 									href="https://insideobject.com/board/product/write.html?board_no=4&amp;product_no=6027&amp;cate_no=428&amp;display_group=1">상품후기쓰기</a>
@@ -265,9 +260,7 @@
 										보기</a>
 								</span>
 							</p>
-
-							<div
-								class="xans-element- xans-product xans-product-reviewpaging ec-base-paginate">
+							<div class="xans-element- xans-product xans-product-reviewpaging ec-base-paginate">
 								<a
 									href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
 									class="first"><img
@@ -290,19 +283,7 @@
 							</div>
 						</div>
 					</div>
-					<div id="prdQnA" class="tab_box03" style="display: none">
-						<div class="board">
-							<p class="nodata">게시물이 없습니다</p>
-							<p class="ec-base-button typeBorder">
-								<span class="gRight"> <a
-									href="https://insideobject.com/board/product/write.html?board_no=6&amp;product_no=6027&amp;cate_no=428&amp;display_group=1">상품문의하기</a>
-									<a
-									href="https://insideobject.com/board/product/list.html?board_no=6">모두
-										보기</a>
-								</span>
-							</p>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 		</div>
