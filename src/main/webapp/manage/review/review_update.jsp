@@ -435,11 +435,11 @@
 <div class="ec-base-button ">
             <span class="gLeft">
                 <span class="displaynone"><a href="#none" class="btnNormal sizeS" onclick="">관리자 답변보기</a></span>
-                <a href="http://localhost/online-shop/manage/review/review_my.jsp" class="btnNormalFix sizeS">목록</a>
+                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
-                <a href="http://localhost/online-shop/manage/review/review_my.jsp" class="btnSubmitFix sizeS" onclick="BOARD_WRITE.form_submit('boardWriteForm');">수정</a>
-                <a href="/board/review/4/" class="btnBasicFix sizeS">취소</a>
+                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnSubmitFix sizeS" onclick="BOARD_WRITE.form_submit('boardWriteForm');">수정</a>
+                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>
 </div>

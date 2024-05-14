@@ -357,4 +357,27 @@ public class AdminGoodsDAO {
         }
         return count;
     }
+
+    public int deleteGoods(String code) throws SQLException {
+        int count = 0;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder updateQuery = new StringBuilder();
+        DbConnection dbconn = DbConnection.getInstance();
+
+        try {
+            conn = dbconn.getConn("online-shop-dbcp");
+            updateQuery.append(" update goods set delete_flag = 'T' where code = ?");
+            pstmt = conn.prepareStatement(updateQuery.toString());
+            pstmt.setString(1, code);
+
+            count = pstmt.executeUpdate();
+        } finally {
+            dbconn.closeCon(rs, pstmt, conn);
+        }
+
+        return count;
+    }
 }

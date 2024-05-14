@@ -1,3 +1,4 @@
+<%@page import="admin.review.ReviewBoardUtil"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="org.json.simple.JSONArray"%>
 <%@page import="org.json.simple.JSONObject"%>
@@ -13,6 +14,8 @@
 <jsp:useBean id="sVO" class="admin.review.SearchVO" scope="page"></jsp:useBean>
 <jsp:setProperty property="*" name="sVO"/>
 <%
+
+ReviewBoardUtil util = ReviewBoardUtil.getInstance();
 
 String selectOptionParam = request.getParameter("selectOption");
 int pageScale = 10; // 기본 페이지 스케일 값
@@ -42,7 +45,7 @@ sVO.setStartNum(startNum);
 sVO.setEndNum(endNum);
 AdminReviewDAO arDAO = AdminReviewDAO.getInstance();
 //여기서는 데이터베이스 조회 결과인 list를 사용하여 tbody 내용을 구성합니다.
-List<ReviewBoardVO> list = arDAO.selectBoard(sVO);
+List<ReviewBoardVO> list = arDAO.selectReviewBoard(sVO);
 //list는 ReviewBoardVO 객체들의 리스트로 가정합니다.
 
 JSONObject jsonObj = new JSONObject();
@@ -68,9 +71,15 @@ try{
   
   jsonObj.put("status", "SUCCESS" );
   jsonObj.put("boardList",jsonArr );
+  jsonObj.put("totalPage", totalPage);
+  jsonObj.put("currentPage", currentPage);
 }catch(Exception e){
   e.printStackTrace();
 }
 %>
 <%=jsonObj.toJSONString() %>
+
+<script>
+    var paginationHTML = "<%= util.pageNation("review_board_list.jsp", "", totalPage, currentPage) %>";
+</script>
  

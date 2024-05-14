@@ -41,7 +41,7 @@ public class UserMainDAO {
                 selectQuery.append(" , sold_count from ( select row_number() over(order by sold_count desc) ");
             }
             selectQuery.append(
-                    " as rnum, code, name, price, default_img, description, detail_description, sold_count, input_date from goods)where rnum between 1 and 15 ");
+                    " as rnum, code, name, price, default_img, description, detail_description, sold_count, input_date from goods where delete_flag='F' )where rnum between 1 and 15 ");
 
             pstmt = conn.prepareStatement(selectQuery.toString());
             rs = pstmt.executeQuery();

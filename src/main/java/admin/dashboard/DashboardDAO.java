@@ -55,6 +55,39 @@ public class DashboardDAO {
         return orderVO;
     }
 
+    public DashboardSalesVO selectSalesInfo() throws SQLException {
+        DashboardSalesVO dashboardSalesVO = null;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder selectQuery = new StringBuilder();
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+            selectQuery.append("select ( select sum(goods.price * order_goods.amount) as purchase_amount from goods ")
+                    .append(" join order_goods on goods.code = order_goods.code join ( select * from cart ")
+                    .append(" where trunc(input_date) = to_date('2024-04-19', 'yyyy-mm-dd') and order_flag='주문') cart on cart.cart_id = order_goods.cart_id ) as today, ")
+                    .append(" (select sum(goods.price * order_goods.amount) as purchase_amount from goods join order_goods on goods.code = order_goods.code ")
+                    .append(" join ( select * from cart where input_date >= trunc(to_date('2024-04-19', 'yyyy-mm-dd'), 'IW') and order_flag='주문') cart on cart.cart_id = order_goods.cart_id) as week, ")
+                    .append(" ( select sum(goods.price * order_goods.amount) as purchase_amount from goods join order_goods on goods.code = order_goods.code ")
+                    .append(" join (select * from cart where extract(month from input_date) = extract(month from to_date('2024-04-19', 'yyyy-mm-dd')) ")
+                    .append(" and extract(year from input_date) = extract(year from to_date('2024-04-19', 'yyyy-mm-dd')) and order_flag='주문') cart on cart.cart_id = order_goods.cart_id ) as month from dual");
+
+            pstmt = conn.prepareStatement(selectQuery.toString());
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                dashboardSalesVO = new DashboardSalesVO(rs.getInt("today"), rs.getInt("week"), rs.getInt("month"));
+            }
+        } finally {
+            dbConn.closeCon(rs, pstmt, conn);
+        }
+
+        return dashboardSalesVO;
+    }
+
     public DashboardOrderProgressVO selectPregressInfo() throws SQLException {
         DashboardOrderProgressVO progressVO = null;
 

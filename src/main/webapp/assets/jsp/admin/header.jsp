@@ -10,7 +10,7 @@
 	id="sidenav-main">
 	<div class="sidenav-header">
 		<a class="navbar-brand m-0"
-			href="http://localhost/online-shop/manage/index.jsp"
+			href="http://localhost/online-shop/manage/dashboard/index.jsp"
 			> <span class="ms-1 font-weight-bold text-white"
 			style="font-size: 25px">관리자</span>
 		</a>
@@ -29,7 +29,7 @@
 				<a 
 					id="order_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shop/manage/order/order_manage_list.jsp">
+					href="http://localhost/online-shop/manage/order/orders.jsp">
 					<span class="nav-link-text ms-1">주문 관리</span>
 				</a>
 			</li>
@@ -45,7 +45,7 @@
 				<a 
 					id="goods_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shop/manage/goods/goods.jsp">
+					href="http://localhost/online-shop/manage/goods/goods.jsp?page=1">
 					<span class="nav-link-text ms-1">상품 관리</span>
 				</a>
 			</li>

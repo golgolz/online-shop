@@ -20,4 +20,6 @@ public class SearchVO {
     private String date;
     private String updateDate;
     private String sort;
+    private int start;
+    private int end;
 }
