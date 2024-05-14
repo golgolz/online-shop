@@ -56,9 +56,6 @@
 		}
 		}catch(SQLException se) {
 		    se.printStackTrace();
-		    %>
-		    location.href="http://192.168.10.216/jsp_prj/error/err_500.html";
-		    <%
 		}//end catch
 		%>
 		$(function(){
