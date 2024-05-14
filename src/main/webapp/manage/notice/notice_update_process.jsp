@@ -1,3 +1,5 @@
+<%@page import="java.sql.SQLException"%>
+<%@page import="notice.NoticeDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     info=""%>
@@ -18,11 +20,39 @@
 <!--jQuery CDN 시작-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <!--jQuery CDN 끝-->
-
 <style type="text/css">
-
+<% request.setCharacterEncoding("UTF-8"); %>
 </style>
+<jsp:useBean id="nVO" class="notice.NoticeVO" scope="page"/>
+<jsp:setProperty property="*" name="nVO"/>
 <script type="text/javascript">
+	<%
+try{
+    NoticeDAO nDAO=NoticeDAO.getInstance();
+    nVO.setTitle(request.getParameter("title"));
+    nVO.setContent(request.getParameter("content"));
+    System.out.println(request.getParameter("title"));
+    System.out.println(request.getParameter("content"));
+    int cnt= nDAO.updateNotice(nVO);
+    if(cnt==1){
+   %>
+		alert("글을 수정했습니다."); 
+		location.href="notice.jsp";
+   <%
+    }else{
+   %>
+     alert("글 수정에 실패했습니다. 다시 시도해주세요.");
+   <%
+    }
+    }catch(SQLException se) {
+        se.printStackTrace();
+	%> 
+	alert("오류발생");
+	/* location.href="notice.jsp"; */
+	<%
+    }//end catch
+	%> 
+
 		$(function(){
 			
 		});//ready

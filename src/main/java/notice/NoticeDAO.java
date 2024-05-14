@@ -120,6 +120,7 @@ public class NoticeDAO {
                     + "values ((select count(*)+1 notice_id from notice) ,'관리자' ,0 ,? ,?) ";
 
 
+
             pstmt = con.prepareStatement(insertNotice.toString());
 
             System.out.println(nVO.getNotice_id());
@@ -139,7 +140,8 @@ public class NoticeDAO {
         }
     }// insertNotice
 
-    public NoticeVO selectDetailNotice(int seq) throws SQLException {
+    public NoticeVO selectDetailNotice(int id) throws SQLException {
+
         NoticeVO nVO = null;
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -148,15 +150,23 @@ public class NoticeDAO {
         DbConnection db = DbConnection.getInstance();
 
         try {
+            con = db.getConn("online-shop-dbcp");
             StringBuilder selectNotice = new StringBuilder();
             selectNotice.append("select notice_id, input_date, author, view_count, title, content ")
-                    .append("from notice").append("where notice_id=?");
+                    .append(" from notice ").append(" where notice_id= ?");
 
             pstmt = con.prepareStatement(selectNotice.toString());
 
-            pstmt.setInt(1, seq);
+            pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
 
+            if (rs.next()) {
+                // nVO = new NoticeVO(); //기본생성자를 이용해서 객체 생성
+                nVO = new NoticeVO(rs.getString("notice_id"), rs.getDate("input_date"), rs.getString("author"),
+                        rs.getInt("view_count"), rs.getString("title"), rs.getString("content"));// setter는 값을 하나식만 할당되기
+                // 때문에
+                System.out.println(nVO.toString());
+            }
         } finally {
             db.closeCon(rs, pstmt, con);
         }
@@ -168,31 +178,32 @@ public class NoticeDAO {
 
         Connection con = null;
         PreparedStatement pstmt = null;
-
         DbConnection dbConn = DbConnection.getInstance();
 
         try {
+            con = dbConn.getConn("online-shop-dbcp");
             StringBuilder updateNotice = new StringBuilder();
-            updateNotice.append("update notice").append("set  title=?, content=?, view-count=?")
-                    .append("where notice_id=?");
+            updateNotice.append(" update notice ").append(" set title=?, content=? ").append(" where notice_id=?");
+
+            System.out.println(nVO.getTitle());
+            System.out.println(nVO.getContent());
+            System.out.println(nVO.getNotice_id());
 
             pstmt = con.prepareStatement(updateNotice.toString());
 
-            pstmt.setString(1, nVO.getNotice_id());
-            pstmt.setDate(2, nVO.getInput_date());
-            pstmt.setString(3, nVO.getAuthor());
-            pstmt.setInt(4, nVO.getView_count());
-            pstmt.setString(5, nVO.getTitle());
-            pstmt.setString(6, nVO.getContent());
+            pstmt.setString(1, nVO.getTitle());
+            pstmt.setString(2, nVO.getContent());
+            pstmt.setString(3, nVO.getNotice_id());
 
             cnt = pstmt.executeUpdate();
+            System.out.println("cnt : " + cnt);
         } finally {
             dbConn.closeCon(null, pstmt, con);
         } // end finally
         return cnt;
     }// updateNotice
 
-    public int deleteNotice(NoticeVO nVO) throws SQLException {
+    public int deleteNotice(String notice_id) throws SQLException {
         int cnt = 0;
         DbConnection dbConn = DbConnection.getInstance();
 
@@ -200,11 +211,13 @@ public class NoticeDAO {
         PreparedStatement pstmt = null;
 
         try {
+            con = dbConn.getConn("online-shop-dbcp");
+
             StringBuilder deleteNotice = new StringBuilder();
-            deleteNotice.append("delete notice where notice_id=?");
+            deleteNotice.append("delete from notice where notice_id=?");
             pstmt = con.prepareStatement(deleteNotice.toString());
 
-            pstmt.setString(1, nVO.getNotice_id());
+            pstmt.setString(1, notice_id);
 
             cnt = pstmt.executeUpdate();
         } finally {
@@ -221,8 +234,10 @@ public class NoticeDAO {
         DbConnection db = DbConnection.getInstance();
 
         try {
+            con = db.getConn("online-shop-dbcp");
+
             StringBuilder updateCnt = new StringBuilder();
-            updateCnt.append("update notice set cnt=cnt+1");
+            updateCnt.append("update notice set view_count = view_count+1");
             updateCnt.append("where notice_id=? ");
 
             pstmt = con.prepareStatement(updateCnt.toString());

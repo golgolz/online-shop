@@ -1,3 +1,4 @@
+<%@page import="notice.NoticeVO"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="notice.NoticeDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -28,26 +29,28 @@
 <jsp:useBean id="nVO" class="notice.NoticeVO" scope="page"/>
 <jsp:setProperty property="*" name="nVO"/>
 <script type="text/javascript">
+
 	<%
 	try{
 	NoticeDAO nDAO=NoticeDAO.getInstance();
-	int cnt= nDAO.deleteNotice(nVO);
+	int cnt= nDAO.deleteNotice(request.getParameter("notice_id"));
 	if(cnt==1) {
 	%>
 		alert("글을 삭제했습니다.");
-		location.href="http://localhost/online-shop/manage/notice/notice.jsp";
+		location.href="notice.jsp";
 	<%
 	}else{
 	    %>
 	    alert("글 삭제에 실패했습니다.");
-	    history.back();
+	   location.href="notice.jsp";
 	    <%
 	}
 	}catch(SQLException se){
 	    se.printStackTrace();
 	    %>
-	    location.href="http://localhost/online-shop/manage/notice/notice.jsp";
-	    <%
+	    alert("오류가 발생했습니다. 잠시 후에 다시 시도해주세요.")
+	   location.href="http://localhost/online-shop/manage/notice/notice.jsp";
+	<%
 	}//end catch
 
 %>
@@ -59,6 +62,7 @@
 <body>
 <div>
 	
+<%-- ${param.notice_id} --%>
 </div>
 </body>
 </html>

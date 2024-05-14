@@ -1,19 +1,92 @@
+<%@page import="java.sql.SQLException"%>
+<%@page import="notice.NoticeVO"%>
+<%@page import="notice.NoticeDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" info=""%>
+	pageEncoding="UTF-8" info=""%>
+	
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+System.out.println("세션 로그인 상태: " + isLoggedIn);
+if (!Boolean.TRUE.equals(isLoggedIn)) {
+%>
+  <script type="text/javascript">
+      alert('로그인이 필요합니다.');
+      window.location.href = '../../adminLogin/adminLogin.jsp'; // 경로 수정 필요
+  </script>
+<%
+  return;
+}
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
+
 <jsp:include page="../../assets/jsp/admin/lib.jsp" />
+
 <link rel="stylesheet" type="text/css" href="https://img.echosting.cafe24.com/editors/froala/css/froala_style_ec.min.css?vs=2404180600" charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer.php?filename=nZExDgIxDAT7KC3vsOAJPIEfOMFwJxJv5DgS_J6jggYJ0o52doulBVVofzBqhqtxJZOOYVko904Xgzpl1AqNG9jRL3nJoaMMX6Eh4T4pDvfZ0cIPsTnVORWZVNFCWVVCYtWv-9waHcF2ptNn3YZjeuGYCvJtVjZpMP_Pft_7BA&type=css&k=ecd691e0c80070ef935d0e961272742f67437a3c&t=1681776733" />
 <link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer_user.php?filename=tZRBbsQgDEX3k257Ds-o6j0q9QTEcYI1gBGGTOf2dTtVq64DO8DwvvX1MXiJBIRTUyoKgVcKbj6_nC-Q2xwYJ19jAF1oWkh5S6BXTpdXQFWIsrRAMIsriz3V-ubw6jZ6suIzdCMruYK-MxRdpSh7717XlrCypGPY4O7SKsxOGb81UGLsDn0cdIYSnmxDp8aDwFUkVM6D6J7CKHQuFhQc5Xd2GyfL9CjX3TyIPLdau0f7Fy4f4wwJo8y2a3gMvaxBpEAOzVJhu1Ohnen2txrUuRWodBupPzKx2YdXL_ndc86ctt4CKGk3ho3tfND3KIXSfn9o9Bja_4GqX7RP&type=css&k=d664d08dad9a7052b47cd7d6e8a0a70935bed9eb&t=1678165953&user=T" />
-
+<!-- summernote -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<!-- summernote -->
 <script type="text/javascript">
 	$(function(){
     	$("#notice_menu").addClass("bg-gradient-primary");
-	});
+    	
+		$("#btnList").click(function(){
+			location.href="notice.jsp";
+		});//click
+		/* $("#btnModify").click(function(){
+			$("#frmWrite").submit();
+		});//click
+		$("#btnDelete").click(function(){
+			console.log("Delete button clicked");
+			/////////////////////////////
+			${nVO.Notice_id}
+			if(confirm("글을 삭제하시겠습니까?")) {
+				$("#frmWrite")[0].action="notice_delete_process.jsp";
+				$("#frmWrite").submit();
+			}//end if
+		});//ready */
+		
+		$("#btn-update").click(function(){
+	        $("#dataForm").attr("action", "notice_update_process.jsp");
+	        $("#new_title").val($("#title").val());
+	        $("#new_content").val($("#content").val());
+	        $("#dataForm").submit();
+		});
+		
+		$("#btn-delete").click(function(){
+	        $("#dataForm").attr("action", "notice_delete_process.jsp");
+	        $("#dataForm").submit();
+		});
+		
+		$('#content').summernote({
+	        placeholder: 'Hello stand alone ui',
+	        tabsize: 2,
+	        height: 400,
+	        toolbar: [
+	          ['style', ['style']],
+	          ['font', ['bold', 'underline', 'clear']],
+	          ['color', ['color']],
+	          ['para', ['ul', 'ol', 'paragraph']],
+	          ['table', ['table']],
+	          ['insert', ['link', 'picture', 'video']],
+	          ['view', ['fullscreen', 'codeview', 'help']]
+	        ]
+	      });//summernote
+	});//ready
+	
+	function chkNull() {
+		/* $("#frmWrite").submit(); */
+		//$("#frmDetail")[0].action="notice_update_process.jsp";
+		$("#frmDetail").submit();
+	}//chkNull
+		
 </script>
-
 <!-- golgolz start -->
 <!-- golgolz end -->
 
@@ -24,9 +97,7 @@
 	#table_01{margin: auto ; border:1px solid #b3b3b3}
 	th{background-color: #F5F5F5; text-align:center}
 	.btnInsert{float:right}
-	
 </style>
-
 <body>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
@@ -49,89 +120,87 @@
 				</nav>
 			</div>
 		</nav>
-		<div class="container-fluid py-4">
-			<!-- golgolz start -->
-				<hr class="layout"/><div id="wrap">
-
-    <div id="container">
-		<div id="contents">
+<div class="container-fluid py-4">
+<!-- golgolz start -->
+<div id="container">
+<div id="contents">
 		
-<!-- <div class="xans-element- xans-board xans-board-readpackage-1002 xans-board-readpackage xans-board-1002 "><div class="xans-element- xans-board xans-board-title-1002 xans-board-title xans-board-1002 "><div class="path">
+<%
+	NoticeDAO nDAO=NoticeDAO.getInstance();
+	try{
+	    String seq=request.getParameter("id");
+	    NoticeVO nVO=nDAO.selectDetailNotice(Integer.parseInt(seq));
+	    nDAO.updateCnt(Integer.parseInt(seq));
+		nVO.setContent(nVO.getContent().replaceAll("CHR(13)CHR(10)","<br/>"));
+	    
+	    pageContext.setAttribute("nVO", nVO);
+	    
+	}catch(SQLException se){
+	    se.printStackTrace();
+	%>
+	    alert("오류가 발생했습니다.");
+	<% 
+	}//end catch
+	%>	
+	
+<!-- <div class="xans-element- xans-board xans-board-writepackage-4 xans-board-writepackage xans-board-4 "><div class="xans-element- xans-board xans-board-title-4 xans-board-title xans-board-4 "><div class="path">
             <span>현재 위치</span>
             <ol>
 <li><a href="/">홈</a></li>
                 <li><a href="/board/index.html">게시판</a></li>
-                <li title="현재 위치"><strong>NOTICE</strong></li>
+                <li title="현재 위치"><strong>공지사항</strong></li>
             </ol>
 </div> -->
-
-<div class="main_pro_title width1240 cboth" style="margin-top: 0px ; padding-top : 3px ">
-		<div class="txt_01"><font color="#555555">NOTICE</font></div>
-		<div class="txt_02">공지사항을 확인해주세요.</div>
-	</div>
+<div class="titleArea" style="padding-top : 3px ">
+            <h2><font color="333333">공지사항</font></h2>
+            <p>공지사항 작성</p>
+        </div>
 </div>
-<form id="BoardDelForm" name="" action="/exec/front/Board/del/1" method="post" target="_self" enctype="multipart/form-data" >
+<!-- <form id="frmWrite" name="frmWrite" action="notice_write_process.jsp" method="post"> -->
+<form id="frmWrite" name="frmWrite" method="post">
 
 <div class="ec-base-table typeWrite ">
             <table border="1" summary="">
+<caption>글쓰기 폼</caption>
             <colgroup>
-<col style="width:auto;"/>
+<col style="width:130px;"/>
 <col style="width:auto;"/>
 </colgroup>
 <tbody>
 <tr>
-<td class="txt_03">2023 추석 명절 택배 출고 일정 안내</td>
-                </tr>
-<!--
-                <tr>
-                    <th scope="row">작성자</th>
-                    <td> object <span class="displaynone">(ip:)</span> </td>
-                </tr>
---><tr>
-<td colspan="2">
-                        <ul class="etcArea" >
-<!-- <li class="displaynone">
-                                <strong>평점</strong> <img src="//img.echosting.cafe24.com/skin/base/board/ico_point0.gif" alt="0점"/>
-                             </li> -->
-                            <li class="" style="font-size : 12px ; vertical-align:middle">
-                                <strong>작성일</strong> <span class="txtNum" style="font-size : 12px ; vertical-align:middle" >2023-09-25</span>
-                            </li>
-                            <!-- <li class="displaynone">
-                                <strong>추천</strong> <span class="txtNum"> <a href="#none" class="btnNormal" onclick="BOARD_READ.article_vote('/exec/front/Board/vote/1?no=27192&return_url=%2Farticle%2Fnotice%2F1%2F27192%2F&20da70bfbe4b016c1e1aae3fd60bc6=8555725c2e7fda1dea51ded0ff9526a0&board_no=1');"><img src="//img.echosting.cafe24.com/skin/base/common/btn_icon_recommend.gif" alt=""/> 추천하기</a></span>
-                            </li> -->
-                            <li class="" style="font-size : 12px ; vertical-align:middle">
-                                <strong>조회수</strong> <span class="txtNum" style="font-size : 12px ; vertical-align:middle">159</span>
-                            <!-- </li> -->
-                        </ul>
-<div class="detail"><div class="fr-view fr-view-article"><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'>안녕하세요 오브젝트입니다.</p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'><br></p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'>곧 다가올 추석 명절 오브젝트 온라인몰 택배 출고 일정 안내드립니다.</p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'><br></p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'>■ 제주 및 긴급 발송 마감일 : 9월 25일(월)</p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'><br></p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'>■ 일반 택배 &nbsp;발송 마감일 : 9월 26일(화)<span style="background-color: rgb(255, 239, 0);"><strong style="font-weight: bolder;"><ins>&nbsp;(추석 연휴 이후 배송 예정)</ins></strong></span></p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'><br></p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'>■ 업무 재개: 10월 4일(수)</p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'><br></p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'><br></p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'>택배 마감일은<span style="background-color: rgb(255, 239, 0);"><ins>&nbsp;</ins></span><strong style="font-weight: bolder;"><span style="font-size: 16px; background-color: rgb(255, 239, 0);"><ins>9월 26일(화)이며 26일(화) 12시 이후 주문 건은 10월 4일(수)부터 순차 배송 됩니다.</ins></span></strong></p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'><br></p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'>26일 12시 이전 주문건중 미출고 발생할 경우 별도 연락 예정입니다.</p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'><br></p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'><br></p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'>이용에 착오 없으시길 바라며, 풍요롭고 행복한 명절 연휴 보내시길 바랍니다.</p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'><br></p><p style='margin: 0px; padding: 0px; display: block; line-height: 1.5; color: rgb(53, 53, 53); font-family: NanumBarunGothic, "Noto Sans KR", Verdana, Dotum, AppleGothic, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;'>감사합니다.</p><p><br></p></div></div>
-                    </td>
-                </tr>
-
+	<th scope="row">제목</th>
+      <td>
+      <select id="board_category" name="board_category">
+		<option value="1">선택</option>
+		<option value="2">공지사항</option>
+	  </select>
+		<input id="title" name="title" class="inputTypeText" placeholder="" maxLength="125" value="${nVO.title}" type="text"  />
+ 			 </td>
+ </tr>
 </tbody>
 </table>
+  <textarea id="content" name="content">${nVO.content }</textarea>
 </div>
-
+</form>
+<form id="dataForm" name="dataForm">
+<input type="hidden" name="notice_id" value="${param.id }"/>
+<input type="hidden" id="new_title" name="title" value="${nVO.title}"/>
+<input type="hidden" id="new_content" name="content" value="${nVO.content }"/>
 <div class="ec-base-button">
             <span class="gLeft">
-                <a href="notice.jsp" class="btnNormalFix sizeS">목록</a>
+                <input type="button" value="목록" class="btnNormalFix sizeS" id="btnList" name="btnList"/>
             </span>
-            <span class="gLeft" style="float:right ; margin-right:100px">
-                <a href="#void" class="btnNormalFix sizeS" id="btnMod">수정</a>
-                <a href="#void" class="btnNormalFix sizeS" id="btnDel">삭제</a>
+            <span class="gRight">
+            	<input type="button" value="수정" class="btnSubmitFix sizeS" id="btn-update" name="btn-update"/>
+            	<input type="button" value="삭제" class="btnBasicFix sizeS" id="btn-delete" name="btn-delete"/>
+            	
+            	
+               <!--  <a href="#none" class="btnSubmitFix sizeS" onclick=";">등록</a>
+                <a href="notice.jsp" class="btnBasicFix sizeS">취소</a> -->
             </span>
-            
-          <!--   <span class="gRight">
-                <a href="#none" onclick="BOARD_READ.article_delete('BoardDelForm','1');" class="btnNormalFix sizeS displaynone">삭제</a>
-                <a href="/board/free/modify.html?board_act=edit&no=27192&board_no=1" class="btnEmFix sizeS displaynone">수정</a>
-                <a href="/board/free/reply.html" class="btnSubmitFix sizeS displaynone">답변</a>
-            </span> -->
         </div>
+        </form>
 </div>
-</form></div>
-
-        </div>
-    </div>
-    <hr class="layout"/><div id="banner"></div>
 </div>
 			<!-- golgolz end -->
 		</div>
