@@ -1,3 +1,4 @@
+<%@page import="util.PageController"%>
 <%@page import="admin.goods.AdminGoodsSimpleVO"%>
 <%@page import="java.util.List"%>
 <%@page import="admin.goods.AdminGoodsDAO"%>
@@ -112,6 +113,7 @@
 <!-- golgolz start -->
 <link href="../../assets/css/manage/goods/general.css" rel="stylesheet" />
 <link href="../../assets/css/manage/goods/goods.css" rel="stylesheet" />
+<link href="http://localhost/online-shop/assets/css/pagenation.css" rel="stylesheet" />
 <!-- golgolz end -->
 <jsp:include page="../../assets/jsp/admin/lib.jsp" />
 </head>
@@ -119,6 +121,18 @@
 	<jsp:useBean id="searchVO" class="admin.goods.SearchVO" scope="page" />
 	<jsp:setProperty property="*" name="searchVO" />
 	<%
+		// pagenation
+		int pageScale = 10;
+		int currentPage = Integer.parseInt(request.getParameter("page"));
+		int startNum = pageScale * (currentPage - 1) + 1;
+		int endNum = startNum + pageScale - 1;
+		searchVO.setStart(startNum);
+		searchVO.setEnd(endNum);
+		
+		PageController pageController = PageController.getInstance();
+		String params = pageController.createQueryStr(request);
+		
+		// get data
 		String nameCodeValue = (String)request.getParameter("ss");
 		int nameCodeField = searchVO.getField();
 		
@@ -239,6 +253,7 @@
 	                					<td align="left"></td>
 	                					<td align="right">
 	                						<input type="hidden" name="sort" id="sort" />
+	                						<input type="hidden" name="page" id="page" value="1"/>
 	                						<ul>
 	                							<li class="sort">등록일</li>
 	                							<li class="sort">가격순</li>
@@ -249,110 +264,74 @@
 				          	</table>
 				        </div>
         			</form>
-				        <!--테이블 header-->
-				        <div class="bgtbheader01">
-				         	<table width="100%" class="tablelistH31" id="goodsTable">
-				            	<colgroup>
-				              		<col width="20%" />
-				              		<col width="15%" />
-				              		<col width="15%" />
-				              		<col width="15%" />
-				              		<col width="15%" />
-				              		<col width="30%" />
-				            	</colgroup>
-					            <thead>
-					             	<tr>
-					                	<th>상품명(상품코드)</th>
-						                <th>등록일</th>
-						                <th>최근 수정일</th>
-						                <th>가격</th>
-						                <th>재고</th>
-						                <th>재고 및 기타 정보 수정</th>
-					            	</tr>
-					            </thead>
-				            	<tbody>
-				            		<% for(AdminGoodsSimpleVO product : goods){ %>
-				              		<tr>
-				                		<td class="tdL" align="left">
-				                    		<a href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?code=<%= product.getCode() %>">
-				                  				<div class="left_layer">
-						                      		<img src="http://localhost/online-shop/assets/images/goods/<%= product.getDefaultImage() %>" width="60" height="60" class="imgborder" />
-				                  				</div>
-				                  				<div style="line-height: 160%; margin-left: 72px; position: relative;">
-				                    				<strong><%= product.getCode() %></strong>
-				                    				<br />
-				                    				<span><%= product.getName() %></span>
-				                  				</div>
-				                    		</a>
-				                		</td>
-				                		<td class="tdL" align="center"><%= product.getInputDate() %></td>
-				                		<td class="tdL" align="center"><%= product.getUpdateDate() %></td>
-				                		<td class="tdL" align="center">
-					                  		<span><%= product.getPrice() %>원</span>
-				                		</td>
-				                		<td class="tdL" align="center"><%= product.getAmount() %></td>
-				                		<td class="tdR" align="center">
-				                			<a href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?code=<%= product.getCode() %>">
-				                    			<input id="btnEditor" type="button" value="바로가기" class="btn btn-primary btn-small" style="font-weight: bold;" />
-				                			</a>
-				                		</td>
-				              		</tr>
-				              		<% } %>
-				            	</tbody>
-				          	</table>
-				      	</div>
-        				<div class="alignCenter">
-          					<table cellpadding="0" cellspacing="0" border="0" width="100%">
-            					<tbody>
-              						<tr>
-                						<td align="center">
-                  							<!-- 페이징 -->
-                  							<span class="paging">
-                  							<a
-                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
-                      						class="first">
-                      							<img
-                        						src="http://localhost/online-shop/assets/images/manage/goods/btn_navi_arrLL.gif"
-                        						border="0"
-                        						align="absmiddle" />
-                        					</a>
-                        					<a
-                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
-					                      	class="pre">
-						                      	<img
-	                        					src="http://localhost/online-shop/assets/images/manage/goods/btn_navi_arrL.gif"
-	                        					border="0"
-	                        					align="absmiddle" />
-                        					</a>
-                    						<a
-                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
-                      						class="on"> 1 
-                      						</a>
-                      						<a
-                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
-                      						class="normal"> 2 </a>
-                      						<a
-                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
-                      						class="next">
-                      							<img
-                        						src="http://localhost/online-shop/assets/images/manage/goods/btn_navi_arrR.gif"
-                        						border="0"
-                        						align="absmiddle" />
-                        					</a>
-                        					<a
-                      						href="http://192.168.10.211/online-shop/manage/goods/goods.jsp?page=1"
-                      						class="last">
-	                      						<img
-	                        					src="http://localhost/online-shop/assets/images/manage/goods/btn_navi_arrRR.gif"
-	                        					border="0"
-	                        					align="absmiddle" />
-                        					</a>
-                        				</span>
+				    <!--테이블 header-->
+				    <div class="bgtbheader01">
+				    	<table width="100%" class="tablelistH31" id="goodsTable">
+				            <colgroup>
+				              	<col width="20%" />
+				              	<col width="15%" />
+				              	<col width="15%" />
+				              	<col width="15%" />
+				              	<col width="15%" />
+				              	<col width="30%" />
+				            </colgroup>
+					        <thead>
+					            <tr>
+					                <th>상품명(상품코드)</th>
+						            <th>등록일</th>
+						            <th>최근 수정일</th>
+						            <th>가격</th>
+						            <th>재고</th>
+						            <th>재고 및 기타 정보 수정</th>
+					            </tr>
+					        </thead>
+				            <tbody>
+				            	<% for(AdminGoodsSimpleVO product : goods){ %>
+				              	<tr>
+				                	<td class="tdL" align="left">
+				                    	<a href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?code=<%= product.getCode() %>">
+				                  			<div class="left_layer">
+						                    	<img src="http://localhost/online-shop/assets/images/goods/<%= product.getDefaultImage() %>" width="60" height="60" class="imgborder" />
+				                  			</div>
+				                  			<div style="line-height: 160%; margin-left: 72px; position: relative;">
+				                    			<strong><%= product.getCode() %></strong>
+				                    			<br />
+				                    			<span><%= product.getName() %></span>
+				                  			</div>
+				                    	</a>
+				                	</td>
+				                	<td class="tdL" align="center"><%= product.getInputDate() %></td>
+				                	<td class="tdL" align="center"><%= product.getUpdateDate() %></td>
+				                	<td class="tdL" align="center">
+					                  	<span><%= product.getPrice() %>원</span>
+				                	</td>
+				                	<td class="tdL" align="center"><%= product.getAmount() %></td>
+				                	<td class="tdR" align="center">
+				                		<a href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?code=<%= product.getCode() %>">
+				                    		<input id="btnEditor" type="button" value="바로가기" class="btn btn-primary btn-small" style="font-weight: bold;" />
+				                		</a>
+				                	</td>
+				              	</tr>
+				              	<% } %>
+				            </tbody>
+				        </table>
+				    </div>
+        			<div class="alignCenter">
+          				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+            				<tbody>
+              					<tr>
+                					<td align="center">
+                  					<%
+							        	String pageNation = 
+							        	pageController.createPagingBtns("http://localhost/online-shop/manage/goods/goods.jsp", params
+							        	        , Integer.parseInt(request.getParameter("page")), (searchResultCount / pageScale) + 1);
+							        %>
+							        <div id="pageNation">
+								        <%= pageNation %>
+							        </div>		
                 					</td>
                 					<td width="10%" align="right">
-                  						<a
-                    					href="http://192.168.10.211/online-shop/manage/goods/detail.jsp"
-                    					>
+                  						<a href="http://192.168.10.211/online-shop/manage/goods/detail.jsp" >
 											<input type="button" class="btn btn-success btn-sm" value="등록하기" />
                   						</a>
                 					</td>

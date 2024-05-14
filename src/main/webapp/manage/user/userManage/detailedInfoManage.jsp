@@ -3,7 +3,62 @@
 <%@ page import="admin.userManage.UserDetailedVO" %>
 <%@ page import="java.util.List" %>
 
-<%
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="http://demofran.com/admin/css/admin.css?ver=20240430213218">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+    	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    
+    <script>
+    function zipcodeapi() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var fullAddr = ''; // 최종 주소 변수
+                var extraAddr = ''; // 조합형 주소 변수
+
+                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    fullAddr = data.roadAddress;
+
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    fullAddr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+                if(data.userSelectedType === 'R'){
+                    //법정동명이 있을 경우 추가한다.
+                    if(data.bname !== ''){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있을 경우 추가한다.
+                    if(data.buildingName !== ''){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                $('#postcode1').val(data.zonecode); //5자리 새우편번호 사용
+                $('#addr1').val(fullAddr);
+
+                // 커서를 상세주소 필드로 이동한다.
+                $('#addr2').focus();
+            }
+        }).open();
+    }
+    </script>
+    
+    <%
 
 request.setCharacterEncoding("UTF-8");
 
@@ -38,7 +93,7 @@ if (request.getParameter("saveBtn") != null) {
     String newTel = request.getParameter("cellphone");
     System.out.println("새로운 사용자 전화번호: " + newTel);
 
-    String newZipcode = request.getParameter("zip");
+    String newZipcode = request.getParameter("postcode1");
     System.out.println("새로운 사용자 우편번호: " + newZipcode);
 
     String newDefaultAddr = request.getParameter("addr1");
@@ -86,18 +141,7 @@ if (request.getParameter("saveBtn") != null) {
 	    }
 	}
 %>
-
-
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="http://demofran.com/admin/css/admin.css?ver=20240430213218">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(function(){
-            $("#user_menu").addClass("bg-gradient-primary");
-        });
-    </script>
+    
 </head>
 <body>
 
@@ -141,10 +185,10 @@ if (request.getParameter("saveBtn") != null) {
                     <tr>
                         <th scope="row">주소</th>
                         <td colspan="3">
-                            <input type="text" name="zip" value="<%= userInfo.getZipcode() != null ? userInfo.getZipcode() : "" %>" class="frm_input" size="8" maxlength="5">
-                            <a href="javascript:win_zip('fmemberform', 'zip', 'addr1', 'addr2', 'addr3', 'addr_jibeon');" class="btn_small grey">주소검색</a>
-                            <p class="mart5"><input type="text" name="addr1" value="<%= userInfo.getDefaultAddr() != null ? userInfo.getDefaultAddr() : "" %>" class="frm_input" size="60"> 기본주소</p>
-                            <p class="mart5"><input type="text" name="addr2" value="<%= userInfo.getAdditionalAddr() != null ? userInfo.getAdditionalAddr() : "" %>" class="frm_input" size="60"> 상세주소</p>
+                            <input type="text"  id="postcode1" name="postcode1" value="<%= userInfo.getZipcode() != null ? userInfo.getZipcode() : "" %>" class="frm_input" size="8" maxlength="5">
+                            <a href="#" onclick="zipcodeapi();" class="btn_small grey" id="postBtn">주소검색</a>
+                            <p class="mart5"><input type="text" id="addr1" name="addr1" value="<%= userInfo.getDefaultAddr() != null ? userInfo.getDefaultAddr() : "" %>" class="frm_input" size="60"> 기본주소</p>
+                            <p class="mart5"><input type="text" id="addr2" name="addr2" value="<%= userInfo.getAdditionalAddr() != null ? userInfo.getAdditionalAddr() : "" %>" class="frm_input" size="60"> 상세주소</p>
                             <input type="hidden" name="addr_jibeon" value="R"></p>
                         </td>
                     </tr>

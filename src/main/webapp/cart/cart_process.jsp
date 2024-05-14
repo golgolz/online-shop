@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="order.vo.OrderProductVO"%>
 <%@page import="java.util.List"%>
 <%@page import="org.json.simple.JSONArray"%>
@@ -16,7 +17,7 @@
 String cartId= request.getParameter("cartId");
 String method = request.getParameter("method");
 
-if(method == "deleteOne" || method == "modify"){
+if(method == "deleteOne" || method == "modify" || method =="deleteAll"){
 int orderGoodsId = Integer.parseInt(request.getParameter("orderGoodsId"));
 opVO.setOrderGoodsId(orderGoodsId);
 }
@@ -31,6 +32,7 @@ if(method == "modify"){
 CartDAO cDAO = CartDAO.getInstance();
 JSONObject jsonObj = new JSONObject();
 jsonObj.put("result",false);
+List<OrderProductVO> list = new ArrayList<OrderProductVO>();
 
 switch(method){
     case "modify":
@@ -53,6 +55,7 @@ switch(method){
             if(cnt != 0){
                 jsonObj.put("result",true);
             }
+            
         }catch(Exception e){
             e.printStackTrace();
         }//end catch
@@ -64,21 +67,6 @@ switch(method){
             if(cnt != 0){
                 jsonObj.put("result",true);
             }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        break;
-    case "refresh":
-        try{
-	        List<OrderProductVO> list = cDAO.selectCart(cartId);
-	        JSONArray jsonArr = new JSONArray();
-	        if(list != null){
-	            for(int i=0; i<list.size(); i++){
-	                jsonObj = new JSONObject();
-	                jsonObj.put("list", list.get(i));
-	                jsonArr.add(jsonObj);
-	            }//end for
-	        }//end if
         }catch(Exception e){
             e.printStackTrace();
         }
