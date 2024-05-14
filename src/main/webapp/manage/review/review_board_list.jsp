@@ -53,8 +53,27 @@
 					chkNull();
 				}//end if
 			});//keydown
+		
+			$("#submit1").click(function(){
+				var searchText=document.getElementById("inputText").value;
+				alert(searchText)
+				var select=document.getElementById("sc").value;
+				alert(select)
+			});
+			
+
+			$("#date_term3").click(function(){//이번주
+				
+			});
+			$("#date_term4").click(function(){//이번달
+				
+			});
+			$("#date_term5").click(function(){//전체
+				
+			});
 			
 		});//ready
+		
 		
 		/*
 		5,10,15,20을 눌렀을때 발생하는 함수 [테이블 새로 생성,]
@@ -234,7 +253,7 @@
 						<option value="bbs_title">제목</option>
 						<option value="bbs_content">내용</option>
 					</select>
-					<input type="text" id="ss" name="ss" value="" style="width:145px;" class="inputbox">
+					<input type="text" id="inputText" name="ss" value="" style="width:145px;" class="inputbox">
 				</td>
 			</tr>
 			<tr>
@@ -250,7 +269,7 @@
 		</table>
 		
 		<!--검색버튼-->
-		<div class="alignCenter"><input type="image" src="https://demo01.swm.whoismall.com/admin/images/button/btn_Search.gif" id="submit1" mode="search"></div>
+		<div class="alignCenter"><a href="#"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_Search.gif" id="submit1"/></a></div>
 		
 		<!-- 리스트 -->
 		<div class="boxContainer">

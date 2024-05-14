@@ -174,7 +174,7 @@
 								<div class="xans-element- xans-product xans-product-action">
 									<div class="ec-base-button">
 										<a
-											href="http://localhost/online-shop/cart/cart.jsp?code=<%= currentGoods.getCode()  %>&quantity="
+											href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode()  %>&quantity="
 											class="sub_cart" id="sub_cart">장바구니</a>
 										<a
 											href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
