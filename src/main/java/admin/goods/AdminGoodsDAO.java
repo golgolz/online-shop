@@ -66,8 +66,20 @@ public class AdminGoodsDAO {
         if (isCount) {
             selectQuery.append(" count(*) as count from goods where 1=1 ");
         } else {
-            selectQuery
-                    .append(" code, name, default_img, input_date, update_date, price, amount from goods where 1=1 ");
+            selectQuery.append(
+                    " code, name, default_img, input_date, update_date, price, amount from ( select row_number() over(");
+
+            switch (searchVO.getSort() + "") {
+                case "price":
+                    selectQuery.append(" order by price desc ) ");
+                    break;
+                default:
+                    selectQuery.append(" order by input_date desc ) ");
+                    break;
+            }
+
+            selectQuery.append(
+                    "as rnum, code, name, default_img, input_date, update_date, price, amount from goods where 1=1 ");
         }
 
         if (searchVO.getCode() != null) {
@@ -118,6 +130,12 @@ public class AdminGoodsDAO {
                     break;
                 default:
             }
+        }
+
+        if (!isCount) {
+            selectQuery.append(" ) where rnum between ? and ? ");
+            System.out.println(selectQuery.toString());
+            return selectQuery.toString();
         }
 
         if (searchVO.getSort() != null) {
@@ -246,6 +264,8 @@ public class AdminGoodsDAO {
             if (searchVO.getPriceMax() != 0) {
                 pstmt.setInt(++bindIndex, searchVO.getPriceMax());
             }
+            pstmt.setInt(++bindIndex, searchVO.getStart());
+            pstmt.setInt(++bindIndex, searchVO.getEnd());
 
             rs = pstmt.executeQuery();
 
