@@ -209,7 +209,7 @@ session.setAttribute("loginData", rVO);
 	        $("#cnt").val(0);
 	    }
 	    
-	    $("#frmDetail")[0].action="board_update_process.jsp";
+	    $("#frmDetail")[0].action="review_update_process.jsp";
 	    $("#frmDetail").submit();
 	
 	}//chkNull
@@ -249,7 +249,7 @@ $(function(){
 	  pageContext.setAttribute("rVO", rVO);
 	}catch(NumberFormatException nfe){
 	  %>
-	  <c:redirect url="http://localhost/online-shop/manage/review/review_my_list.jsp"/>
+	  <%-- <c:redirect url="http://localhost/online-shop/manage/review/review_my_list.jsp"/> --%>
 	  
 	  <%
 	}catch(SQLException se){
@@ -293,7 +293,7 @@ $(function(){
 	</tr>
 	<tr>
 		<td>작성일</td>
-		<td><strong><fmt:formatDate value="${rVO.input_date}" pattern="yyyy-MM-dd EEEE HH:mm:ss"/></strong></td>
+		<td><strong> <c:out value="${rVO.inputDate}"/></strong></td>
 	</tr>
 	<tr>
 		<td>작성자</td>
