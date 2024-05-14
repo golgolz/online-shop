@@ -11,6 +11,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%
+
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+System.out.println("세션 로그인 상태: " + isLoggedIn);
+
+if (!Boolean.TRUE.equals(isLoggedIn)) {
+  System.out.println("로그인이 필요합니다. ");
+%>
+  <script type="text/javascript">
+      alert('로그인이 필요합니다.');
+      window.location.href = '../../adminLogin/adminLogin.jsp';
+  </script>
+<%
+  return;
+}
+%>
 
 <link rel="stylesheet" href="http://demofran.com/admin/css/admin.css?ver=20240430210223">
 <link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/base/jquery-ui.css" rel="stylesheet">
