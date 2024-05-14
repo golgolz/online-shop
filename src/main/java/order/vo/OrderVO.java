@@ -15,8 +15,8 @@ import lombok.ToString;
 public class OrderVO {
     private String cartId;
     private Date orderDate;
-    private String customerName;
-    private String customerId;
+    private String userName;
+    private String userId;
     private String deliveryStatus;
     private String purchaseStauts;
     private String paymetMethod;
