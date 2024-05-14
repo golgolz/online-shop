@@ -1,6 +1,10 @@
 <%@page import="java.util.Date"%>
+<%@page import="util.PageController"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
+ <%@page import="java.util.ArrayList"%>
+    <%@page import="java.util.HashMap"%>
+    <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 	<%@ page import="admin.userManage.UserManageDAO" %>
@@ -11,6 +15,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <%
 
 Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
@@ -32,6 +37,8 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 <link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/base/jquery-ui.css" rel="stylesheet">
 <link type="text/css" href="http://demofran.com/plugin/jquery-ui/style.css?ver=20240430210223">
 <link rel="shortcut icon" href="http://demofran.com/data/banner/JnLfWUSUyR6sXJP5n3Re4Fvdc93k93.ico" type="image/x-icon">
+<!-- 페이지네이션 CSS 파일 추가 -->
+    <link href="http://localhost/online-shop/assets/css/pagenation.css" rel="stylesheet" />
 
 <jsp:include page="../../../assets/jsp/admin/lib.jsp" />
 <script type="text/javascript">
@@ -47,9 +54,15 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 	}
 	
 </script>
+
+<!-- DatePicker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<!-- DatePicker -->
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     
     <script>
+   
     function zipcodeapi() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -267,6 +280,26 @@ $(function() {
 	<input type="submit" value="검색" class="btn_medium">
 </div>
 </form>
+ <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Flatpickr를 사용하여 날짜 선택 input에 Datepicker 기능 추가
+        document.addEventListener('DOMContentLoaded', function () {
+            // 시작일과 종료일 input 요소 가져오기
+            var frDateInput = document.getElementById('fr_date');
+            var toDateInput = document.getElementById('to_date');
+
+            // Flatpickr 적용
+            flatpickr(frDateInput, {
+                dateFormat: 'Y-m-d', // 날짜 형식 설정
+                allowInput: true // 키보드로 직접 입력 허용
+            });
+
+            flatpickr(toDateInput, {
+                dateFormat: 'Y-m-d', // 날짜 형식 설정
+                allowInput: true // 키보드로 직접 입력 허용
+            });
+        });
+    </script>
 
 
 
@@ -374,12 +407,18 @@ $(function() {
 				     userList = dao.selectUserInfoByDateRange(frDate, toDate);
 				     System.out.println("------ 날짜 범위에 따른 사용자 정보가 조회되었습니다. ------");
 				 }
+				
+				 int pageScale = 10;
+			        int currentPage = Integer.parseInt(request.getParameter("page") != null ? request.getParameter("page") : "1");
+			        int startNum = pageScale * (currentPage - 1) + 1;
+			        int endNum = startNum + pageScale - 1;
 
 				// 사용자 정보 출력
 				 for (int i = 0;i < userList.size(); i++) {
 				     UserManageVO userInfo = userList.get(i);
 				     // 각 사용자에 대한 행 번호(rowNum)를 i + 1로 설정
 				     int rowNum = i + 1;
+				     
 				     %>
 				     <tr id="<%=userInfo.getId() %>" class="user-row">
 				         <td><%= rowNum %></td> <!-- 행 번호 출력 -->
@@ -399,6 +438,7 @@ $(function() {
 	
 		</tbody>
 	</table>
+	
 </div>
 
 
