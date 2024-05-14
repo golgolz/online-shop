@@ -1,6 +1,10 @@
 <%@page import="java.util.Date"%>
+<%@page import="util.PageController"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
+ <%@page import="java.util.ArrayList"%>
+    <%@page import="java.util.HashMap"%>
+    <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 	<%@ page import="admin.userManage.UserManageDAO" %>
@@ -12,10 +16,29 @@
 <html>
 <head>
 
+<%
+
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+System.out.println("세션 로그인 상태: " + isLoggedIn);
+
+if (!Boolean.TRUE.equals(isLoggedIn)) {
+  System.out.println("로그인이 필요합니다. ");
+%>
+  <script type="text/javascript">
+      alert('로그인이 필요합니다.');
+      window.location.href = '../../adminLogin/adminLogin.jsp';
+  </script>
+<%
+  return;
+}
+%>
+
 <link rel="stylesheet" href="http://demofran.com/admin/css/admin.css?ver=20240430210223">
 <link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/base/jquery-ui.css" rel="stylesheet">
 <link type="text/css" href="http://demofran.com/plugin/jquery-ui/style.css?ver=20240430210223">
 <link rel="shortcut icon" href="http://demofran.com/data/banner/JnLfWUSUyR6sXJP5n3Re4Fvdc93k93.ico" type="image/x-icon">
+<!-- 페이지네이션 CSS 파일 추가 -->
+    <link href="http://localhost/online-shop/assets/css/pagenation.css" rel="stylesheet" />
 
 <jsp:include page="../../../assets/jsp/admin/lib.jsp" />
 <script type="text/javascript">
@@ -31,9 +54,15 @@
 	}
 	
 </script>
+
+<!-- DatePicker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<!-- DatePicker -->
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     
     <script>
+   
     function zipcodeapi() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -119,26 +148,6 @@
 	
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
 <script>
-jQuery(function($){
-    $.datepicker.regional["ko"] = {
-        closeText: "닫기",
-        prevText: "이전달",
-        nextText: "다음달",
-        currentText: "오늘",
-        monthNames: ["1월(JAN)","2월(FEB)","3월(MAR)","4월(APR)","5월(MAY)","6월(JUN)", "7월(JUL)","8월(AUG)","9월(SEP)","10월(OCT)","11월(NOV)","12월(DEC)"],
-        monthNamesShort: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
-        dayNames: ["일","월","화","수","목","금","토"],
-        dayNamesShort: ["일","월","화","수","목","금","토"],
-        dayNamesMin: ["일","월","화","수","목","금","토"],
-        weekHeader: "Wk",
-        dateFormat: "yymmdd",
-        firstDay: 0,
-        isRTL: false,
-        showMonthAfterYear: true,
-        yearSuffix: ""
-    };
-	$.datepicker.setDefaults($.datepicker.regional["ko"]);
-});
 
 $(function() {
 	
@@ -205,7 +214,7 @@ $(function() {
         window.location.href = "userInfoManage.jsp";
     });
     // tr 요소에 클릭 이벤트를 추가합니다.
-    $("tr").on("click", function() {
+    $(".user-row").on("click", function() {
         // 해당 tr 요소의 id 속성에서 userId를 가져옵니다.
         const userId = $(this).attr('id');
         
@@ -271,6 +280,26 @@ $(function() {
 	<input type="submit" value="검색" class="btn_medium">
 </div>
 </form>
+ <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Flatpickr를 사용하여 날짜 선택 input에 Datepicker 기능 추가
+        document.addEventListener('DOMContentLoaded', function () {
+            // 시작일과 종료일 input 요소 가져오기
+            var frDateInput = document.getElementById('fr_date');
+            var toDateInput = document.getElementById('to_date');
+
+            // Flatpickr 적용
+            flatpickr(frDateInput, {
+                dateFormat: 'Y-m-d', // 날짜 형식 설정
+                allowInput: true // 키보드로 직접 입력 허용
+            });
+
+            flatpickr(toDateInput, {
+                dateFormat: 'Y-m-d', // 날짜 형식 설정
+                allowInput: true // 키보드로 직접 입력 허용
+            });
+        });
+    </script>
 
 
 
@@ -378,14 +407,20 @@ $(function() {
 				     userList = dao.selectUserInfoByDateRange(frDate, toDate);
 				     System.out.println("------ 날짜 범위에 따른 사용자 정보가 조회되었습니다. ------");
 				 }
+				
+				 int pageScale = 10;
+			        int currentPage = Integer.parseInt(request.getParameter("page") != null ? request.getParameter("page") : "1");
+			        int startNum = pageScale * (currentPage - 1) + 1;
+			        int endNum = startNum + pageScale - 1;
 
 				// 사용자 정보 출력
 				 for (int i = 0;i < userList.size(); i++) {
 				     UserManageVO userInfo = userList.get(i);
 				     // 각 사용자에 대한 행 번호(rowNum)를 i + 1로 설정
 				     int rowNum = i + 1;
+				     
 				     %>
-				     <tr id="<%=userInfo.getId() %>">
+				     <tr id="<%=userInfo.getId() %>" class="user-row">
 				         <td><%= rowNum %></td> <!-- 행 번호 출력 -->
 				         <td class="tal"><span class="sv_wrap"><%= userInfo.getName() %></span></td>
 				         <td class="tal"><%= userInfo.getId() %></td>
@@ -403,41 +438,11 @@ $(function() {
 	
 		</tbody>
 	</table>
+	
 </div>
 
 
-<script>
-function chk_use_app(mb_id) {
-	var error = "";
-	var token = get_ajax_token();
-	if(!token) {
-		alert("토큰 정보가 올바르지 않습니다.");
-		return false;
-	}
 
-	$.ajax({
-		url: tb_admin_url+"/member/member_use_app.php",
-		type: "POST",
-		data: {"mb_id": mb_id, "token": token },
-		dataType: "json",
-		async: false,
-		cache: false,
-		success: function(data, textStatus) {
-			error = data.error;
-		}
-	});
-
-	if(error) {
-		alert(error);
-		return false;
-	}
-}
-
-$(function(){
-	// 날짜 검색 : TODAY MAX값으로 인식 (maxDate: "+0d")를 삭제하면 MAX값 해제
-	$("#fr_date, #to_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+0d" });
-});
-</script>
 </div>
 			<!-- golgolz end -->
 		</div>
