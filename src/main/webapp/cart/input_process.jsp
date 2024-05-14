@@ -36,11 +36,11 @@ try{
     // 장바구니에 상품을 추가하는 작업을 수행
 	cDAO.insertOrderProduct(opVO);
 	
-	if(chkFlag == false){// 장바구니 번호에 상품 리스트가 존재하지 않을 시 OrderProduct table을 update
+	if(chkFlag == false){// 장바구니 번호에 상품 리스트가 존재하지 않을 시 OrderProduct table의 input_date를 update
 	     cDAO.updateInputDate(userId);
 		}//end if 
 	
-	//세션에 값 설정
+	//값 설정
 	session.setAttribute("cartData", opVO); 
 	pageContext.setAttribute("url", "http://192.168.10.211/online-shop/cart/cart.jsp");
 			
