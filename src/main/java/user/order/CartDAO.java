@@ -516,5 +516,40 @@ public class CartDAO {
         return cnt;
     }// updateInputDate
 
+    public DeliveryVO selectDefaultDelivery(String userId) throws SQLException {
+        DeliveryVO dVO = null;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+            con = dbCon.getConn("online-shop-dbcp");
+
+            StringBuilder selectQuery = new StringBuilder();
+
+            selectQuery.append("   select zipcode,default_addr,additional_addr,tel,name   ")
+                    .append("   from customer   ").append("   where id=?   ");
+
+            pstmt = con.prepareStatement(selectQuery.toString());
+
+            pstmt.setString(1, userId);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                dVO = new DeliveryVO(rs.getString("zipcode"), rs.getString("default_addr"),
+                        rs.getString("additional_addr"), rs.getString("tel"), rs.getString("name"));
+            }
+
+        } finally {
+            dbCon.closeCon(rs, pstmt, con);
+        }
+
+        return dVO;
+    }// selectDefaultDelivery
+
 
 }

@@ -1,3 +1,9 @@
+<%@page import="order.vo.DeliveryVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="user.order.CartDAO"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="order.vo.OrderProductVO"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <!DOCTYPE html>
@@ -173,30 +179,127 @@ th {
 
 
 </style>
+<jsp:useBean id="opVO" class="order.vo.OrderProductVO" scope="page" />
+<jsp:setProperty property="*" name="opVO" />
+<%
+	String userId = (String)session.getAttribute("userId");
+	String cartId = (String)session.getAttribute("cartId");
+	
+	CartDAO cDAO = CartDAO.getInstance();
+    List<OrderProductVO> list = (List<OrderProductVO>)session.getAttribute("data");
+    
+    String name = "";
+    String zipcode="";
+    String defaultAddr="";
+    String detailAddr="";
+    String tel="";
+    String middleTel="";
+    String lastTel="";
+    
+    try {
+    
+        DeliveryVO dVO = cDAO.selectDefaultDelivery(userId);
+        name=dVO.getRecipient();
+        zipcode=dVO.getZipcode();
+        defaultAddr=dVO.getDefaultAddr();
+        detailAddr=dVO.getDetailAddr();
+        tel=dVO.getTel();
+        middleTel= tel.substring(tel.indexOf("-")+1,tel.lastIndexOf("-"));
+        lastTel = tel.substring(tel.lastIndexOf("-")+1);
+    
+    }catch(SQLException se){
+        se.printStackTrace();
+    }
+%>
 
 <script>
 	$(function() {
-
+		$("#sameaddr0").change(function() {
+	        if ($(this).prop("checked")) {
+	            // 기본 배송지가 체크되었을 때 실행할 코드
+	            $("#rname").val("<%= name %>");
+	            $("#sample4_postcode").val("<%= zipcode %>");
+	            $("#sample4_roadAddress").val("<%= defaultAddr %> <%= detailAddr %>");
+	            $("#rphone2_2").val("<%= middleTel %>");
+	            $("#rphone2_3").val("<%= lastTel %>");
+	        }//end if
+	    });//change
+	    $("#sameaddr1").change(function(){
+	    	if($(this).prop("checked")) {
+	    		//새로운 배송지가 체크되었을 때 실행할 코드
+	    		$("#rname").val("");
+	            $("#sample4_postcode").val("");
+	            $("#sample4_roadAddress").val("");
+	            $("#rphone2_2").val("");
+	            $("#rphone2_3").val("");
+	    	}//end if
+	    });//change
 	})//ready
-
-	/* // 모달 열기 버튼 클릭 시 모달 표시
-	$("#openModalBtn").onclick = function() {
-		document.getElementById("myModal").style.display = "block";
+	
+	function chkNull(cardNum,id,tel){
+		if()
 	}
-
-	// 모달 닫기 버튼 클릭 시 모달 숨김
-	document.getElementsByClassName("close")[0].onclick = function() {
-		document.getElementById("myModal").style.display = "none";
-	}
-
-	// 모달 외부 클릭 시 모달 숨김
-	window.onclick = function(event) {
-		var modal = document.getElementById("myModal");
-		if (event.target == modal) {
-			modal.style.display = "none";
-		}
-	} */
+	
 </script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+    function sample4_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 참고 항목 변수
+
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraRoadAddr !== ''){
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample4_postcode').value = data.zonecode;
+                document.getElementById("sample4_roadAddress").value = roadAddr;
+                document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+                
+                // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+                if(roadAddr !== ''){
+                    document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+                } else {
+                    document.getElementById("sample4_extraAddress").value = '';
+                }
+
+                var guideTextBox = document.getElementById("guide");
+                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                if(data.autoRoadAddress) {
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                    guideTextBox.style.display = 'block';
+
+                } else if(data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
+                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.style.display = 'block';
+                } else {
+                    guideTextBox.innerHTML = '';
+                    guideTextBox.style.display = 'none';
+                }
+            }
+        }).open();
+    }
+</script>
+
 <!-- golgolz end -->
 </head>
 <body>
@@ -261,50 +364,53 @@ th {
 												<th scope="col">합계</th>
 											</tr>
 										</thead>
+										<%-- <% for(OrderProductVO oVO : list){ %>
 										<tfoot class="right">
 											<tr>
 												<td colspan="8"><span class="gLeft">[기본배송]</span>
-													상품구매금액 <strong>20,000</strong> + 배송비 <span
-													id="domestic_ship_fee">3,000</span> <span
+													상품구매금액 <strong><%= oVO.getPrice() %></strong> + 배송비 <span
+													id="domestic_ship_fee"><%= oVO.getDelivertyFee() %></span> <span
 													id="normal_total_benefit_price_area" class="displaynone">
 														- 상품할인금액 <span id="normal_total_benefit_price">0</span>
 												</span> = 합계 : <strong class="txtEm gIndent10"><span
-														id="domestic_ship_fee_sum" class="txt18">23,000</span>원</strong></td>
+														id="domestic_ship_fee_sum" class="txt18"><%= oVO.getTotal() %></span>원</strong></td>
 											</tr>
 										</tfoot>
+										<%}//end for%> --%>
 										<tbody
 											class="xans-element- xans-order xans-order-normallist center">
+										<% for(OrderProductVO oVO : list){ %>
 											<tr class="xans-record-">
 												<td class=""><input id="chk_order_cancel_list0"
 													name="chk_order_cancel_list_basic0"
 													value="6183:00BK:F:450720" type="checkbox"></td>
 												<td class="thumb gClearLine"><a
 													href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-														src="//insideobject.com/web/product/tiny/202307/dc3d88d084c7dee41b2c4dbd08933e6c.jpg"
+														src="http://localhost/online-shop/assets/images/goods/<%= oVO.getProductImg() %>"
 														onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
 														width="100px"></a></td>
 												<td class="left gClearLine"><strong class="name"><a
 														href="/product/i-live-with-six-cats-고양이의-바다-유광-카드-하드-케이스/6183/category/523/"
-														class="ec-product-name">[i live with six cats] 고양이의 바다
-															유광 카드 하드 케이스</a></strong>
-													<div class="option ">[옵션: galaxy s22 (카드하드불가)/유광하드]</div>
+														class="ec-product-name"><%= oVO.getProductName() %></a></strong>
+													<div class="option ">[옵션: <%= oVO.getCode() %>]</div>
 													<p class="gBlank5 displaynone">무이자할부 상품</p>
 													<p class="gBlank5 displaynone">유효기간 :</p></td>
 												<td class="right">
 													<div id="product_price_div0" class="">
-														<strong>20,000원</strong>
+														<strong><%= oVO.getPrice() %>원</strong>
 														<p class="displaynone"></p>
 													</div>
 													<div id="product_sale_price_div0" class="displaynone">
-														<strong><span id="product_sale_price_front0">20,000</span>원</strong>
+														<strong><span id="product_sale_price_front0"><%= oVO.getPrice() %></span>원</strong>
 														<p class="displaynone"></p>
 													</div>
 												</td>
-												<td>1</td>
-												<td rowspan="1" class="">3,000원</td>
+												<td><%= oVO.getQuantity() %></td>
+												<td rowspan="1" class=""><%= oVO.getDelivertyFee() %>원</td>
 												<td class="right"><strong><span
-														id="product_total_price_front0">20,000</span>원</strong></td>
+														id="product_total_price_front0"><%= oVO.getTotal() %></span>원</strong></td>
 											</tr>
+										<% }//end for %>
 										</tbody>
 									</table>
 								</div>
@@ -399,10 +505,7 @@ th {
 									결제예정금액에서 확인 가능합니다.</li>
 							</ul>
 							<div class="ec-base-button">
-								<span class="gLeft "> <strong class="text">선택상품을</strong>
-									<a href="#none" id="btn_product_delete" class="btnEm"><i
-										class="icoDelete"></i> 삭제하기</a>
-								</span> <span class="gRight"> <a
+								 <span class="gRight"> <a
 									href="javascript:window.history.back();" class="btnNormal">이전페이지</a>
 								</span>
 							</div>
@@ -529,8 +632,7 @@ th {
 															정보와 동일</label> <input id="sameaddr1" name="sameaddr" fw-filter=""
 															fw-label="1" fw-msg="" value="F" type="radio"
 															autocomplete="off"><label for="sameaddr1">새로운
-															배송지</label> <a href="#none" id="btn_shipp_addr"
-															class="btnNormal ">주소록 보기</a>
+															배송지</label>
 													</div>
 												</td>
 											</tr>
@@ -546,12 +648,13 @@ th {
 												<th scope="row">주소 <img
 													src="//img.echosting.cafe24.com/skin/base_ko_KR/order/ico_required.gif"
 													alt="필수"></th>
-												<td><input id="rzipcode1" name="rzipcode1"
-													fw-filter="isFill" fw-label="수취자 우편번호1" fw-msg=""
+												<td>
+												<input id="sample4_postcode" name="rzipcode1" fw-filter="isFill" fw-label="수취자 우편번호1" fw-msg="" 
 													class="inputTypeText" placeholder="" size="6" maxlength="6"
-													readonly="1" value="" type="text"> <a href="#none"
-													id="btn_search_rzipcode" class="btnNormal">우편번호</a><br>
-													<input id="raddr1" name="raddr1" fw-filter="isFill"
+													readonly="1" value="" type="text"> <a href="#javaScript:;"
+													id="btn_search_rzipcode" class="btnNormal" onclick="sample4_execDaumPostcode()">우편번호</a><br>
+													
+													<input id="sample4_roadAddress" name="raddr1" fw-filter="isFill"
 													fw-label="수취자 주소1" fw-msg="" class="inputTypeText"
 													placeholder="" size="60" readonly="1" value="" type="text">
 													<span class="grid">기본주소</span><br> <input id="raddr2"
@@ -559,13 +662,6 @@ th {
 													class="inputTypeText" placeholder="" size="60" value=""
 													type="text"> <span class="grid">나머지주소</span><span
 													class="grid ">(선택입력가능)</span></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">일반전화 <span class="displaynone"><img
-														src="//img.echosting.cafe24.com/skin/base_ko_KR/order/ico_required.gif"
-														alt="필수"></span>
-												</th>
-												<td></td>
 											</tr>
 											<tr class="">
 												<th scope="row">휴대전화 <span class=""><img
@@ -593,32 +689,6 @@ th {
 										</tbody>
 										<tbody
 											class="email ec-orderform-emailRow ec-shop-deliverySimpleForm">
-											<tr>
-												<th scope="row">이메일 <img
-													src="//img.echosting.cafe24.com/skin/base_ko_KR/order/ico_required.gif"
-													alt="필수"></th>
-												<td><input id="oemail1" name="oemail1"
-													fw-filter="isFill" fw-label="주문자 이메일" fw-alone="N"
-													fw-msg="" class="mailId" value="" type="text">@<input
-													id="oemail2" name="oemail2" fw-filter="isFill"
-													fw-label="주문자 이메일" fw-alone="N" fw-msg=""
-													class="mailAddress" readonly="readonly" value=""
-													type="text"><select id="oemail3" fw-filter="isFill"
-													fw-label="주문자 이메일" fw-alone="N" fw-msg="">
-														<option value="" selected="selected">- 이메일 선택 -</option>
-														<option value="naver.com">naver.com</option>
-														<option value="daum.net">daum.net</option>
-														<option value="nate.com">nate.com</option>
-														<option value="hotmail.com">hotmail.com</option>
-														<option value="yahoo.com">yahoo.com</option>
-														<option value="empas.com">empas.com</option>
-														<option value="korea.com">korea.com</option>
-														<option value="dreamwiz.com">dreamwiz.com</option>
-														<option value="gmail.com">gmail.com</option>
-														<option value="etc">직접입력</option>
-												</select>
-													<p class="gBlank5">이메일을 통해 주문처리과정을 보내드립니다.</p></td>
-											</tr>
 										</tbody>
 										<!-- 국내 배송관련 정보 -->
 										<tbody class="delivery ">
@@ -636,6 +706,7 @@ th {
 								</div>
 							</div>
 							<hr>
+
 							<div class="title">
 								<h6>결제 예정 금액</h6>
 							</div>
@@ -650,10 +721,7 @@ th {
 										</colgroup>
 										<thead>
 											<tr>
-												<th scope="col"><strong>총 주문 금액</strong> <a
-													href="#none"
-													onclick="EC_SHOP_FRONT_ORDERFORM_DISPLAY.onDiv('order_layer_detail', event);"
-													class="btnNormal">내역보기</a></th>
+												<th scope="col"><strong>총 주문 금액</strong></th>
 												<th scope="col" class=""><strong>총 배송비</strong></th>
 												<th scope="col"><strong>총 결제예정 금액</strong></th>
 											</tr>
@@ -757,6 +825,12 @@ th {
 											<script>
 												$("#btn_payment").click(
 														function() {
+															var flag = confirm("결제를 진행하시겠습니까?");
+															
+															if(flag == false){
+																return;
+															}//end if
+															
 															$("#modal").css(
 																	"display",
 																	"block");
