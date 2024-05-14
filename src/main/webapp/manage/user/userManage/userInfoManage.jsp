@@ -119,26 +119,6 @@
 	
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
 <script>
-jQuery(function($){
-    $.datepicker.regional["ko"] = {
-        closeText: "닫기",
-        prevText: "이전달",
-        nextText: "다음달",
-        currentText: "오늘",
-        monthNames: ["1월(JAN)","2월(FEB)","3월(MAR)","4월(APR)","5월(MAY)","6월(JUN)", "7월(JUL)","8월(AUG)","9월(SEP)","10월(OCT)","11월(NOV)","12월(DEC)"],
-        monthNamesShort: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
-        dayNames: ["일","월","화","수","목","금","토"],
-        dayNamesShort: ["일","월","화","수","목","금","토"],
-        dayNamesMin: ["일","월","화","수","목","금","토"],
-        weekHeader: "Wk",
-        dateFormat: "yymmdd",
-        firstDay: 0,
-        isRTL: false,
-        showMonthAfterYear: true,
-        yearSuffix: ""
-    };
-	$.datepicker.setDefaults($.datepicker.regional["ko"]);
-});
 
 $(function() {
 	
@@ -205,7 +185,7 @@ $(function() {
         window.location.href = "userInfoManage.jsp";
     });
     // tr 요소에 클릭 이벤트를 추가합니다.
-    $("tr").on("click", function() {
+    $(".user-row").on("click", function() {
         // 해당 tr 요소의 id 속성에서 userId를 가져옵니다.
         const userId = $(this).attr('id');
         
@@ -385,7 +365,7 @@ $(function() {
 				     // 각 사용자에 대한 행 번호(rowNum)를 i + 1로 설정
 				     int rowNum = i + 1;
 				     %>
-				     <tr id="<%=userInfo.getId() %>">
+				     <tr id="<%=userInfo.getId() %>" class="user-row">
 				         <td><%= rowNum %></td> <!-- 행 번호 출력 -->
 				         <td class="tal"><span class="sv_wrap"><%= userInfo.getName() %></span></td>
 				         <td class="tal"><%= userInfo.getId() %></td>
@@ -406,38 +386,7 @@ $(function() {
 </div>
 
 
-<script>
-function chk_use_app(mb_id) {
-	var error = "";
-	var token = get_ajax_token();
-	if(!token) {
-		alert("토큰 정보가 올바르지 않습니다.");
-		return false;
-	}
 
-	$.ajax({
-		url: tb_admin_url+"/member/member_use_app.php",
-		type: "POST",
-		data: {"mb_id": mb_id, "token": token },
-		dataType: "json",
-		async: false,
-		cache: false,
-		success: function(data, textStatus) {
-			error = data.error;
-		}
-	});
-
-	if(error) {
-		alert(error);
-		return false;
-	}
-}
-
-$(function(){
-	// 날짜 검색 : TODAY MAX값으로 인식 (maxDate: "+0d")를 삭제하면 MAX값 해제
-	$("#fr_date, #to_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+0d" });
-});
-</script>
 </div>
 			<!-- golgolz end -->
 		</div>
