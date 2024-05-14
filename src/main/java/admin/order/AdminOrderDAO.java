@@ -52,7 +52,7 @@ public class AdminOrderDAO {
         return count;
     }
 
-    public List<OrderVO> selectOrders() throws SQLException {
+    public List<OrderVO> selectOrders(SearchVO searchVO) throws SQLException {
         List<OrderVO> orders = new ArrayList<OrderVO>();
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -64,16 +64,89 @@ public class AdminOrderDAO {
             conn = dbConn.getConn("online-shop-dbcp");
 
             selectQuery.append(
-                    " select input_date, cart.cart_id, cart.id, name, purchase_state, order_flag, delivery_state, receiver, '카드결제' as payment, purchase_amount as purchase_amount from cart ")
-                    .append(" join delivery on delivery.cart_id = cart.cart_id ").append(" left join ( ")
-                    .append(" select order_goods.cart_id as cart_id, sum(goods.price * order_goods.amount) as purchase_amount from goods ")
-                    .append(" join order_goods on goods.code = order_goods.code ")
-                    .append(" group by cart_id ) purchase_amount on purchase_amount.cart_id = cart.cart_id ")
-                    .append(" where order_flag='주문' ");
+                    " select input_date, cart_id, id, name, purchase_state, order_flag, delivery_state, receiver, '카드결제' as payment, purchase_amount from ( ")
+                    .append(" select row_number() over(order by cart.input_date desc) as rnum, input_date, cart.cart_id, cart.id, name, purchase_state, order_flag, delivery_state, receiver, '카드결제' as payment ")
+                    .append(" , purchase_amount as purchase_amount from cart join delivery on delivery.cart_id = cart.cart_id left join ( ")
+                    .append(" select order_goods.cart_id as cart_id, sum(goods.price * order_goods.amount) as purchase_amount from goods join order_goods on goods.code = order_goods.code ")
+                    .append(" group by cart_id) purchase_amount on purchase_amount.cart_id = cart.cart_id where order_flag='주문' ");
+
+            if (searchVO.getCartId() != null) {
+                selectQuery.append(" and cart.cart_id = ? ");
+            }
+
+            if (searchVO.getId() != null) {
+                selectQuery.append(" and id = ? ");
+            }
+
+            if (searchVO.getName() != null) {
+                selectQuery.append(" and name = ? ");
+            }
+
+            if (searchVO.getReceiver() != null) {
+                selectQuery.append(" and receiver = ? ");
+            }
+
+            if (searchVO.getDate() != null) {
+                switch (searchVO.getDate()) {
+                    case "today":
+                        selectQuery.append(
+                                " and trunc(input_date) = to_date('2024-04-19', 'yyyy-mm-dd') and order_flag='주문' ");
+                        break;
+                    case "week":
+                        selectQuery.append(
+                                " and input_date >= trunc(to_date('2024-04-18', 'yyyy-mm-dd'), 'IW') and order_flag='주문' ");
+                        break;
+                    case "month":
+                        selectQuery.append(
+                                " and extract(month from input_date) = extract(month from to_date('2024-04-12', 'yyyy-mm-dd')) ")
+                                .append(" and extract(year from input_date) = extract(year from to_date('2024-04-13', 'yyyy-mm-dd')) ");
+                        break;
+                }
+            }
+
+            if (searchVO.getDelivery() != null) {
+                selectQuery.append(" and delivery_state = ? ");
+            }
+
+            if (searchVO.getPurchase() != null) {
+                selectQuery.append(" and purchase_state = ? ");
+            }
+
+            selectQuery.append(" ) where rnum between ? and ? ");
 
             pstmt = conn.prepareStatement(selectQuery.toString());
 
+            int bindIndex = 0;
+
+            if (searchVO.getCartId() != null) {
+                pstmt.setString(++bindIndex, searchVO.getCartId());
+            }
+
+            if (searchVO.getId() != null) {
+                pstmt.setString(++bindIndex, searchVO.getId());
+            }
+
+            if (searchVO.getName() != null) {
+                pstmt.setString(++bindIndex, searchVO.getName());
+            }
+
+            if (searchVO.getReceiver() != null) {
+                pstmt.setString(++bindIndex, searchVO.getReceiver());
+            }
+
+            if (searchVO.getDelivery() != null) {
+                pstmt.setString(++bindIndex, searchVO.getDelivery());
+            }
+
+            if (searchVO.getPurchase() != null) {
+                pstmt.setString(++bindIndex, searchVO.getPurchase());
+            }
+
+            pstmt.setInt(++bindIndex, searchVO.getStart());
+            pstmt.setInt(++bindIndex, searchVO.getEnd());
+
             rs = pstmt.executeQuery();
+            System.out.println(selectQuery.toString());
 
             while (rs.next()) {
                 orders.add(new OrderVO(rs.getString("input_date"), rs.getString("cart_id"), rs.getString("id"),

@@ -1,3 +1,7 @@
+<%@page import="admin.dashboard.DashboardOrderProgressVO"%>
+<%@page import="admin.dashboard.DashboardSalesVO"%>
+<%@page import="admin.dashboard.DashboardOrderVO"%>
+<%@page import="admin.dashboard.DashboardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 	
@@ -51,8 +55,14 @@
 </head>
 <body>
 	<jsp:include page="../assets/jsp/admin/header.jsp" />
+	<%
+		DashboardDAO dashboardDAO = DashboardDAO.getInstance();
+		DashboardOrderVO orderVO = dashboardDAO.selectOrderInfo();	
+		DashboardSalesVO salesVO = dashboardDAO.selectSalesInfo();
+		DashboardOrderProgressVO progressVO = dashboardDAO.selectPregressInfo();
+	%>
 	<main
-		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps--active-y">
+		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
 		<nav
 			class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
 			id="navbarBlur" data-scroll="true">
@@ -85,9 +95,9 @@
 	                      	<th scope="col" width="310">이번달</th>
 	                  	</tr>
 	                    <tr id="data_stat_month" bgcolor="#f1f1f1">
-	                    	<td><strong>0건</strong></td>
-	                      	<td><strong>0건</strong></td>
-	                      	<td><strong>0건</strong></td>
+	                    	<td><strong><%= orderVO.getToday() %>건</strong></td>
+	                      	<td><strong><%= orderVO.getWeek() %>건</strong></td>
+	                      	<td><strong><%= orderVO.getMonth() %>건</strong></td>
 	                  	</tr>
 	             	</tbody>
 	          	</table>
@@ -102,9 +112,9 @@
 	                      	<th scope="col" width="310">이번달</th>
 	                  	</tr>
 	                    <tr id="data_stat_month" bgcolor="#f1f1f1">
-	                    	<td><strong>0원</strong></td>
-	                      	<td><strong>0원</strong></td>
-	                      	<td><strong>0원</strong></td>
+	                    	<td><strong><%= salesVO.getToday() %>원</strong></td>
+	                      	<td><strong><%= salesVO.getWeek() %>원</strong></td>
+	                      	<td><strong><%= salesVO.getMonth() %>원</strong></td>
 	                  	</tr>
 	             	</tbody>
 	          	</table>
@@ -121,11 +131,11 @@
 	                      	<th scope="col">구매확정</th>
 	                  	</tr>
 	                    <tr id="data_stat_month" bgcolor="#f1f1f1">
-	                    	<td><strong>0건</strong></td>
-	                      	<td><strong>0건</strong></td>
-	                      	<td><strong>0건</strong></td>
-	                      	<td><strong>0건</strong></td>
-	                      	<td><strong>0건</strong></td>
+	                    	<td><strong><%= progressVO.getOrderDone() %>건</strong></td>
+	                      	<td><strong><%= progressVO.getDeliveryReady() %>건</strong></td>
+	                      	<td><strong><%= progressVO.getDeliveryInProgress() %>건</strong></td>
+	                      	<td><strong><%= progressVO.getDeliveryDone() %>건</strong></td>
+	                      	<td><strong><%= progressVO.getOrderConfirmed() %>건</strong></td>
 	                  	</tr>
 	             	</tbody>
 	          	</table>
@@ -138,7 +148,7 @@
 	                      	<th scope="col" width="310">반품건수</th>
 	                  	</tr>
 	                    <tr id="data_stat_month" bgcolor="#f1f1f1">
-	                    	<td><strong>0건</strong></td>
+	                    	<td><strong><%= orderVO.getRefund() %>건</strong></td>
 	                  	</tr>
 	             	</tbody>
 	          	</table>
