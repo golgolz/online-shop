@@ -4,6 +4,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+System.out.println("세션 로그인 상태: " + isLoggedIn);
+if (!Boolean.TRUE.equals(isLoggedIn)) {
+%>
+  <script type="text/javascript">
+      alert('로그인이 필요합니다.');
+      window.location.href = '../../adminLogin/adminLogin.jsp'; // 경로 수정 필요
+  </script>
+<%
+  return;
+}
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +34,10 @@
     	
     	$("#btnSearch").click(function() {
     		chkNull();
+    	});//click
+
+    	$("#btnAllSearch").click(function() {
+    		location.href="notice.jsp";
     	});//click
 	});
 	
@@ -154,7 +173,6 @@ try{
 										<td> <c:out value="${nVO.author}"/></td>
 										<td> <c:out value="${nVO.input_date}"/></td>
 										<td> <c:out value="${nVO.view_count}"/></td>
-										
 										</tr>
 										</c:forEach>
 										
@@ -194,12 +212,12 @@ try{
 						<div class="xans-element- xans-board xans-board-search-1002 xans-board-search xans-board-1002 ">
 								<!-- <legend>게시물 검색</legend> -->
 								<p>
-									<select id="field" name="field">
-										<option value="0">제목</option>
-										<option value="1">내용</option>
+									<select id="field" name="field" style="width:100px">
+										<option value="0" name="option" id="option">제목+내용</option>
 									</select>
 									<input id="keyword" name="keyword" class="inputTypeText" placeholder="" value="${param.keyword}" type="text" /> 
 									<input type="button" class="btnEmFix" id="btnSearch" value="검색">
+									<input type="button" class="btnEmFix" id="btnAllSearch" value="전체글">
 									<!-- <a href="#none" class="btnEmFix2" onclick="BOARD.form_submit('boardModifyForm');">수정</a> 
 									<a href="#none" class="btnEmFix3" onclick="BOARD.form_submit('boardDeleteForm');">삭제</a>  -->
 									<a id="btnInsert" href="notice_write.jsp" class="btnEmFix4">작성</a>

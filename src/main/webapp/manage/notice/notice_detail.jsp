@@ -3,6 +3,21 @@
 <%@page import="notice.NoticeDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+	
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+System.out.println("세션 로그인 상태: " + isLoggedIn);
+if (!Boolean.TRUE.equals(isLoggedIn)) {
+%>
+  <script type="text/javascript">
+      alert('로그인이 필요합니다.');
+      window.location.href = '../../adminLogin/adminLogin.jsp'; // 경로 수정 필요
+  </script>
+<%
+  return;
+}
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,17 +37,33 @@
     	$("#notice_menu").addClass("bg-gradient-primary");
     	
 		$("#btnList").click(function(){
-			location.href="notice_jsp";
+			location.href="notice.jsp";
 		});//click
-		$("#btnModify").click(function(){
+		/* $("#btnModify").click(function(){
 			$("#frmWrite").submit();
 		});//click
 		$("#btnDelete").click(function(){
+			console.log("Delete button clicked");
+			/////////////////////////////
+			${nVO.Notice_id}
 			if(confirm("글을 삭제하시겠습니까?")) {
-				$("frmDetail")[0].action="notice_delete.jsp";
-				$("frmDetail").submit();
-			}//click
-		});//ready
+				$("#frmWrite")[0].action="notice_delete_process.jsp";
+				$("#frmWrite").submit();
+			}//end if
+		});//ready */
+		
+		$("#btn-update").click(function(){
+	        $("#dataForm").attr("action", "notice_update_process.jsp");
+	        $("#new_title").val($("#title").val());
+	        $("#new_content").val($("#content").val());
+	        $("#dataForm").submit();
+		});
+		
+		$("#btn-delete").click(function(){
+	        $("#dataForm").attr("action", "notice_delete_process.jsp");
+	        $("#dataForm").submit();
+		});
+		
 		$('#content').summernote({
 	        placeholder: 'Hello stand alone ui',
 	        tabsize: 2,
@@ -51,7 +82,7 @@
 	
 	function chkNull() {
 		/* $("#frmWrite").submit(); */
-		$("#frmDetail")[0].action="notice_update_process.jsp";
+		//$("#frmDetail")[0].action="notice_update_process.jsp";
 		$("#frmDetail").submit();
 	}//chkNull
 		
@@ -99,7 +130,7 @@
 	try{
 	    String seq=request.getParameter("id");
 	    NoticeVO nVO=nDAO.selectDetailNotice(Integer.parseInt(seq));
-	    //nDAO.updateCnt(Integer.parseInt(seq));
+	    nDAO.updateCnt(Integer.parseInt(seq));
 		nVO.setContent(nVO.getContent().replaceAll("CHR(13)CHR(10)","<br/>"));
 	    
 	    pageContext.setAttribute("nVO", nVO);
@@ -125,7 +156,8 @@
             <p>공지사항 작성</p>
         </div>
 </div>
-<form id="frmWrite" name="frmWrite" action="notice_write_process.jsp" method="post">
+<!-- <form id="frmWrite" name="frmWrite" action="notice_write_process.jsp" method="post"> -->
+<form id="frmWrite" name="frmWrite" method="post">
 
 <div class="ec-base-table typeWrite ">
             <table border="1" summary="">
@@ -138,7 +170,7 @@
 <tr>
 	<th scope="row">제목</th>
       <td>
-      <select id="board_category" name="board_category" fw-filter="" fw-label="" fw-msg="">
+      <select id="board_category" name="board_category">
 		<option value="1">선택</option>
 		<option value="2">공지사항</option>
 	  </select>
@@ -150,20 +182,24 @@
   <textarea id="content" name="content">${nVO.content }</textarea>
 </div>
 </form>
-
-<div class="ec-base-button ">
+<form id="dataForm" name="dataForm">
+<input type="hidden" name="notice_id" value="${param.id }"/>
+<input type="hidden" id="new_title" name="title" value="${nVO.title}"/>
+<input type="hidden" id="new_content" name="content" value="${nVO.content }"/>
+<div class="ec-base-button">
             <span class="gLeft">
                 <input type="button" value="목록" class="btnNormalFix sizeS" id="btnList" name="btnList"/>
             </span>
             <span class="gRight">
-            	<input type="button" value="등록" class="btnSubmitFix sizeS" id="btnWrite" name="btnModify"/>
-            	<input type="button" value="취소" class="btnBasicFix sizeS" id="btnCancel" name="btnDelete"/>
+            	<input type="button" value="수정" class="btnSubmitFix sizeS" id="btn-update" name="btn-update"/>
+            	<input type="button" value="삭제" class="btnBasicFix sizeS" id="btn-delete" name="btn-delete"/>
             	
             	
                <!--  <a href="#none" class="btnSubmitFix sizeS" onclick=";">등록</a>
                 <a href="notice.jsp" class="btnBasicFix sizeS">취소</a> -->
             </span>
         </div>
+        </form>
 </div>
 </div>
 			<!-- golgolz end -->
