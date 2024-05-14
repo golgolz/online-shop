@@ -398,6 +398,43 @@ public class CartDAO {
         return list;
     }// selectCart
 
+    public OrderProductVO selectProductInfo(String code) throws SQLException {
+        OrderProductVO opVO = null;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+            con = dbCon.getConn("online-shop-dbcp");
+
+            StringBuilder selectQuery = new StringBuilder();
+
+            // 해당 주문번호의 모든 장바구니 상품 조회
+            selectQuery.append("    select gd.default_img,gd.name,og.code,gd.price,gd.delivery_charge    ")
+                    .append("    from goods gd, order_goods og   ")
+                    .append("    where (og.code=gd.code) and og.code=?    ");
+
+            pstmt = con.prepareStatement(selectQuery.toString());
+
+            pstmt.setString(1, code);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                opVO = new OrderProductVO(rs.getString("default_img"), rs.getString("name"), code, rs.getInt("price"),
+                        rs.getInt("delivery_charge"));
+            } // end while
+
+        } finally {
+            dbCon.closeCon(rs, pstmt, con);
+        } // end finally
+
+        return opVO;
+    }// selectProductInfo
+
     public boolean checkCartId(String userId) throws SQLException {
 
         boolean flag = false;
@@ -550,6 +587,7 @@ public class CartDAO {
 
         return dVO;
     }// selectDefaultDelivery
+
 
 
 }

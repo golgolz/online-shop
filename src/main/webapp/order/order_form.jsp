@@ -188,6 +188,20 @@ th {
 	CartDAO cDAO = CartDAO.getInstance();
     List<OrderProductVO> list = (List<OrderProductVO>)session.getAttribute("data");
     
+    
+    // 장바구니가 아닌 상품 상세 페이지에서 바로 주문서 작성 페이지로 넘어오는 경우
+    if(list == null){
+        String code = (String)session.getAttribute("code");
+        String quantity = (String)session.getAttribute("quantity");
+        try {
+ 			
+            opVO = cDAO.selectProductInfo(code);
+            
+        }catch(SQLException se){
+            se.printStackTrace();
+        }
+    }//end if
+    
     String name = "";
     String zipcode="";
     String defaultAddr="";
@@ -219,7 +233,8 @@ th {
 	            // 기본 배송지가 체크되었을 때 실행할 코드
 	            $("#rname").val("<%= name %>");
 	            $("#sample4_postcode").val("<%= zipcode %>");
-	            $("#sample4_roadAddress").val("<%= defaultAddr %> <%= detailAddr %>");
+	            $("#sample4_roadAddress").val("<%= defaultAddr %>");
+	            $("#raddr2").val("<%= detailAddr %>");
 	            $("#rphone2_2").val("<%= middleTel %>");
 	            $("#rphone2_3").val("<%= lastTel %>");
 	        }//end if
@@ -230,14 +245,14 @@ th {
 	    		$("#rname").val("");
 	            $("#sample4_postcode").val("");
 	            $("#sample4_roadAddress").val("");
+	            $("#raddr2").val("");
 	            $("#rphone2_2").val("");
 	            $("#rphone2_3").val("");
 	    	}//end if
 	    });//change
-	})//ready
+	});//ready
 	
 	function chkNull(cardNum,id,tel){
-		if()
 	}
 	
 </script>
@@ -253,6 +268,7 @@ th {
                 // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                 var roadAddr = data.roadAddress; // 도로명 주소 변수
                 var extraRoadAddr = ''; // 참고 항목 변수
+                var temp = '';
 
                 // 법정동명이 있을 경우 추가한다. (법정리는 제외)
                 // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
@@ -353,8 +369,7 @@ th {
 										</colgroup>
 										<thead>
 											<tr>
-												<th scope="col" class=""><input type="checkbox"
-													onclick="EC_SHOP_FRONT_ORDERFORM_PRODUCT.proc.setCheckOrderList('chk_order_cancel_list_basic', this);"></th>
+												<th scope="col"></th>
 												<th scope="col">이미지</th>
 												<th scope="col">상품정보</th>
 												<th scope="col">판매가</th>
@@ -364,26 +379,12 @@ th {
 												<th scope="col">합계</th>
 											</tr>
 										</thead>
-										<%-- <% for(OrderProductVO oVO : list){ %>
-										<tfoot class="right">
-											<tr>
-												<td colspan="8"><span class="gLeft">[기본배송]</span>
-													상품구매금액 <strong><%= oVO.getPrice() %></strong> + 배송비 <span
-													id="domestic_ship_fee"><%= oVO.getDelivertyFee() %></span> <span
-													id="normal_total_benefit_price_area" class="displaynone">
-														- 상품할인금액 <span id="normal_total_benefit_price">0</span>
-												</span> = 합계 : <strong class="txtEm gIndent10"><span
-														id="domestic_ship_fee_sum" class="txt18"><%= oVO.getTotal() %></span>원</strong></td>
-											</tr>
-										</tfoot>
-										<%}//end for%> --%>
 										<tbody
 											class="xans-element- xans-order xans-order-normallist center">
-										<% for(OrderProductVO oVO : list){ %>
+										<% if(list != null){
+											for(OrderProductVO oVO : list){ %>
 											<tr class="xans-record-">
-												<td class=""><input id="chk_order_cancel_list0"
-													name="chk_order_cancel_list_basic0"
-													value="6183:00BK:F:450720" type="checkbox"></td>
+												<td class=""></td>
 												<td class="thumb gClearLine"><a
 													href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
 														src="http://localhost/online-shop/assets/images/goods/<%= oVO.getProductImg() %>"
@@ -410,7 +411,37 @@ th {
 												<td class="right"><strong><span
 														id="product_total_price_front0"><%= oVO.getTotal() %></span>원</strong></td>
 											</tr>
-										<% }//end for %>
+										<% }//end for
+										}else { %>
+											<tr class="xans-record-">
+												<td class=""></td>
+												<td class="thumb gClearLine"><a
+													href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
+														src="http://localhost/online-shop/assets/images/goods/<%= opVO.getProductImg() %>"
+														onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
+														width="100px"></a></td>
+												<td class="left gClearLine"><strong class="name"><a
+														href="/product/i-live-with-six-cats-고양이의-바다-유광-카드-하드-케이스/6183/category/523/"
+														class="ec-product-name"><%= opVO.getProductName() %></a></strong>
+													<div class="option ">[옵션: <%= opVO.getCode() %>]</div>
+													<p class="gBlank5 displaynone">무이자할부 상품</p>
+													<p class="gBlank5 displaynone">유효기간 :</p></td>
+												<td class="right">
+													<div id="product_price_div0" class="">
+														<strong><%= opVO.getPrice() %>원</strong>
+														<p class="displaynone"></p>
+													</div>
+													<div id="product_sale_price_div0" class="displaynone">
+														<strong><span id="product_sale_price_front0"><%= opVO.getPrice() %></span>원</strong>
+														<p class="displaynone"></p>
+													</div>
+												</td>
+												<td><%= opVO.getQuantity() %></td>
+												<td rowspan="1" class=""><%= opVO.getDelivertyFee() %>원</td>
+												<td class="right"><strong><span
+														id="product_total_price_front0"><%= opVO.getTotal() %></span>원</strong></td>
+											</tr>
+											<% }//end else %>
 										</tbody>
 									</table>
 								</div>
@@ -756,25 +787,6 @@ th {
 
 							<hr>
 
-							<div id="ec-shop-gift_orderform">
-								<script>
-								</script>
-								<script type="text/javascript">
-								</script>
-								<script type="text/javascript"
-									src="/app/Eclog/js/cid.generate.js?vs=be4910e13365511fd914ba822d84c067&amp;u=lifelab0301.1"></script>
-								<script type="text/javascript">
-								</script>
-
-								<link rel="stylesheet" type="text/css"
-									href="/ind-script/optimizer.php?filename=nc1LCoAwDIThfXHrOYLeqC3xAU2mpCno7RW8gHQ7zMdPB4RpWY2qYbcoZNzQLTPl1mgzqFOGCHR6h5n-_DmHhtL9hIaEaxB299FoiTfbGPWYCg9S1FBO5ZCi6td_AA&amp;type=css&amp;k=37c9481ac0212340e132f81eba4d1049fee7f18e&amp;t=1681776733">
-								<script type="text/javascript"
-									src="/ind-script/i18n.php?lang=ko_KR&amp;domain=front&amp;v=2404210600"
-									charset="utf-8"></script>
-
-								<script type="text/javascript">
-								</script>
-							</div>
 							<div class="title">
 								<h6>결제수단</h6>
 							</div>
