@@ -10,7 +10,7 @@
 <head>
 
 <!-- DatePicker -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> 
 <!-- DatePicker -->
 
 <jsp:include page="../../assets/jsp/user/lib.jsp" />
