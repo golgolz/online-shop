@@ -58,6 +58,39 @@ public class UserReviewDAO {
     return totalCnt;
   }
 
+  public int selectReviewId(ReviewBoardVO rVO) throws SQLException {
+    int num = 0;
+
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    DbConnection db = DbConnection.getInstance();
+
+    try {
+      // 1. JNDI 사용객체 생성
+      // 2. DataSource 얻기
+      // 3. Connection 얻기
+      con = db.getConn("online-shop-dbcp");
+      // 4. 쿼리문 생성객체 얻기(Dynamic Query)
+      StringBuilder selectReviewId = new StringBuilder();
+      selectReviewId.append(" select max(review_id) rid from review    ").append(" order by review_id desc  ");
+
+      pstmt = con.prepareStatement(selectReviewId.toString());
+      // 5. 바인트변수에 값 설정
+      // 6. 쿼리문 수행 후 결과 얻기
+      rs = pstmt.executeQuery();
+      if (rs.next()) {
+        num = rs.getInt("rid");
+      }
+    } finally {
+      // 7. 연결 끊기
+      db.closeCon(rs, pstmt, con);
+    }
+
+    return num + 1;
+  }
+
   public List<ReviewBoardVO> selectReviewBoard(SearchVO sVO) throws SQLException {
     List<ReviewBoardVO> review = new ArrayList<ReviewBoardVO>();
 

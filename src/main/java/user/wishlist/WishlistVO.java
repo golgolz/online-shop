@@ -16,6 +16,7 @@ import lombok.ToString;
 @Builder
 public class WishlistVO {
   private int favoriteId;
-  private String id, code, defaultImg, name, price, deliveryCharge;
+  private String id, code, defaultImg, name, price, deliveryCharge, cartId, purchaseState, orderFlag, defaultAddrFlag,
+      deliveryState;
   private Date inputDate;
 }
