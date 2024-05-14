@@ -8,6 +8,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<!-- DatePicker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<!-- DatePicker -->
+
+
 <jsp:include page="../../assets/jsp/user/lib.jsp" />
 <!-- golgolz start -->
 <style>
@@ -258,8 +264,28 @@ $(function() {
     });
      */
     
+ // Flatpickr를 사용하여 날짜 선택 input에 Datepicker 기능 추가
+    document.addEventListener('DOMContentLoaded', function () {
+        // 시작일과 종료일 input 요소 가져오기
+        var frDateInput = document.getElementById('fr_date');
+        var toDateInput = document.getElementById('to_date');
+
+        // Flatpickr 적용
+        flatpickr(frDateInput, {
+            dateFormat: 'Y-m-d', // 날짜 형식 설정
+            allowInput: true // 키보드로 직접 입력 허용
+        });
+
+        flatpickr(toDateInput, {
+            dateFormat: 'Y-m-d', // 날짜 형식 설정
+            allowInput: true // 키보드로 직접 입력 허용
+        });
+    });
+     
 });
 </script>
+ 
+
 					<form name="fsearch" id="fsearch" method="get" onsubmit="return handleFormSubmit(event); " action="order_list.jsp">
 
 						<div
@@ -280,6 +306,30 @@ $(function() {
 							</fieldset>
 						</div>
 					</form>
+					<!-- Flatpickr 라이브러리 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Flatpickr를 사용하여 날짜 선택 input에 Datepicker 기능 추가
+        document.addEventListener('DOMContentLoaded', function () {
+            // 시작일과 종료일 input 요소 가져오기
+            var frDateInput = document.getElementById('fr_date');
+            var toDateInput = document.getElementById('to_date');
+
+            // Flatpickr 적용
+            flatpickr(frDateInput, {
+                dateFormat: 'Y-m-d', // 날짜 형식 설정
+                allowInput: true // 키보드로 직접 입력 허용
+            });
+
+            flatpickr(toDateInput, {
+                dateFormat: 'Y-m-d', // 날짜 형식 설정
+                allowInput: true // 키보드로 직접 입력 허용
+            });
+        });
+    </script>
+					
+					
+					
 					<div
 						class="xans-element- xans-myshop xans-myshop-orderhistorylistitem ec-base-table typeList">
 						<!--
