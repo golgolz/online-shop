@@ -63,6 +63,9 @@
                 <a href="http://localhost/online-shop/cart/cart.jsp">CART</a>
               </li>
               <li>
+                <a href="http://localhost/online-shop/wishlist/wishlist.jsp">WISH</a>
+              </li>
+              <li>
                 <a href="http://localhost/online-shop/notice/notice.jsp">NOTICE</a>
               </li>
             </ul>
