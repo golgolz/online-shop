@@ -1,3 +1,5 @@
+<%@page import="user.wishlist.WishlistDAO"%>
+<%@page import="user.wishlist.WishlistVO"%>
 <%@page import="user.goods.UserGoodsDAO"%>
 <%@page import="user.main.GoodsSimpleVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -68,6 +70,7 @@
 		if(code != null){
 			currentGoods = UserGoodsDAO.getInstance().selectOneGoods(code);
 		}
+
 	%>
 	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<div id="wrap">
@@ -243,7 +246,7 @@
 											<tr class="xans-record-">
 												<td>1</td>
 												<td class="subject left txtBreak"><a
-													href="https://insideobject.com/article/review/4/26462/?no=26462&amp;board_no=4&amp;spread_flag=T">귀여워요</a>
+													href="http://localhost/online-shop/manage/review/review_detail_user.jsp?seq=15&currentPage=1">귀여워요</a>
 													<span class="txtWarn"></span></td>
 												<td>네****</td>
 												<td class="txtInfo txt11">2023-06-05</td>
@@ -259,9 +262,9 @@
 
 							<p class="ec-base-button typeBorder">
 								<span class="gRight"> <a
-									href="https://insideobject.com/board/product/write.html?board_no=4&amp;product_no=6027&amp;cate_no=428&amp;display_group=1">상품후기쓰기</a>
+									href="http://localhost/online-shop/manage/review/review_write.jsp?code=<%= currentGoods.getCode() %>">상품후기쓰기</a>
 									<a
-									href="https://insideobject.com/board/product/list.html?board_no=4">모두
+									href="http://localhost/online-shop/manage/review/review_my_list.jsp">모두
 										보기</a>
 								</span>
 							</p>
