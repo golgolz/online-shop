@@ -120,10 +120,10 @@
 		PageController pageController = PageController.getInstance();
 		String params = pageController.createQueryStr(request);
 		
+		searchVO.setField(Integer.parseInt(request.getParameter("category") == null ? "-1" : request.getParameter("category")));
 		AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
 		List<OrderVO> orders = adminOrderDAO.selectOrders(searchVO);
-		int searchResultCount = adminOrderDAO.selectCount();
-		System.out.println(searchVO.toString());
+		int searchResultCount = adminOrderDAO.selectCount(searchVO);
 	%>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
@@ -167,7 +167,7 @@
 												<option value="2"${param.category eq '2' ? " selected" : "" }>주문자명</option>
 												<option value="3"${param.category eq '3' ? " selected" : "" }>수령자명</option>
 										</select> 
-										<input type="text" name="category_detail" value="${ param.category_detail }" class="frm_input" size="30">
+										<input type="text" name="keyword" value="${ param.keyword }" class="frm_input" size="30">
 									</td>
 								</tr>
 								<tr>

@@ -1,3 +1,4 @@
+<%@page import="order.vo.OrderVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="order.vo.OrderProductVO"%>
 <%@page import="java.util.List"%>
@@ -16,6 +17,7 @@ String userId = (String)session.getAttribute("userId");
 String code = request.getParameter("code");
 int quantity = Integer.parseInt(request.getParameter("quantity"));
 String cartId = "";
+String userName="";
 
 orVO.setUserId(userId);
 opVO.setCode(code);
@@ -25,6 +27,16 @@ CartDAO cDAO = CartDAO.getInstance();
 
 try{
 	cartId = cDAO.selectCartId(userId);
+	
+	if(cartId == ""){
+	    userName = cDAO.selectUserName(userId);
+	    OrderVO oVO = new OrderVO();
+	    oVO.setUserId(userId);
+	    oVO.setUserName(userName);
+	    cDAO.insertCart(oVO);
+	    cartId = cDAO.selectCartId(userId);
+	}
+	
 	orVO.setCartId(cartId);
 	opVO.setCartId(cartId);
 	List<OrderProductVO> temp = new ArrayList<OrderProductVO>();
@@ -37,7 +49,7 @@ try{
 	cDAO.insertOrderProduct(opVO);
 	
 	if(chkFlag == false){// 장바구니 번호에 상품 리스트가 존재하지 않을 시 OrderProduct table의 input_date를 update
-	     cDAO.updateInputDate(userId);
+	     cDAO.updateInputDate(cartId);
 		}//end if 
 	
 	//값 설정

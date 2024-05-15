@@ -11,6 +11,23 @@
 <head>
 <jsp:include page="../assets/jsp/user/lib.jsp" />
 <!-- golgolz start -->
+<!-- 로그인 확인 -->
+<%
+String userId = (String)session.getAttribute("userId");
+System.out.println("세션 로그인 상태: " + userId);
+
+if (userId == null) {
+    System.out.println("로그인이 필요합니다. ");
+%>
+<script>
+        alert('로그인이 필요합니다.');
+        window.location.href = 'http://localhost/online-shop/user/login/userLogin.jsp'; // 경로 수정 필요
+
+</script>
+<%
+    return;
+}
+%>
 <style>
 .xans-order-form .payArea {
 	overflow: hidden;
@@ -182,19 +199,25 @@ th {
 <jsp:useBean id="opVO" class="order.vo.OrderProductVO" scope="page" />
 <jsp:setProperty property="*" name="opVO" />
 <%
-	String userId = (String)session.getAttribute("userId");
 	String cartId = (String)session.getAttribute("cartId");
 	
 	CartDAO cDAO = CartDAO.getInstance();
     List<OrderProductVO> list = (List<OrderProductVO>)session.getAttribute("data");
     
+	int result = 0;
+	
+    if(list != null){
+	    for(int i=0; i<list.size(); i++){
+	        opVO = list.get(i);
+	        result += opVO.getTotal();
+	    }
+    }//end if
     
     // 장바구니가 아닌 상품 상세 페이지에서 바로 주문서 작성 페이지로 넘어오는 경우
     if(list == null){
         String code = (String)session.getAttribute("code");
-        String quantity = (String)session.getAttribute("quantity");
+        int quantity = (int)session.getAttribute("quantity");
         try {
- 			
             opVO = cDAO.selectProductInfo(code);
             
         }catch(SQLException se){
@@ -213,6 +236,7 @@ th {
     try {
     
         DeliveryVO dVO = cDAO.selectDefaultDelivery(userId);
+        session.setAttribute("dVO", dVO);
         name=dVO.getRecipient();
         zipcode=dVO.getZipcode();
         defaultAddr=dVO.getDefaultAddr();
@@ -252,8 +276,32 @@ th {
 	    });//change
 	});//ready
 	
-	function chkNull(cardNum,id,tel){
-	}
+	function chkNull(){
+		var flag = false;
+		if($("#rname").val().trim() == ""){
+			alert("배송 정보를 확인해주세요.");
+			return flag;
+		}
+		if($("#sample4_postcode").val()==""){
+			alert("배송 정보를 확인해주세요.");
+			return flag;
+		}
+		if($("#sample4_roadAddress").val()==""){
+			alert("배송 정보를 확인해주세요.");
+			return flag;
+		}
+		if($("#rphone2_2").val()==""){
+			alert("배송 정보를 확인해주세요.");
+			return flag;
+		}
+		if($("#rphone2_3").val()==""){
+			alert("배송 정보를 확인해주세요.");
+			return flag;
+		}
+		flag = true;
+		return flag;
+	}//chkNull
+	
 	
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -381,6 +429,7 @@ th {
 										</thead>
 										<tbody
 											class="xans-element- xans-order xans-order-normallist center">
+											<form action="payment_process.jsp" name="productFrm" id="productFrm" method="post">
 										<% if(list != null){
 											for(OrderProductVO oVO : list){ %>
 											<tr class="xans-record-">
@@ -394,20 +443,18 @@ th {
 														href="/product/i-live-with-six-cats-고양이의-바다-유광-카드-하드-케이스/6183/category/523/"
 														class="ec-product-name"><%= oVO.getProductName() %></a></strong>
 													<div class="option ">[옵션: <%= oVO.getCode() %>]</div>
-													<p class="gBlank5 displaynone">무이자할부 상품</p>
-													<p class="gBlank5 displaynone">유효기간 :</p></td>
+													</td>
 												<td class="right">
 													<div id="product_price_div0" class="">
 														<strong><%= oVO.getPrice() %>원</strong>
-														<p class="displaynone"></p>
 													</div>
 													<div id="product_sale_price_div0" class="displaynone">
 														<strong><span id="product_sale_price_front0"><%= oVO.getPrice() %></span>원</strong>
-														<p class="displaynone"></p>
 													</div>
 												</td>
 												<td><%= oVO.getQuantity() %></td>
 												<td rowspan="1" class=""><%= oVO.getDelivertyFee() %>원</td>
+												
 												<td class="right"><strong><span
 														id="product_total_price_front0"><%= oVO.getTotal() %></span>원</strong></td>
 											</tr>
@@ -419,29 +466,34 @@ th {
 													href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
 														src="http://localhost/online-shop/assets/images/goods/<%= opVO.getProductImg() %>"
 														onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
-														width="100px"></a></td>
+														width="100px"></a><input type="hidden" id="productImg" name="productImg" value="<%= opVO.getProductImg() %>" /></td>
 												<td class="left gClearLine"><strong class="name"><a
 														href="/product/i-live-with-six-cats-고양이의-바다-유광-카드-하드-케이스/6183/category/523/"
 														class="ec-product-name"><%= opVO.getProductName() %></a></strong>
 													<div class="option ">[옵션: <%= opVO.getCode() %>]</div>
-													<p class="gBlank5 displaynone">무이자할부 상품</p>
-													<p class="gBlank5 displaynone">유효기간 :</p></td>
+													<input type="hidden" id="productName" name="productName" value="<%= opVO.getProductName() %>" />
+													<input type="hidden" id="code" name="code" value="<%= opVO.getCode() %>" /></td>
 												<td class="right">
 													<div id="product_price_div0" class="">
 														<strong><%= opVO.getPrice() %>원</strong>
-														<p class="displaynone"></p>
+														<input type="hidden" id="price" name="price" value="<%= opVO.getPrice() %>" />
 													</div>
 													<div id="product_sale_price_div0" class="displaynone">
 														<strong><span id="product_sale_price_front0"><%= opVO.getPrice() %></span>원</strong>
 														<p class="displaynone"></p>
 													</div>
 												</td>
-												<td><%= opVO.getQuantity() %></td>
-												<td rowspan="1" class=""><%= opVO.getDelivertyFee() %>원</td>
+												<td><%= opVO.getQuantity() %>
+												<input type="hidden" id="quantity" name="quantity" value="<%= opVO.getQuantity() %>" /></td>
+												<td rowspan="1" class=""><%= opVO.getDelivertyFee() %>원
+												<input type="hidden" id="deliveryFee" name="deliveryFee" value="<%= opVO.getDelivertyFee() %>" /></td>
+												
 												<td class="right"><strong><span
-														id="product_total_price_front0"><%= opVO.getTotal() %></span>원</strong></td>
+														id="product_total_price_front0"><%= opVO.getTotal() %></span>원</strong>
+														<input type="hidden" id="total" name="total" value="<%= opVO.getTotal() %>" /></td>
 											</tr>
 											<% }//end else %>
+											</form>
 										</tbody>
 									</table>
 								</div>
@@ -648,10 +700,9 @@ th {
 										<!-- 비회원 결제 -->
 										<tbody class="displaynone ec-shop-deliverySimpleNomemberForm"
 											style="display: table-row-group;">
-
-
 										</tbody>
 										<!-- 국내 배송지 정보 -->
+										<form id="deliveryFrm" name="deliveryFrm" action="payment_process.jsp" method="post">
 										<tbody class="">
 											<tr class="">
 												<th scope="row">배송지 선택</th>
@@ -671,7 +722,7 @@ th {
 												<th scope="row">받으시는 분 <img
 													src="//img.echosting.cafe24.com/skin/base_ko_KR/order/ico_required.gif"
 													alt="필수"></th>
-												<td><input id="rname" name="rname" fw-filter="isFill"
+												<td><input id="rname" name="recipient" fw-filter="isFill"
 													fw-label="수취자 성명" fw-msg="" class="inputTypeText"
 													placeholder="" size="15" value="" type="text"></td>
 											</tr>
@@ -680,16 +731,16 @@ th {
 													src="//img.echosting.cafe24.com/skin/base_ko_KR/order/ico_required.gif"
 													alt="필수"></th>
 												<td>
-												<input id="sample4_postcode" name="rzipcode1" fw-filter="isFill" fw-label="수취자 우편번호1" fw-msg="" 
+												<input id="sample4_postcode" name="zipcode" fw-filter="isFill" fw-label="수취자 우편번호1" fw-msg="" 
 													class="inputTypeText" placeholder="" size="6" maxlength="6"
 													readonly="1" value="" type="text"> <a href="#javaScript:;"
 													id="btn_search_rzipcode" class="btnNormal" onclick="sample4_execDaumPostcode()">우편번호</a><br>
 													
-													<input id="sample4_roadAddress" name="raddr1" fw-filter="isFill"
+													<input id="sample4_roadAddress" name="defaultAddr" fw-filter="isFill"
 													fw-label="수취자 주소1" fw-msg="" class="inputTypeText"
 													placeholder="" size="60" readonly="1" value="" type="text">
 													<span class="grid">기본주소</span><br> <input id="raddr2"
-													name="raddr2" fw-filter="" fw-label="수취자 주소2" fw-msg=""
+													name="detailAddr" fw-filter="" fw-label="수취자 주소2" fw-msg=""
 													class="inputTypeText" placeholder="" size="60" value=""
 													type="text"> <span class="grid">나머지주소</span><span
 													class="grid ">(선택입력가능)</span></td>
@@ -699,7 +750,7 @@ th {
 														src="//img.echosting.cafe24.com/skin/base_ko_KR/order/ico_required.gif"
 														alt="필수"></span>
 												</th>
-												<td><select id="rphone2_1" name="rphone2_[]"
+												<td><select id="rphone2_1" name="tel1"
 													fw-filter="isNumber&amp;isFill" fw-label="수취자 핸드폰번호"
 													fw-alone="N" fw-msg="">
 														<option value="010">010</option>
@@ -708,18 +759,15 @@ th {
 														<option value="017">017</option>
 														<option value="018">018</option>
 														<option value="019">019</option>
-												</select>-<input id="rphone2_2" name="rphone2_[]" maxlength="4"
+												</select>-<input id="rphone2_2" name="tel2" maxlength="4"
 													fw-filter="isNumber&amp;isFill" fw-label="수취자 핸드폰번호"
 													fw-alone="N" fw-msg="" placeholder="" size="4" value=""
 													type="text">-<input id="rphone2_3"
-													name="rphone2_[]" maxlength="4"
+													name="tel3" maxlength="4"
 													fw-filter="isNumber&amp;isFill" fw-label="수취자 핸드폰번호"
 													fw-alone="N" fw-msg="" placeholder="" size="4" value=""
 													type="text"></td>
 											</tr>
-										</tbody>
-										<tbody
-											class="email ec-orderform-emailRow ec-shop-deliverySimpleForm">
 										</tbody>
 										<!-- 국내 배송관련 정보 -->
 										<tbody class="delivery ">
@@ -728,11 +776,12 @@ th {
 														src="//img.echosting.cafe24.com/skin/base_ko_KR/order/ico_required.gif"
 														alt="필수"></span>
 												</th>
-												<td><textarea id="omessage" name="omessage"
+												<td><textarea id="omessage" name="deliveryMsg"
 														fw-filter="" fw-label="배송 메세지" fw-msg="" maxlength="255"
 														cols="70"></textarea></td>
 											</tr>
 										</tbody>
+										</form>
 									</table>
 								</div>
 							</div>
@@ -761,19 +810,19 @@ th {
 											<tr>
 												<td class="price"><div class="box txt16">
 														<strong><span id="total_order_price_view"
-															class="txt23">23,000</span>원</strong> <span class="displaynone"><span
+															class="txt23"><%= result-3000 %></span>원</strong> <span class="displaynone"><span
 															id="total_order_price_ref_view"><span
 																class="eRefPrice"></span></span></span>
 													</div></td>
 												<td class="option "><div class="box txt16">
 														<strong><span id="total_sale_price_view"
-															class="txt23">0</span>원</strong> <span class="displaynone"><span
+															class="txt23"><%= opVO.getDelivertyFee() %></span>원</strong> <span class="displaynone"><span
 															id="total_sale_price_ref_view"><span
 																class="eRefPrice"></span></span></span>
 													</div></td>
 												<td><div class="box txtEm txt16">
 														<strong>=</strong> <strong><span
-															id="total_order_sale_price_view" class="txt23">23,000</span>원</strong>
+															id="total_order_sale_price_view" class="txt23"><%= result %></span>원</strong>
 														<span class="displaynone"><span
 															id="total_order_sale_price_ref_view"><span
 																class="eRefPrice"></span></span></span>
@@ -822,7 +871,7 @@ th {
 											fw-filter="isFill" fw-label="결제금액" fw-msg=""
 											class="inputTypeText" placeholder=""
 											style="text-align: right; ime-mode: disabled; clear: none; border: 0px; float: none;"
-											size="10" readonly="1" value="23000" type="text"><span>원</span>
+											size="10" readonly="1" value="<%= result %>" type="text"><span>원</span>
 									</p>
 									<p class="paymentAgree" id="chk_purchase_agreement"
 										style="display: none;">
@@ -837,6 +886,10 @@ th {
 											<script>
 												$("#btn_payment").click(
 														function() {
+															if(chkNull()==false){
+																return;
+															}
+															
 															var flag = confirm("결제를 진행하시겠습니까?");
 															
 															if(flag == false){
@@ -861,12 +914,12 @@ th {
 										style="background-color: #dedede; padding: 10px; padding-right: 15px; text-align: right;">
 										<h6>카드 결제</h6>
 									</div>
-									<form id="card-payment-form">
+									<form id="cardFrm" name="cardFrm" action="http://localhost/online-shop/order/payment_process.jsp" method="post">
 										<div class="card-middle-title"
 											style="padding: 20px; font-size: 20px;">
-											<span class="card-middle-left" style="float: left;"><label>(주)오브젝트
+											<span class="card-middle-left" style="float: left;"><label>(주)골골즈 오브젝트
 													생활연구소</label></span> <span class="card-middle-right"
-												style="float: right; font-size: 25px; margin-bottom: 10px;"><label><strong>23,000원</strong></label></span>
+												style="float: right; font-size: 25px; margin-bottom: 10px;"><label><strong><%= result %>원</strong></label></span>
 										</div>
 
 										<div class="card-input-payarea"
@@ -876,14 +929,14 @@ th {
 													<th class="card-th"
 														style="width: 130px; border-bottom: 1px solid #dedede; padding: 5px; font-size: 17px; vertical-align: middle">카드번호</th>
 													<td class="card-td" style="border-bottom: 1px solid #dedede; padding: 5px;"><input type="text" maxlength="16"
-														placeholder="[-]없이 입력" class="card-input"
+														placeholder="[-]없이 입력" class="card-input" name="cardNum" id="card-num"
 														style="width: 350px; height: 50px; border: none; font-size: 20px; "></td>
 												</tr>
 												<tr>
 													<th class="card-th"
 														style="width: 130px; border-bottom: 1px solid #dedede; padding: 5px; font-size: 17px; vertical-align: middle">카드식별번호</th>
 													<td class="card-td" style="border-bottom: 1px solid #dedede; padding: 5px;"><input type="text" maxlength="3"
-														placeholder="카드 뒷면 3자리" class="card-input"
+														placeholder="카드 뒷면 3자리" class="card-input" name="cardId" id="card-id"
 														style="width: 350px; height: 50px; border: none; font-size: 20px;"></td>
 												</tr>
 												<tr>
@@ -891,11 +944,12 @@ th {
 														style="width: 130px; border-bottom: 1px solid #dedede; padding: 5px; font-size: 17px; vertical-align: middle" >휴대폰
 														번호</th>
 													<td class="card-td" style="border-bottom: 1px solid #dedede; padding: 5px;"><input type="text" maxlength="11"
-														placeholder="[-]없이 입력" class="card-input"
+														placeholder="[-]없이 입력" class="card-input" name="cellPhone" id="cell-phone"
 														style="width: 350px; height: 50px; border: none; font-size: 20px;"></td>
 												</tr>
 											</table>
 										</div>
+									</form>
 
 										<div class="card-payarea-btn"
 											style="text-align: center; vertical-align: bottom; margin-top: 200px; font-size: 20px; display: grid; grid-template-columns: 1fr 1fr; ">
@@ -906,13 +960,45 @@ th {
 										</div>
 											<script>
 											$(".card-btn-cancle").click(function() {
+												var cpFrm = document.cardFrm;
+												cpFrm.cardNum.value = "";
+												cpFrm.cardId.value = "";
+												cpFrm.cellPhone.value = ""; 
 												$("#modal").css("display","none");
-											})
+												alert("결제가 취소되었습니다.");
+											});
 											$(".card-btn-success").click(function() {
-												location.href = "order_complete.jsp";
-											})
+												var cpFrm = document.cardFrm;
+												
+												if(cpFrm.cardNum.value.length != 16){
+													alert("카드 번호를 정확히 입력해주세요.");
+													cpFrm.cardNum.focus();
+													return;
+												}
+												if(cpFrm.cardId.value.length != 3){
+													alert("식별 번호를 정확히 입력해주세요.");
+													cpFrm.cardId.focus();
+													return;
+												}
+												if(cpFrm.cellPhone.value.length != 11){
+													alert("휴대폰 번호를 확인해주세요.");
+													cpFrm.cellPhone.focus();
+													return;
+												}
+												var cFrm =$("#cardFrm");
+												var dFrm =$("#deliveryFrm");
+												var pFrm =$("#productFrm");
+												
+												dataFrm = cFrm.serialize()+'&'+dFrm.serialize()+'&'+pFrm.serialize();
+												
+												  // 합쳐진 데이터를 서버로 제출
+										        $.post("payment_process.jsp", dataFrm, function(response) {
+										            /* console.log(response); */
+										            window.location.href = "payment_process.jsp";
+										        }); 
+										        
+											});
 											</script>
-									</form>
 								</div>
 							</div>
 
