@@ -117,6 +117,10 @@ public class UserReviewDAO {
        * selectReviewBoard.append(" where instr(").append(columnNames[Integer.parseInt(sVO.getField())])
        * .append(", ? ) > 0"); } // end if
        */
+      if (sVO.getKeyword() != null && sVO.getKeyword() != "") {
+        selectReviewBoard.append("  where r.code=?  ");
+      }
+
       selectReviewBoard.append("   ) sub ) WHERE rn BETWEEN ? AND ?   ");
 
       pstmt = con.prepareStatement(selectReviewBoard.toString());
@@ -125,7 +129,13 @@ public class UserReviewDAO {
       /*
        * if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) { pstmt.setString(++bindIndex,
        * sVO.getKeyword()); } // end if
-       */ pstmt.setInt(++bindIndex, sVO.getStartNum());
+       * 
+       */
+      if (sVO.getKeyword() != null && sVO.getKeyword() != "") {
+        pstmt.setString(++bindIndex, sVO.getKeyword());
+      }
+
+      pstmt.setInt(++bindIndex, sVO.getStartNum());
       pstmt.setInt(++bindIndex, sVO.getEndNum());
       // 6.쿼리문 수행 후 결과 얻기
       rs = pstmt.executeQuery();
@@ -217,6 +227,7 @@ public class UserReviewDAO {
         rVO = ReviewBoardVO.builder().reviewId(rs.getInt("review_id")).defaultImg(rs.getString("default_img"))
             .name(rs.getString("name")).title(rs.getString("title")).content(rs.getString("content"))
             .inputDate(rs.getDate("input_date")).id(rs.getString("id")).build();
+        rVO.setReviewId(seq);
 
       } // end while
 
@@ -286,12 +297,11 @@ public class UserReviewDAO {
       // 4.쿼리문 생성객체 얻기(Dynamic Query)
 
       StringBuilder deleteBoard = new StringBuilder();
-      deleteBoard.append("  delete from review    ").append("  where review_id=? and id=?   ");
+      deleteBoard.append("  delete from review    ").append("  where review_id=?   ");
       pstmt = con.prepareStatement(deleteBoard.toString());
 
       // 바인드 변수에 값 설정
       pstmt.setInt(1, rVO.getReviewId());
-      pstmt.setString(2, rVO.getId());
 
       cnt = pstmt.executeUpdate();
 
