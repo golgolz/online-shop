@@ -16,7 +16,7 @@ public class UserReviewDAO {
   private static UserReviewDAO userReviewDAO;
 
   private UserReviewDAO() {
-    columnNames = new String[] {"title", "content", "id"};
+    columnNames = new String[] {"title", "content", "id", "code"};
   }
 
   public static UserReviewDAO getInstance() {
@@ -42,10 +42,18 @@ public class UserReviewDAO {
       con = db.getConn("online-shop-dbcp");
       // 4. 쿼리문 생성객체 얻기(Dynamic Query)
       StringBuilder selectCnt = new StringBuilder();
-      selectCnt.append("select count(*) cnt from review");
+      selectCnt.append("    select count(*) cnt from review ");
+
+      if (sVO.getKeyword() != null && sVO.getKeyword() != "") {
+        selectCnt.append("  where code=?  ");
+      }
 
       pstmt = con.prepareStatement(selectCnt.toString());
       // 5. 바인트변수에 값 설정
+      int bindIndex = 0;
+      if (sVO.getKeyword() != null && sVO.getKeyword() != "") {
+        pstmt.setString(++bindIndex, sVO.getKeyword());
+      }
       // 6. 쿼리문 수행 후 결과 얻기
       rs = pstmt.executeQuery();
       if (rs.next()) {
@@ -101,11 +109,7 @@ public class UserReviewDAO {
     DbConnection db = DbConnection.getInstance();
 
     try {
-      // 1.JNDI 사용 객체 생성
-      // 2.DataSource 얻기
-      // 3.Connection 얻기
       con = db.getConn("online-shop-dbcp");
-      // 4.쿼리문 생성객체 얻기(Dynamic Query)
       StringBuilder selectReviewBoard = new StringBuilder();
       selectReviewBoard
           .append("   SELECT * FROM ( SELECT sub.*, ROW_NUMBER() OVER (ORDER BY sub.input_date DESC) AS rn    ")
@@ -126,7 +130,6 @@ public class UserReviewDAO {
       selectReviewBoard.append("   ) sub ) WHERE rn BETWEEN ? AND ?   ");
 
       pstmt = con.prepareStatement(selectReviewBoard.toString());
-      // 5.바인드 변수 값 설정
       int bindIndex = 0;
 
       if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
@@ -140,7 +143,6 @@ public class UserReviewDAO {
 
       pstmt.setInt(++bindIndex, sVO.getStartNum());
       pstmt.setInt(++bindIndex, sVO.getEndNum());
-      // 6.쿼리문 수행 후 결과 얻기
       rs = pstmt.executeQuery();
 
       ReviewBoardVO rVO = new ReviewBoardVO();
@@ -154,7 +156,6 @@ public class UserReviewDAO {
       } // end while
 
     } finally {
-      // 7.연결 끊기
       db.closeCon(rs, pstmt, con);
     }
 
