@@ -119,7 +119,7 @@
 						    output += "<tr class='xans-record-'>";
 						    output += "<td>" + (startNum + i) + "</td>";
 						    output += "<td class='subject left txtBreak'>";
-						    output += "<a href='http://localhost/online-shop/review/review_detail_user.jsp?seq=" + review.review_id + "'>" + review.title + "</a></td>"; // </td> 추가
+						    output += "<a href='http://localhost/online-shop/review/review_detail_user.jsp?reviewId=" + review.review_id + "'>" + review.title + "</a></td>"; // </td> 추가
 						    output += "<td>" + review.id + "</td>";
 						    output += "<td class='txtInfo txt11'>" + review.input_date + "</td>";
 						    output += "</tr>";
@@ -313,7 +313,7 @@
 											<tr class="xans-record-">
 												<td><%= startNum++ %></td>
 												<td class="subject left txtBreak">
-													<a href="http://localhost/online-shop/review/review_detail_user.jsp?seq=<%= review.getReviewId() %>">
+													<a href="http://localhost/online-shop/review/review_detail_user.jsp?reviewId=<%= review.getReviewId() %>">
 														<%= review.getTitle() %>
 													</a>
 												<td><%= review.getId() %></td>
