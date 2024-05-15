@@ -13,7 +13,7 @@
 <html>
 <head>
 
-	<jsp:include page="../../assets/jsp/user/lib.jsp" />
+	<jsp:include page="../assets/jsp/user/lib.jsp" />
 	<!-- golgolz start -->
 	<link rel="stylesheet" type="text/css" href="https://img.echosting.cafe24.com/editors/froala/css/froala_style_ec.min.css?vs=2404251304" charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer.php?filename=nZExDgIxDAT7KC3vsOAJPIEfOMFwJxJv5DgS_J6jggYJ0o52doulBVVofzBqhqtxJZOOYVko904Xgzpl1AqNG9jRL3nJoaMMX6Eh4T4pDvfZ0cIPsTnVORWZVNFCWVVCYtWv-9waHcF2ptNn3YZjeuGYCvJtVjZpMP_Pft_7BA&type=css&k=ecd691e0c80070ef935d0e961272742f67437a3c&t=1681776733"/>
@@ -128,7 +128,7 @@
 </script>
 </head>
 <body>
-	<jsp:include page="../../assets/jsp/user/header.jsp" />
+	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
