@@ -72,7 +72,7 @@ if(list != null){// 장바구니에서 주문을 진행한 경우
 	
 	try{
 	    cDAO.updateOrderStatus(cartId, "주문");
-	    cDAO.updateInputDate(userId);
+	    cDAO.updateInputDate(cartId);
 	    cDAO.updateDeliveryStatus(cartId, "배송준비중");
 	    
 	    cVO = new CardVO(cardId,userId);

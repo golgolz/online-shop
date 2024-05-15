@@ -457,6 +457,48 @@ public class CartDAO {
         return list;
     }// selectCart
 
+    public List<OrderProductVO> selectOrderProduct(String cartId) throws SQLException {
+        List<OrderProductVO> list = new ArrayList<OrderProductVO>();
+        OrderProductVO opVO = null;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+            con = dbCon.getConn("online-shop-dbcp");
+
+            StringBuilder selectQuery = new StringBuilder();
+
+            // 해당 주문번호의 모든 장바구니 상품 조회
+            selectQuery.append(
+                    "    select og.order_goods_id,gd.default_img,gd.name,og.code,gd.price,og.amount,gd.delivery_charge,(gd.price*og.amount+gd.delivery_charge) total    ")
+                    .append("    from goods gd, order_goods og, cart ct   ")
+                    .append("    where ((og.code=gd.code) and (ct.cart_id=og.cart_id)) and og.cart_id=? and order_flag='주문'    ");
+
+            pstmt = con.prepareStatement(selectQuery.toString());
+
+            pstmt.setString(1, cartId);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                opVO = new OrderProductVO(rs.getInt("order_goods_id"), rs.getString("default_img"),
+                        rs.getString("name"), rs.getString("code"), rs.getInt("price"), rs.getInt("amount"),
+                        rs.getInt("delivery_charge"), rs.getInt("total"), cartId);
+
+                list.add(opVO);
+            } // end while
+
+        } finally {
+            dbCon.closeCon(rs, pstmt, con);
+        } // end finally
+
+        return list;
+    }// selectOrderProduct
+
     public OrderProductVO selectProductInfo(String code) throws SQLException {
         OrderProductVO opVO = null;
 
@@ -576,6 +618,7 @@ public class CartDAO {
         return cartId;
     }// selectCartId
 
+
     public String selectFirstOrderId(String userId) throws SQLException {
 
         String cartId = "";
@@ -619,7 +662,7 @@ public class CartDAO {
      * @return
      * @throws SQLException
      */
-    public int updateInputDate(String userId) throws SQLException {
+    public int updateInputDate(String cartId) throws SQLException {
         int cnt = 0;
 
         Connection con = null;
@@ -633,11 +676,11 @@ public class CartDAO {
             StringBuilder updateQuery = new StringBuilder();
 
             updateQuery.append("   update cart     ").append("   set input_date=sysdate     ")
-                    .append("   where id=?   ");
+                    .append("   where cart_id=?   ");
 
             pstmt = con.prepareStatement(updateQuery.toString());
 
-            pstmt.setString(1, userId);
+            pstmt.setString(1, cartId);
 
             cnt = pstmt.executeUpdate();
 

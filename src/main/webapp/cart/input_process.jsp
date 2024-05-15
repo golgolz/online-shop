@@ -49,7 +49,7 @@ try{
 	cDAO.insertOrderProduct(opVO);
 	
 	if(chkFlag == false){// 장바구니 번호에 상품 리스트가 존재하지 않을 시 OrderProduct table의 input_date를 update
-	     cDAO.updateInputDate(userId);
+	     cDAO.updateInputDate(cartId);
 		}//end if 
 	
 	//값 설정
