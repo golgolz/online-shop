@@ -10,6 +10,29 @@
 <%@page import="user.main.GoodsSimpleVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+<%
+		// goods 
+		String code = (String)request.getParameter("goods");
+		GoodsSimpleVO currentGoods = null;
+		if(code != null){
+			currentGoods = UserGoodsDAO.getInstance().selectOneGoods(code);
+		}
+		
+		// pagenation for review 
+		int pageScale = 5;
+		int currentPage = Integer.parseInt(request.getParameter("page") == null ? "1" : request.getParameter("page"));
+		int startNum = pageScale * (currentPage - 1) + 1;
+		int endNum = startNum + pageScale - 1;
+		
+		PageController pageController = PageController.getInstance();
+		String params = pageController.createQueryStr(request);
+		
+		// review
+		SearchVO searchVO = new SearchVO(null, request.getParameter("goods"), null, startNum, endNum);
+		UserReviewDAO reviewDAO = UserReviewDAO.getInstance();
+		List<ReviewBoardVO> reviews = reviewDAO.selectReviewBoard(searchVO);
+	    int totalCount = reviewDAO.selectTotalCount(searchVO);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,6 +88,54 @@
 				return $("#sub_buy").attr("href") + quantity;
 			});
 		});
+		
+		$(".pages").click(function(event){
+			event.preventDefault();
+			var currentPage = parseInt($(this).text());
+			var startNum = (currentPage - 1) * <%= pageScale %> + 1;
+			var param = {
+					start: startNum, 
+					end: startNum + <%= pageScale %> - 1, 
+					code: "<%= code %>"
+					};
+			
+			$.ajax({
+				url: "review_json.jsp",
+				type: "GET",
+				data: param,
+				datatype: "JSON",
+				error: function(xhr){
+					alert("error occurred");
+				},
+				success: function(reviewObj){
+					if(reviewObj.flag){
+						var $tbody = $("#review_content tbody");
+						var reviews = reviewObj.review;
+						var output = "";
+							
+						$tbody.empty();
+						$.each(reviews, function(i, review) {
+							output = "";
+						    output += "<tr class='xans-record-'>";
+						    output += "<td>" + (startNum + i) + "</td>";
+						    output += "<td class='subject left txtBreak'>";
+						    output += "<a href='http://localhost/online-shop/review/review_detail_user.jsp?seq=" + review.review_id + "'>" + review.title + "</a></td>"; // </td> 추가
+						    output += "<td>" + review.id + "</td>";
+						    output += "<td class='txtInfo txt11'>" + review.input_date + "</td>";
+						    output += "</tr>";
+						    
+						    $tbody.append(output);
+						});
+						
+						$(".pages").children().each(function(){
+							$(this).removeClass("this");
+						});
+						
+						$("#page_" + currentPage + " a").addClass("this");
+					}
+				}
+			});
+		});
 	});
 	
 	function setTotalInfo(quantity){
@@ -78,29 +149,7 @@
 <!-- golgolz end -->
 </head>
 <body>
-	<%
-		// goods 
-		String code = (String)request.getParameter("goods");
-		GoodsSimpleVO currentGoods = null;
-		if(code != null){
-			currentGoods = UserGoodsDAO.getInstance().selectOneGoods(code);
-		}
-		
-		// pagenation for review 
-		int pageScale = 5;
-		int currentPage = Integer.parseInt(request.getParameter("page") == null ? "1" : request.getParameter("page"));
-		int startNum = pageScale * (currentPage - 1) + 1;
-		int endNum = startNum + pageScale - 1;
-		
-		PageController pageController = PageController.getInstance();
-		String params = pageController.createQueryStr(request);
-		
-		// review
-		SearchVO searchVO = new SearchVO(null, request.getParameter("goods"), null, startNum, endNum);
-		UserReviewDAO reviewDAO = UserReviewDAO.getInstance();
-		List<ReviewBoardVO> reviews = reviewDAO.selectReviewBoard(searchVO);
-	    int totalCount = reviewDAO.selectTotalCount(searchVO);
-	%>
+	
 	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="container">
@@ -243,7 +292,7 @@
 						<div class="board">
 							<div class="xans-element- xans-product xans-product-review">
 								<div class="ec-base-table typeList">
-									<table border="1" summary="" class="">
+									<table border="1" summary="" class="" id="review_content">
 										<caption>상품사용후기</caption>
 										<colgroup>
 											<col style="width: 70px" />
@@ -259,7 +308,7 @@
 												<th scope="col">작성일</th>
 											</tr>
 										</thead>
-										<tbody class="center" id="review_content">
+										<tbody class="center">
 											<% for(ReviewBoardVO review: reviews){ %>
 											<tr class="xans-record-">
 												<td><%= startNum++ %></td>
