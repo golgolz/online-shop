@@ -141,11 +141,11 @@ $(function(){
 <%
 	AdminReviewDAO rDAO=AdminReviewDAO.getInstance();
 	try{
-	  String seq=request.getParameter("seq");
+	  String seq=request.getParameter("reviewId");
 	  
 	  rVO=rDAO.selectDetailReview(Integer.parseInt(seq));//상세보기
 	 /*  rDAO.updateCnt(Integer.parseInt(seq)); *///조회수 올려주기(중요도가 덜한것이 아래로 내려가는게 좋음)
-	  
+	  System.out.println("seq : "+seq);
 	  pageContext.setAttribute("rVO", rVO);
 	}catch(SQLException se){
 	  se.printStackTrace();
@@ -178,15 +178,16 @@ $(function(){
 
 			<div class="contents">
 		<!--begin of submain-->
-		<form name="dataForm" action="./" method="post">
-		<input type="hidden" name="act"  value="community.index">
-		<input type="hidden" name="ch"   value="community">
-		<input type="hidden" name="mode" value="">
-		<input type="hidden" name="oc"   value="">
-		<input type="hidden" name="os"   value="">
-		<input type="hidden" name="bbs_code"  value="user_review">
-		<input type="hidden" name="bbs_mode" value="view">
-		<input type="hidden" name="bbs_seq"  value="23">
+		<form name="frmDetail" action="review_delete_process.jsp" method="post">
+		<input type="hidden" name="act"  value="community.index"/>
+		<input type="hidden" name="ch"   value="community"/>
+		<input type="hidden" name="mode" value=""/>
+		<input type="hidden" name="oc"   value=""/>
+		<input type="hidden" name="os"   value=""/>
+		<input type="hidden" name="bbs_code"  value="user_review"/>
+		<input type="hidden" name="bbs_mode" value="view"/>
+		<input type="hidden" name="bbs_seq"  value="23"/>
+		<input type="hidden" name="reviewId"  value="${rVO.reviewId}"/>
 
 		<!-- 검색 -->
 		<!-- <div class="subtitle"><img src="/admin/images/community/bul_subtitle.gif"> 게시물 보기</div> -->
@@ -224,7 +225,7 @@ $(function(){
 				<tr>
 					<td align="left"><a href="http://localhost/online-shop/manage/review/review_board_list.jsp" id="mode_bbs1" mode="list"><img src="https://demo01.swm.whoismall.com/admin/images/community/btn_list.gif" alt="목록"></a></td>
 					<td align="right">
-						<a href="" id="mode_bbs3" mode="delete"  style="margin-right: 300px;"><img src="https://demo01.swm.whoismall.com/admin/images/community/btn_del.gif" alt="삭제"></a>
+						<a href="review_delete_process.jsp?reviewId=${rVO.reviewId }" id="mode_bbs3" mode="delete"  style="margin-right: 300px;"><img src="https://demo01.swm.whoismall.com/admin/images/community/btn_del.gif" alt="삭제"></a>
 					</td>
 				</tr>
 			</table>

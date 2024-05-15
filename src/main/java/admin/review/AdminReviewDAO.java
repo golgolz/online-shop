@@ -181,12 +181,11 @@ public class AdminReviewDAO {
       // 4.쿼리문 생성객체 얻기(Dynamic Query)
 
       StringBuilder deleteBoard = new StringBuilder();
-      deleteBoard.append("  delete from review    ").append("  where review_id=? and id=?   ");
+      deleteBoard.append("  delete from review    ").append("  where review_id=? ");
       pstmt = con.prepareStatement(deleteBoard.toString());
 
       // 바인드 변수에 값 설정
       pstmt.setInt(1, rVO.getReviewId());
-      pstmt.setString(2, rVO.getId());
 
       cnt = pstmt.executeUpdate();
 

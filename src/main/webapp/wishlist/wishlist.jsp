@@ -57,7 +57,7 @@
 		
 		//////////////////////////////////////////////////////////////////////////////
 
-		function deleteCartItem(){
+/*  		function deleteWishlist(){
 			
 			var flag = confirm("정말 삭제하시겠습니까?");
 			
@@ -72,7 +72,7 @@
 					method : "deleteOne"
 			};
 			$.ajax({
-				url : "cart_process.jsp",
+				url : "wishlist_process.jsp",
 				type : "POST",
 				data : param,
 				dataType : "JSON",
@@ -90,9 +90,9 @@
 			})
 			}
 		
-		function deleteCartAll(){
+		function deleteAllWishlist(){
 			
-			var flag = confirm("장바구니가 모두 비워집니다. 삭제하시겠습니까?");
+			var flag = confirm("관심상품이 모두 비워집니다. 삭제하시겠습니까?");
 			
 			if(flag == false){
 				return;
@@ -113,16 +113,16 @@
 				},
 				success : function(jsonObj){
 					if(jsonObj.result){
-						alert("장바구니가 비워졌습니다.");
+						alert("관심상품이 비워졌습니다.");
 						location.reload();
 					}else{
-						alert("장바구니 비우기를 실패했습니다. 잠시 후 다시 시도해주세요.");
+						alert("관심상품 비우기를 실패했습니다. 잠시 후 다시 시도해주세요.");
 					}
 				}
 			})
-		}
+		} 
 		
-		
+		 */
 		
 </script>
 </head>
@@ -166,7 +166,7 @@
 	    sVO.setStartNum(startNum);
 	    sVO.setEndNum(endNum);
 	    //
-	    String userId="park";
+	    String userId="lee";
 	    session.setAttribute("userId", userId);
 	    //
 	    String userId2=(String)session.getAttribute("userId");
@@ -259,7 +259,7 @@
             <c:forEach var="wVO" items="${list}" varStatus="i">
             <tr class="xans-record-">
 <td><input name="wish_idx[]" id="wish_idx_0" enable-order="1" reserve-order="N" enable-purchase="1" class="" is-set-product="F" value="184531" type="checkbox" /></td>
-                <td style="width:20px"><c:out value="${i.index+1}"/></td>
+                <td style="width:20px"><c:out value="${wVO.favoriteId}"/></td>
                 <td class="thumb" style="width:90px"><img src="http://localhost/online-shop/assets/images/goods/<c:out value="${wVO.defaultImg}"/>"/></td>
                 <td class="left" style="width:200px; text-align: center;">
                     <strong class="name"><a href="/product/i-live-with-six-cats-너의-커다란-우주-엽서/5914/category/428/" class="ec-product-name"><c:out value="${wVO.name}"/></a></strong>
@@ -274,7 +274,7 @@
                 <td class="price right" style="text-align:center"><c:out value="${wVO.price + wVO.deliveryCharge}"/>원</td>
                 <td class="button">
                     <a href="#none" onclick="" class="btnSubmit ">장바구니담기</a>
-                    <a href="#none" onclick="deleteCartItem()" class="btnNormal"> 삭제</a>
+                    <a href="wishlist_delete_process.jsp?favoriteId=${wVO.favoriteId }" class="btnNormal"> 삭제</a>
                 </td>
             </tr>
 		   </c:forEach>
@@ -286,7 +286,7 @@
 <div class="xans-element- xans-myshop xans-myshop-wishlistbutton ec-base-button xans-record-"><span class="gLeft">
     </span>
 <span class="gRight">
-        <a href="#none" class="btnEmFix sizeM" onclick="deleteCartAll()">관심상품 비우기</a>
+        <a href="#none" class="btnEmFix sizeM" onclick="deleteAllWishlist()">관심상품 비우기</a>
     </span>
 </div>
 			<!-- golgolz end -->

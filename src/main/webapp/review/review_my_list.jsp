@@ -229,10 +229,10 @@
 				<td> <c:out value="${rVO.reviewId}"/></td>
 				<td> <img src="http://localhost/online-shop/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px">
 				      		<c:out value="${rVO.name}"/></td>
-				<td><a href="review_detail_user.jsp?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}"><c:out value="${rVO.title}"/></a></td>
+				<td><a href="review_detail_user.jsp?reviewId=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}"><c:out value="${rVO.title}"/></a></td>
 				<td> <c:out value="${rVO.inputDate}"/></td>
 				<%-- <td> <c:out value="${rVO.id}"/></td> --%>
-				</tr>	    	
+				</tr>
 	    	</c:forEach>
 	    	</tbody>
 	    </table>

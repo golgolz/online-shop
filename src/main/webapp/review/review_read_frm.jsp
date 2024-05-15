@@ -236,7 +236,7 @@ $(function(){
 <%
 	UserReviewDAO rDAO=UserReviewDAO.getInstance();
 	try{
-	  String seq=request.getParameter("seq");
+	  String seq=request.getParameter("reviewId");
 	  
 	  rVO=rDAO.selectDetailReview(Integer.parseInt(seq));//상세보기
 	  /* rDAO.updateCnt(Integer.parseInt(seq));//조회수 올려주기(중요도가 덜한것이 아래로 내려가는게 좋음) */
@@ -346,12 +346,10 @@ $(function(){
 <input id="isExceptBoardUseFroalaImg" name="isExceptBoardUseFroalaImg" value="" type="hidden"  />
 <input id="isGalleryBoard" name="isGalleryBoard" value="" type="hidden"  />
 <input id="c6" name="c6" value="429218e799694a4b1ce711e01de9690d" type="hidden"  />
-<input type="hidden" name="code" value="${ rVO.code }"/>
-<input type="hidden" name="cartId" value="${ rVO.cartId }"/>
-<div class="xans-element- xans-board xans-board-write-4 xans-board-write xans-board-4">
-
-
-<!--
+<input type="hidden" name="reviewId" value="${rVO.reviewId}"/>
+<%-- <input type="hidden" name="code" value="${ rVO.code }"/>
+<input type="hidden" name="cartId" value="${ rVO.cartId }"/> --%>
+<div class="xans-element- xans-board xans-board-write-4 xans-board-write xans-board-4"><!--
             $write_success_url = /board/product/list.html
             $product_select_url = /product/search_board_list.html
             $order_select_url = /order/search_board_list.html
@@ -748,7 +746,7 @@ $(function(){
                 <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
-                <input type="button" class="btnSubmitFix sizeS" value="수정" id="btnUpdate"/>
+            <a href="review_update_process.jsp?reviewId=${rVO.reviewId}&title=${rVO.title}&content=${rVO.content}&id=${rVO.id}" class="btnSubmitFix sizeS">수정</a>
                 <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>
