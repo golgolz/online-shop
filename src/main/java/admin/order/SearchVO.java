@@ -12,10 +12,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SearchVO {
-    private String cartId;
-    private String id;
-    private String name;
-    private String receiver;
+    private int field;
+    private String keyword;
     private String date;
     private String delivery;
     private String purchase;

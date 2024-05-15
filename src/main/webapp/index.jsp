@@ -129,7 +129,7 @@
 		                    <div class="thumbnail">
 		                        <div class="prdImg">
 		                            <a href="http://localhost/online-shop/goods/detail.jsp?goods=<%= goods.getCode() %>" name="anchorBoxName_6371">
-		                                <img src="http://localhost/online-shop/assets/images/goods/<%= goods.getDefaultImage() %>" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
+		                                <img src="http://localhost/online-shop/assets/images/goods/<%= goods.getDefaultImage() %>" id="eListPrdImage6371_3" alt="<%= goods.getName() %>">
 		                            </a>
 		                        </div>
 		                        <span class="wish">
