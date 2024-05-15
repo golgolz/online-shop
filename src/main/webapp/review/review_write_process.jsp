@@ -43,6 +43,7 @@
 		rVO.setInputDate(Date.valueOf(currentDate));
 		rVO.setRemoveFlag("F");
 		rDAO.insertReview(rVO);
+		System.out.println(title);
 		%>
 		alert("글을 작성했습니다.");
 		location.href="http://localhost/online-shop/manage/review/review_my_list.jsp";

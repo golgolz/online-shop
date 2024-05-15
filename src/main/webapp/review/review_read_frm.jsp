@@ -20,13 +20,13 @@ rVO.setId("haa");
 session.setAttribute("loginData", rVO);
 %>
 <c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://192.168.10.216/jsp_prj/index.jsp"/>
+<c:redirect url="http://localhost/online-shop/index.jsp"/>
 </c:if>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="../../assets/jsp/user/lib.jsp" />
+	<jsp:include page="../assets/jsp/user/lib.jsp" />
 	<!-- golgolz start -->
 <link rel="stylesheet" type="text/css" href="https://img.echosting.cafe24.com/editors/froala/css/froala_style_ec.min.css?vs=2404251303" charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer.php?filename=nZExDgIxDAT7KC3vsOAJPIEfOMFwJxJv5DgS_J6jggYJ0o52doulBVVofzBqhqtxJZOOYVko904Xgzpl1AqNG9jRL3nJoaMMX6Eh4T4pDvfZ0cIPsTnVORWZVNFCWVVCYtWv-9waHcF2ptNn3YZjeuGYCvJtVjZpMP_Pft_7BA&type=css&k=ecd691e0c80070ef935d0e961272742f67437a3c&t=1681776733"  />
@@ -51,7 +51,7 @@ summernote끝 -->
 	$(function(){
 	    $("#btnList").click(function () {
 	        //history.back();
-	        location.href="http://localhost/online-shop/manage/review/review_my_list.jsp?currentPage=${param.currentPage}";
+	        location.href="http://localhost/online-shop/review/review_my_list.jsp?currentPage=${param.currentPage}";
 	    });//click
 	    $("#btnUpdate").click(function () {
 	    	if(confirm("글을 수정하시겠습니까?")){
@@ -191,17 +191,17 @@ summernote끝 -->
 	}//removeReply
 	
 	function chkNull() {
-	    if($("#title").val().trim() == "") {
+	    if($("#title").val() == "") {
 	        alert("글 제목은 필수입력");
 	        $("#title").focus();
 	        return;
 	    }//end if
-	    if($("#content").val().trim() == "") {
+	    if($("#content").val() == "") {
 	        alert("내용은 필수입력");
 	        $("#content").focus();
 	        return;
 	    }//end if
-	    if($("#cnt").val().trim() == "") {
+	    if($("#cnt").val() == "") {
 	        $("#cnt").val(0);
 	    }
 	    
@@ -244,7 +244,7 @@ $(function(){
 	  pageContext.setAttribute("rVO", rVO);
 	}catch(NumberFormatException nfe){
 	  %>
-	  <%-- <c:redirect url="http://localhost/online-shop/manage/review/review_my_list.jsp"/> --%>
+	  <%-- <c:redirect url="http://localhost/online-shop/review/review_my_list.jsp"/> --%>
 	  
 	  <%
 	}catch(SQLException se){
@@ -319,7 +319,7 @@ $(function(){
 	    
 <!-- </div>
 </div>	 -->
-	<jsp:include page="../../assets/jsp/user/header.jsp" />
+	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
@@ -335,7 +335,7 @@ $(function(){
             <p>상품 사용후기입니다.</p>
         </div>
 </div>
-<form id="boardWriteForm" name="" action="/exec/front/Board/write/4" method="post" target="_self" enctype="multipart/form-data" >
+<form id="frmDetail" name="frmDetail" action="review_update_process.jsp" method="get" target="_self" enctype="multipart/form-data" >
 <input id="board_no" name="board_no" value="4" type="hidden"  />
 <input id="product_no" name="product_no" value="6027" type="hidden"  />
 <input id="move_write_after" name="move_write_after" value="/product/detail.html?board_no=4&amp;product_no=6027&amp;cate_no=428&amp;display_group=1&amp;keyword=" type="hidden"  />
@@ -345,15 +345,22 @@ $(function(){
 <input id="is_post_checked" name="is_post_checked" value="" type="hidden"  />
 <input id="isExceptBoardUseFroalaImg" name="isExceptBoardUseFroalaImg" value="" type="hidden"  />
 <input id="isGalleryBoard" name="isGalleryBoard" value="" type="hidden"  />
-<input id="c6" name="c6" value="429218e799694a4b1ce711e01de9690d" type="hidden"  /><div class="xans-element- xans-board xans-board-write-4 xans-board-write xans-board-4"><!--
+<input id="c6" name="c6" value="429218e799694a4b1ce711e01de9690d" type="hidden"  />
+<input type="hidden" name="code" value="${ rVO.code }"/>
+<input type="hidden" name="cartId" value="${ rVO.cartId }"/>
+<div class="xans-element- xans-board xans-board-write-4 xans-board-write xans-board-4">
+
+
+<!--
             $write_success_url = /board/product/list.html
             $product_select_url = /product/search_board_list.html
             $order_select_url = /order/search_board_list.html
             $login_page_url = /member/login.html
             $deny_access_url = /index.html
         -->
+
 <div class="ec-base-box typeProduct  ">
-            <p class="thumbnail"><a href=""><img id="iPrdImg" src="https://insideobject.com/web/product/tiny/202305/4af17b2f7283ac768912d392d44d09ca.png" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
+            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/online-shop/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
             <div class="information" style="padding-left:30px">
 				<h3><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdNameLink">
 				<span id="sPrdName"> <c:out value="${rVO.name}"/></span></a></h3>
@@ -374,7 +381,7 @@ $(function(){
 <tbody>
 <tr>
 <th scope="row">제목</th>
-                    <td> <input id="subject" name="subject" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" maxLength="125" value=" <c:out value="${rVO.title}"/>" type="text"  /></td>
+                    <td> <input id="title" name="title" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" maxLength="125" value=" <c:out value="${rVO.title}"/>" type="text"  /></td>
                 </tr>
 <%-- <tr class="displaynone">
 <th scope="row">작성자</th>
@@ -402,7 +409,7 @@ $(function(){
             <!-- HTML -->
             <textarea style="width: 100%;" name="content" id="content" class="ec-fr-never-be-duplicated"><c:out value="${rVO.content}"/></textarea>
                 <input type="hidden" id="content_hidden" fw-filter="isSimplexEditorFill" fw-label="내용" value="EC_FROALA_INSTANCE" />
-                
+               
             <!-- JavaScript -->
             <script type="text/javascript" src="https://img.echosting.cafe24.com/editors/froala/js/polyfill.min.js?vs=2404180600"></script>
             <script type="text/javascript" src="https://img.echosting.cafe24.com/editors/froala/3.2.2/js/froala_editor.pkgd.min.js?vs=2404180600"></script>
@@ -730,18 +737,19 @@ $(function(){
                 }
             }
             
-            </script>                    </td>
+            </script>                    </td> 
                 </tr>
 </tbody>
 </table>
+</form>
 </div>
 <div class="ec-base-button ">
             <span class="gLeft">
-                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
+                <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
-                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnSubmitFix sizeS" onclick="BOARD_WRITE.form_submit('boardWriteForm');">등록</a>
-                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
+                <input type="button" class="btnSubmitFix sizeS" value="수정" id="btnUpdate"/>
+                <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>
 </div>
