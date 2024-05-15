@@ -4,6 +4,23 @@
 <%@page import="admin.order.AdminOrderDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+<jsp:useBean id="orderInfo" class="admin.order.OrderDetailInfoVO" />
+<jsp:setProperty property="*" name="orderInfo" />
+<%
+	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
+	String paramId = (String)request.getParameter("id");
+	if(request.getParameter("id") != null){
+		orderInfo = adminOrderDAO.selectDetailInfo(paramId);
+	} else {
+%>
+	<script>
+		alert("잘못된 요청입니다. 주문 리스트 페이지로 돌아갑니다.");
+		location.href = "http://localhost/online-shop/manage/order/orders.jsp";
+	</script>
+<%
+	}
+	List<OrderDetailGoodsVO> goodsList = adminOrderDAO.selectDetailGoods(paramId);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +30,52 @@
 <script type="text/javascript">
 	$(function() {
 		$("#order_menu").addClass("bg-gradient-primary");
+		
+		$(".order_status").click(function(){
+			var params = { 
+					method: $(this).val(),
+					cartId: <%= paramId %>
+					};
+			
+			$.ajax({
+				url: "status_update_process.jsp",
+				type: "POST",
+				datatype: "JSON",
+				data: params,
+				error: function(xhr){
+					alert("error occurred");
+				},
+				success: function(result){
+					if(result.flag){
+						var $tbody = $("#sodr_list tbody");
+						var goodsList = result.data;
+						var output = "";
+						
+						$tbody.empty();
+						$.each(goodsList, function(i, goods){
+							output ="";
+							output += "<tr class='list0'>";
+							output += "<td><a href='http://localhost/online-shop/goods/detail.jsp?goods=" + goods.code +"'>";
+							output += "<img src='http://localhost/online-shop/assets/images/goods/" + goods.defaultImage + "' width='40' height='40'></a></td>";
+							output += "<td class='tal'><a href='http://localhost/online-shop/goods/detail.jsp?goods=" + goods.code + "'>" + goods.name + "</a></td>";
+							output += "<td>" + goods.orderStatus + "</td>";
+							output += "<td>" + goods.purchaseStatus + "</td>";
+							output += "<td>" + goods.amount + "개</td>";
+							output += "<td class='tar'>" + goods.price + "원</td>";
+							output += "<td class='tar'>" + goods.deliveryCharge + "원</td>";
+							output += "<td class='td_price'>" + parseInt(goods.deliveryCharge) * parseInt(goods.amount) + "원</td></tr>";
+							$tbody.append(output);
+						});
+						
+						if(params.method == "반품접수"){
+							alert("해당 상품의 반품 접수가 완료되었습니다.");
+						} else{
+							alert("해당 상품의 배송 상태가 변경되었습니다.");
+						}
+					}
+				}
+			});
+		});
 	});
 </script>
 <!-- golgolz start -->
@@ -20,7 +83,6 @@
 <script src="http://demofran.com/js/jquery-ui-1.10.3.custom.js"></script>
 <script src="http://demofran.com/js/common.js?ver=20240430173216"></script>
 <script src="http://demofran.com/js/categorylist.js?ver=20240430173216"></script>
-
 <style>
 .new_win {
     overflow: auto; 
@@ -33,23 +95,7 @@
 <!-- golgolz end -->
 </head>
 <body>
-	<jsp:useBean id="orderInfo" class="admin.order.OrderDetailInfoVO" />
-	<jsp:setProperty property="*" name="orderInfo" />
-	<%
-	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
-	String paramId = (String)request.getParameter("id");
-	if(request.getParameter("id") != null){
-		orderInfo = adminOrderDAO.selectDetailInfo(paramId);
-	} else {
-	%>
-	<script>
-		alert("잘못된 요청입니다. 주문 리스트 페이지로 돌아갑니다.");
-		location.href = "http://localhost/online-shop/manage/order/orders.jsp";
-	</script>
-	<%
-	}
-	List<OrderDetailGoodsVO> goodsList = adminOrderDAO.selectDetailGoods(paramId);
-	%>
+	
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
 		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps--active-y">
@@ -128,10 +174,10 @@
 											</td>
 											<td><%= goods.getOrderStatus() %></td>
 											<td><%= goods.getPurchaseStatus() %></td>
-											<td><%= goods.getAmount() %></td>
-											<td class="tar"><%= goods.getPrice() %></td>
-											<td class="tar"><%= goods.getDeliveryCharge() %></td>
-											<td class="td_price"><%= goods.getPrice() * goods.getAmount() %></td>
+											<td><%= goods.getAmount() %>개</td>
+											<td class="tar"><%= goods.getPrice() %>원</td>
+											<td class="tar"><%= goods.getDeliveryCharge() %>원</td>
+											<td class="td_price"><%= goods.getPrice() * goods.getAmount() %>원</td>
 									</tr>
 									<% } %>
 								</tbody>
@@ -142,9 +188,9 @@
 				<section>
 					<form name="buttonfrm">
 						<div class="status-btn-div">
-							<input type="button" value="배송시작" class="btn_medium blue">
-							<input type="button" value="배송완료" class="btn_medium green">
-							<input type="button" value="반품접수" class="btn_medium red">
+							<input type="button" value="배송시작" class="btn_medium blue order_status">
+							<input type="button" value="배송완료" class="btn_medium green order_status">
+							<input type="button" value="반품접수" class="btn_medium red order_status">
 						</div>
 					</form>
 				</section>
@@ -250,16 +296,13 @@
 								</section>
 							</div>
 							<div class="btn_confirm">
-								<input type="submit" value="배송지 정보 수정" class="btn_medium">
-								<a href="javascript:window.close();" class="btn_medium bx-white">닫기</a>
+								<a href="javascript:history.back();" class="btn_medium bx-white">이전</a>
 							</div>
 						</form>
 					</section>
 				</div>
-
 			</div>
-
-			<script>
+			<!-- <script>
 				function form_submit(f) {
 					var status = document.pressed;
 
@@ -293,17 +336,12 @@
 					}
 				}
 			</script>
-
-
 			<div id="ajax-loading">
 				<img src="http://demofran.com/img/ajax-loader.gif">
 			</div>
-
 			<script
 				src="http://demofran.com/admin/js/admin.js?ver=20240430173216"></script>
-
-			<script src="http://demofran.com/js/wrest.js"></script>
-
+			<script src="http://demofran.com/js/wrest.js"></script> -->
 			<!-- golgolz end -->
 		</div>
 	</main>

@@ -12,11 +12,11 @@ import database.DbConnection;
 
 
 public class UserReviewDAO {
-
+  private String[] columnNames;
   private static UserReviewDAO userReviewDAO;
 
   private UserReviewDAO() {
-
+    columnNames = new String[] {"title", "content", "id", "code"};
   }
 
   public static UserReviewDAO getInstance() {
@@ -42,10 +42,18 @@ public class UserReviewDAO {
       con = db.getConn("online-shop-dbcp");
       // 4. 쿼리문 생성객체 얻기(Dynamic Query)
       StringBuilder selectCnt = new StringBuilder();
-      selectCnt.append("select count(*) cnt from review");
+      selectCnt.append("    select count(*) cnt from review ");
+
+      if (sVO.getKeyword() != null && sVO.getKeyword() != "") {
+        selectCnt.append("  where code=?  ");
+      }
 
       pstmt = con.prepareStatement(selectCnt.toString());
       // 5. 바인트변수에 값 설정
+      int bindIndex = 0;
+      if (sVO.getKeyword() != null && sVO.getKeyword() != "") {
+        pstmt.setString(++bindIndex, sVO.getKeyword());
+      }
       // 6. 쿼리문 수행 후 결과 얻기
       rs = pstmt.executeQuery();
       if (rs.next()) {
@@ -101,33 +109,40 @@ public class UserReviewDAO {
     DbConnection db = DbConnection.getInstance();
 
     try {
-      // 1.JNDI 사용 객체 생성
-      // 2.DataSource 얻기
-      // 3.Connection 얻기
       con = db.getConn("online-shop-dbcp");
-      // 4.쿼리문 생성객체 얻기(Dynamic Query)
       StringBuilder selectReviewBoard = new StringBuilder();
       selectReviewBoard
           .append("   SELECT * FROM ( SELECT sub.*, ROW_NUMBER() OVER (ORDER BY sub.input_date DESC) AS rn    ")
           .append("     FROM ( SELECT r.review_id, g.default_img, g.name, r.title, r.input_date, r.id   ")
           .append("        FROM review r JOIN customer c ON r.id = c.id JOIN goods g ON r.code = g.code   ");
 
+
+      if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+        selectReviewBoard.append(" where instr(").append(columnNames[Integer.parseInt(sVO.getField())])
+            .append(", ? ) > 0");
+      } // end if
+
       /*
-       * if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
-       * selectReviewBoard.append(" where instr(").append(columnNames[Integer.parseInt(sVO.getField())])
-       * .append(", ? ) > 0"); } // end if
+       * if (sVO.getKeyword() != null && sVO.getKeyword() != "") {
+       * selectReviewBoard.append("  where r.code=?  "); }
        */
+
       selectReviewBoard.append("   ) sub ) WHERE rn BETWEEN ? AND ?   ");
 
       pstmt = con.prepareStatement(selectReviewBoard.toString());
-      // 5.바인드 변수 값 설정
       int bindIndex = 0;
+
+      if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+        pstmt.setString(++bindIndex, sVO.getKeyword());
+      } // end if
+
       /*
-       * if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) { pstmt.setString(++bindIndex,
-       * sVO.getKeyword()); } // end if
-       */ pstmt.setInt(++bindIndex, sVO.getStartNum());
+       * if (sVO.getKeyword() != null && sVO.getKeyword() != "") { pstmt.setString(++bindIndex,
+       * sVO.getKeyword()); }
+       */
+
+      pstmt.setInt(++bindIndex, sVO.getStartNum());
       pstmt.setInt(++bindIndex, sVO.getEndNum());
-      // 6.쿼리문 수행 후 결과 얻기
       rs = pstmt.executeQuery();
 
       ReviewBoardVO rVO = new ReviewBoardVO();
@@ -141,7 +156,6 @@ public class UserReviewDAO {
       } // end while
 
     } finally {
-      // 7.연결 끊기
       db.closeCon(rs, pstmt, con);
     }
 
@@ -217,6 +231,7 @@ public class UserReviewDAO {
         rVO = ReviewBoardVO.builder().reviewId(rs.getInt("review_id")).defaultImg(rs.getString("default_img"))
             .name(rs.getString("name")).title(rs.getString("title")).content(rs.getString("content"))
             .inputDate(rs.getDate("input_date")).id(rs.getString("id")).build();
+        rVO.setReviewId(seq);
 
       } // end while
 
@@ -286,12 +301,11 @@ public class UserReviewDAO {
       // 4.쿼리문 생성객체 얻기(Dynamic Query)
 
       StringBuilder deleteBoard = new StringBuilder();
-      deleteBoard.append("  delete from review    ").append("  where review_id=? and id=?   ");
+      deleteBoard.append("  delete from review    ").append("  where review_id=?   ");
       pstmt = con.prepareStatement(deleteBoard.toString());
 
       // 바인드 변수에 값 설정
       pstmt.setInt(1, rVO.getReviewId());
-      pstmt.setString(2, rVO.getId());
 
       cnt = pstmt.executeUpdate();
 

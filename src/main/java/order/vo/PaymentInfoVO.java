@@ -17,4 +17,13 @@ public class PaymentInfoVO {
     private String cardId;
     private String userId;
     private Date purchaseDate;
+
+    public PaymentInfoVO(String cartId, String cardId, String userId) {
+        super();
+        this.cartId = cartId;
+        this.cardId = cardId;
+        this.userId = userId;
+    }
+
+
 }
