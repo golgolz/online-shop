@@ -32,9 +32,9 @@
 </style>
 <script type="text/javascript">
 		$(function(){
-			$("#btnSearch").click(function(){
+			/* $("#btnSearch").click(function(){
 				chkNull;
-			});//click
+			});//click */
 			$("#btnAllSearch").click(function(){
 				location.href="review_my_list.jsp";
 			});//click
@@ -47,6 +47,10 @@
 					chkNull();
 				}//end if
 			});//keydown
+			
+			$("#search").click(function(){
+				$("#frmBoard").submit();
+			});
 			
 		});//ready
 		
@@ -207,7 +211,7 @@
 		<input type="hidden" name="bbs_mode"  value="list">
 		<input type="hidden" name="cate_code" value="GD">
 		<input type="hidden" name="seq"  value="">
-		
+		</form>
 	   <div>
 	    <table class="table">
 	    	<thead>
@@ -240,14 +244,15 @@
 </div>
 
 	    <div style="text-align: center; margin-top:10px">
-	    <form action="review_my_test.jsp" name="frmBoard" id="frmBoard">
+	    <form action="review_my_list.jsp" name="frmBoard" id="frmBoard" method="get">
 	    	<select name="field" id="field">
 	    		<option value="0" ${param.field eq 0?" selected='selected'":""}>제목</option>
 	    		<option value="1" ${param.field eq 1?" selected='selected'":""}>내용</option>
-	    		<option value="2" ${param.field eq 2?" selected='selected'":""}>작성자</option>
+	    		<%-- <option value="2" ${param.field eq 2?" selected='selected'":""}>작성자</option> --%>
 	    	</select>
 	    	<input type="text" name="keyword" id="keyword" value="${param.keyword }" style="width:230px; border:1px solid #dedede;"/>
-	    	<input type="button"  value="검색" id="btnSearch" class="btn btn-info btn-sm"/>
+	    	<input type="button"  value="검색" id="search" class="btn btn-info btn-sm"/>
+	    	<input type="button"  value="전체글" id="btnAllSearch" class="btn btn-info btn-sm" />
 	    	<input type="button"  value="글쓰기" id="btnWrite" class="btn btn-warning btn-sm"/>
 	    	<input type="text" style="display: none;">
 	    </form>
