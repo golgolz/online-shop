@@ -120,7 +120,15 @@
 		PageController pageController = PageController.getInstance();
 		String params = pageController.createQueryStr(request);
 		
-		searchVO.setField(Integer.parseInt(request.getParameter("category") == null ? "-1" : request.getParameter("category")));
+		String keyword = request.getParameter("keyword");
+		String category = request.getParameter("category");
+		String field = "-1";
+		
+		if(!(category == null || keyword == "" || keyword == null)){
+		    field = request.getParameter("category");
+		}
+		
+		searchVO.setField(Integer.parseInt(field));
 		AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
 		List<OrderVO> orders = adminOrderDAO.selectOrders(searchVO);
 		int searchResultCount = adminOrderDAO.selectCount(searchVO);
@@ -187,13 +195,13 @@
 											<input type="radio" name="delivery" value="0"${param.delivery eq '0' ? " checked" : "" }> 전체
 										</label> 
 										<label class="od_status">
-											<input type="radio" name="delivery" value="1"${param.delivery eq '1' ? " checked" : "" }> 배송준비
+											<input type="radio" name="delivery" value="1"${param.delivery eq '1' ? " checked" : "" }> 배송 준비중
 										</label> 
 										<label class="od_status">
 											<input type="radio" name="delivery" value="2"${param.delivery eq '2' ? " checked" : "" }> 배송중
 										</label> 
 										<label class="od_status">
-											<input type="radio" name="delivery" value="3"${param.delivery eq '3' ? " checked" : "" }> 배송완료
+											<input type="radio" name="delivery" value="3"${param.delivery eq '3' ? " checked" : "" }> 배송 완료
 										</label>
 									</td>
 								</tr>

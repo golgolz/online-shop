@@ -1,5 +1,28 @@
+<%@page import="admin.refund.RefundDetailInfoVO"%>
+<%@page import="admin.order.OrderDetailGoodsVO"%>
+<%@page import="java.util.List"%>
+<%@page import="admin.order.AdminOrderDAO"%>
+<%@page import="admin.refund.AdminRefundDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+<jsp:useBean id="refundInfo" class="admin.refund.RefundDetailInfoVO" />
+<%
+	AdminRefundDAO adminRefundDAO = AdminRefundDAO.getInstance();
+	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
+	String paramId = (String)request.getParameter("id");
+	
+	if(request.getParameter("id") != null){
+	    refundInfo = adminRefundDAO.selectDetailInfo(paramId);
+	} else {
+%>
+	<script>
+		alert("잘못된 요청입니다. 주문 리스트 페이지로 돌아갑니다.");
+		location.href = "http://localhost/online-shop/manage/refund/refundss.jsp";
+	</script>
+<%
+	}
+	List<OrderDetailGoodsVO> goodsList = adminOrderDAO.selectDetailGoods(paramId);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +31,28 @@
 <link rel="shortcut icon" href="http://demofran.com/data/banner/JnLfWUSUyR6sXJP5n3Re4Fvdc93k93.ico" type="image/x-icon">
 <script type="text/javascript">
 	$(function() {
-		$("#order_menu").addClass("bg-gradient-primary");
+		$("#refund_menu").addClass("bg-gradient-primary");
+		
+		$(".refund_status").click(function(){
+			var params = { 
+					method: "",
+					cartId: <%= paramId %>
+					};
+			$.ajax({
+				url: "status_update_process.jsp",
+				type: "POST",
+				datatype: "JSON",
+				data: params,
+				error: function(xhr){
+					alert("error occurred");
+				},
+				success: function(data){
+					if(data.flag){
+						alert("해당 주문의 반품이 처리되었습니다.");
+					}
+				}
+			});
+		});
 	});
 </script>
 <!-- golgolz start -->
@@ -51,138 +95,80 @@
 		</nav>
 		<div class="container-fluid py-4">
 			<!-- golgolz start -->
-
 			<div id="sodr_pop" class="new_win">
-				<h1>반품상세조회</h1>
-
 				<section id="anc_sodr_list">
 					<h4 class="anc_tit">주문상품 목록</h4>
-					<ul class="anchor">
-						<li><a href="#anc_sodr_list">주문상품 목록</a></li>
-						<li><a href="#anc_sodr_pay">주문결제 내역</a></li>
-					</ul>
 					<div class="local_desc02 local_desc">
-						<p>
-							주문번호 <strong>202404051153</strong>
+						<p style="font-size: 13px;">
+							주문번호 : ${ param.id }
 						</p>
-						<p style= "font-size:13px;";>
-							주문자ID <strong>lee</strong><span class="fc_214"> | </span>반품일시 <strong>2024-04-08 22:53 (월)</strong>
+						<p style="font-size: 13px;">
+							주문자ID : <%= refundInfo.getId() %>
+						</p>
+						<p style="font-size: 13px;">
+							주문일시 : <%= refundInfo.getRefundDate() %>
 						</p>
 					</div>
-
-					<form name="frmorderform" method="post"
-						action="./pop_orderstatusupdate.php"
-						onsubmit="return form_submit(this);">
-						<input type="hidden" name="od_id" value="24040511530204">
-						<input type="hidden" name="od_hp" value="010-0000-0000"> <input
-							type="hidden" name="od_email" value="admin@demofran.com">
-						<input type="hidden" name="mb_id" value="admin"> <input
-							type="hidden" name="pt_id" value=""> <input type="hidden"
-							name="pg_cancel" value="0">
-
+					<form name="frmorderform" method="post">
 						<div class="tbl_head01">
 							<table id="sodr_list">
 								<colgroup>
-									
 									<col class="w60">
 									<col>
 									<col class="w90">
 									<col class="w90">
 									<col class="w60">
 									<col class="w70">
-									<col class="w70">
-									
-									
-									<col class="w70">
 								</colgroup>
 								<thead>
 									<tr>
-										
 										<th scope="col">이미지</th>
 										<th scope="col">주문상품</th>
-										<th scope="col">주문자명</th>
-										<th scope="col">반품상태</th>
 										<th scope="col">수량</th>
 										<th scope="col">상품금액</th>
-										<th scope="col">환불금액</th>
-										<th scope="col">결제수단</th>
+										<th scope="col">배송비</th>
+										<th scope="col">실결제액</th>
 									</tr>
 								</thead>
 								<tbody class="list">
+									<% for(OrderDetailGoodsVO goods : goodsList){ %>
 									<tr class="list0">
-										
-										<td><a href="http://demofran.com/shop/view.php?index_no=14" target="_blank"><img src="http://demofran.com/data/order/2404/24040511530204/thumb-95S2lNwQks3caPhpLyDPjPWygyeCsC_40x40.jpg" width="40" height="40"></a></td>
-										<td class="tal"><a href="http://demofran.com/admin/goods.php?code=form&amp;w=u&amp;gs_id=14" target="_blank">Mathey-Tissot 심플 서류가방+백팩 블랙세트</a> [비과세상품]
-											<div class="sod_opt">
-												<ul>
-												</ul>
-											</div></td>
-										<td rowspan="3">장원영</td>
-										<td>반품완료</td>
-										<td>1</td>
-										<td class="tar">70,000</td>
-										<td class="td_price">70,000</td>
-										<td>카드결제</td>
+											<td>
+												<a href="http://localhost/online-shop/goods/detail.jsp?goods=<%= goods.getCode() %>">
+													<img src="http://localhost/online-shop/assets/images/goods/<%= goods.getDefaultImage() %>" width="40" height="40">
+												</a>
+											</td>
+											<td class="tal">
+												<a href="http://localhost/online-shop/goods/detail.jsp?goods=<%= goods.getCode() %>">
+													<%= goods.getName() %>
+												</a>
+											</td>
+											<%-- <td><%= goods.getOrderStatus() %></td>
+											<td id="purchaseStatus"><%= goods.getPurchaseStatus() %></td> --%>
+											<td><%= goods.getAmount() %>개</td>
+											<td class="tar"><%= goods.getPrice() %>원</td>
+											<td class="tar"><%= goods.getDeliveryCharge() %>원</td>
+											<td class="td_price"><%= goods.getPrice() * goods.getAmount() + goods.getDeliveryCharge() %>원</td>
 									</tr>
-									<tr class="list1">
-										
-										<td><a href="http://demofran.com/shop/view.php?index_no=20" target="_blank"><img src="http://demofran.com/data/order/2404/24040511530204/thumb-30323_NcEq6PgZABZ4yTEDMfbc7CMZjFb4w8_40x40.jpg" width="40" height="40"></a></td>
-										<td class="tal"><a href="http://demofran.com/admin/goods.php?code=form&amp;w=u&amp;gs_id=20" target="_blank">Guy Laroche 토리노 지퍼 동전 카드케이스 GL-9300-TR-NY</a>
-											<div class="sod_opt">
-												<ul>
-												</ul>
-											</div></td>
-										<td>반품완료</td>
-										<td>1</td>
-										<td class="tar">29,520</td>
-										<td class="td_price">29,520</td>
-										<td>카드결제</td>
-									</tr>
-									<tr class="list0">
-										
-										<td><a href="http://demofran.com/shop/view.php?index_no=16" target="_blank"><img src="http://demofran.com/data/order/2404/24040511530204/thumb-l7xUjCx1dy5Tp6GlLAy2zMlRLHhxGx_40x40.jpg" width="40" height="40"></a></td>
-										<td class="tal"><a href="http://demofran.com/admin/goods.php?code=form&amp;w=u&amp;gs_id=16" target="_blank">Guy Laroche 사피아노 핸들 카드케이스 GL-9307-OR</a>
-											[비과세상품]
-											<div class="sod_opt">
-												<ul>
-												</ul>
-											</div></td>
-										<td>반품완료</td> 
-										<td>1</td>
-										<td class="tar">36,720</td>
-										<td class="td_price">36,720</td>
-										<td>카드결제</td>
-									</tr>
+									<% } %>
 								</tbody>
 							</table>
 						</div>
 					</form>
 				</section>
-				
 				<section>
 					<form name="buttonfrm">
 						<div class="status-btn-div">
-							<input type="button" value="반품완료" class="btn_medium">
+							<input type="button" value="반품완료" class="btn_medium refund_status">
 						</div>
 					</form>
 				</section>
-
-
 				<section id="anc_sodr_pay" class="new_win_desc mart30">
 					<h3 class="anc_tit">주문결제 내역</h3>
-					<ul class="anchor">
-						<li><a href="#anc_sodr_list">주문상품 목록</a></li>
-						<li><a href="#anc_sodr_pay">주문결제 내역</a></li>
-					</ul>
-					<form name="frmorderreceiptform" action="./pop_orderformupdate.php"
-						method="post" autocomplete="off">
-						<input type="hidden" name="od_id" value="24040511530204">
-						<input type="hidden" name="mod_type" value="receipt">
-
+					<form name="frmorderreceiptform" >
 						<div class="compare_wrap">
 							<section id="anc_sodr_chk" class="compare_center">
 								<h3>환불정보 확인</h3>
-
 								<div class="tbl_frm01">
 									<table>
 										<colgroup>
@@ -191,71 +177,28 @@
 										</colgroup>
 										<tbody>
 											<tr>
-												<th scope="row">총 주문금액</th>
-												<td class="td_price">136,240원</td>
+												<th scope="row">총 상품금액</th>
+												<td class="td_price"><%= refundInfo.getRefundAmount() %>원</td>
+											</tr>
+											<tr>
+												<th scope="row">배송비</th>
+												<td class="td_price">3000원</td>
 											</tr>
 											<tr>
 												<th scope="row">총 환불금액</th>
-												<td class="td_price bg0">136,240원</td>
-											</tr>
-											<tr>
-												<th scope="row">차액</th>
-												<td class="td_price bg0">-0원</td>
+												<td class="td_price bg0"><%= refundInfo.getRefundAmount() + 3000 %>원</td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
 							</section>
+							<div class="btn_confirm">
+								<a href="javascript:history.back();" class="btn_medium bx-white">이전</a>
+							</div>
 						</div>
 					</form>
 				</section>
 			</div>
-			
-			<script>
-				function form_submit(f) {
-					var status = document.pressed;
-
-					if (!is_checked("chk[]")) {
-						alert("처리할 자료를 하나 이상 선택해 주십시오.");
-						return false;
-					}
-
-					if (status == "운송장번호수정") {
-						f.action = "./pop_orderbaesongupdate.php";
-						return true;
-					}
-
-					var $chk = $("input[name='chk[]']");
-					var chk_cnt = $chk.size();
-					var chked_cnt = $chk.filter(":checked").size();
-
-					if (status == "입금완료" || status == "입금대기"
-							|| status == "주문취소" || status == "전체환불"
-							|| status == "전체반품") {
-						if (chk_cnt != chked_cnt) {
-							alert("처리할 자료를 모두 선택해주세요.\n\n일부 상품만 처리할 수 없습니다.");
-							return false;
-						}
-					}
-
-					if (confirm("주문상태를 변경하시겠습니까?")) {
-						return true;
-					} else {
-						return false;
-					}
-				}
-			</script>
-
-
-			<div id="ajax-loading">
-				<img src="http://demofran.com/img/ajax-loader.gif">
-			</div>
-
-			<script
-				src="http://demofran.com/admin/js/admin.js?ver=20240430173216"></script>
-
-			<script src="http://demofran.com/js/wrest.js"></script>
-
 			<!-- golgolz end -->
 		</div>
 	</main>
