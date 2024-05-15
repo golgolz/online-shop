@@ -125,7 +125,7 @@ public class AdminRefundDAO {
             conn = dbConn.getConn("online-shop-dbcp");
 
             selectQuery.append(
-                    " select order_date, cart_id, id, name, refund_date, refund_state, purchase_amount as refund_amount, '카드결제' as payment from ( ")
+                    " select order_date, cart_id, id, name, refund_date, refund_state, purchase_amount + 3000 as refund_amount, '카드결제' as payment from ( ")
                     .append(" select row_number() over(order by cart.input_date desc) as rnum, cart.input_date as order_date, cart.cart_id, cart.id, name, refund.input_date as refund_date, refund_state, purchase_amount as purchase_amount, '카드결제' as payment ")
                     .append(" from cart join refund_history refund on refund.cart_id = cart.cart_id left join ( ")
                     .append(" select order_goods.cart_id as cart_id, sum(goods.price * order_goods.amount) as purchase_amount from goods ")
@@ -202,5 +202,40 @@ public class AdminRefundDAO {
             dbConn.closeCon(rs, pstmt, conn);
         }
         return refunds;
+    }
+
+    public RefundDetailInfoVO selectDetailInfo(String cartId) throws SQLException {
+        RefundDetailInfoVO refundInfo = null;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder selectQuery = new StringBuilder();
+
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+
+            selectQuery.append(" select id, refund_date, purchase_amount as refund_amount from ( ").append(
+                    " select cart.cart_id, cart.id, refund.input_date as refund_date, purchase_amount as purchase_amount ")
+                    .append(" from cart join refund_history refund on refund.cart_id = cart.cart_id left join ( ")
+                    .append(" select order_goods.cart_id as cart_id, sum(goods.price * order_goods.amount) as purchase_amount from goods ")
+                    .append(" join order_goods on goods.code = order_goods.code group by cart_id) purchase_amount on purchase_amount.cart_id = cart.cart_id ")
+                    .append(" where order_flag='반품' and cart.cart_id = ? )");
+            pstmt = conn.prepareStatement(selectQuery.toString());
+            pstmt.setString(1, cartId);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                refundInfo = new RefundDetailInfoVO(rs.getString("id"), rs.getDate("refund_date"),
+                        rs.getInt("refund_amount"));
+            }
+        } finally {
+            dbConn.closeCon(rs, pstmt, conn);
+        }
+
+        return refundInfo;
     }
 }

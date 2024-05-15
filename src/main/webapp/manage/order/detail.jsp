@@ -37,6 +37,11 @@
 					cartId: <%= paramId %>
 					};
 			
+			if(params.method == "반품접수" && $("#purchaseStatus").text() == "구매확정"){
+				alert("구매 확정된 상품은 반품처리가 불가합니다.");
+				return;
+			}
+			
 			$.ajax({
 				url: "status_update_process.jsp",
 				type: "POST",
@@ -59,15 +64,19 @@
 							output += "<img src='http://localhost/online-shop/assets/images/goods/" + goods.defaultImage + "' width='40' height='40'></a></td>";
 							output += "<td class='tal'><a href='http://localhost/online-shop/goods/detail.jsp?goods=" + goods.code + "'>" + goods.name + "</a></td>";
 							output += "<td>" + goods.orderStatus + "</td>";
-							output += "<td>" + goods.purchaseStatus + "</td>";
+							output += "<td id='purchaseStatus'>" + goods.purchaseStatus + "</td>";
 							output += "<td>" + goods.amount + "개</td>";
 							output += "<td class='tar'>" + goods.price + "원</td>";
 							output += "<td class='tar'>" + goods.deliveryCharge + "원</td>";
-							output += "<td class='td_price'>" + parseInt(goods.deliveryCharge) * parseInt(goods.amount) + "원</td></tr>";
+							output += "<td class='td_price'>" + (parseInt(goods.price) * parseInt(goods.amount) + parseInt(goods.deliveryCharge)) + "원</td></tr>";
 							$tbody.append(output);
 						});
 						
 						if(params.method == "반품접수"){
+							if($("#purchaseStatus").text() == "구매확정"){
+								alert("구매 확정된 상품은 반품처리가 불가합니다.");
+								return;
+							}
 							alert("해당 상품의 반품 접수가 완료되었습니다.");
 						} else{
 							alert("해당 상품의 배송 상태가 변경되었습니다.");
@@ -132,9 +141,7 @@
 							주문일시 : <%= orderInfo.getInputDate() %>
 						</p>
 					</div>
-					<form name="frmorderform" method="post"
-						action="./pop_orderstatusupdate.php"
-						onsubmit="return form_submit(this);">
+					<form name="frmorderform" method="post">
 						<div class="tbl_head01">
 							<table id="sodr_list">
 								<colgroup>
@@ -173,11 +180,11 @@
 												</a>
 											</td>
 											<td><%= goods.getOrderStatus() %></td>
-											<td><%= goods.getPurchaseStatus() %></td>
+											<td id="purchaseStatus"><%= goods.getPurchaseStatus() %></td>
 											<td><%= goods.getAmount() %>개</td>
 											<td class="tar"><%= goods.getPrice() %>원</td>
 											<td class="tar"><%= goods.getDeliveryCharge() %>원</td>
-											<td class="td_price"><%= goods.getPrice() * goods.getAmount() %>원</td>
+											<td class="td_price"><%= goods.getPrice() * goods.getAmount() + goods.getDeliveryCharge() %>원</td>
 									</tr>
 									<% } %>
 								</tbody>
