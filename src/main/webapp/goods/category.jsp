@@ -117,7 +117,9 @@
 		                            </a>
 		                        </div>
 		                        <span class="wish">
-		                            <img src="http://localhost/online-shop/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록 전" productno="6371" categoryno="1" icon_status="off" login_status="F" individual-set="F">
+		                        	<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= goods.getCode() %>">
+		                            	<img src="http://localhost/online-shop/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록">
+		                            </a>
 		                        </span>
 		                    </div>
 		                    <div class="description">

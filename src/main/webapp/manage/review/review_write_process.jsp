@@ -1,3 +1,5 @@
+<%@page import="java.sql.Date"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="user.review.UserReviewDAO"%>
 <%@page import="admin.review.ReviewBoardVO"%>
 <%@page import="java.sql.SQLException"%>
@@ -7,29 +9,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://localhost/online-shop/index.jsp"/>
+<c:redirect url="http://192.168.10.216/jsp_prj/index.jsp"/>
 </c:if>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="icon" href="http://192.168.10.216/jsp_prj/common/favicon.ico"/>
-<!--bootstrap시작-->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<!--bootstrap끝-->
-<link rel="stylesheet" href="http://192.168.10.216/jsp_prj/common/css/main.css" media="all" />
-<link rel="stylesheet" href="http://192.168.10.216/jsp_prj/common/css/board.css" type="text/css" media="all" />
-
-<!--jQuery CDN 시작-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<!--jQuery CDN 끝-->
-
-<style type="text/css">
-
-</style>
 <% request.setCharacterEncoding("UTF-8"); %>
 <!-- parameter받기 -->
 <jsp:useBean id="rVO" class="admin.review.ReviewBoardVO" scope="page"/>
@@ -39,10 +21,29 @@
 		<%
 		try{
 		    //아이디는 세션에 저장된 값을 받아서 설정(외부에서 조작 불가)
-		rVO.setId(((ReviewBoardVO)session.getAttribute("loginData")).getId());
 		    
 		UserReviewDAO rDAO=UserReviewDAO.getInstance();
+		String code=request.getParameter("code");
+		String cartId=request.getParameter("cartId");
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		
+		int num=rDAO.selectReviewId(rVO);
+		
+		LocalDate currentDate = LocalDate.now();
+		
+		rVO.setReviewId(num);
+		rVO.setId(((ReviewBoardVO)session.getAttribute("loginData")).getId());
+		rVO.setCartId(cartId);
+		/* rVO.setCartId("20240419131320"); */
+		rVO.setTitle(title);
+		rVO.setContent(content);
+		rVO.setCode(code);
+		/* rVO.setCode("SAMSUNG_S24_1"); */
+		rVO.setInputDate(Date.valueOf(currentDate));
+		rVO.setRemoveFlag("F");
 		rDAO.insertReview(rVO);
+		System.out.println(title);
 		%>
 		alert("글을 작성했습니다.");
 		location.href="http://localhost/online-shop/manage/review/review_my_list.jsp";
@@ -58,10 +59,3 @@
 			
 		});//ready
 </script>
-</head>
-<body>
-<div>
-	
-</div>
-</body>
-</html>

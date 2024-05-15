@@ -75,7 +75,7 @@ session.setAttribute("loginData", rVO);
 	        $("#cnt").val(0);
 	    }
 	    
-	    $("#frmDetail")[0].action="board_update_process.jsp";
+	    $("#frmDetail")[0].action="review_update_process.jsp";
 	    $("#frmDetail").submit();
 	
 	}//chkNull
@@ -172,7 +172,7 @@ $(function(){
                                 <strong>작성일</strong> <fmt:formatDate value="${rVO.inputDate}" pattern="yyyy-MM-dd EEEE HH:mm:ss"/>
                             </li>
                         </ul>
-<div class="detail"><div class="fr-view fr-view-article"><p style="font-size: 13px"><c:out value="${ rVO.content }"/></p></div></div>
+<div class="detail"><div class="fr-view fr-view-article"><c:out value="${ rVO.content }"/></div></div>
                     </td>
                 </tr>
 <tr class="attach displaynone">

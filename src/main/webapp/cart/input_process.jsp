@@ -18,8 +18,6 @@ int quantity = Integer.parseInt(request.getParameter("quantity"));
 String cartId = "";
 
 orVO.setUserId(userId);
-orVO.setCartId(cartId);
-opVO.setCartId(cartId);
 opVO.setCode(code);
 opVO.setQuantity(quantity);
 
@@ -27,6 +25,8 @@ CartDAO cDAO = CartDAO.getInstance();
 
 try{
 	cartId = cDAO.selectCartId(userId);
+	orVO.setCartId(cartId);
+	opVO.setCartId(cartId);
 	List<OrderProductVO> temp = new ArrayList<OrderProductVO>();
     temp = cDAO.selectCart(cartId);
 
@@ -41,8 +41,8 @@ try{
 		}//end if 
 	
 	//값 설정
-	session.setAttribute("cartData", opVO); 
-	pageContext.setAttribute("url", "http://192.168.10.211/online-shop/cart/cart.jsp");
+	/* session.setAttribute("cartData", opVO);  */
+	pageContext.setAttribute("url", "http://localhost/online-shop/cart/cart.jsp");
 			
 	}catch(Exception e){
 	    e.printStackTrace();

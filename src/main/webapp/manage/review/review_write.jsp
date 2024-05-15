@@ -1,19 +1,17 @@
-<%@page import="user.review.UserReviewDAO"%>
 <%@page import="admin.review.ReviewBoardVO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
-    info="게시판 글 읽기"%>
+    info="게시판 글 작성"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%-- <%
 WebMemberVO wmVo=(WebMemberVO)session.getAttribute("loginData");
 if(wmVo == null) { //로그인 하지 않았음
     
 }//end if
 %> --%>
-<%/* 로그인한 사람만 읽게 하려면 쓰고 아니면 지우기 */
+<%
 //개발의 편의성을 위해 로그인한 것처럼 코드를 작성항 후 작업 진행
 ReviewBoardVO rVO=new ReviewBoardVO();
 rVO.setId("haa");
@@ -35,178 +33,40 @@ session.setAttribute("loginData", rVO);
 <link rel="canonical" href="https://insideobject.com/board/product/write.html" />
 <link rel="alternate" href="https://m.insideobject.com/board/product/write.html" />
 	<!-- golgolz end -->
-<!-- <!-- summernote시작
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-summernote끝 -->
   
 <style type="text/css">
 	#wrap{width: 1462px; height:749; margin:0px auto;}
 
-	#reply_wrap{height:200px; margin-top:20px}
-	#reply_content{height:170px; overflow:auto; margin-top:10px}
 	    	
 </style>
 <script type="text/javascript">
 	$(function(){
 	    $("#btnList").click(function () {
-	        //history.back();
-	        location.href="http://localhost/online-shop/manage/review/review_my_list.jsp?currentPage=${param.currentPage}";
+	        history.back();
 	    });//click
-	    $("#btnUpdate").click(function () {
-	    	if(confirm("글을 수정하시겠습니까?")){
-	    	chkNull();	    		
-	    	}//end if
+	    $("#btnWrite").click(function () {
+	    	var title=document.getElementById("title").value;
+	    	alert(title);
+	        $("#frmWrite").submit();
 	    });//click
-	    $("#btnDelete").click(function () {
-			if(confirm("글을 정말 삭제하시겠습니까?")){
-	    	//<form태그의 action 변경
-	    	//var frm=document.frmDetail.action="back-end URL"
-	    	$("#frmDetail")[0].action="board_delete_frm_process.jsp";
-	    	$("#frmDetail").submit();	
-			}//end if
-	    
-	    });//click
-	    
-	    $("#btnWrite").click(function(){
-	    	var content=$("#rContent").val();	    	
-	    	var writer=$("#rWriter").val();
-	    	
-	    	if(content==""){
-	    		alert("댓글의 내용은 필수 입력입니다.");
-	    		$("#rContent").focus();
-	    		return;
-	    	}
-	    	if(writer==""){
-	    		alert("작성자는 필수 입력입니다.");
-	    		$("#rWriter").focus();
-	    		return;
-	    	}
-	    	
-	    	var param={num: $("#seq").val(), content:content, writer:writer};
-	    	
-	    	$.ajax({
-	    		url : "add_reply.jsp",
-	    		type : "POST",
-	    		data : param,
-	    		dataType : "JSON",
-	    		error : function(xhr){
-	    			alert("죄송 잠시 후 다시시도 해주세요.");
-	    			console.log(xhr+"/"+xhr.status);
-	    		},
-	    		success:function(jsonObj){
-					var msg="댓글 작성 실패";
-					if(jsonObj.flag){
-						msg="댓글을 작성하였습니다.";
-						$("#rContent").val("");
-						$("#rWriter").val("");
-						
-						var menuText=$("#replyMenu").text();
-						if(menuText=="열기"){
-				    		menuText="닫기";
-				    	$("#replyContent").toggle();
-				    	}
-				    		searchReply();
-				    	$("#replyMenu").text(menuText);
-					}
-					alert(msg);
-				}
-	    	});//ajax
-	    	
-	    });//click
-	    
-	    $("#replyMenu").click(function(){
-	    	replyShow();
-	    });
-	    
 	});//ready
 	
-	function replyShow(){
-		var menuText=$("#replyMenu").text();
-    	
-    	if(menuText=="열기"){
-    		menuText="닫기";
-    		searchReply();
-    	}else{
-    		menuText="열기";
-    	}
-    	$("#replyContent").toggle();
-    	$("#replyMenu").text(menuText);
-	}
-	
-	function searchReply(){
-		var param={ refNum : $("#seq").val()};
-		$.ajax({
-			url:"reply_search.jsp",
-			type:"POST",
-			data:param,
-			dataType:"JSON",
-			error: function(xhr){
-				alert("ㅈㅅ~");
-				console.log(xhr.status)
-			},
-			success:function(jsonObj){
-				var output="댓글을 읽어올 수 없습니다.";
-				if(jsonObj.flag){
-					output="";
-					if(jsonObj.dataSize==0){
-						output="작성된 댓글이 없습니다. 당신의 의견을 작성해 보세요.";
-					}
-					$.each(jsonObj.data,function(i, jsonTemp){
-						output+="<div><strong>내용</strong> : "+ jsonTemp.content+"<br/>";
-						output+="<div><strong>작성자</strong> : "+ jsonTemp.writer
-								+"<strong>작성일</strong>"+ jsonTemp.input_date
-								+"<strong>ip</strong>"+ jsonTemp.ip
-								+"<input type='button' value='삭제' class='btn btn-warning btn-sm' onclick='removeReply("+jsonTemp.num+")'>"+"</div>";
-					});
-				}
-				$("#replyContent").html(output);
-			}
-		});//ajax
-	}
-	
-	function removeReply(num){
-		if(confirm("댓글을 삭제하시겠습니까?")){
-			var param={num : num};
-			$.ajax({
-				url:"remove_reply.jsp",
-				type:"POST",
-				data:param,
-				dataType:"JSON",
-				error:function(xhr){
-					alert("ㅈㅅ~");
-					console.log(xhr.status);
-				},
-				success:function(jsonObj){
-					var output="댓글이 삭제되지 않았습니다.";
-					if(jsonObj.result){
-						output="댓글이 삭제되었습니다.";
-					}
-					searchReply();
-					alert(output);
-					
-				}//success
-			});
-		}//end if
-	}//removeReply
-	
 	function chkNull() {
-	    if($("#title").val() == "") {
+	    if($("#title").val().trim() == "") {
 	        alert("글 제목은 필수입력");
 	        $("#title").focus();
 	        return;
 	    }//end if
-	    if($("#content").val() == "") {
+	    if($("#content").val().trim() == "") {
 	        alert("내용은 필수입력");
 	        $("#content").focus();
 	        return;
 	    }//end if
-	    if($("#cnt").val() == "") {
+	    if($("#cnt").val().trim() == "") {
 	        $("#cnt").val(0);
 	    }
-	    
-	    $("#frmDetail")[0].action="review_update_process.jsp";
-	    $("#frmDetail").submit();
+	
+	    $("#frmWrite").submit();
 	
 	}//chkNull
 </script>
@@ -214,6 +74,7 @@ summernote끝 -->
 $(function(){
 	
       $('#content').summernote({
+        placeholder: '${sessionScope.loginData.id}님 글을 작성하세요',
         tabsize: 2,
         width:600,
         height: 200,
@@ -230,96 +91,8 @@ $(function(){
 })//ready
     </script>
 </head>
-<body>
-<!-- <div id="wrap">
-<div id="boardContent"> -->
-<%
-	UserReviewDAO rDAO=UserReviewDAO.getInstance();
-	try{
-	  String seq=request.getParameter("seq");
-	  
-	  rVO=rDAO.selectDetailReview(Integer.parseInt(seq));//상세보기
-	  /* rDAO.updateCnt(Integer.parseInt(seq));//조회수 올려주기(중요도가 덜한것이 아래로 내려가는게 좋음) */
-	  
-	  pageContext.setAttribute("rVO", rVO);
-	}catch(NumberFormatException nfe){
-	  %>
-	  <%-- <c:redirect url="http://localhost/online-shop/manage/review/review_my_list.jsp"/> --%>
-	  
-	  <%
-	}catch(SQLException se){
-	  se.printStackTrace();
-	  %>
-	  <script type="text/javascript">
-	location.href="http://192.168.10.216/jsp_prj/error/err_500.html";
-</script>
-	  <%
-	}
-%>
-
-<%-- 	<!-- <h3>글쓰기</h3> -->
-	<form method="post" name="frmDetail" id="frmDetail">
-	<input type="hidden" name="reviewId" value="${ rVO.reviewId }"/>
-	<input type="hidden" name="cartId" value="${ rVO.cartId }"/>
-	<input type="hidden" name="code" value="${ rVO.code }"/>
-	<input type="hidden" name="currentPage" value="${ param.currentPage }"/>
-	<table>
-	<tr>
-		<td colspan="2"> <h3>글읽기</h3></td>
-	</tr>
-	<tr>
-		<td>제목</td>
-		<td>
-		<input type="text" name="title" id="title" style="width: 600px"
-			value="${ rVO.title }"/>
-		</td>
-	</tr>
-	<tr>
-		<td>내용</td>
-		<td>
-		<textarea id="content" name="content">${ rVO.content }</textarea>
-		</td>
-	</tr>
-	<tr>
-		<td>조회수</td>
-		<td>
-		<input type="text" name="cnt" id="cnt" value="${ rVO.cnt }" style="width: 600px"/>
-		</td>
-	</tr>
-	<tr>
-		<td>작성일</td>
-		<td><strong> <c:out value="${rVO.inputDate}"/></strong></td>
-	</tr>
-	<tr>
-		<td>작성자</td>
-		<td><strong><c:out value="${rVO.id}"/></strong></td>
-	</tr>
-	<tr>
-		<td colspan="2" style="text-align : center;">
-		<c:if test="${not empty sessionScope.loginData }"><!-- 로그인한 사람 누구나 삭제 수정 할 수 있다. -->
-		<c:if test="${ rVO.id eq sessionScope.loginData.id }"><!-- 내 글만 수정 삭제 가능 -->
-		<input type="button" value="글 수정" class="btn btn-success btn-sm" id="btnUpdate"/>
-		<input type="button" value="글 삭제" class="btn btn-warning btn-sm" id="btnDelete"/>
-		</c:if>
-		<input type="button" value="글 목록" class="btn btn-info btn-sm" id="btnList"/>
-		</td>
-	</tr>
-	</table>
-	</form>
-	<div id="reply_wrap">
-		<div id="reply_frm">
-		<input type="hidden" id="seq" name="seq" value="${ param.seq }"/>
-		내용<input type="text" name="rContent" id="rContent" style="width:300px"/>
-		작성자<input type="text" name="rWriter" id="rWriter" style="width:100px"/>
-		<input type="button" value="댓글작성" id="btnWrite" class="btn btn-success btn-sm"/><br/>
-		</div>
-		<a href="#" id="replyMenu">열기</a>
-		<div id="replyContent" style="display:none"></div>
-	</div> --%>
-	    
-<!-- </div>
-</div>	 -->
-	<jsp:include page="../../assets/jsp/user/header.jsp" />
+<body>	
+<jsp:include page="../../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
@@ -335,7 +108,7 @@ $(function(){
             <p>상품 사용후기입니다.</p>
         </div>
 </div>
-<form id="frmDetail" name="frmDetail" action="review_update_process.jsp" method="get" target="_self" enctype="multipart/form-data" >
+<form id="frmWrite" name="frmWrite" action="review_write_process.jsp" method="get" target="_self" enctype="multipart/form-data" >
 <input id="board_no" name="board_no" value="4" type="hidden"  />
 <input id="product_no" name="product_no" value="6027" type="hidden"  />
 <input id="move_write_after" name="move_write_after" value="/product/detail.html?board_no=4&amp;product_no=6027&amp;cate_no=428&amp;display_group=1&amp;keyword=" type="hidden"  />
@@ -352,12 +125,13 @@ $(function(){
             $login_page_url = /member/login.html
             $deny_access_url = /index.html
         -->
-
+</form>
 <div class="ec-base-box typeProduct  ">
             <p class="thumbnail"><a href=""><img id="iPrdImg" src="https://insideobject.com/web/product/tiny/202305/4af17b2f7283ac768912d392d44d09ca.png" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
             <div class="information" style="padding-left:30px">
 				<h3><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdNameLink">
-				<span id="sPrdName"> <c:out value="${rVO.name}"/></span></a></h3>
+				<span id="sPrdName">[오브젝트] 오브젝트 2023 로고키링</span></a></h3>
+                <p class="price"><span id="sPrdPrice">6,500원</span> <span id="sPrdTaxText"></span></p>
                 <p class="button">
                     <span id="iPrdView" class=""><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdLink" class="btnEm" target="_blank">상품상세보기</a></span>
                     <span class="displaynone"><a href="#none" class="btnNormal" onclick="BOARD_WRITE.product_popup('/product/search_board_list.html')">상품정보선택</a></span>
@@ -375,24 +149,8 @@ $(function(){
 <tbody>
 <tr>
 <th scope="row">제목</th>
-                    <td> <input id="title" name="title" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" maxLength="125" value=" <c:out value="${rVO.title}"/>" type="text"  /></td>
+                    <td> <input id="title" name="title" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" value="" maxLength="125" type="text"  />  </td>
                 </tr>
-<%-- <tr class="displaynone">
-<th scope="row">작성자</th>
-                    <td> <c:out value="${rVO.id}"/></td>
-                </tr>
-<tr class="displaynone">
-<th scope="row">이메일</th>
-                    <td></td>
-                </tr>
-<tr class="displaynone">
-<th scope="row">평점</th>
-                    <td><input id="point0" name="point" fw-filter="" fw-label="평점" fw-msg="" value="5" type="radio" checked="checked"  /><label for="point0" ><span class="point5"><em>★★★★★</em></span></label>
-<input id="point1" name="point" fw-filter="" fw-label="평점" fw-msg="" value="4" type="radio"  /><label for="point1" ><span class="point4"><em>★★★★</em></span></label>
-<input id="point2" name="point" fw-filter="" fw-label="평점" fw-msg="" value="3" type="radio"  /><label for="point2" ><span class="point3"><em>★★★</em></span></label>
-<input id="point3" name="point" fw-filter="" fw-label="평점" fw-msg="" value="2" type="radio"  /><label for="point3" ><span class="point2"><em>★★</em></span></label>
-<input id="point4" name="point" fw-filter="" fw-label="평점" fw-msg="" value="1" type="radio"  /><label for="point4" ><span class="point1"><em>★</em></span></label></td>
-                </tr> --%>
 <tr>
 <td colspan="2" class="clear">
                         
@@ -401,9 +159,9 @@ $(function(){
             <link rel="stylesheet" href="https://img.echosting.cafe24.com/editors/froala/css/themes/ec_froala.css?vs=2404180600">
 
             <!-- HTML -->
-            <textarea style="width: 100%;" name="content" id="content" class="ec-fr-never-be-duplicated"><c:out value="${rVO.content}"/></textarea>
+            <textarea style="width: 100%;" name="content" id="content" class="ec-fr-never-be-duplicated"></textarea>
                 <input type="hidden" id="content_hidden" fw-filter="isSimplexEditorFill" fw-label="내용" value="EC_FROALA_INSTANCE" />
-               
+                
             <!-- JavaScript -->
             <script type="text/javascript" src="https://img.echosting.cafe24.com/editors/froala/js/polyfill.min.js?vs=2404180600"></script>
             <script type="text/javascript" src="https://img.echosting.cafe24.com/editors/froala/3.2.2/js/froala_editor.pkgd.min.js?vs=2404180600"></script>
@@ -731,19 +489,20 @@ $(function(){
                 }
             }
             
-            </script>                    </td> 
+            </script>                    </td>
                 </tr>
 </tbody>
 </table>
-</form>
 </div>
+
 <div class="ec-base-button ">
-            <span class="gLeft">
-                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
-            </span>
+            <!-- <span class="gLeft">
+                <span class="displaynone"><a href="#none" class="btnNormal sizeS" onclick="">관리자 답변보기</a></span>
+                <a href="" class="btnNormalFix sizeS">목록</a>
+            </span> -->
             <span class="gRight">
-                <input type="button" class="btnSubmitFix sizeS" value="수정" id="btnUpdate"/>
-                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
+                <input type="button" class="btnSubmitFix sizeS" id="btnWrite" value="등록"/>
+                <a href="/board/review/4/" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>
 </div>

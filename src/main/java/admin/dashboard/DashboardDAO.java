@@ -111,7 +111,6 @@ public class DashboardDAO {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                System.out.println(rs.getInt("order_confirm"));
                 progressVO = new DashboardOrderProgressVO(rs.getInt("order_done"), rs.getInt("delivery_ready"),
                         rs.getInt("delivery_progress"), rs.getInt("delivery_done"), rs.getInt("order_confirm"));
             }

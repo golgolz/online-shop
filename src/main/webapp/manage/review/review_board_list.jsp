@@ -38,11 +38,11 @@
 </style>
 <script type="text/javascript">
 		$(function(){
-			$("#btnSearch").click(function(){
-				chkNull;
-			});//click
+			/* $("#search").click(function(){
+				chkNull();
+			});//click */
 			$("#btnAllSearch").click(function(){
-				location.href="board_list.jsp";
+				location.href="review_board_list.jsp";
 			});//click
 			$("#btnWrite").click(function(){
 				location.href="board_write_frm.jsp";
@@ -54,22 +54,8 @@
 				}//end if
 			});//keydown
 		
-			$("#submit1").click(function(){
-				var searchText=document.getElementById("inputText").value;
-				alert(searchText)
-				var select=document.getElementById("sc").value;
-				alert(select)
-			});
-			
-
-			$("#date_term3").click(function(){//이번주
-				
-			});
-			$("#date_term4").click(function(){//이번달
-				
-			});
-			$("#date_term5").click(function(){//전체
-				
+			$("#search").click(function(){
+				$("#frmBoard").submit();
 			});
 			
 		});//ready
@@ -177,7 +163,6 @@
 		<div class="container-fluid py-4">
 			<!-- golgolz start -->
 <div id="wrap">
-<div id="header"></div>
 <div id="content">
 	<%
 	request.setCharacterEncoding("UTF-8");
@@ -186,6 +171,8 @@
 <jsp:setProperty property="*" name="sVO"/>
 	<%
 	try{
+	  String content=request.getParameter("keyword");
+		System.out.print(content);
 		    AdminReviewDAO rDAO=AdminReviewDAO.getInstance();
 		    //1.총 레코드 수 얻기
 		    int totalCount = rDAO.selectTotalCount(sVO);
@@ -217,8 +204,9 @@
 		    pageContext.setAttribute("totalCount", totalCount);
 		    pageContext.setAttribute("pageScale", pageScale);
 		    pageContext.setAttribute("currentPage", currentPage);
+		    
+		    
 	%>   
-	    
 	    <div class="contents">
 		<!--begin of submain-->
 		<form name="dataForm" action="./" method="post">
@@ -231,56 +219,14 @@
 		<input type="hidden" name="bbs_mode"  value="list">
 		<input type="hidden" name="cate_code" value="GD">
 		<input type="hidden" name="seq"  value="">
+		</form>
 		
-		<table cellpadding="0" cellspacing="1" border="0" class="tbstyleB" width="100%">
-			<col width="120">
-		    <col width="*">
-			<tr><td colspan="2" class="top5"></td></tr>
-		    <!-- <tr>
-		    	<td class="label">상품검색</td>
-		        <td class="box text">
-					<input type='radio' name='category' value='apple' />애플
-					<input type='radio' name='category' value='samsung' />삼성
-		        </td>
-		    </tr> -->
-			<tr>
-				<td class="label">검색 키워드</td>
-				<td class="box text">
-					<select id="sc" name="sc" style="width:75px;">
-						<option value="good_name">상품명</option>
-						<option value="good_code">상품코드</option>
-						<option value="user_id">아이디</option>
-						<option value="bbs_title">제목</option>
-						<option value="bbs_content">내용</option>
-					</select>
-					<input type="text" id="inputText" name="ss" value="" style="width:145px;" class="inputbox">
-				</td>
-			</tr>
-			<tr>
-				<td class="label">등록일</td>
-				<td class="box text">
-				<input type="text" id="bbs_sdate" name="bbs_sdate" style="width:68px;" class="inputbox" value=""> ~ <input type="text" id="bbs_edate" name="bbs_edate" style="width:68px;" class="inputbox" value="">
-				<a href="#" id="date_term1" mode="yesterday"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_yesterday.gif"></a>
-				<a href="#" id="date_term2" mode="this_day"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_today.gif"></a>
-				<a href="#" id="date_term3" mode="this_week"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_thisWeek.gif"></a>
-				<a href="#" id="date_term4" mode="this_month"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_thisMonth.gif"></a>
-				<a href="#" id="date_term5" mode=""><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_total.gif"></a></td>
-			</tr>
-		</table>
-		
-		<!--검색버튼-->
-		<div class="alignCenter"><a href="#"><img src="https://demo01.swm.whoismall.com/admin/images/button/btn_Search.gif" id="submit1"/></a></div>
 		
 		<!-- 리스트 -->
 		<div class="boxContainer">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%">
 				<tr>
 					<td class="left"> 
-						<!-- <select id="bbs_cate_code" name="bbs_cate_code" style="width:100px;">
-							<option value="">전체</option>
-														<option value="01">기본</option>
-													</select> -->
-						<span class="bul">검색결과 : </span><span class="fc_red"><strong>2</strong>건</span>
 					</td>
 					<td align="right" class="right">
 						<select id="list_num" name="list_num" style="width:95px;" onchange="changePageScale()">
@@ -325,21 +271,25 @@
 	    	</tbody>
 	    </table>
 	    
+	   
+	    
 </div>
 
 	    <div style="text-align: center;">
-	    <form action="board_list.jsp" name="frmBoard" id="frmBoard">
+	    <form action="review_board_list.jsp" name="frmBoard" id="frmBoard" method="get">
 	    	<select name="field" id="field">
 	    		<option value="0" ${param.field eq 0?" selected='selected'":""}>제목</option>
 	    		<option value="1" ${param.field eq 1?" selected='selected'":""}>내용</option>
 	    		<option value="2" ${param.field eq 2?" selected='selected'":""}>작성자</option>
 	    	</select>
 	    	<input type="text" name="keyword" id="keyword" value="${param.keyword }" style="width:230px; border:1px solid #dedede;"/>
-	    	<input type="button"  value="검색" id="btnSearch" class="btn btn-info btn-sm"/>
-	    	<input type="button"  value="전체글" id="btnAllSearch" class="btn btn-info btn-sm"/>
+	    	<input type="button"  value="검색" id="search" class="btn btn-info btn-sm"/>
+	    	<input type="button"  value="전체글" id="btnAllSearch" class="btn btn-info btn-sm" />
 	    	<input type="text" style="display: none;">
 	    </form>
 	    </div>
+	    
+	    
 	    
 	    
 	  <div style="text-align: center;">

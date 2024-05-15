@@ -9,14 +9,26 @@
 	pageEncoding="UTF-8" info=""%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- 로그인 확인 -->
-<%-- <c:if test="${empty sessionScope.userId}">
-	<c:redirect url="http://192.168.10.211/online-shop/user/login/userLogin.jsp"/>
-</c:if>  --%>
+<%
+String userId = (String)session.getAttribute("userId");
+System.out.println("세션 로그인 상태: " + userId);
+
+if (userId == null) {
+    System.out.println("로그인이 필요합니다. ");
+%>
+<script>
+        alert('로그인이 필요합니다.');
+        window.location.href = 'http://localhost/online-shop/user/login/userLogin.jsp'; // 경로 수정 필요
+
+</script>
+<%
+    return;
+}
+%>
 <jsp:useBean id="opVO" class="order.vo.OrderProductVO" scope="page" />
 <jsp:setProperty property="*" name="opVO" />
 <%
 	String cartId = "";
-	String userId = (String)session.getAttribute("userId");
 	
 	CartDAO cDAO = CartDAO.getInstance();
 
@@ -24,8 +36,11 @@
 	
 	try{
 		cartId = cDAO.selectCartId(userId);
+		opVO.setCartId(cartId);
 		list = cDAO.selectCart(cartId);
 		
+		session.setAttribute("cartId", cartId);
+		session.setAttribute("data", list);
 	}catch(Exception e){
 	    e.printStackTrace();
 	}
@@ -55,23 +70,6 @@ table, td {
 		}); */
 	})//ready
 	
-	/* function addQuantity(inputClass,price) {
-		var input = document.getElementByClassName(inputClass);
-		for(var i=0; i<input.length; i++){
-			
-		}
-		var productPrice = document.getElementByClassName(price).textContent.trim(); // "20,000원"
-		productPrice = productPrice.replace(/[^0-9]/g, ''); // "20000"
-				
-		if(parseInt(input.value) < 99) {
-			var curval = parseInt(input.value);
-			var newValue = curval+1;
-			input.value = newValue;
-			
-			var sum = parseInt(productPrice) * newValue + 3000;
-			document.getElementByClassName('sum_price_front0').innerHTML = formatNumber(sum);
-		}
-	} */
 	
  	function addQuantity(inputId,price) {
 		var input = document.getElementById(inputId);
@@ -84,7 +82,7 @@ table, td {
 			input.value = newValue;
 			
 			var sum = parseInt(productPrice) * newValue + 3000;
-			document.getElementById('#sum_price_front0').innerHTML = formatNumber(sub);
+			document.getElementById('sum_price_front0').innerHTML = formatNumber(sum);
 		}
 	} 
 	
@@ -196,6 +194,10 @@ table, td {
 				}
 			}
 		})
+	}//function
+	
+	function paymentSubmit(){
+		$("#cartFrm").submit();
 	}
 	
 	
@@ -243,7 +245,7 @@ table, td {
 							<div class="xans-element- xans-order xans-order-normtitle title ">
 								<h6>장바구니 상품 (<%= list.size() %>)</h6>
 							</div>
-							<form id="cartFrm" name="cartFrm" action="cart_process.jsp" method="post">
+							<form id="cartFrm" name="cartFrm" action="http://localhost/online-shop/order/order_form.jsp" method="post">
 							<input type="hidden">
 							<table border="1" summary=""
 								class="xans-element- xans-order xans-order-normnormal xans-record-">
@@ -357,7 +359,7 @@ table, td {
 						
 						<div
 							class="xans-element- xans-order xans-order-totalorder ec-base-button justify">
-							<a href="#none" onclick="Basket.orderAll(this)"
+							<a href="#none" onclick="paymentSubmit()"
 								link-order="/order/orderform.html?basket_type=all_buy"
 								link-login="/member/login.html" class="btnSubmitFix sizeM  ">전체상품주문</a>
 							 <a href="http://localhost/online-shop/index.jsp" class="btnNormalFix sizeM">쇼핑계속하기</a>

@@ -1,3 +1,5 @@
+<%@page import="user.wishlist.WishlistDAO"%>
+<%@page import="user.wishlist.WishlistVO"%>
 <%@page import="user.goods.UserGoodsDAO"%>
 <%@page import="user.main.GoodsSimpleVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -68,6 +70,7 @@
 		if(code != null){
 			currentGoods = UserGoodsDAO.getInstance().selectOneGoods(code);
 		}
+
 	%>
 	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<div id="wrap">
@@ -173,12 +176,8 @@
 								</div>
 								<div class="xans-element- xans-product xans-product-action">
 									<div class="ec-base-button">
-										<a
-											href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode()  %>&quantity="
-											class="sub_cart" id="sub_cart">장바구니</a>
-										<a
-											href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
-											onclick="add_wishlist(this, true);" class="sub_wish">관심상품</a>
+										<a href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="sub_cart" id="sub_cart">장바구니</a>
+										<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= currentGoods.getCode() %>" class="sub_wish">관심상품</a>
 										<a
 											href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
 											class="first sub_buy"
@@ -243,7 +242,7 @@
 											<tr class="xans-record-">
 												<td>1</td>
 												<td class="subject left txtBreak"><a
-													href="https://insideobject.com/article/review/4/26462/?no=26462&amp;board_no=4&amp;spread_flag=T">귀여워요</a>
+													href="http://localhost/online-shop/manage/review/review_detail_user.jsp?seq=15&currentPage=1">귀여워요</a>
 													<span class="txtWarn"></span></td>
 												<td>네****</td>
 												<td class="txtInfo txt11">2023-06-05</td>
@@ -256,18 +255,15 @@
 									</table>
 								</div>
 							</div>
-
 							<p class="ec-base-button typeBorder">
 								<span class="gRight"> <a
-									href="https://insideobject.com/board/product/write.html?board_no=4&amp;product_no=6027&amp;cate_no=428&amp;display_group=1">상품후기쓰기</a>
+									href="http://localhost/online-shop/manage/review/review_write.jsp?code=<%= currentGoods.getCode() %>">상품후기쓰기</a>
 									<a
-									href="https://insideobject.com/board/product/list.html?board_no=4">모두
+									href="http://localhost/online-shop/manage/review/review_my_list.jsp">모두
 										보기</a>
 								</span>
 							</p>
-
-							<div
-								class="xans-element- xans-product xans-product-reviewpaging ec-base-paginate">
+							<div class="xans-element- xans-product xans-product-reviewpaging ec-base-paginate">
 								<a
 									href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
 									class="first"><img
@@ -290,19 +286,7 @@
 							</div>
 						</div>
 					</div>
-					<div id="prdQnA" class="tab_box03" style="display: none">
-						<div class="board">
-							<p class="nodata">게시물이 없습니다</p>
-							<p class="ec-base-button typeBorder">
-								<span class="gRight"> <a
-									href="https://insideobject.com/board/product/write.html?board_no=6&amp;product_no=6027&amp;cate_no=428&amp;display_group=1">상품문의하기</a>
-									<a
-									href="https://insideobject.com/board/product/list.html?board_no=6">모두
-										보기</a>
-								</span>
-							</p>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 		</div>

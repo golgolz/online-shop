@@ -1,3 +1,4 @@
+<%@page import="javax.swing.border.TitledBorder"%>
 <%@page import="admin.review.ReviewBoardVO"%>
 <%@page import="user.review.UserReviewDAO"%>
 <%@page import="java.sql.SQLException"%>
@@ -5,9 +6,9 @@
     pageEncoding="UTF-8"
     info="글 변경 페이지"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:if test="${empty sessionScope.loginData }">
+<%-- <c:if test="${empty sessionScope.loginData }">
 <c:redirect url="http://192.168.10.216/jsp_prj/index.jsp"/>
-</c:if>
+</c:if> --%>
 
 <!DOCTYPE html>
 <html>
@@ -35,13 +36,29 @@
 <jsp:setProperty property="*" name="rVO"/>
 <script type="text/javascript">
 		
+		
+		
 		<%
 		try{
-		    //아이디는 세션에 저장된 값을 받아서 설정(외부에서 조작 불가)
-		rVO.setId(((ReviewBoardVO)session.getAttribute("loginData")).getId());
-		    
+		  
 		UserReviewDAO rDAO=UserReviewDAO.getInstance();
+		int num=rDAO.selectReviewId(rVO);    
+		num=19;
+		String userId="haa";
+		    
+	    session.setAttribute("userId", userId);
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		
+		rVO.setTitle(title);
+		rVO.setContent(content);
+		rVO.setReviewId(num);
+		/* rVO.setId(((ReviewBoardVO)session.getAttribute("userId")).getId()); */
+
+		rVO.setId((String)session.getAttribute("userId"));
+		;
 		int cnt=rDAO.updateReview(rVO);
+		System.out.println(cnt);
 		if(cnt==1){
 		  
 		%>
@@ -56,9 +73,6 @@
 		}
 		}catch(SQLException se) {
 		    se.printStackTrace();
-		    %>
-		    location.href="http://192.168.10.216/jsp_prj/error/err_500.html";
-		    <%
 		}//end catch
 		%>
 		$(function(){
