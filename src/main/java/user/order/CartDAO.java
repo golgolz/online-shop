@@ -472,7 +472,6 @@ public class CartDAO {
 
             StringBuilder selectQuery = new StringBuilder();
 
-            // 해당 주문번호의 모든 장바구니 상품 조회
             selectQuery.append(
                     "    select og.order_goods_id,gd.default_img,gd.name,og.code,gd.price,og.amount,gd.delivery_charge,(gd.price*og.amount+gd.delivery_charge) total    ")
                     .append("    from goods gd, order_goods og, cart ct   ")
@@ -725,7 +724,6 @@ public class CartDAO {
 
         return dVO;
     }// selectDefaultDelivery
-
 
 
 }
