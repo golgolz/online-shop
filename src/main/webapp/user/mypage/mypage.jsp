@@ -28,7 +28,6 @@
 
 	<div id="wrap">
 		<div id="main">
-			마이 페이지 입니다.
 			<!-- golgolz start -->
 			
 			<div class="main_pro_title width1240 cboth">
@@ -84,8 +83,8 @@
        
         
         <li class="shopMain board">
-            <h3><a href="/myshop/board_list.html"><strong>Board</strong><span>게시물 관리</span></a></h3>
-            <p><a href="/myshop/board_list.html">고객님께서 작성하신 게시물을<br> 관리하는 공간입니다.</a></p>
+            <h3><a href="../../wishlist/wishlist.jsp"><strong>Board</strong><span>관심 상품</span></a></h3>
+            <p><a href="/myshop/board_list.html">고객님의 관심상품을<br> 확인하실 수 있습니다.</a></p>
         </li>
         
             </ul>
