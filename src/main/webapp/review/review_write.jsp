@@ -104,7 +104,7 @@ $(function(){
     <div id="container">
 		<div id="contents">
 		
-			<%
+	<%
 	request.setCharacterEncoding("UTF-8");
 	%>
 <jsp:useBean id="sVO" class="admin.review.SearchVO" scope="page"/>
@@ -124,13 +124,15 @@ $(function(){
 	    //
 	    String userId2=(String)session.getAttribute("userId");
 	   	
-	    //rVO.setCode(code);
-	    rbVO.setCartId("20240419131320");
-	    //rVO.setId(cartId);
-	    rVO.setCode("SAMSUNG_S24_1");
 	    
-	    ReviewBoardVO rbVO2=rDAO.selectImgName(rVO);
-	    String img=rbVO2.getDefaultImg();
+	    rVO.setCode(code);
+	    //rbVO.setCartId("20240419131320");
+	    rVO.setId(cartId);
+	    //rbVO.setCode("SAMSUNG_S24_1");
+	    
+	    ReviewBoardVO rbVO2=rDAO.selectImgName(rbVO);
+	    String defaultImg=rbVO2.getDefaultImg();
+	    String name=rbVO2.getName();
 	    
 	    %>
 		
@@ -162,10 +164,10 @@ $(function(){
         -->
 </form>
 <div class="ec-base-box typeProduct  ">
-            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/online-shop/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
+            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/online-shop/assets/images/goods/<c:out value='<%= defaultImg %>'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
             <div class="information" style="padding-left:30px">
 				<h3><a href="#void" id="aPrdNameLink">
-				<span id="sPrdName"><c:out value='${rVO.name}'/></span></a></h3>
+				<span id="sPrdName"><%= name %></span></a></h3>
                 <!-- <p class="price"><span id="sPrdPrice">6,500원</span> <span id="sPrdTaxText"></span></p> -->
                 <p class="button">
                     <!-- <span id="iPrdView" class=""><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdLink" class="btnEm" target="_blank">상품상세보기</a></span>
