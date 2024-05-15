@@ -75,11 +75,28 @@ public class AdminOrderDAO {
             }
 
             if (searchVO.getDelivery() != null) {
-                selectQuery.append(" and delivery_state = ? ");
+                switch (searchVO.getDelivery()) {
+                    case "1":
+                        selectQuery.append(" and delivery_state = '배송 준비중'");
+                        break;
+                    case "2":
+                        selectQuery.append(" and delivery_state = '배송중'");
+                        break;
+                    case "3":
+                        selectQuery.append(" and delivery_state = '배송 완료'");
+                        break;
+                }
             }
 
             if (searchVO.getPurchase() != null) {
-                selectQuery.append(" and purchase_state = ? ");
+                switch (searchVO.getPurchase()) {
+                    case "1":
+                        selectQuery.append(" and purchase_state = '구매확정'");
+                        break;
+                    case "2":
+                        selectQuery.append(" and purchase_state = '구매미확정'");
+                        break;
+                }
             }
 
             pstmt = conn.prepareStatement(selectQuery.toString());
@@ -88,14 +105,6 @@ public class AdminOrderDAO {
 
             if (searchVO.getField() != -1) {
                 pstmt.setString(++bindIndex, searchVO.getKeyword());
-            }
-
-            if (searchVO.getDelivery() != null) {
-                pstmt.setString(++bindIndex, searchVO.getDelivery());
-            }
-
-            if (searchVO.getPurchase() != null) {
-                pstmt.setString(++bindIndex, searchVO.getPurchase());
             }
 
             rs = pstmt.executeQuery();
@@ -167,13 +176,13 @@ public class AdminOrderDAO {
             if (searchVO.getDelivery() != null) {
                 switch (searchVO.getDelivery()) {
                     case "1":
-                        selectQuery.append(" and delivery_state = '배송준비'");
+                        selectQuery.append(" and delivery_state = '배송 준비중'");
                         break;
                     case "2":
                         selectQuery.append(" and delivery_state = '배송중'");
                         break;
                     case "3":
-                        selectQuery.append(" and delivery_state = '배송완료'");
+                        selectQuery.append(" and delivery_state = '배송 완료'");
                         break;
                 }
             }
@@ -181,10 +190,10 @@ public class AdminOrderDAO {
             if (searchVO.getPurchase() != null) {
                 switch (searchVO.getPurchase()) {
                     case "1":
-                        selectQuery.append(" and delivery_state = '구매확정'");
+                        selectQuery.append(" and purchase_state = '구매확정'");
                         break;
                     case "2":
-                        selectQuery.append(" and delivery_state = '구매미확정'");
+                        selectQuery.append(" and purchase_state = '구매미확정'");
                         break;
                 }
             }
@@ -199,19 +208,10 @@ public class AdminOrderDAO {
                 pstmt.setString(++bindIndex, searchVO.getKeyword());
             }
 
-            if (searchVO.getDelivery() != null) {
-                pstmt.setString(++bindIndex, searchVO.getDelivery());
-            }
-
-            if (searchVO.getPurchase() != null) {
-                pstmt.setString(++bindIndex, searchVO.getPurchase());
-            }
-
             pstmt.setInt(++bindIndex, searchVO.getStart());
             pstmt.setInt(++bindIndex, searchVO.getEnd());
 
             rs = pstmt.executeQuery();
-            // System.out.println(selectQuery.toString());
 
             while (rs.next()) {
                 orders.add(new OrderVO(rs.getString("input_date"), rs.getString("cart_id"), rs.getString("id"),
