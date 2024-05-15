@@ -22,4 +22,5 @@ public class OrderVO {
     private String paymetMethod;
     private int defaultAddrFlag;
     private String statusFlag;
+
 }

@@ -81,10 +81,70 @@ public class CartDAO {
             pstmt.setString(5, "T");
             pstmt.setString(6, "불필요");
 
+            pstmt.executeQuery();
+
         } finally {
             dbCon.closeCon(null, pstmt, con);
         }
     }// insertCart
+
+    public String selectUserName(String id) throws SQLException {
+        String userName = "";
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+            con = dbCon.getConn("online-shop-dbcp");
+
+            StringBuilder selectQuery = new StringBuilder();
+
+            selectQuery.append("    select name  ").append("    from customer  ").append("    where id=?  ");
+
+            pstmt = con.prepareStatement(selectQuery.toString());
+
+            pstmt.setString(1, id);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                userName = rs.getString("name");
+            }
+        } finally {
+            dbCon.closeCon(rs, pstmt, con);
+        }
+
+        return userName;
+    }// selectUserName
+
+    public void insertOrder(String id, String name) throws SQLException {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+            con = dbCon.getConn("online-shop-dbcp");
+
+            String insertQuery =
+                    "insert into cart(cart_id,id,name,input_date,purchase_state,order_flag,default_addr_flag,delivery_state) values(to_char(sysdate,'YYYYMMDDHHMMSS'),?,?,sysdate,?,?,?,?)";
+
+            pstmt = con.prepareStatement(insertQuery);
+
+            pstmt.setString(1, id);
+            pstmt.setString(2, name);
+            pstmt.setString(3, "구매미확정");
+            pstmt.setString(4, "주문");
+            pstmt.setString(5, "T");
+            pstmt.setString(6, "배송준비중");
+
+        } finally {
+            dbCon.closeCon(null, pstmt, con);
+        }
+    }// insertOrder
+
 
     /**
      * 수량을 변경하는 일을 하는 method
@@ -147,7 +207,7 @@ public class CartDAO {
             pstmt.setString(6, dVO.getTel());
             pstmt.setString(7, dVO.getDeliveryMsg());
 
-            pstmt.execute();
+            pstmt.executeQuery();
 
         } finally {
             dbCon.closeCon(null, pstmt, con);
@@ -188,14 +248,13 @@ public class CartDAO {
         try {
             con = dbCon.getConn("online-shop-dbcp");
 
-            String insertQuery = "insert into payment_info(cart_id,card_id,id,purchase_date) values(?,?,?,?)";
+            String insertQuery = "insert into payment_info(cart_id,card_id,id,purchase_date) values(?,?,?,sysdate)";
 
             pstmt = con.prepareStatement(insertQuery);
 
             pstmt.setString(1, piVO.getCartId());
             pstmt.setString(2, piVO.getCardId());
             pstmt.setString(3, piVO.getUserId());
-            pstmt.setDate(4, piVO.getPurchaseDate());
 
             pstmt.execute();
 
@@ -268,7 +327,7 @@ public class CartDAO {
 
             StringBuilder updateQuery = new StringBuilder();
 
-            updateQuery.append("    update cart   ").append("    set delivery_status=?    ")
+            updateQuery.append("    update cart   ").append("    set delivery_state=?    ")
                     .append("    where cart_id=?    ");
 
             pstmt = con.prepareStatement(updateQuery.toString());
@@ -499,6 +558,42 @@ public class CartDAO {
 
             selectQuery.append("   select cart_id   ").append("   from cart   ")
                     .append("   where id=? and order_flag='장바구니'  ");
+
+            pstmt = con.prepareStatement(selectQuery.toString());
+
+            pstmt.setString(1, userId);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                cartId = rs.getString("cart_id");
+            } // end if
+
+        } finally {
+            dbCon.closeCon(rs, pstmt, con);
+        }
+
+        return cartId;
+    }// selectCartId
+
+    public String selectFirstOrderId(String userId) throws SQLException {
+
+        String cartId = "";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+            con = dbCon.getConn("online-shop-dbcp");
+
+            StringBuilder selectQuery = new StringBuilder();
+
+            selectQuery.append("   select cart_id   ").append("   from cart   ")
+                    .append("   where id=? and order_flag='주문'  ").append("     order by input_date desc    ")
+                    .append("   fetch first 1 row only    ");
 
             pstmt = con.prepareStatement(selectQuery.toString());
 
