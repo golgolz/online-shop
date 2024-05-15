@@ -1,3 +1,4 @@
+<%@page import="user.review.UserReviewDAO"%>
 <%@page import="admin.review.ReviewBoardVO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.sql.SQLException"%>
@@ -103,12 +104,44 @@ $(function(){
     <div id="container">
 		<div id="contents">
 		
+	<%
+	request.setCharacterEncoding("UTF-8");
+	%>
+<jsp:useBean id="sVO" class="admin.review.SearchVO" scope="page"/>
+<jsp:setProperty property="*" name="sVO"/>
+<jsp:useBean id="rbVO" class="admin.review.ReviewBoardVO" scope="page"/>
+<jsp:setProperty property="*" name="rbVO"/>
+	<%
+	
+	String code=request.getParameter("code");
+	String cartId=request.getParameter("cartId");
+			
+	try{
+	    UserReviewDAO rDAO=UserReviewDAO.getInstance();
+	    //
+	    String userId="lee";
+	    session.setAttribute("userId", userId);
+	    //
+	    String userId2=(String)session.getAttribute("userId");
+	   	
+	    
+	    rVO.setCode(code);
+	    //rbVO.setCartId("20240419131320");
+	    rVO.setId(cartId);
+	    //rbVO.setCode("SAMSUNG_S24_1");
+	    
+	    ReviewBoardVO rbVO2=rDAO.selectImgName(rbVO);
+	    String defaultImg=rbVO2.getDefaultImg();
+	    String name=rbVO2.getName();
+	    
+	    %>
+		
 <div class="titleArea">
             <h2><font color="#555555">REVIEW</font></h2>
             <p>상품 사용후기입니다.</p>
         </div>
 </div>
-<form id="frmWrite" name="frmWrite" action="review_write_process.jsp" method="post" target="_self" enctype="multipart/form-data" >
+<form id="frmWrite" name="frmWrite" action="review_write_process.jsp" method="get" target="_self" enctype="multipart/form-data" >
 <input id="board_no" name="board_no" value="4" type="hidden"  />
 <input id="product_no" name="product_no" value="6027" type="hidden"  />
 <input id="move_write_after" name="move_write_after" value="/product/detail.html?board_no=4&amp;product_no=6027&amp;cate_no=428&amp;display_group=1&amp;keyword=" type="hidden"  />
@@ -119,8 +152,8 @@ $(function(){
 <input id="isExceptBoardUseFroalaImg" name="isExceptBoardUseFroalaImg" value="" type="hidden"  />
 <input id="isGalleryBoard" name="isGalleryBoard" value="" type="hidden"  />
 <input id="c6" name="c6" value="429218e799694a4b1ce711e01de9690d" type="hidden"  />
-<input type="hidden" name="code" value="${ rVO.code }"/>
-<input type="hidden" name="cartId" value="${ rVO.cartId }"/>
+<input type="hidden" name="code" value="SAMSUNG_S24_1"/>
+<input type="hidden" name="cartId" value="20240419131320"/>
 <div class="xans-element- xans-board xans-board-write-4 xans-board-write xans-board-4">
 <!--
             $write_success_url = /board/product/list.html
@@ -131,10 +164,10 @@ $(function(){
         -->
 </form>
 <div class="ec-base-box typeProduct  ">
-            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/online-shop/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
+            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/online-shop/assets/images/goods/<c:out value='<%= defaultImg %>'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
             <div class="information" style="padding-left:30px">
-				<h3><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdNameLink">
-				<span id="sPrdName"><c:out value='${rVO.name}'/></span></a></h3>
+				<h3><a href="#void" id="aPrdNameLink">
+				<span id="sPrdName"><%= name %></span></a></h3>
                 <!-- <p class="price"><span id="sPrdPrice">6,500원</span> <span id="sPrdTaxText"></span></p> -->
                 <p class="button">
                     <!-- <span id="iPrdView" class=""><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdLink" class="btnEm" target="_blank">상품상세보기</a></span>
@@ -509,6 +542,12 @@ $(function(){
                 <a href="/board/review/4/" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>
+            <%
+		}catch (SQLException se){
+			se.printStackTrace();
+			out.println(".");
+		}
+	%>
 </div>
 			<!-- golgolz end -->
 		</div>

@@ -28,7 +28,7 @@
 		String params = pageController.createQueryStr(request);
 		
 		// review
-		SearchVO searchVO = new SearchVO(null, request.getParameter("goods"), null, startNum, endNum);
+		SearchVO searchVO = new SearchVO("3", request.getParameter("goods"), null, startNum, endNum);
 		UserReviewDAO reviewDAO = UserReviewDAO.getInstance();
 		List<ReviewBoardVO> reviews = reviewDAO.selectReviewBoard(searchVO);
 	    int totalCount = reviewDAO.selectTotalCount(searchVO);
@@ -119,7 +119,7 @@
 						    output += "<tr class='xans-record-'>";
 						    output += "<td>" + (startNum + i) + "</td>";
 						    output += "<td class='subject left txtBreak'>";
-						    output += "<a href='http://localhost/online-shop/review/review_detail_user.jsp?seq=" + review.review_id + "'>" + review.title + "</a></td>"; // </td> 추가
+						    output += "<a href='http://localhost/online-shop/review/review_detail_user.jsp?reviewId=" + review.review_id + "'>" + review.title + "</a></td>"; // </td> 추가
 						    output += "<td>" + review.id + "</td>";
 						    output += "<td class='txtInfo txt11'>" + review.input_date + "</td>";
 						    output += "</tr>";
@@ -313,7 +313,7 @@
 											<tr class="xans-record-">
 												<td><%= startNum++ %></td>
 												<td class="subject left txtBreak">
-													<a href="http://localhost/online-shop/review/review_detail_user.jsp?seq=<%= review.getReviewId() %>">
+													<a href="http://localhost/online-shop/review/review_detail_user.jsp?reviewId=<%= review.getReviewId() %>">
 														<%= review.getTitle() %>
 													</a>
 												<td><%= review.getId() %></td>

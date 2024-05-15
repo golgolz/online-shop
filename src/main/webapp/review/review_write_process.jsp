@@ -34,19 +34,19 @@
 		
 		rVO.setReviewId(num);
 		rVO.setId(((ReviewBoardVO)session.getAttribute("loginData")).getId());
-		/* rVO.setCartId(cartId); */
-		rVO.setCartId("20240419131320");
+		rVO.setCartId(cartId);
+		//rVO.setCartId("20240419131320");
 		rVO.setTitle(title);
 		rVO.setContent(content);
-		/* rVO.setCode(code); */
-		rVO.setCode("SAMSUNG_S24_1");
+		rVO.setCode(code);
+		//rVO.setCode("SAMSUNG_S24_1");
 		rVO.setInputDate(Date.valueOf(currentDate));
 		rVO.setRemoveFlag("F");
 		rDAO.insertReview(rVO);
 		System.out.println(title);
 		%>
 		alert("글을 작성했습니다.");
-		location.href="http://localhost/online-shop/manage/review/review_my_list.jsp";
+		location.href="http://localhost/online-shop/review/review_my_list.jsp";
 		<%
 		}catch(SQLException se) {
 		    se.printStackTrace();

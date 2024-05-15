@@ -16,7 +16,7 @@ public class UserReviewDAO {
   private static UserReviewDAO userReviewDAO;
 
   private UserReviewDAO() {
-    columnNames = new String[] {"title", "content", "id", "code"};
+    columnNames = new String[] {"title", "content", "id", "r.code"};
   }
 
   public static UserReviewDAO getInstance() {
@@ -161,6 +161,46 @@ public class UserReviewDAO {
 
     return review;
   }// selectReviewBoard
+
+  public ReviewBoardVO selectImgName(ReviewBoardVO rVO) throws SQLException {
+
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    DbConnection db = DbConnection.getInstance();
+
+    try {
+      // 1.JNDI 사용 객체 생성
+      // 2.DataSource 얻기
+      // 3.Connection 얻기
+      con = db.getConn("online-shop-dbcp");
+      // 4.쿼리문 생성객체 얻기(Dynamic Query)
+      StringBuilder selectImgName = new StringBuilder();
+      selectImgName.append("  SELECT g.default_img, g.name FROM order_goods og  ")
+          .append("  JOIN goods g ON og.code = g.code  ").append("  WHERE og.code = ? AND og.cart_id = ?   ");
+
+      pstmt = con.prepareStatement(selectImgName.toString());
+      // 5.바인드 변수 값 설정
+      pstmt.setString(1, rVO.getCode());
+      pstmt.setString(2, rVO.getCartId());
+      // 6.쿼리문 수행 후 결과 얻기
+      rs = pstmt.executeQuery();
+
+      if (rs.next()) {
+
+        rVO = ReviewBoardVO.builder().defaultImg(rs.getString("default_img")).name(rs.getString("name")).build();
+
+      } // end while
+
+    } finally {
+      // 7.연결 끊기
+      db.closeCon(rs, pstmt, con);
+    }
+
+    return rVO;
+
+  }
 
   public void insertReview(ReviewBoardVO rVO) throws SQLException {
 
