@@ -191,17 +191,17 @@ summernote끝 -->
 	}//removeReply
 	
 	function chkNull() {
-	    if($("#title").val().trim() == "") {
+	    if($("#title").val() == "") {
 	        alert("글 제목은 필수입력");
 	        $("#title").focus();
 	        return;
 	    }//end if
-	    if($("#content").val().trim() == "") {
+	    if($("#content").val() == "") {
 	        alert("내용은 필수입력");
 	        $("#content").focus();
 	        return;
 	    }//end if
-	    if($("#cnt").val().trim() == "") {
+	    if($("#cnt").val() == "") {
 	        $("#cnt").val(0);
 	    }
 	    
@@ -335,7 +335,7 @@ $(function(){
             <p>상품 사용후기입니다.</p>
         </div>
 </div>
-<form id="boardWriteForm" name="" action="/exec/front/Board/write/4" method="post" target="_self" enctype="multipart/form-data" >
+<form id="frmDetail" name="frmDetail" action="review_update_process.jsp" method="get" target="_self" enctype="multipart/form-data" >
 <input id="board_no" name="board_no" value="4" type="hidden"  />
 <input id="product_no" name="product_no" value="6027" type="hidden"  />
 <input id="move_write_after" name="move_write_after" value="/product/detail.html?board_no=4&amp;product_no=6027&amp;cate_no=428&amp;display_group=1&amp;keyword=" type="hidden"  />
@@ -352,6 +352,7 @@ $(function(){
             $login_page_url = /member/login.html
             $deny_access_url = /index.html
         -->
+
 <div class="ec-base-box typeProduct  ">
             <p class="thumbnail"><a href=""><img id="iPrdImg" src="https://insideobject.com/web/product/tiny/202305/4af17b2f7283ac768912d392d44d09ca.png" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
             <div class="information" style="padding-left:30px">
@@ -374,7 +375,7 @@ $(function(){
 <tbody>
 <tr>
 <th scope="row">제목</th>
-                    <td> <input id="subject" name="subject" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" maxLength="125" value=" <c:out value="${rVO.title}"/>" type="text"  /></td>
+                    <td> <input id="title" name="title" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" maxLength="125" value=" <c:out value="${rVO.title}"/>" type="text"  /></td>
                 </tr>
 <%-- <tr class="displaynone">
 <th scope="row">작성자</th>
@@ -402,7 +403,7 @@ $(function(){
             <!-- HTML -->
             <textarea style="width: 100%;" name="content" id="content" class="ec-fr-never-be-duplicated"><c:out value="${rVO.content}"/></textarea>
                 <input type="hidden" id="content_hidden" fw-filter="isSimplexEditorFill" fw-label="내용" value="EC_FROALA_INSTANCE" />
-                
+               
             <!-- JavaScript -->
             <script type="text/javascript" src="https://img.echosting.cafe24.com/editors/froala/js/polyfill.min.js?vs=2404180600"></script>
             <script type="text/javascript" src="https://img.echosting.cafe24.com/editors/froala/3.2.2/js/froala_editor.pkgd.min.js?vs=2404180600"></script>
@@ -730,10 +731,11 @@ $(function(){
                 }
             }
             
-            </script>                    </td>
+            </script>                    </td> 
                 </tr>
 </tbody>
 </table>
+</form>
 </div>
 <div class="ec-base-button ">
             <span class="gLeft">

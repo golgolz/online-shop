@@ -234,8 +234,6 @@ public class UserReviewDAO {
 
     int cnt = 0;
 
-
-
     Connection con = null;
     PreparedStatement pstmt = null;
 
@@ -249,10 +247,10 @@ public class UserReviewDAO {
       // 4.쿼리문 생성객체 얻기(Dynamic Query)
 
       StringBuilder updateReview = new StringBuilder();
-      updateReview.append("  update review    ").append("  set title=?, content=?  ")
-          .append("  where review_id=? and id=?   ");
+      updateReview.append("  update review    ").append("  set title= ? , content= ?  ")
+          .append("  where review_id= ? and id= ?   ");
 
-      pstmt = con.prepareStatement(updateReview.toString());;
+      pstmt = con.prepareStatement(updateReview.toString());
 
       // 5. 바인드 변수에 값 설정
       pstmt.setString(1, rVO.getTitle());

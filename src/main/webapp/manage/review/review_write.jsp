@@ -45,6 +45,8 @@ session.setAttribute("loginData", rVO);
 	        history.back();
 	    });//click
 	    $("#btnWrite").click(function () {
+	    	var title=document.getElementById("title").value;
+	    	alert(title);
 	        $("#frmWrite").submit();
 	    });//click
 	});//ready
@@ -106,7 +108,7 @@ $(function(){
             <p>상품 사용후기입니다.</p>
         </div>
 </div>
-<form id="boardWriteForm" name="" action="/exec/front/Board/write/4" method="post" target="_self" enctype="multipart/form-data" >
+<form id="frmWrite" name="frmWrite" action="review_write_process.jsp" method="get" target="_self" enctype="multipart/form-data" >
 <input id="board_no" name="board_no" value="4" type="hidden"  />
 <input id="product_no" name="product_no" value="6027" type="hidden"  />
 <input id="move_write_after" name="move_write_after" value="/product/detail.html?board_no=4&amp;product_no=6027&amp;cate_no=428&amp;display_group=1&amp;keyword=" type="hidden"  />
@@ -123,6 +125,7 @@ $(function(){
             $login_page_url = /member/login.html
             $deny_access_url = /index.html
         -->
+</form>
 <div class="ec-base-box typeProduct  ">
             <p class="thumbnail"><a href=""><img id="iPrdImg" src="https://insideobject.com/web/product/tiny/202305/4af17b2f7283ac768912d392d44d09ca.png" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
             <div class="information" style="padding-left:30px">
@@ -146,7 +149,7 @@ $(function(){
 <tbody>
 <tr>
 <th scope="row">제목</th>
-                    <td> <input id="subject" name="title" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" maxLength="125" value="" type="text"  />  </td>
+                    <td> <input id="title" name="title" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" value="" maxLength="125" type="text"  />  </td>
                 </tr>
 <tr>
 <td colspan="2" class="clear">
@@ -491,13 +494,14 @@ $(function(){
 </tbody>
 </table>
 </div>
+
 <div class="ec-base-button ">
             <!-- <span class="gLeft">
                 <span class="displaynone"><a href="#none" class="btnNormal sizeS" onclick="">관리자 답변보기</a></span>
                 <a href="" class="btnNormalFix sizeS">목록</a>
             </span> -->
             <span class="gRight">
-                <a href="#none" class="btnSubmitFix sizeS" onclick="BOARD_WRITE.form_submit('boardWriteForm');">등록</a>
+                <input type="button" class="btnSubmitFix sizeS" id="btnWrite" value="등록"/>
                 <a href="/board/review/4/" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>

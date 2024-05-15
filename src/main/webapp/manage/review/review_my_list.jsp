@@ -36,10 +36,10 @@
 				chkNull;
 			});//click
 			$("#btnAllSearch").click(function(){
-				location.href="board_list.jsp";
+				location.href="review_my_list.jsp";
 			});//click
 			$("#btnWrite").click(function(){
-				location.href="review_write_test.jsp";
+				location.href="review_write.jsp";
 			});//click
 			
 			$("#keyword").keydown(function(evt) {
