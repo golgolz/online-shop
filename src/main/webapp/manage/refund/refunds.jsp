@@ -1,3 +1,6 @@
+<%@page import="admin.refund.AdminRefundDAO"%>
+<%@page import="admin.refund.RefundSimpleVO"%>
+<%@page import="java.util.List"%>
 <%@page import="util.PageController"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
@@ -33,10 +36,14 @@
 		int endNum = startNum + pageScale - 1;
 		searchVO.setStart(startNum);
 		searchVO.setEnd(endNum);
-				
+
+		searchVO.setField(Integer.parseInt(request.getParameter("category") == null ? "-1" : request.getParameter("category")));
 		PageController pageController = PageController.getInstance();
 		String params = pageController.createQueryStr(request);
 		int searchResultCount = 10;
+		
+		AdminRefundDAO adminRefundDAO = AdminRefundDAO.getInstance();
+		List<RefundSimpleVO> refunds = adminRefundDAO.selectRefunds(searchVO);
 	%>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
@@ -97,10 +104,13 @@
 									<th scope="row">반품상태</th>
 									<td>
 										<label class="od_status">
-											<input type="radio" name="delivery" value="0"${param.delivery eq '0' ? " checked" : "" }> 전체
+											<input type="radio" name="refund" value="0"${param.refund eq '0' ? " checked" : "" }> 전체
 										</label> 
 										<label class="od_status">
-											<input type="radio" name="delivery" value="1"${param.delivery eq '1' ? " checked" : "" }> 반품접수
+											<input type="radio" name="refund" value="1"${param.refund eq '1' ? " checked" : "" }> 반품접수
+										</label> 
+										<label class="od_status">
+											<input type="radio" name="refund" value="2"${param.refund eq '2' ? " checked" : "" }> 반품완료
 										</label> 
 									</td>
 								</tr>
@@ -140,16 +150,18 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr class="list0">
-							<td>2024-02-01 11:53</td>
-							<td>202402011153</td>
-							<td>lee</td>
-							<td>이명화</td>
-							<td>반품완료</td>
-							<td>2024-02-07 22:11</td>
-							<td>100,000원</td>
-							<td>카드결제</td>
-						</tr>
+							<% for(RefundSimpleVO refund: refunds){ %>
+							<tr class="list0">
+								<td><%= refund.getOrderDate() %></td>
+								<td><%= refund.getCartId() %></td>
+								<td><%= refund.getId() %></td>
+								<td><%= refund.getName() %></td>
+								<td><%= refund.getRefundStatus() %></td>
+								<td><%= refund.getRefundDate() %></td>
+								<td><%= refund.getRefundAmount() %>원</td>
+								<td><%= refund.getPayment() %></td>
+							</tr>
+							<% } %>
 						</tbody>
 					</table>
 				</div>

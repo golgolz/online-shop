@@ -165,11 +165,28 @@ public class AdminOrderDAO {
             }
 
             if (searchVO.getDelivery() != null) {
-                selectQuery.append(" and delivery_state = ? ");
+                switch (searchVO.getDelivery()) {
+                    case "1":
+                        selectQuery.append(" and delivery_state = '배송준비'");
+                        break;
+                    case "2":
+                        selectQuery.append(" and delivery_state = '배송중'");
+                        break;
+                    case "3":
+                        selectQuery.append(" and delivery_state = '배송완료'");
+                        break;
+                }
             }
 
             if (searchVO.getPurchase() != null) {
-                selectQuery.append(" and purchase_state = ? ");
+                switch (searchVO.getPurchase()) {
+                    case "1":
+                        selectQuery.append(" and delivery_state = '구매확정'");
+                        break;
+                    case "2":
+                        selectQuery.append(" and delivery_state = '구매미확정'");
+                        break;
+                }
             }
 
             selectQuery.append(" ) where rnum between ? and ? ");
