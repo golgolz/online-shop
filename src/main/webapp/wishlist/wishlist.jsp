@@ -57,7 +57,7 @@
 		
 		//////////////////////////////////////////////////////////////////////////////
 
-		function deleteWishlist(){
+/*  		function deleteWishlist(){
 			
 			var flag = confirm("정말 삭제하시겠습니까?");
 			
@@ -113,16 +113,16 @@
 				},
 				success : function(jsonObj){
 					if(jsonObj.result){
-						alert("장바구니가 비워졌습니다.");
+						alert("관심상품이 비워졌습니다.");
 						location.reload();
 					}else{
-						alert("장바구니 비우기를 실패했습니다. 잠시 후 다시 시도해주세요.");
+						alert("관심상품 비우기를 실패했습니다. 잠시 후 다시 시도해주세요.");
 					}
 				}
 			})
-		}
+		} 
 		
-		
+		 */
 		
 </script>
 </head>
@@ -274,7 +274,7 @@
                 <td class="price right" style="text-align:center"><c:out value="${wVO.price + wVO.deliveryCharge}"/>원</td>
                 <td class="button">
                     <a href="#none" onclick="" class="btnSubmit ">장바구니담기</a>
-                    <a href="#none" onclick="deleteWishlist()" class="btnNormal"> 삭제</a>
+                    <a href="wishlist_delete_process.jsp?favoriteId=${wVO.favoriteId }" class="btnNormal"> 삭제</a>
                 </td>
             </tr>
 		   </c:forEach>

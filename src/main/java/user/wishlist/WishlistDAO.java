@@ -206,6 +206,32 @@ public class WishlistDAO {
 
   }// insertReview
 
+  /*
+   * public int deleteWishlist(WishlistVO wVO) throws SQLException {
+   * 
+   * int cnt = 0;
+   * 
+   * Connection con = null; PreparedStatement pstmt = null;
+   * 
+   * DbConnection db = DbConnection.getInstance();
+   * 
+   * try { // 1.JNDI 사용 객체 생성 // 2.DataSource 얻기 // 3.Connection 얻기 con =
+   * db.getConn("online-shop-dbcp"); // 4.쿼리문 생성객체 얻기(Dynamic Query)
+   * 
+   * StringBuilder deleteWishlist = new StringBuilder();
+   * deleteWishlist.append("  delete from favorite    ").append("  where favorite_id=? and id=?   ");
+   * pstmt = con.prepareStatement(deleteWishlist.toString());
+   * 
+   * // 바인드 변수에 값 설정 pstmt.setInt(1, wVO.getFavoriteId()); pstmt.setString(2, wVO.getId());
+   * 
+   * cnt = pstmt.executeUpdate();
+   * 
+   * } finally { // 7.연결 끊기 db.closeCon(null, pstmt, con); }
+   * 
+   * return cnt;
+   * 
+   * }// deleteReview
+   */
   public int deleteWishlist(WishlistVO wVO) throws SQLException {
 
     int cnt = 0;
@@ -223,12 +249,11 @@ public class WishlistDAO {
       // 4.쿼리문 생성객체 얻기(Dynamic Query)
 
       StringBuilder deleteWishlist = new StringBuilder();
-      deleteWishlist.append("  delete from favorite    ").append("  where favorite_id=? and id=?   ");
+      deleteWishlist.append("  delete from favorite    ").append("  where favorite_id=? ");
       pstmt = con.prepareStatement(deleteWishlist.toString());
 
       // 바인드 변수에 값 설정
       pstmt.setInt(1, wVO.getFavoriteId());
-      pstmt.setString(2, wVO.getId());
 
       cnt = pstmt.executeUpdate();
 
@@ -239,7 +264,7 @@ public class WishlistDAO {
 
     return cnt;
 
-  }// deleteReview
+  }// deleteWishlist
 
   public int deleteAllWishlist(WishlistVO wVO) throws SQLException {
     int cnt = 0;
