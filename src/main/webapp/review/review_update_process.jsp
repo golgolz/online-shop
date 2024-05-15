@@ -43,19 +43,19 @@
 		  
 		UserReviewDAO rDAO=UserReviewDAO.getInstance();
 		/* int num=rDAO.selectReviewId(rVO);  */   
-		String userId="haa";
+		/* String userId="haa";
 		    
-	    session.setAttribute("userId", userId);
+	    session.setAttribute("userId", userId); */
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		int num = Integer.parseInt(request.getParameter("reviewId"));
+		int reviewId = Integer.parseInt(request.getParameter("reviewId"));
 		
 		rVO.setTitle(title);
 		rVO.setContent(content);
-		rVO.setReviewId(num);
+		rVO.setReviewId(reviewId);
 		/* rVO.setId(((ReviewBoardVO)session.getAttribute("userId")).getId()); */
 		
-		System.out.print("num : "+num);
+		System.out.print("reviewId : "+reviewId);
 		
 		rVO.setId((String)session.getAttribute("userId"));
 

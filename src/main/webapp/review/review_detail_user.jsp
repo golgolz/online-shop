@@ -192,7 +192,7 @@ $(function(){
             </span>
             <span class="gRight">
                 <a href="review_delete_process.jsp?reviewId=${rVO.reviewId }" class="btnNormalFix sizeS">삭제</a>
-                <a href="http://localhost/online-shop/review/review_read_frm.jsp?reviewId=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}" class="btnEmFix sizeS ">수정</a>
+                <a href="http://localhost/online-shop/review/review_read_frm.jsp?reviewId=${rVO.reviewId }&title=${rVO.title }&content=${rVO.content }&currentPage=${empty param.currentPage ?1:param.currentPage}" class="btnEmFix sizeS ">수정</a>
             </span>
         </div>
 </div>
