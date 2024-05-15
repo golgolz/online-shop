@@ -1,15 +1,45 @@
+<%@page import="user.review.UserReviewDAO"%>
+<%@page import="util.PageController"%>
+<%@page import="admin.review.AdminReviewDAO"%>
+<%@page import="admin.review.ReviewBoardVO"%>
+<%@page import="admin.review.SearchVO"%>
+<%@page import="java.util.List"%>
 <%@page import="user.wishlist.WishlistDAO"%>
 <%@page import="user.wishlist.WishlistVO"%>
 <%@page import="user.goods.UserGoodsDAO"%>
 <%@page import="user.main.GoodsSimpleVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+<%
+		// goods 
+		String code = (String)request.getParameter("goods");
+		GoodsSimpleVO currentGoods = null;
+		if(code != null){
+			currentGoods = UserGoodsDAO.getInstance().selectOneGoods(code);
+		}
+		
+		// pagenation for review 
+		int pageScale = 5;
+		int currentPage = Integer.parseInt(request.getParameter("page") == null ? "1" : request.getParameter("page"));
+		int startNum = pageScale * (currentPage - 1) + 1;
+		int endNum = startNum + pageScale - 1;
+		
+		PageController pageController = PageController.getInstance();
+		String params = pageController.createQueryStr(request);
+		
+		// review
+		SearchVO searchVO = new SearchVO(null, request.getParameter("goods"), null, startNum, endNum);
+		UserReviewDAO reviewDAO = UserReviewDAO.getInstance();
+		List<ReviewBoardVO> reviews = reviewDAO.selectReviewBoard(searchVO);
+	    int totalCount = reviewDAO.selectTotalCount(searchVO);
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <jsp:include page="../assets/jsp/user/lib.jsp" />
 <!-- golgolz start -->
 <link href="../assets/css/goods/detail.css" rel="stylesheet" />
+<link href="http://localhost/online-shop/assets/css/pagenation.css" rel="stylesheet" />
 <script type="text/javascript">
 	$(function(){
 		setTotalInfo(1);
@@ -51,6 +81,61 @@
 				return $("#sub_cart").attr("href") + quantity;
 			});
 		});
+		
+		$("#sub_buy").click(function(){
+			var quantity = $("#quantity").val();
+			$("#sub_buy").attr("href", function(){
+				return $("#sub_buy").attr("href") + quantity;
+			});
+		});
+		
+		$(".pages").click(function(event){
+			event.preventDefault();
+			var currentPage = parseInt($(this).text());
+			var startNum = (currentPage - 1) * <%= pageScale %> + 1;
+			var param = {
+					start: startNum, 
+					end: startNum + <%= pageScale %> - 1, 
+					code: "<%= code %>"
+					};
+			
+			$.ajax({
+				url: "review_json.jsp",
+				type: "GET",
+				data: param,
+				datatype: "JSON",
+				error: function(xhr){
+					alert("error occurred");
+				},
+				success: function(reviewObj){
+					if(reviewObj.flag){
+						var $tbody = $("#review_content tbody");
+						var reviews = reviewObj.review;
+						var output = "";
+							
+						$tbody.empty();
+						$.each(reviews, function(i, review) {
+							output = "";
+						    output += "<tr class='xans-record-'>";
+						    output += "<td>" + (startNum + i) + "</td>";
+						    output += "<td class='subject left txtBreak'>";
+						    output += "<a href='http://localhost/online-shop/review/review_detail_user.jsp?seq=" + review.review_id + "'>" + review.title + "</a></td>"; // </td> 추가
+						    output += "<td>" + review.id + "</td>";
+						    output += "<td class='txtInfo txt11'>" + review.input_date + "</td>";
+						    output += "</tr>";
+						    
+						    $tbody.append(output);
+						});
+						
+						$(".pages").children().each(function(){
+							$(this).removeClass("this");
+						});
+						
+						$("#page_" + currentPage + " a").addClass("this");
+					}
+				}
+			});
+		});
 	});
 	
 	function setTotalInfo(quantity){
@@ -64,14 +149,7 @@
 <!-- golgolz end -->
 </head>
 <body>
-	<%
-		String code = (String)request.getParameter("goods");
-		GoodsSimpleVO currentGoods = null;
-		if(code != null){
-			currentGoods = UserGoodsDAO.getInstance().selectOneGoods(code);
-		}
-
-	%>
+	
 	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="container">
@@ -178,11 +256,9 @@
 									<div class="ec-base-button">
 										<a href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="sub_cart" id="sub_cart">장바구니</a>
 										<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= currentGoods.getCode() %>" class="sub_wish">관심상품</a>
-										<a
-											href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
-											class="first sub_buy"
-											onclick="product_submit(1, &#39;/exec/front/order/basket/&#39;, this)"><span
-											id="btnBuy">구매하기</span></a>
+										<a href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="first sub_buy" id="sub_buy">
+											<span id="btnBuy">구매하기</span>
+										</a>
 									</div>
 								</div>
 							</div>
@@ -193,12 +269,10 @@
 				<div class="xans-element- xans-product xans-product-additional">
 					<ul class="cboth title_detail">
 						<li class="tab_open" id="tab01">
-							<a id="info_tab"
-							href="#none">상품상세정보</a>
+							<a id="info_tab" href="#none">상품상세정보</a>
 						</li>
 						<li id="tab02">
-							<a id="review_tab"
-							href="#none">리뷰</a>
+							<a id="review_tab" href="#none">리뷰</a>
 						</li>
 					</ul>
 					<!-- 상품 상세 이미지 시작-->
@@ -218,15 +292,13 @@
 						<div class="board">
 							<div class="xans-element- xans-product xans-product-review">
 								<div class="ec-base-table typeList">
-									<table border="1" summary="" class="">
+									<table border="1" summary="" class="" id="review_content">
 										<caption>상품사용후기</caption>
 										<colgroup>
 											<col style="width: 70px" />
 											<col style="width: auto" />
 											<col style="width: 100px" />
 											<col style="width: 100px" />
-											<col style="width: 80px" />
-											<col style="width: 80px" class="displaynone" />
 										</colgroup>
 										<thead>
 											<tr class="center">
@@ -234,56 +306,32 @@
 												<th scope="col">제목</th>
 												<th scope="col">작성자</th>
 												<th scope="col">작성일</th>
-												<th scope="col">조회</th>
-												<th scope="col" class="displaynone">평점</th>
 											</tr>
 										</thead>
 										<tbody class="center">
+											<% for(ReviewBoardVO review: reviews){ %>
 											<tr class="xans-record-">
-												<td>1</td>
-												<td class="subject left txtBreak"><a
-													href="http://localhost/online-shop/manage/review/review_detail_user.jsp?seq=15&currentPage=1">귀여워요</a>
-													<span class="txtWarn"></span></td>
-												<td>네****</td>
-												<td class="txtInfo txt11">2023-06-05</td>
-												<td class="txtInfo txt11">67</td>
-												<td class="displaynone"><img
-													src="./user_goods_detail_files/ico_point5.gif" alt="5점" />
-												</td>
+												<td><%= startNum++ %></td>
+												<td class="subject left txtBreak">
+													<a href="http://localhost/online-shop/review/review_detail_user.jsp?seq=<%= review.getReviewId() %>">
+														<%= review.getTitle() %>
+													</a>
+												<td><%= review.getId() %></td>
+												<td class="txtInfo txt11"><%= review.getInputDate() %></td>
 											</tr>
+											<% } %>
 										</tbody>
 									</table>
 								</div>
 							</div>
-							<p class="ec-base-button typeBorder">
-								<span class="gRight"> <a
-									href="http://localhost/online-shop/manage/review/review_write.jsp?code=<%= currentGoods.getCode() %>">상품후기쓰기</a>
-									<a
-									href="http://localhost/online-shop/manage/review/review_my_list.jsp">모두
-										보기</a>
-								</span>
-							</p>
-							<div class="xans-element- xans-product xans-product-reviewpaging ec-base-paginate">
-								<a
-									href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
-									class="first"><img
-									src="http://localhost/online-shop/assets/images/goods/btn_page_first.gif" alt="첫 페이지" /></a>
-								<a
-									href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"><img
-									src="http://localhost/online-shop/assets/images/goods/btn_page_prev.gif" alt="이전 페이지" /></a>
-								<ol>
-									<li class="xans-record-"><a
-										href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/?page_4=1#use_review"
-										class="this">1</a></li>
-								</ol>
-								<a
-									href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"><img
-									src="http://localhost/online-shop/assets/images/goods/btn_page_next.gif" alt="다음 페이지" /></a>
-								<a
-									href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
-									class="last"><img
-									src="http://localhost/online-shop/assets/images/goods/btn_page_last.gif" alt="마지막 페이지" /></a>
-							</div>
+							<%
+					        	String pageNation = 
+					        	pageController.createPagingBtns("http://localhost/online-shop/goods/detail.jsp", params
+					        	        , Integer.parseInt(request.getParameter("page") == null ? "1" : request.getParameter("page")), (totalCount / pageScale) + 1);
+					        %>
+					        <div id="pageNation" style="margin-top: 30px;">
+						        <%= pageNation %>
+					        </div>
 						</div>
 					</div>
 					

@@ -20,7 +20,7 @@ public class AdminOrderDAO {
         return adminOrderDAO;
     }
 
-    public int selectCount() throws SQLException {
+    public int selectCount(SearchVO searchVO) throws SQLException {
         int count = 0;
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -38,7 +38,65 @@ public class AdminOrderDAO {
                     .append(" group by cart_id ) purchase_amount on purchase_amount.cart_id = cart.cart_id ")
                     .append(" where order_flag='주문' ");
 
+            if (searchVO.getField() != -1) {
+                switch (searchVO.getField()) {
+                    case 0:
+                        selectQuery.append(" and cart.cart_id = ? ");
+                        break;
+                    case 1:
+                        selectQuery.append(" and id = ? ");
+                        break;
+                    case 2:
+                        selectQuery.append(" and name = ? ");
+                        break;
+                    case 3:
+                        selectQuery.append(" and receiver = ? ");
+                        break;
+                    default:
+                }
+            }
+
+            if (searchVO.getDate() != null) {
+                switch (searchVO.getDate()) {
+                    case "today":
+                        selectQuery.append(
+                                " and trunc(input_date) = to_date('2024-04-19', 'yyyy-mm-dd') and order_flag='주문' ");
+                        break;
+                    case "week":
+                        selectQuery.append(
+                                " and input_date >= trunc(to_date('2024-04-18', 'yyyy-mm-dd'), 'IW') and order_flag='주문' ");
+                        break;
+                    case "month":
+                        selectQuery.append(
+                                " and extract(month from input_date) = extract(month from to_date('2024-04-12', 'yyyy-mm-dd')) ")
+                                .append(" and extract(year from input_date) = extract(year from to_date('2024-04-13', 'yyyy-mm-dd')) ");
+                        break;
+                }
+            }
+
+            if (searchVO.getDelivery() != null) {
+                selectQuery.append(" and delivery_state = ? ");
+            }
+
+            if (searchVO.getPurchase() != null) {
+                selectQuery.append(" and purchase_state = ? ");
+            }
+
             pstmt = conn.prepareStatement(selectQuery.toString());
+
+            int bindIndex = 0;
+
+            if (searchVO.getField() != -1) {
+                pstmt.setString(++bindIndex, searchVO.getKeyword());
+            }
+
+            if (searchVO.getDelivery() != null) {
+                pstmt.setString(++bindIndex, searchVO.getDelivery());
+            }
+
+            if (searchVO.getPurchase() != null) {
+                pstmt.setString(++bindIndex, searchVO.getPurchase());
+            }
 
             rs = pstmt.executeQuery();
 
@@ -70,20 +128,22 @@ public class AdminOrderDAO {
                     .append(" select order_goods.cart_id as cart_id, sum(goods.price * order_goods.amount) as purchase_amount from goods join order_goods on goods.code = order_goods.code ")
                     .append(" group by cart_id) purchase_amount on purchase_amount.cart_id = cart.cart_id where order_flag='주문' ");
 
-            if (searchVO.getCartId() != null) {
-                selectQuery.append(" and cart.cart_id = ? ");
-            }
-
-            if (searchVO.getId() != null) {
-                selectQuery.append(" and id = ? ");
-            }
-
-            if (searchVO.getName() != null) {
-                selectQuery.append(" and name = ? ");
-            }
-
-            if (searchVO.getReceiver() != null) {
-                selectQuery.append(" and receiver = ? ");
+            if (searchVO.getField() != -1) {
+                switch (searchVO.getField()) {
+                    case 0:
+                        selectQuery.append(" and cart.cart_id = ? ");
+                        break;
+                    case 1:
+                        selectQuery.append(" and id = ? ");
+                        break;
+                    case 2:
+                        selectQuery.append(" and name = ? ");
+                        break;
+                    case 3:
+                        selectQuery.append(" and receiver = ? ");
+                        break;
+                    default:
+                }
             }
 
             if (searchVO.getDate() != null) {
@@ -118,20 +178,8 @@ public class AdminOrderDAO {
 
             int bindIndex = 0;
 
-            if (searchVO.getCartId() != null) {
-                pstmt.setString(++bindIndex, searchVO.getCartId());
-            }
-
-            if (searchVO.getId() != null) {
-                pstmt.setString(++bindIndex, searchVO.getId());
-            }
-
-            if (searchVO.getName() != null) {
-                pstmt.setString(++bindIndex, searchVO.getName());
-            }
-
-            if (searchVO.getReceiver() != null) {
-                pstmt.setString(++bindIndex, searchVO.getReceiver());
+            if (searchVO.getField() != -1) {
+                pstmt.setString(++bindIndex, searchVO.getKeyword());
             }
 
             if (searchVO.getDelivery() != null) {
@@ -146,7 +194,7 @@ public class AdminOrderDAO {
             pstmt.setInt(++bindIndex, searchVO.getEnd());
 
             rs = pstmt.executeQuery();
-            System.out.println(selectQuery.toString());
+            // System.out.println(selectQuery.toString());
 
             while (rs.next()) {
                 orders.add(new OrderVO(rs.getString("input_date"), rs.getString("cart_id"), rs.getString("id"),
