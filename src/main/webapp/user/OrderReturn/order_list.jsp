@@ -442,11 +442,13 @@ $(function() {
     						<input type="submit" class="btnNormal" name="purchaseConfirmationBtn" value="구매확정" onclick="return confirm('구매를 확정하시겠습니까?');">
     						<% } else { %>
     						<input type="button" class="btnNormal" value="구매확정됨" disabled>
+    						<input type="button" class="btnNormal" value="리뷰쓰기" 
+    						onclick="redirectToReviewPage('<%= orderInfo.getCode() %>', '<%= cartId %>')">
+
     						<% } %>
                				<!-- <input type="submit" class="btnNormal" name="purchaseConfirmationBtn" value="구매확정"> -->
            				</form>
 						
-				         <a	href="return.html?order_id=20240407-0000129" class="btnNormal displaynone">반품신청</a>
 				         </td>
 				         <td>
 				         <img src="../../assets/images/goods/<%= orderInfo.getDefaultImg() %>" alt="Product Image" style="width: 110px; height: auto;">
@@ -461,6 +463,12 @@ $(function() {
 				   	}//조건문
 				 }//반복문
     %>
+    <script>
+    function redirectToReviewPage(code, cartId) {
+        // code와 cartId를 URL에 파라미터로 추가하여 리뷰 작성 페이지로 이동
+        window.location.href = "../../review/review_write_frm.jsp?code=" + code + "&cartId=" + cartId;
+    	}
+	</script>
     
 								
 								
