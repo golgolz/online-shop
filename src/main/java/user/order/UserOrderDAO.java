@@ -52,7 +52,7 @@ public class UserOrderDAO {
 
             rs = pstmt.executeQuery();
 
-            list = cDAO.selectOrderProduct(cartId);
+            list = cDAO.selectOrderProduct(cartId, "주문");
 
             if (rs.next()) {
 

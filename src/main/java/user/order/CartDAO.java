@@ -457,7 +457,7 @@ public class CartDAO {
         return list;
     }// selectCart
 
-    public List<OrderProductVO> selectOrderProduct(String cartId) throws SQLException {
+    public List<OrderProductVO> selectOrderProduct(String cartId, String flag) throws SQLException {
         List<OrderProductVO> list = new ArrayList<OrderProductVO>();
         OrderProductVO opVO = null;
 
@@ -475,11 +475,12 @@ public class CartDAO {
             selectQuery.append(
                     "    select og.order_goods_id,gd.default_img,gd.name,og.code,gd.price,og.amount,gd.delivery_charge,(gd.price*og.amount+gd.delivery_charge) total    ")
                     .append("    from goods gd, order_goods og, cart ct   ")
-                    .append("    where ((og.code=gd.code) and (ct.cart_id=og.cart_id)) and og.cart_id=? and order_flag='주문'    ");
+                    .append("    where ((og.code=gd.code) and (ct.cart_id=og.cart_id)) and og.cart_id=? and order_flag=?    ");
 
             pstmt = con.prepareStatement(selectQuery.toString());
 
             pstmt.setString(1, cartId);
+            pstmt.setString(2, flag);
 
             rs = pstmt.executeQuery();
 

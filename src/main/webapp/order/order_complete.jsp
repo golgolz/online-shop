@@ -25,7 +25,7 @@
     	
     	try {
 	    	cartId = cDAO.selectFirstOrderId(userId);
-    	    list = cDAO.selectOrderProduct(cartId);
+    	    list = cDAO.selectOrderProduct(cartId,"주문");
     	    if(list != null){
     		    for(int i=0; i<list.size(); i++){
     		        opVO = list.get(i);
