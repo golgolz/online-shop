@@ -18,7 +18,7 @@ int endNum = Integer.parseInt(request.getParameter("end"));
 String code = request.getParameter("code");
 
 UserReviewDAO reviewDAO = UserReviewDAO.getInstance();
-SearchVO searchVO = new SearchVO(null, code, null, startNum, endNum);
+SearchVO searchVO = new SearchVO("3", code, null, startNum, endNum);
 
 JSONObject reviewObj = new JSONObject();
 reviewObj.put("flag", false);

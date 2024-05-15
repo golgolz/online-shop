@@ -1,3 +1,4 @@
+<%@page import="util.PageController"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 <!DOCTYPE html>
@@ -22,6 +23,21 @@
 <!-- golgolz end -->
 </head>
 <body>
+	<jsp:useBean id="searchVO" class="admin.refund.SearchVO" scope="page" />
+	<jsp:setProperty property="*" name="searchVO" />
+	<%
+		// pagenation
+		int pageScale = 5;
+		int currentPage = Integer.parseInt(request.getParameter("page"));
+		int startNum = pageScale * (currentPage - 1) + 1;
+		int endNum = startNum + pageScale - 1;
+		searchVO.setStart(startNum);
+		searchVO.setEnd(endNum);
+				
+		PageController pageController = PageController.getInstance();
+		String params = pageController.createQueryStr(request);
+		int searchResultCount = 10;
+	%>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
 		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps--active-y">
@@ -44,65 +60,61 @@
 		</nav>
 		<div class="container-fluid py-4">
 			<!-- golgolz start -->
-		<div class="s_wrap">
-			<form name="fsearch" id="fsearch">
-				<input type="hidden" name="code" value="list">
-				<div class="tbl_frm01">
-					<table>
-						<colgroup> 
-							<col class="w100">
-							<col>
-						</colgroup>
-						<tbody>
-							<tr>
-								<th scope="row">검색어</th>
-								<td>
-									<input type="hidden" name="page" value="1" />
-									<select name="category">
-											<option value="0"${param.category eq '0' ? " selected" : "" }>주문번호</option>
-											<option value="1"${param.category eq '1' ? " selected" : "" }>회원아이디</option>
-											<option value="2"${param.category eq '2' ? " selected" : "" }>주문자명</option>
-											<option value="3"${param.category eq '3' ? " selected" : "" }>수령자명</option>
-									</select> 
-									<input type="text" name="keyword" value="${ param.keyword }" class="frm_input" size="30">
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">기간검색</th>
-              					<td class="box text">
-              						<input type="hidden" id="date" name="date" value="${param.date}" />
-              						<img id="btn_today" class="clickable-image${param.date eq 'today' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_today.gif" />
-									<img id="btn_week" class="clickable-image${param.date eq 'week' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisWeek.gif" />
-									<img id="btn_month" class="clickable-image${param.date eq 'month' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisMonth.gif" />
-					                <img id="btn_total" class="clickable-image${param.date eq 'total' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_total.gif" />
-              					</td>
-							</tr>
-							<tr>
-								<th scope="row">반품상태</th>
-								<td>
-									<label class="od_status">
-										<input type="radio" name="delivery" value="0"${param.delivery eq '0' ? " checked" : "" }> 전체
-									</label> 
-									<label class="od_status">
-										<input type="radio" name="delivery" value="1"${param.delivery eq '1' ? " checked" : "" }> 반품접수
-									</label> 
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="btn_confirm">
-					<input type="submit" value="검색" class="btn_medium"> 
-					<!-- <input type="button" value="초기화" id="frmRest" class="btn_medium grey"> -->
-				</div>
-			</form>
-			<div class="local_ov mart30">
-					<%-- 전체 : <b class="fc_red"><%= searchResultCount %></b> 건 조회 --%>
-			</div>
-				<form name="forderlist" id="forderlist" method="post">
-					<input type="hidden" name="q1" value="code=list"> 
-					<input type="hidden" name="page" value="1">
+			<div class="s_wrap">
+				<form name="fsearch" id="fsearch">
+					<input type="hidden" name="code" value="list">
+					<div class="tbl_frm01">
+						<table>
+							<colgroup> 
+								<col class="w100">
+								<col>
+							</colgroup>
+							<tbody>
+								<tr>
+									<th scope="row">검색어</th>
+									<td>
+										<input type="hidden" name="page" value="1" />
+										<select name="category">
+												<option value="0"${param.category eq '0' ? " selected" : "" }>주문번호</option>
+												<option value="1"${param.category eq '1' ? " selected" : "" }>회원아이디</option>
+												<option value="2"${param.category eq '2' ? " selected" : "" }>주문자명</option>
+												<option value="3"${param.category eq '3' ? " selected" : "" }>수령자명</option>
+										</select> 
+										<input type="text" name="keyword" value="${ param.keyword }" class="frm_input" size="30">
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">기간검색</th>
+	              					<td class="box text">
+	              						<input type="hidden" id="date" name="date" value="${param.date}" />
+	              						<img id="btn_today" class="clickable-image${param.date eq 'today' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_today.gif" />
+										<img id="btn_week" class="clickable-image${param.date eq 'week' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisWeek.gif" />
+										<img id="btn_month" class="clickable-image${param.date eq 'month' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisMonth.gif" />
+						                <img id="btn_total" class="clickable-image${param.date eq 'total' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_total.gif" />
+	              					</td>
+								</tr>
+								<tr>
+									<th scope="row">반품상태</th>
+									<td>
+										<label class="od_status">
+											<input type="radio" name="delivery" value="0"${param.delivery eq '0' ? " checked" : "" }> 전체
+										</label> 
+										<label class="od_status">
+											<input type="radio" name="delivery" value="1"${param.delivery eq '1' ? " checked" : "" }> 반품접수
+										</label> 
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="btn_confirm">
+						<input type="submit" value="검색" class="btn_medium"> 
+						<!-- <input type="button" value="초기화" id="frmRest" class="btn_medium grey"> -->
+					</div>
 				</form>
+				<div class="local_ov mart30">
+						<%-- 전체 : <b class="fc_red"><%= searchResultCount %></b> 건 조회 --%>
+				</div>
 				<div class="tbl_head01">
 					<table id="sodr_list">
 						<colgroup>
@@ -141,75 +153,25 @@
 						</tbody>
 					</table>
 				</div>
-
-				<nav class="pg_wrap">
-					<span class="pg"><span class="pg_start">처음</span> <span
-						class="pg_prev">이전</span> <span class="sound_only">열린</span><strong
-						class="pg_current">1</strong><span class="sound_only">페이지</span> <a
-						href="/admin/order.php?code=list&amp;page=2" class="pg_page">2<span
-							class="sound_only">페이지</span></a> <span class="pg_next">다음</span> <a
-						href="/admin/order.php?code=list&amp;page=2"
-						class="pg_page pg_end">맨끝</a> </span>
-				</nav>
-				<script>
-					$(function() {
-						$("#fr_date, #to_date").datepicker({
-							changeMonth : true,
-							changeYear : true,
-							dateFormat : "yy-mm-dd",
-							showButtonPanel : true,
-							yearRange : "c-99:c+99",
-							maxDate : "+0d"
-						});
-
-						// 주문서출력
-						$("#frmOrderPrint, #frmOrderExcel")
-								.on(
-										"click",
-										function() {
-											var type = $(this).attr("id");
-											var od_chk = new Array();
-											var od_id = "";
-											var $el_chk = $("input[name='chk[]']");
-
-											$el_chk.each(function(index) {
-												if ($(this).is(":checked")) {
-													od_chk.push($(
-															"input[name='od_id["
-																	+ index
-																	+ "]']")
-															.val());
-												}
-											});
-
-											if (od_chk.length > 0) {
-												od_id = od_chk.join();
-											}
-
-											if (od_id == "") {
-												alert("처리할 자료를 하나 이상 선택해 주십시오.");
-												return false;
-											} else {
-												if (type == 'frmOrderPrint') {
-													var url = "./order/order_print.php?od_id="
-															+ od_id;
-													window
-															.open(
-																	url,
-																	"frmOrderPrint",
-																	"left=100, top=100, width=670, height=600, scrollbars=yes");
-													return false;
-												} else {
-													this.href = "./order/order_excel2.php?od_id="
-															+ od_id;
-													return true;
-												}
-											}
-										});
-					});
-				</script>
+				<div class="alignCenter">
+          			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+            			<tbody>
+              				<tr>
+                				<td align="center">
+                 					<%
+							        	String pageNation = 
+									        	pageController.createPagingBtns("http://localhost/online-shop/manage/order/orders.jsp", params
+							        	        , Integer.parseInt(request.getParameter("page")), (searchResultCount / pageScale) + 1);
+						        	%>
+						        	<div id="pageNation">
+								        <%= pageNation %>
+							        </div>		
+                				</td>
+              				</tr>
+            			</tbody>
+          			</table>
+        		</div>	
 			</div>
-			<!-- golgolz end -->
 			<!-- golgolz end -->
 		</div>
 	</main>

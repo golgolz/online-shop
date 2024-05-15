@@ -28,7 +28,7 @@
 		String params = pageController.createQueryStr(request);
 		
 		// review
-		SearchVO searchVO = new SearchVO(null, request.getParameter("goods"), null, startNum, endNum);
+		SearchVO searchVO = new SearchVO("3", request.getParameter("goods"), null, startNum, endNum);
 		UserReviewDAO reviewDAO = UserReviewDAO.getInstance();
 		List<ReviewBoardVO> reviews = reviewDAO.selectReviewBoard(searchVO);
 	    int totalCount = reviewDAO.selectTotalCount(searchVO);
