@@ -12,11 +12,11 @@ import database.DbConnection;
 
 
 public class UserReviewDAO {
-
+  private String[] columnNames;
   private static UserReviewDAO userReviewDAO;
 
   private UserReviewDAO() {
-
+    columnNames = new String[] {"title", "content", "id"};
   }
 
   public static UserReviewDAO getInstance() {
@@ -112,28 +112,31 @@ public class UserReviewDAO {
           .append("     FROM ( SELECT r.review_id, g.default_img, g.name, r.title, r.input_date, r.id   ")
           .append("        FROM review r JOIN customer c ON r.id = c.id JOIN goods g ON r.code = g.code   ");
 
+
+      if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+        selectReviewBoard.append(" where instr(").append(columnNames[Integer.parseInt(sVO.getField())])
+            .append(", ? ) > 0");
+      } // end if
+
       /*
-       * if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
-       * selectReviewBoard.append(" where instr(").append(columnNames[Integer.parseInt(sVO.getField())])
-       * .append(", ? ) > 0"); } // end if
+       * if (sVO.getKeyword() != null && sVO.getKeyword() != "") {
+       * selectReviewBoard.append("  where r.code=?  "); }
        */
-      if (sVO.getKeyword() != null && sVO.getKeyword() != "") {
-        selectReviewBoard.append("  where r.code=?  ");
-      }
 
       selectReviewBoard.append("   ) sub ) WHERE rn BETWEEN ? AND ?   ");
 
       pstmt = con.prepareStatement(selectReviewBoard.toString());
       // 5.바인드 변수 값 설정
       int bindIndex = 0;
-      /*
-       * if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) { pstmt.setString(++bindIndex,
-       * sVO.getKeyword()); } // end if
-       * 
-       */
-      if (sVO.getKeyword() != null && sVO.getKeyword() != "") {
+
+      if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
         pstmt.setString(++bindIndex, sVO.getKeyword());
-      }
+      } // end if
+
+      /*
+       * if (sVO.getKeyword() != null && sVO.getKeyword() != "") { pstmt.setString(++bindIndex,
+       * sVO.getKeyword()); }
+       */
 
       pstmt.setInt(++bindIndex, sVO.getStartNum());
       pstmt.setInt(++bindIndex, sVO.getEndNum());

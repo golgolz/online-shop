@@ -280,7 +280,7 @@
 	    	<select name="field" id="field">
 	    		<option value="0" ${param.field eq 0?" selected='selected'":""}>제목</option>
 	    		<option value="1" ${param.field eq 1?" selected='selected'":""}>내용</option>
-	    		<%-- <option value="2" ${param.field eq 2?" selected='selected'":""}>작성자</option> --%>
+	    		<option value="2" ${param.field eq 2?" selected='selected'":""}>작성자</option>
 	    	</select>
 	    	<input type="text" name="keyword" id="keyword" value="${param.keyword }" style="width:230px; border:1px solid #dedede;"/>
 	    	<input type="button"  value="검색" id="search" class="btn btn-info btn-sm"/>
@@ -294,7 +294,7 @@
 	    
 	  <div style="text-align: center;">
 	  
-	  <%
+<%-- 	  <%
 	  	  String param="";
 	  		pageContext.setAttribute("param", param);
 	  		pageContext.setAttribute("param", totalPage );
@@ -309,7 +309,7 @@
         <div id="paging">
         <%=ReviewBoardUtil.getInstance().pageNation("review_board_list.jsp", param, totalPage, currentPage)%>
         </div>
-    </div>
+    </div> --%>
     
     <%
 		}catch (SQLException se){
