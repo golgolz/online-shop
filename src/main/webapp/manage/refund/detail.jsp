@@ -8,7 +8,7 @@
 <link rel="shortcut icon" href="http://demofran.com/data/banner/JnLfWUSUyR6sXJP5n3Re4Fvdc93k93.ico" type="image/x-icon">
 <script type="text/javascript">
 	$(function() {
-		$("#order_menu").addClass("bg-gradient-primary");
+		$("#refund_menu").addClass("bg-gradient-primary");
 	});
 </script>
 <!-- golgolz start -->

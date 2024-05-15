@@ -120,10 +120,11 @@
 		PageController pageController = PageController.getInstance();
 		String params = pageController.createQueryStr(request);
 		
-		boolean needCategory = request.getParameter("keyword") == "" || request.getParameter("keyword") == null;
-		
+		String keyword = request.getParameter("keyword");
+		String category = request.getParameter("category");
 		String field = "-1";
-		if(!(request.getParameter("category") == null || needCategory)){
+		
+		if(!(category == null || keyword == "" || keyword == null)){
 		    field = request.getParameter("category");
 		}
 		

@@ -40,10 +40,19 @@
 		searchVO.setField(Integer.parseInt(request.getParameter("category") == null ? "-1" : request.getParameter("category")));
 		PageController pageController = PageController.getInstance();
 		String params = pageController.createQueryStr(request);
-		int searchResultCount = 10;
+		String keyword = request.getParameter("keyword");
+		String category = request.getParameter("category");
+		String field = "-1";
+		
+		if(!(category == null || keyword == "" || keyword == null)){
+		    field = request.getParameter("category");
+		}
+		
+		searchVO.setField(Integer.parseInt(field));
 		
 		AdminRefundDAO adminRefundDAO = AdminRefundDAO.getInstance();
 		List<RefundSimpleVO> refunds = adminRefundDAO.selectRefunds(searchVO);
+		int searchResultCount = adminRefundDAO.selectCount(searchVO);
 	%>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
@@ -123,7 +132,7 @@
 					</div>
 				</form>
 				<div class="local_ov mart30">
-						<%-- 전체 : <b class="fc_red"><%= searchResultCount %></b> 건 조회 --%>
+						전체 : <b class="fc_red"><%= searchResultCount %></b> 건 조회
 				</div>
 				<div class="tbl_head01">
 					<table id="sodr_list">
@@ -153,7 +162,11 @@
 							<% for(RefundSimpleVO refund: refunds){ %>
 							<tr class="list0">
 								<td><%= refund.getOrderDate() %></td>
-								<td><%= refund.getCartId() %></td>
+								<td>
+									<a href="http://localhost/online-shop/manage/refund/detail.jsp?id=<%= refund.getCartId() %>">
+										<%= refund.getCartId() %>
+									</a>
+								</td>
 								<td><%= refund.getId() %></td>
 								<td><%= refund.getName() %></td>
 								<td><%= refund.getRefundStatus() %></td>
