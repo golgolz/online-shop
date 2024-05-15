@@ -32,6 +32,27 @@
 <script type="text/javascript">
 	$(function() {
 		$("#refund_menu").addClass("bg-gradient-primary");
+		
+		$(".refund_status").click(function(){
+			var params = { 
+					method: "",
+					cartId: <%= paramId %>
+					};
+			$.ajax({
+				url: "status_update_process.jsp",
+				type: "POST",
+				datatype: "JSON",
+				data: params,
+				error: function(xhr){
+					alert("error occurred");
+				},
+				success: function(data){
+					if(data.flag){
+						alert("해당 주문의 반품이 처리되었습니다.");
+					}
+				}
+			});
+		});
 	});
 </script>
 <!-- golgolz start -->
@@ -98,15 +119,11 @@
 									<col class="w90">
 									<col class="w60">
 									<col class="w70">
-									<col class="w70">
-									<col class="w70">
 								</colgroup>
 								<thead>
 									<tr>
 										<th scope="col">이미지</th>
 										<th scope="col">주문상품</th>
-										<th scope="col">주문상태</th>
-										<th scope="col">구매현황</th>
 										<th scope="col">수량</th>
 										<th scope="col">상품금액</th>
 										<th scope="col">배송비</th>
@@ -126,8 +143,8 @@
 													<%= goods.getName() %>
 												</a>
 											</td>
-											<td><%= goods.getOrderStatus() %></td>
-											<td id="purchaseStatus"><%= goods.getPurchaseStatus() %></td>
+											<%-- <td><%= goods.getOrderStatus() %></td>
+											<td id="purchaseStatus"><%= goods.getPurchaseStatus() %></td> --%>
 											<td><%= goods.getAmount() %>개</td>
 											<td class="tar"><%= goods.getPrice() %>원</td>
 											<td class="tar"><%= goods.getDeliveryCharge() %>원</td>
@@ -142,7 +159,7 @@
 				<section>
 					<form name="buttonfrm">
 						<div class="status-btn-div">
-							<input type="button" value="반품완료" class="btn_medium">
+							<input type="button" value="반품완료" class="btn_medium refund_status">
 						</div>
 					</form>
 				</section>
@@ -175,6 +192,9 @@
 									</table>
 								</div>
 							</section>
+							<div class="btn_confirm">
+								<a href="javascript:history.back();" class="btn_medium bx-white">이전</a>
+							</div>
 						</div>
 					</form>
 				</section>

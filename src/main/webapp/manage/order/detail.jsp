@@ -309,46 +309,6 @@
 					</section>
 				</div>
 			</div>
-			<!-- <script>
-				function form_submit(f) {
-					var status = document.pressed;
-
-					if (!is_checked("chk[]")) {
-						alert("처리할 자료를 하나 이상 선택해 주십시오.");
-						return false;
-					}
-
-					if (status == "운송장번호수정") {
-						f.action = "./pop_orderbaesongupdate.php";
-						return true;
-					}
-
-					var $chk = $("input[name='chk[]']");
-					var chk_cnt = $chk.size();
-					var chked_cnt = $chk.filter(":checked").size();
-
-					if (status == "입금완료" || status == "입금대기"
-							|| status == "주문취소" || status == "전체환불"
-							|| status == "전체반품") {
-						if (chk_cnt != chked_cnt) {
-							alert("처리할 자료를 모두 선택해주세요.\n\n일부 상품만 처리할 수 없습니다.");
-							return false;
-						}
-					}
-
-					if (confirm("주문상태를 변경하시겠습니까?")) {
-						return true;
-					} else {
-						return false;
-					}
-				}
-			</script>
-			<div id="ajax-loading">
-				<img src="http://demofran.com/img/ajax-loader.gif">
-			</div>
-			<script
-				src="http://demofran.com/admin/js/admin.js?ver=20240430173216"></script>
-			<script src="http://demofran.com/js/wrest.js"></script> -->
 			<!-- golgolz end -->
 		</div>
 	</main>

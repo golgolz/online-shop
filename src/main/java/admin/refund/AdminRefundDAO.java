@@ -238,4 +238,28 @@ public class AdminRefundDAO {
 
         return refundInfo;
     }
+
+    public int updateRefund(String cartId) throws SQLException {
+        int count = 0;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder updateQuery = new StringBuilder();
+
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+            updateQuery.append("update refund_history set refund_state='반품 완료' where cart_id = ? ");
+            pstmt = conn.prepareStatement(updateQuery.toString());
+            pstmt.setString(1, cartId);
+
+            count = pstmt.executeUpdate();
+        } finally {
+            dbConn.closeCon(rs, pstmt, conn);
+        }
+
+        return count;
+    }
 }
