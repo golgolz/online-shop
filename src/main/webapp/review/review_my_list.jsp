@@ -253,7 +253,8 @@
 	    	<input type="text" name="keyword" id="keyword" value="${param.keyword }" style="width:230px; border:1px solid #dedede;"/>
 	    	<input type="button"  value="검색" id="search" class="btn btn-info btn-sm"/>
 	    	<input type="button"  value="전체글" id="btnAllSearch" class="btn btn-info btn-sm" />
-	    	<input type="button"  value="글쓰기" id="btnWrite" class="btn btn-warning btn-sm"/>
+	    	<!-- <input type="button"  value="글쓰기" id="btnWrite" class="btn btn-warning btn-sm"/> -->
+	    	<a href="http://localhost/online-shop/review/review_write.jsp?code='SAMSUNG_S24_1'&cartId='20240419131320'" class="btn btn-warning btn-sm">글쓰기</a>
 	    	<input type="text" style="display: none;">
 	    </form>
 	    </div>
