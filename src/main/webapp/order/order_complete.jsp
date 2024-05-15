@@ -32,8 +32,7 @@
     		        result += opVO.getTotal();
     		    }
     	    }//end if
-	    	odVO = cDAO.selectDefaultDelivery(userId);
-    	    
+    		odVO = uDAO.selectDelivery(cartId);
     	}catch(SQLException se){
     	    se.printStackTrace();
     	}//end catch
