@@ -274,4 +274,57 @@ public class AdminOrderDAO {
 
         return goods;
     }
+
+    public int updateDelivery(String cartId, String status) throws SQLException {
+        int count = 0;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder updateQuery = new StringBuilder();
+        DbConnection dbConn = DbConnection.getInstance();
+
+        try {
+            conn = dbConn.getConn("online-shop-dbcp");
+            updateQuery.append("update cart set ");
+
+            if (status != null && status != "") {
+                switch (status) {
+                    case "반품접수":
+                        updateQuery.append(" order_flag = ? where cart_id = ?");
+                        break;
+                    default:
+                        updateQuery.append(" delivery_state = ? where cart_id = ?");
+                        break;
+                }
+            }
+
+            pstmt = conn.prepareStatement(updateQuery.toString());
+
+            int bindIndex = 0;
+
+            if (status != null && status != "") {
+                switch (status) {
+                    case "배송시작":
+                        pstmt.setString(++bindIndex, "배송중");
+                        pstmt.setString(++bindIndex, cartId);
+                        break;
+                    case "배송완료":
+                        pstmt.setString(++bindIndex, "배송완료");
+                        pstmt.setString(++bindIndex, cartId);
+                        break;
+                    case "반품접수":
+                        pstmt.setString(++bindIndex, "반품");
+                        pstmt.setString(++bindIndex, cartId);
+                        break;
+                }
+            }
+
+            count = pstmt.executeUpdate();
+        } finally {
+            dbConn.closeCon(rs, pstmt, conn);
+        }
+
+        return count;
+    }
 }
