@@ -270,23 +270,23 @@
 					</table>
 				</div>
 				<div class="alignCenter">
-          				<table cellpadding="0" cellspacing="0" border="0" width="100%">
-            				<tbody>
-              					<tr>
-                					<td align="center">
-                  					<%
+          			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+            			<tbody>
+              				<tr>
+                				<td align="center">
+                 					<%
 							        	String pageNation = 
-							        	pageController.createPagingBtns("http://localhost/online-shop/manage/order/orders.jsp", params
+									        	pageController.createPagingBtns("http://localhost/online-shop/manage/order/orders.jsp", params
 							        	        , Integer.parseInt(request.getParameter("page")), (searchResultCount / pageScale) + 1);
-							        %>
-							        <div id="pageNation">
+						        	%>
+						        	<div id="pageNation">
 								        <%= pageNation %>
 							        </div>		
-                					</td>
-              					</tr>
-            				</tbody>
-          				</table>
-        			</div>	
+                				</td>
+              				</tr>
+            			</tbody>
+          			</table>
+        		</div>	
 			</div>
 			<!-- golgolz end -->
 		</div>
