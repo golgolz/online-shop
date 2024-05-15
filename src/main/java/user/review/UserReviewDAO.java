@@ -163,7 +163,6 @@ public class UserReviewDAO {
   }// selectReviewBoard
 
   public ReviewBoardVO selectImgName(ReviewBoardVO rVO) throws SQLException {
-    rVO = null;
 
     Connection con = null;
     PreparedStatement pstmt = null;
@@ -178,9 +177,8 @@ public class UserReviewDAO {
       con = db.getConn("online-shop-dbcp");
       // 4.쿼리문 생성객체 얻기(Dynamic Query)
       StringBuilder selectImgName = new StringBuilder();
-      selectImgName.append("  SELECT r.default_img, r.name FROM order_goods og  ")
-          .append("  JOIN review r ON og.code = r.code AND og.cart_id = r.cart_id  ")
-          .append("  WHERE og.code = ? AND og.cart_id = ?   ");
+      selectImgName.append("  SELECT g.default_img, g.name FROM order_goods og  ")
+          .append("  JOIN goods g ON og.code = g.code  ").append("  WHERE og.code = ? AND og.cart_id = ?   ");
 
       pstmt = con.prepareStatement(selectImgName.toString());
       // 5.바인드 변수 값 설정

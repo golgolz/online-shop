@@ -46,7 +46,7 @@
 		System.out.println(title);
 		%>
 		alert("글을 작성했습니다.");
-		location.href="http://localhost/online-shop/manage/review/review_my_list.jsp";
+		location.href="http://localhost/online-shop/review/review_my_list.jsp";
 		<%
 		}catch(SQLException se) {
 		    se.printStackTrace();
