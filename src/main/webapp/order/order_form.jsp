@@ -188,6 +188,14 @@ th {
 	CartDAO cDAO = CartDAO.getInstance();
     List<OrderProductVO> list = (List<OrderProductVO>)session.getAttribute("data");
     
+	int result = 0;
+	
+    if(list != null){
+	    for(int i=0; i<list.size(); i++){
+	        opVO = list.get(i);
+	        result += opVO.getTotal();
+	    }
+    }//end if
     
     // 장바구니가 아닌 상품 상세 페이지에서 바로 주문서 작성 페이지로 넘어오는 경우
     if(list == null){
@@ -252,8 +260,32 @@ th {
 	    });//change
 	});//ready
 	
-	function chkNull(cardNum,id,tel){
-	}
+	function chkNull(){
+		var flag = false;
+		if($("#rname").val().trim() == ""){
+			alert("배송 정보를 확인해주세요.");
+			return flag;
+		}
+		if($("#sample4_postcode").val()==""){
+			alert("배송 정보를 확인해주세요.");
+			return flag;
+		}
+		if($("#sample4_roadAddress").val()==""){
+			alert("배송 정보를 확인해주세요.");
+			return flag;
+		}
+		if($("#rphone2_2").val()==""){
+			alert("배송 정보를 확인해주세요.");
+			return flag;
+		}
+		if($("#rphone2_3").val()==""){
+			alert("배송 정보를 확인해주세요.");
+			return flag;
+		}
+		flag = true;
+		return flag;
+	}//chkNull
+	
 	
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -761,19 +793,19 @@ th {
 											<tr>
 												<td class="price"><div class="box txt16">
 														<strong><span id="total_order_price_view"
-															class="txt23">23,000</span>원</strong> <span class="displaynone"><span
+															class="txt23"><%= result-3000 %></span>원</strong> <span class="displaynone"><span
 															id="total_order_price_ref_view"><span
 																class="eRefPrice"></span></span></span>
 													</div></td>
 												<td class="option "><div class="box txt16">
 														<strong><span id="total_sale_price_view"
-															class="txt23">0</span>원</strong> <span class="displaynone"><span
+															class="txt23"><%= opVO.getDelivertyFee() %></span>원</strong> <span class="displaynone"><span
 															id="total_sale_price_ref_view"><span
 																class="eRefPrice"></span></span></span>
 													</div></td>
 												<td><div class="box txtEm txt16">
 														<strong>=</strong> <strong><span
-															id="total_order_sale_price_view" class="txt23">23,000</span>원</strong>
+															id="total_order_sale_price_view" class="txt23"><%= result %></span>원</strong>
 														<span class="displaynone"><span
 															id="total_order_sale_price_ref_view"><span
 																class="eRefPrice"></span></span></span>
@@ -822,7 +854,7 @@ th {
 											fw-filter="isFill" fw-label="결제금액" fw-msg=""
 											class="inputTypeText" placeholder=""
 											style="text-align: right; ime-mode: disabled; clear: none; border: 0px; float: none;"
-											size="10" readonly="1" value="23000" type="text"><span>원</span>
+											size="10" readonly="1" value="<%= result %>" type="text"><span>원</span>
 									</p>
 									<p class="paymentAgree" id="chk_purchase_agreement"
 										style="display: none;">
@@ -837,6 +869,10 @@ th {
 											<script>
 												$("#btn_payment").click(
 														function() {
+															if(chkNull()==false){
+																return;
+															}
+															
 															var flag = confirm("결제를 진행하시겠습니까?");
 															
 															if(flag == false){
@@ -861,12 +897,12 @@ th {
 										style="background-color: #dedede; padding: 10px; padding-right: 15px; text-align: right;">
 										<h6>카드 결제</h6>
 									</div>
-									<form id="card-payment-form">
+									<form id="card-payment-form" name="cardFrm" action="http://localhost/online-shop/order/payment_process.jsp" method="post">
 										<div class="card-middle-title"
 											style="padding: 20px; font-size: 20px;">
-											<span class="card-middle-left" style="float: left;"><label>(주)오브젝트
+											<span class="card-middle-left" style="float: left;"><label>(주)골골즈 오브젝트
 													생활연구소</label></span> <span class="card-middle-right"
-												style="float: right; font-size: 25px; margin-bottom: 10px;"><label><strong>23,000원</strong></label></span>
+												style="float: right; font-size: 25px; margin-bottom: 10px;"><label><strong><%= result %>원</strong></label></span>
 										</div>
 
 										<div class="card-input-payarea"
@@ -876,14 +912,14 @@ th {
 													<th class="card-th"
 														style="width: 130px; border-bottom: 1px solid #dedede; padding: 5px; font-size: 17px; vertical-align: middle">카드번호</th>
 													<td class="card-td" style="border-bottom: 1px solid #dedede; padding: 5px;"><input type="text" maxlength="16"
-														placeholder="[-]없이 입력" class="card-input"
+														placeholder="[-]없이 입력" class="card-input" name="cardNum" id="card-num"
 														style="width: 350px; height: 50px; border: none; font-size: 20px; "></td>
 												</tr>
 												<tr>
 													<th class="card-th"
 														style="width: 130px; border-bottom: 1px solid #dedede; padding: 5px; font-size: 17px; vertical-align: middle">카드식별번호</th>
 													<td class="card-td" style="border-bottom: 1px solid #dedede; padding: 5px;"><input type="text" maxlength="3"
-														placeholder="카드 뒷면 3자리" class="card-input"
+														placeholder="카드 뒷면 3자리" class="card-input" name="cardId" id="card-id"
 														style="width: 350px; height: 50px; border: none; font-size: 20px;"></td>
 												</tr>
 												<tr>
@@ -891,11 +927,12 @@ th {
 														style="width: 130px; border-bottom: 1px solid #dedede; padding: 5px; font-size: 17px; vertical-align: middle" >휴대폰
 														번호</th>
 													<td class="card-td" style="border-bottom: 1px solid #dedede; padding: 5px;"><input type="text" maxlength="11"
-														placeholder="[-]없이 입력" class="card-input"
+														placeholder="[-]없이 입력" class="card-input" name="cellPhone" id="cell-phone"
 														style="width: 350px; height: 50px; border: none; font-size: 20px;"></td>
 												</tr>
 											</table>
 										</div>
+									</form>
 
 										<div class="card-payarea-btn"
 											style="text-align: center; vertical-align: bottom; margin-top: 200px; font-size: 20px; display: grid; grid-template-columns: 1fr 1fr; ">
@@ -906,13 +943,35 @@ th {
 										</div>
 											<script>
 											$(".card-btn-cancle").click(function() {
+												var cpFrm = document.cardFrm;
+												cpFrm.cardNum.value = "";
+												cpFrm.cardId.value = "";
+												cpFrm.cellPhone.value = ""; 
 												$("#modal").css("display","none");
+												alert("결제가 취소되었습니다.");
 											})
 											$(".card-btn-success").click(function() {
-												location.href = "order_complete.jsp";
+												var cpFrm = document.cardFrm;
+												
+												if(cpFrm.cardNum.value.length != 16){
+													alert("카드 번호를 정확히 입력해주세요.");
+													cpFrm.cardNum.focus();
+													return;
+												}
+												if(cpFrm.cardId.value.length != 3){
+													alert("식별 번호를 정확히 입력해주세요.");
+													cpFrm.cardId.focus();
+													return;
+												}
+												if(cpFrm.cellPhone.value.length != 11){
+													alert("휴대폰 번호를 확인해주세요.");
+													cpFrm.cellPhone.focus();
+													return;
+												}
+												
+												cpFrm.submit();
 											})
 											</script>
-									</form>
 								</div>
 							</div>
 
