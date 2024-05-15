@@ -56,14 +56,14 @@ public class PageController {
         btns.append("<ol id='pageContainer'>");
 
         if (start != 1) {
-            btns.append("<li class='pages'>").append("<a href='").append(baseURL).append("page=").append(start - 1)
-                    .append("'");
+            btns.append("<li class='pages' id='first_page'>").append("<a href='").append(baseURL).append("page=")
+                    .append(start - 1).append("'");
             btns.append(">").append(" < ").append("</a>").append("</li>");
         }
 
         while (start <= end) {
-            btns.append("<li class='pages'>").append("<a href='").append(baseURL).append("page=").append(start)
-                    .append("'");
+            btns.append("<li class='pages' id='page_").append(start).append("'>").append("<a href='").append(baseURL)
+                    .append("page=").append(start).append("'");
             if (currentPage == start) {
                 btns.append("class='this'");
             }
@@ -72,8 +72,8 @@ public class PageController {
         }
 
         if (end != totalPage) {
-            btns.append("<li class='pages'>").append("<a href='").append(baseURL).append("page=").append(end + 1)
-                    .append("'");
+            btns.append("<li class='pages' id='last_page'>").append("<a href='").append(baseURL).append("page=")
+                    .append(end + 1).append("'");
             btns.append(">").append(" > ").append("</a>").append("</li>");
         }
 

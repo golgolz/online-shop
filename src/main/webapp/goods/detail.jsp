@@ -1,14 +1,11 @@
-<<<<<<< HEAD
 <%@page import="user.review.UserReviewDAO"%>
 <%@page import="util.PageController"%>
 <%@page import="admin.review.AdminReviewDAO"%>
 <%@page import="admin.review.ReviewBoardVO"%>
 <%@page import="admin.review.SearchVO"%>
 <%@page import="java.util.List"%>
-=======
 <%@page import="user.wishlist.WishlistDAO"%>
 <%@page import="user.wishlist.WishlistVO"%>
->>>>>>> refs/heads/main
 <%@page import="user.goods.UserGoodsDAO"%>
 <%@page import="user.main.GoodsSimpleVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -90,7 +87,7 @@
 		}
 		
 		// pagenation for review 
-		int pageScale = 10;
+		int pageScale = 5;
 		int currentPage = Integer.parseInt(request.getParameter("page") == null ? "1" : request.getParameter("page"));
 		int startNum = pageScale * (currentPage - 1) + 1;
 		int endNum = startNum + pageScale - 1;
@@ -223,12 +220,10 @@
 				<div class="xans-element- xans-product xans-product-additional">
 					<ul class="cboth title_detail">
 						<li class="tab_open" id="tab01">
-							<a id="info_tab"
-							href="#none">상품상세정보</a>
+							<a id="info_tab" href="#none">상품상세정보</a>
 						</li>
 						<li id="tab02">
-							<a id="review_tab"
-							href="#none">리뷰</a>
+							<a id="review_tab" href="#none">리뷰</a>
 						</li>
 					</ul>
 					<!-- 상품 상세 이미지 시작-->
@@ -264,28 +259,14 @@
 												<th scope="col">작성일</th>
 											</tr>
 										</thead>
-										<tbody class="center">
+										<tbody class="center" id="review_content">
 											<% for(ReviewBoardVO review: reviews){ %>
 											<tr class="xans-record-">
-<<<<<<< HEAD
 												<td><%= startNum++ %></td>
 												<td class="subject left txtBreak">
-													<a href="http://localhost/online-shop/manage/review/review_detail_user.jsp?seq=<%= review.getReviewId() %>">
+													<a href="http://localhost/online-shop/review/review_detail_user.jsp?seq=<%= review.getReviewId() %>">
 														<%= review.getTitle() %>
 													</a>
-													<span class="txtWarn"></span>
-=======
-												<td>1</td>
-												<td class="subject left txtBreak"><a
-													href="http://localhost/online-shop/manage/review/review_detail_user.jsp?seq=15&currentPage=1">귀여워요</a>
-													<span class="txtWarn"></span></td>
-												<td>네****</td>
-												<td class="txtInfo txt11">2023-06-05</td>
-												<td class="txtInfo txt11">67</td>
-												<td class="displaynone"><img
-													src="./user_goods_detail_files/ico_point5.gif" alt="5점" />
->>>>>>> refs/heads/main
-												</td>
 												<td><%= review.getId() %></td>
 												<td class="txtInfo txt11"><%= review.getInputDate() %></td>
 											</tr>
@@ -294,46 +275,14 @@
 									</table>
 								</div>
 							</div>
-<<<<<<< HEAD
 							<%
 					        	String pageNation = 
 					        	pageController.createPagingBtns("http://localhost/online-shop/goods/detail.jsp", params
 					        	        , Integer.parseInt(request.getParameter("page") == null ? "1" : request.getParameter("page")), (totalCount / pageScale) + 1);
 					        %>
-					        <div id="pageNation">
+					        <div id="pageNation" style="margin-top: 30px;">
 						        <%= pageNation %>
 					        </div>
-=======
-							<p class="ec-base-button typeBorder">
-								<span class="gRight"> <a
-									href="http://localhost/online-shop/manage/review/review_write.jsp?code=<%= currentGoods.getCode() %>">상품후기쓰기</a>
-									<a
-									href="http://localhost/online-shop/manage/review/review_my_list.jsp">모두
-										보기</a>
-								</span>
-							</p>
-							<div class="xans-element- xans-product xans-product-reviewpaging ec-base-paginate">
-								<a
-									href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
-									class="first"><img
-									src="http://localhost/online-shop/assets/images/goods/btn_page_first.gif" alt="첫 페이지" /></a>
-								<a
-									href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"><img
-									src="http://localhost/online-shop/assets/images/goods/btn_page_prev.gif" alt="이전 페이지" /></a>
-								<ol>
-									<li class="xans-record-"><a
-										href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/?page_4=1#use_review"
-										class="this">1</a></li>
-								</ol>
-								<a
-									href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"><img
-									src="http://localhost/online-shop/assets/images/goods/btn_page_next.gif" alt="다음 페이지" /></a>
-								<a
-									href="https://insideobject.com/product/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-2023-%EB%A1%9C%EA%B3%A0%ED%82%A4%EB%A7%81/6027/category/428/display/1/#none"
-									class="last"><img
-									src="http://localhost/online-shop/assets/images/goods/btn_page_last.gif" alt="마지막 페이지" /></a>
-							</div>
->>>>>>> refs/heads/main
 						</div>
 					</div>
 					
