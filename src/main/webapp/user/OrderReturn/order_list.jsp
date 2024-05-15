@@ -472,7 +472,7 @@ $(function() {
     
 								
 								
-								<tr class="xans-record-">
+								<!-- <tr class="xans-record-">
 									<td class="number ">2024-04-07
 										<p>
 											<a href="http://localhost/user_src/order/orderdetail.html"
@@ -505,18 +505,13 @@ $(function() {
 										<p class="displaynone">
 											<a href="#none" class="line" onclick="">[]</a>
 										</p> 
-										
-										
-
-
-
-
 									</td>
 									<td>
 										<p>구매 미확정</p>
 										<p class="displaynone">-</p>
 									</td>
-								</tr>
+								</tr> -->
+								
 							</tbody>
 						</table>
 						<p class="message displaynone">주문 내역이 없습니다.</p>
