@@ -42,23 +42,25 @@
 		try{
 		  
 		UserReviewDAO rDAO=UserReviewDAO.getInstance();
-		int num=rDAO.selectReviewId(rVO);    
-		num=19;
+		/* int num=rDAO.selectReviewId(rVO);  */   
 		String userId="haa";
 		    
 	    session.setAttribute("userId", userId);
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
+		int num = Integer.parseInt(request.getParameter("reviewId"));
 		
 		rVO.setTitle(title);
 		rVO.setContent(content);
 		rVO.setReviewId(num);
 		/* rVO.setId(((ReviewBoardVO)session.getAttribute("userId")).getId()); */
-
+		
+		System.out.print("num : "+num);
+		
 		rVO.setId((String)session.getAttribute("userId"));
-		;
+
 		int cnt=rDAO.updateReview(rVO);
-		System.out.println(cnt);
+		System.out.println("cnt : "+cnt);
 		if(cnt==1){
 		  
 		%>

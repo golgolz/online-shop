@@ -107,7 +107,7 @@ public class WishlistDAO {
       // 4.쿼리문 생성객체 얻기(Dynamic Query)
       StringBuilder selectWishlist = new StringBuilder();
       selectWishlist.append(
-          "   SELECT c.id, g.default_img, g.name, g.price, g.delivery_charge, f.input_date, (g.price + g.delivery_charge) total    ")
+          "   SELECT f.favorite_id, c.id, g.default_img, g.name, g.price, g.delivery_charge, f.input_date, (g.price + g.delivery_charge) total    ")
           .append("     FROM favorite f   ")
           .append("     JOIN customer c ON f.id = c.id JOIN goods g ON f.code = g.code   ");
 
@@ -122,9 +122,9 @@ public class WishlistDAO {
       WishlistVO wVO = new WishlistVO();
       while (rs.next()) {
         wVO = null;
-        wVO = WishlistVO.builder().id(rs.getString("id")).defaultImg(rs.getString("default_img"))
-            .name(rs.getString("name")).price(rs.getString("price")).deliveryCharge(rs.getString("delivery_charge"))
-            .inputDate(rs.getDate("input_date")).build();
+        wVO = WishlistVO.builder().favoriteId(rs.getInt("favorite_id")).id(rs.getString("id"))
+            .defaultImg(rs.getString("default_img")).name(rs.getString("name")).price(rs.getString("price"))
+            .deliveryCharge(rs.getString("delivery_charge")).inputDate(rs.getDate("input_date")).build();
 
         wishlist.add(wVO);
       } // end while
@@ -240,5 +240,33 @@ public class WishlistDAO {
     return cnt;
 
   }// deleteReview
+
+  public int deleteAllWishlist(WishlistVO wVO) throws SQLException {
+    int cnt = 0;
+
+    Connection con = null;
+    PreparedStatement pstmt = null;
+
+    DbConnection dbCon = DbConnection.getInstance();
+
+    try {
+
+      con = dbCon.getConn("online-shop-dbcp");
+
+      StringBuilder deleteAllWishlist = new StringBuilder();
+
+      deleteAllWishlist.append("   delete from favorite    ").append("   where favorite_id=?    ");
+
+      pstmt = con.prepareStatement(deleteAllWishlist.toString());
+
+      pstmt.setString(1, wVO.getCartId());
+
+      cnt = pstmt.executeUpdate();
+
+    } finally {
+      dbCon.closeCon(null, pstmt, con);
+    } // end finally
+    return cnt;
+  }
 
 }

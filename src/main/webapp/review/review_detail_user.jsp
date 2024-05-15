@@ -50,12 +50,11 @@ session.setAttribute("loginData", rVO);
 	    	}//end if
 	    });//click
 	    $("#btnDelete").click(function () {
-		alert(${rVO.reviewId})
 			if(confirm("글을 정말 삭제하시겠습니까?")){
 	    	//<form태그의 action 변경
 	    	//var frm=document.frmDetail.action="back-end URL"
 	    	$("#frmDetail")[0].action="review_delete_process.jsp";
-	    	$("#frmDetail").submit();	
+	    	$("#frmDetail").submit();
 			}//end if
 	    
 	    });//click
@@ -118,7 +117,7 @@ $(function(){
 <%
 	UserReviewDAO rDAO=UserReviewDAO.getInstance();
 	try{
-	  String seq=request.getParameter("seq");
+	  String seq=request.getParameter("reviewId");
 	  
 	  rVO=rDAO.selectDetailReview(Integer.parseInt(seq));//상세보기
 	 /*  rDAO.updateCnt(Integer.parseInt(seq)); *///조회수 올려주기(중요도가 덜한것이 아래로 내려가는게 좋음)
@@ -192,8 +191,8 @@ $(function(){
                 <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
-                <input type="button" id="btnDelete" value="삭제" class="btnNormalFix sizeS "/>
-                <a href="http://localhost/online-shop/review/review_read_frm.jsp?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}" class="btnEmFix sizeS ">수정</a>
+                <a href="review_delete_process.jsp?reviewId=${rVO.reviewId }" class="btnNormalFix sizeS">삭제</a>
+                <a href="http://localhost/online-shop/review/review_read_frm.jsp?reviewId=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}" class="btnEmFix sizeS ">수정</a>
             </span>
         </div>
 </div>

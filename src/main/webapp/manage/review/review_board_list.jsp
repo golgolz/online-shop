@@ -171,8 +171,8 @@
 <jsp:setProperty property="*" name="sVO"/>
 	<%
 	try{
-	  String content=request.getParameter("keyword");
-		System.out.print(content);
+	  /* String content=request.getParameter("keyword");
+		System.out.print(content); */
 		    AdminReviewDAO rDAO=AdminReviewDAO.getInstance();
 		    //1.총 레코드 수 얻기
 		    int totalCount = rDAO.selectTotalCount(sVO);
@@ -263,7 +263,7 @@
 				<td> <c:out value="${rVO.reviewId}"/></td>
 				<td><img src="http://localhost/online-shop/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px"></td>
 				<td> <c:out value="${rVO.name}"/></td>
-				<td><a href="review_detail_admin.jsp?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}"><c:out value="${rVO.title}"/></a></td>
+				<td><a href="review_detail_admin.jsp?reviewId=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}"><c:out value="${rVO.title}"/></a></td>
 				<td> <c:out value="${rVO.inputDate}"/></td>
 				<td> <c:out value="${rVO.id}"/></td>
 				</tr>	    	
