@@ -13,7 +13,7 @@ import order.vo.ReturnDetailVO;
 public class UserReturnDAO {
   private static UserReturnDAO urDAO;
 
-  public UserReturnDAO() {}
+  private UserReturnDAO() {}
 
   public static UserReturnDAO getInstance() {
     if (urDAO == null) {
