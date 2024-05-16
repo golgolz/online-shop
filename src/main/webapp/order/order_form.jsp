@@ -217,8 +217,12 @@ th {
     if(list == null){
         String code = (String)request.getParameter("code");
         int quantity = Integer.parseInt(request.getParameter("quantity"));
+        opVO.setCode(code);
         try {
             opVO = cDAO.selectProductInfo(code);
+	        opVO.setQuantity(quantity);
+	        result = opVO.getPrice()*quantity+opVO.getDelivertyFee();
+	        opVO.setTotal(result);
             
         }catch(SQLException se){
             se.printStackTrace();
@@ -467,9 +471,7 @@ th {
 														src="http://localhost/online-shop/assets/images/goods/<%= opVO.getProductImg() %>"
 														onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
 														width="100px"></a><input type="hidden" id="productImg" name="productImg" value="<%= opVO.getProductImg() %>" /></td>
-												<td class="left gClearLine"><strong class="name"><a
-														href="/product/i-live-with-six-cats-고양이의-바다-유광-카드-하드-케이스/6183/category/523/"
-														class="ec-product-name"><%= opVO.getProductName() %></a></strong>
+												<td class="left gClearLine"><strong class="name"><%= opVO.getProductName() %></strong>
 													<div class="option ">[옵션: <%= opVO.getCode() %>]</div>
 													<input type="hidden" id="productName" name="productName" value="<%= opVO.getProductName() %>" />
 													<input type="hidden" id="code" name="code" value="<%= opVO.getCode() %>" /></td>
@@ -484,6 +486,7 @@ th {
 													</div>
 												</td>
 												<td><%= opVO.getQuantity() %>
+												<% System.out.println(opVO.getQuantity()); %>
 												<input type="hidden" id="quantity" name="quantity" value="<%= opVO.getQuantity() %>" /></td>
 												<td rowspan="1" class=""><%= opVO.getDelivertyFee() %>원
 												<input type="hidden" id="deliveryFee" name="deliveryFee" value="<%= opVO.getDelivertyFee() %>" /></td>
