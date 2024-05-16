@@ -11,7 +11,7 @@
 
 <head>
 	<jsp:include page="../assets/jsp/user/lib.jsp" />
-	<link href="http://192.168.10.211/assets/css/pagenation.css" rel="stylesheet" />
+	<link href="http://localhost/assets/css/pagenation.css" rel="stylesheet" />
 	<!-- golgolz start -->
 	<!-- golgolz end -->
 

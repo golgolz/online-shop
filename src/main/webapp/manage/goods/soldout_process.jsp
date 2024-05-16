@@ -38,12 +38,12 @@
 	    %>
 	    <script type="text/javascript">
 		    alert("수정이 완료되었습니다.");
-		    location.href="http://192.168.10.211/manage/goods/detail.jsp?code=<%= mr.getParameter("code") %>";
+		    location.href="http://localhost/manage/goods/detail.jsp?code=<%= mr.getParameter("code") %>";
 	    </script>
 	    <%
 	} catch(SQLException se){
 	    se.printStackTrace();
-	    // location.href="http://192.168.10.211/error/err_500.html"
+	    // location.href="http://localhost/error/err_500.html"
 	} catch(Exception e){
 	    e.printStackTrace();
 	}

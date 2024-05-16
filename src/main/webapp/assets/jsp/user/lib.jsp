@@ -9,10 +9,10 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="path_role" content="MAIN" />
-    <link href="http://192.168.10.211/assets/css/css.css" rel="stylesheet" />
-    <link href="http://192.168.10.211/assets/css/css1.css" rel="stylesheet" />
+    <link href="http://localhost/assets/css/css.css" rel="stylesheet" />
+    <link href="http://localhost/assets/css/css1.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com/" />
-    <link href="http://192.168.10.211/assets/css/css2.css" rel="stylesheet" />
+    <link href="http://localhost/assets/css/css2.css" rel="stylesheet" />
     <link
       rel="stylesheet"
       href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css"
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       window.CAFE24 = window.CAFE24 || {};
     </script>
-    <link rel="stylesheet" type="text/css" href="http://192.168.10.211/assets/css/optimizer_user.css" />
+    <link rel="stylesheet" type="text/css" href="http://localhost/assets/css/optimizer_user.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript">
       document.addEventListener("DOMContentLoaded", function () {
@@ -41,7 +41,7 @@
         });
       });
     </script>    
-	<link rel="icon" href="http://192.168.10.211/assets/favicon.ico" />
+	<link rel="icon" href="http://localhost/assets/favicon.ico" />
 	<style type="text/css">
 	#main {width: 1250px; margin: 0 auto;}	
 	</style>

@@ -41,7 +41,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 		});//click
 		$("#btnCancel").click(function(){
 			alert("글작성을 취소합니다.");
-			location.href="http://192.168.10.211/manage/notice/notice.jsp";
+			location.href="http://localhost/manage/notice/notice.jsp";
 		});//click
 		$('#content').summernote({
 	        placeholder: 'Hello stand alone ui',

@@ -34,7 +34,7 @@ try{
     if(cnt==1){
    %>
 		alert("글을 수정했습니다."); 
-		location.href="http://192.168.10.211/manage/notice/notice.jsp";
+		location.href="http://localhost/manage/notice/notice.jsp";
    <%
     }else{
    %>
