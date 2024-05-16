@@ -165,9 +165,8 @@
 
    <div class="ec-base-button">
                     <button type="submit" class="btnSubmitFix sizeS" id="ec_shop_confirm-checkingjoininfo_action">회원가입</button>
-                    <a href="#none" class="btnNormalFix sizeS" onclick="CheckingJoinInfoLayerClose()">닫기</a>
+                    <a href="../login/userLogin.jsp" class="btnNormalFix sizeS" onclick="CheckingJoinInfoLayerClose()">닫기</a>
                 </div>
-                <a href="#none" class="close"><img src="//img.echosting.cafe24.com/skin/base/common/btn_close.gif" alt="닫기" onclick="CheckingJoinInfoLayerClose()"></a>
             </form>
 			<!-- golgolz end -->
 		</div>
