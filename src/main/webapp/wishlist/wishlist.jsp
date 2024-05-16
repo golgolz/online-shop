@@ -186,18 +186,10 @@ if (userId == null) {
 	    String userId="lee";
 	    session.setAttribute("userId", userId);
 	    // */
-	    String userId2=(String)session.getAttribute("userId");
-	    List<WishlistVO> list=wDAO.selectWishlist(userId2);//시작번호와 끝 번호 사이의 글 조회
+	    String id=(String)session.getAttribute("userId");
+	    List<WishlistVO> list=wDAO.selectWishlist(id);//시작번호와 끝 번호 사이의 글 조회
 	   	pageContext.setAttribute("list", list);
-	    
-	   	LocalDate currentDate = LocalDate.now();
-	   	
-	   	int cnt=wDAO.selectFavoriteId(wVO);
-	    wVO.setCode(code);
-	    wVO.setInputDate(Date.valueOf(currentDate));
-	    wVO.setId(userId2);
-	    wVO.setFavoriteId(cnt);
-	    wDAO.insertWishlist(wVO);
+	 
 	    
 	    pageContext.setAttribute("totalCount", totalCount);
 	    pageContext.setAttribute("pageScale", pageScale);
