@@ -73,7 +73,8 @@
 <tbody>
 
 <br>
-<strong> 회원가입</strong>
+<strong> 회원가입</strong> <br/>
+(<img src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif" class="" alt="필수"> 는 필수 입력입니다.)
 
 </tbody>
 </table>
@@ -90,22 +91,15 @@
 <tbody>
 <tr>
 <th scope="row">아이디 <img src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif" alt="필수"></th>
-                <td><input id="member_id" name="member_id" fw-filter="isFill&amp;isFill&amp;isMin[4]&amp;isMax[16]&amp;isIdentity" fw-label="아이디" fw-msg="" class="inputTypeText" placeholder="" value="" type="text"> <span id="idMsg" class="error">아이디를 입력해 주세요.</span> (영문소문자/숫자, 4~16자)</td>
+                <td><input id="member_id" name="member_id" fw-filter="isFill&amp;isFill&amp;isMin[4]&amp;isMax[16]&amp;isIdentity" fw-label="아이디" fw-msg="" class="inputTypeText" placeholder="" value="" type="text"> <span id="idMsg" class="error">아이디를 입력해 주세요.</span> 
+                (영문소문자/숫자, 4~16자)</td>
             </tr>
 <tr>
 <th scope="row">비밀번호 <img src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif" alt="필수"></th>
                 <td>
                     <div class="eTooltip">
-                        <input id="passwd" name="passwd" fw-filter="isFill&amp;isMin[4]&amp;isMax[16]" fw-label="비밀번호" fw-msg="" autocomplete="off" maxlength="16" 0=" type="password">                        <div class="ec-base-tooltip typeUpper">
-                            <div class="content">
-                                <strong class="txtWarn">※ 비밀번호 입력 조건</strong>
-                                <ul class="ec-base-help typeDash gBlank10 txtWarn">
-                                    - 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자<br>- 입력 가능 특수문자 
-                                    <br>&nbsp;&nbsp;&nbsp;  ~ ` ! @ # $ % ^ ( ) * _ - = { } [ ] | ; : &lt; &gt; , . ? /
-                                    <br>- 공백 입력 불가능<br>- 연속된 문자, 숫자 사용 불가능<br>- 동일한 문자, 숫자를 반복해서 사용 불가능
-                                    <br>- 아이디 포함 불가능                                
-                                    </ul>
-<</div>
+                        <input id="passwd" name="passwd" fw-filter="isFill&amp;isMin[4]&amp;isMax[16]" fw-label="비밀번호" fw-msg="" autocomplete="off" maxlength="16"  type="password">                        <div class="ec-base-tooltip typeUpper">
+                           
                             <a href="#none" class="btnClose" tabindex="-1"><img src="//img.echosting.cafe24.com/skin/base/common/btn_close_tip.gif" alt="닫기"></a>
                             <span class="edge"></span>
                         </div>
@@ -157,7 +151,7 @@
 <strong> 배송정보</strong>
 <table>
  <tr class="">
-<th scope="row">주소 <img src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif" class="" alt="필수"></th>
+<th scope="row">주소 </th>
                 <td>
                     <input id="postcode1" name="postcode1" fw-filter="isLengthRange[1][14]" fw-label="우편번호1" fw-msg="" class="inputTypeText" placeholder="" readonly="readonly" maxlength="14" value="" type="text">                    
                    <a href="#" class="btnNormal" onclick="zipcodeapi();" id="postBtn">우편번호</a><br>
