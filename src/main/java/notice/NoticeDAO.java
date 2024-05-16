@@ -63,21 +63,7 @@ public class NoticeDAO {
         return totalCnt;
     }// SelectTotalCount
 
-    /*
-     * public String selectQuery(SearchVO sVO, boolean isCount) throws SQLException { StringBuilder
-     * selectQuery = new StringBuilder(); selectQuery.append(" select "); if (isCount) {
-     * selectQuery.append("count(*) as count from notice_id where 1=1"); } else { selectQuery.append(
-     * "notice_id, input_date, author, view_count, title, content from (select row_number() over(");
-     * switch (sVO.getSort() + "") { case "notice_id":
-     * selectQuery.append(" order by notice_id desc ) "); break; default:
-     * selectQuery.append(" order by input_date desc ) "); break; } selectQuery.append(
-     * " as rnum, notice_id, input_date, author, view_count, title, content from notice where 1=1 "); }
-     * if (!isCount) { selectQuery.append(selectQuery.toString()); return selectQuery.toString(); } if
-     * (sVO.getSort() != null) { switch (sVO.getSort()) { case "notice_id":
-     * selectQuery.append(" order by notice_id "); break; case "input_date":
-     * selectQuery.append(" order by input_date desc "); break; } } return selectQuery.toString(); }//
-     * selectQuery_페이징 어쩌구를 위한,,, 근데 뭔지 모름,,
-     */
+
     // 공지사항 조회
     public List<NoticeVO> selectNotice(SearchVO sVO) throws SQLException {
         List<NoticeVO> list = new ArrayList<NoticeVO>();

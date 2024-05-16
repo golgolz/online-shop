@@ -8,7 +8,6 @@
 
 <%
 Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
-System.out.println("세션 로그인 상태: " + isLoggedIn);
 if (!Boolean.TRUE.equals(isLoggedIn)) {
 %>
   <script type="text/javascript">
@@ -69,13 +68,30 @@ request.setCharacterEncoding("UTF-8");
 %>
 <jsp:useBean id="sVO" class="notice.SearchVO" scope="page"></jsp:useBean>
 <jsp:setProperty property="*" name="sVO"/>
+<%
+		String pageOrg = request.getParameter("page");
 
+		if(pageOrg == null || pageOrg.equals("")){
+		    pageOrg = "1";
+		}
+		// pagenation
+		int pageScale = 10;
+		int currentPage = Integer.parseInt(pageOrg);
+		int startNum = pageScale * (currentPage - 1) + 1;
+		int endNum = startNum + pageScale - 1;
+		sVO.setStartNum(startNum);
+		sVO.setEndNum(endNum);
+		
+		PageController pageController = PageController.getInstance();
+		String params = pageController.createQueryStr(request);
+%>
 <%
 try{
     NoticeDAO nDAO=NoticeDAO.getInstance();
-    int totalCount = nDAO.SelectTotalCount(sVO);
+	int searchResultCount = nDAO.SelectTotalCount(sVO);
+    //int totalCount = nDAO.SelectTotalCount(sVO);
     
-  int pageScale=10;
+  /* int pageScale=10;
     int totalPage=(int)Math.ceil((double)totalCount/pageScale);
     String tempPage=sVO.getCurrentPage();
     int currentPage=1;
@@ -89,13 +105,14 @@ try{
     int endNum=startNum+pageScale-1;
     
     sVO.setStartNum(startNum);
-    sVO.setEndNum(endNum);
+    sVO.setEndNum(endNum); */
     
     List<NoticeVO> list=nDAO.selectNotice(sVO);
     pageContext.setAttribute("list", list);
-    pageContext.setAttribute("totalCount", totalCount);
+    pageContext.setAttribute("totalCount", searchResultCount);
     pageContext.setAttribute("pageScale", pageScale);
     pageContext.setAttribute("currentPage", currentPage);
+    pageContext.setAttribute("startNum", startNum);
 	%>
 	
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
@@ -144,6 +161,7 @@ try{
 									class="xans-element- xans-board xans-board-replysort-1002 xans-board-replysort xans-board-1002 "></span>
 							</div>
 							<div class="ec-base-table typeList gBorder">
+								<p style="margin-bottom: 10px;">전체 : <strong><%= searchResultCount %></strong>건</p>
 								<table id="table_01" border="1" summary="">
 									<colgroup
 										class="xans-element- xans-board xans-board-listheader-1002 xans-board-listheader xans-board-1002 ">
@@ -173,7 +191,8 @@ try{
 										
 										<c:forEach var="nVO" items="${list}" varStatus="i">
 										<tr>
-										<td> <c:out value="${totalCount-(currentPage-1)*pageScale -i.index }"/></td>
+										<%-- <td> <c:out value="${totalCount-(currentPage-1)*pageScale -i.index }"/></td> --%>
+										<td> <c:out value="${ startNum + i.index }"/></td>
 										<td> <a href="notice_detail.jsp?id=${nVO.notice_id}"><c:out value="${nVO.title }"/></a></td>
 										<td> <c:out value="${nVO.author}"/></td>
 										<td> <c:out value="${nVO.input_date}"/></td>
@@ -191,7 +210,7 @@ try{
         </span> -->
 						</div>
 					</div>
-					<div
+					<!-- <div
 						class="xans-element- xans-board xans-board-paging-1002 xans-board-paging xans-board-1002 ec-base-paginate">
 						<a href="?board_no=1&page=1"><img
 							src="https://img.echosting.cafe24.com/skin/base/common/btn_page_prev.gif"
@@ -206,10 +225,10 @@ try{
 							<li class="xans-record-"><a href="?board_no=1&page=4"
 								class="other">4</a></li>
 						</ol>
-						<!-- <a href="?board_no=1&page=2"><img
+						<a href="?board_no=1&page=2"><img
 							src="https://img.echosting.cafe24.com/skin/base/common/btn_page_next.gif"
-							alt="다음 페이지" /></a> -->
-					</div>
+							alt="다음 페이지" /></a>
+					</div> -->
 					<form id="searchForm" name="" method="get" target="_top">
 						<input id="board_no" name="board_no" value="1" type="hidden" />
 						<input id="page" name="page" value="1" type="hidden" />
@@ -229,8 +248,7 @@ try{
 								</p>
 						</div>
 					</form>
-			
-					<%
+					<%-- <%
 					String param="";
 					%>
 					<c:if test="${not empty param.keyword }">
@@ -239,11 +257,18 @@ try{
 					+request.getParameter("keyword");
 					/* param="&field="+sVO.getField()+"&keyword="+sVO.getKeyword(); */
 					%>
-					<%-- <c:set var="link2" value="&field =${param.field }&keyword=${param.keyword }"/> --%>
+					<c:set var="link2" value="&field =${param.field }&keyword=${param.keyword }"/>
 					<c:set var="link2" value="&field=${param.field}&keyword=${param.keyword}" />
 					<% System.out.println(param);%>
-					</c:if>
-					
+					</c:if> --%>
+					<%
+						String pageNation = 
+							    pageController.createPagingBtns("http://localhost/online-shop/manage/notice/notice.jsp", params
+							    , Integer.parseInt(pageOrg), (searchResultCount / pageScale) + 1);
+					%>
+					<div id="pageNation">
+						<%= pageNation %>
+					</div>		
 			<!-- golgolz end -->
 		</div>
 		<%
