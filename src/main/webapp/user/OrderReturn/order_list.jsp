@@ -433,11 +433,14 @@ $(function() {
 				   	if ("주문".equals(orderInfo.getOrderFlag()) && !"불필요".equals(orderInfo.getDeliveryState())) {
 				     %>
 				     <tr id="<%=orderInfo.getCartId() %>">
-				         <td class="tal"><span class="sv_wrap"><%= orderInfo.getInputDate() %><br><strong>[<%= orderInfo.getCartId() %>]</strong></span>
+				         <td class="tal"><span class="sv_wrap"><%= orderInfo.getInputDate() %><br>
+						<a href="../../order/order_detail.jsp?cartId=<%=orderInfo.getCartId()%>" class="link"><strong>[<%= orderInfo.getCartId() %>]</strong></a>
+						</span>
 				         
 				         <!-- 구매확정 버튼을 감싸는 폼 -->
 						<form id="purchaseConfirmationForm<%= cartId %>" action="<%=request.getRequestURI()%>" method="post" style="display: inline;">
                 			<input type="hidden" name="cartId" value="<%= cartId %>">
+                			<input type="button" class="btnNormal" value="반품 접수" > 
                 			<% if (!"구매확정".equals(orderInfo.getPurchaseState())) { %>
     						<input type="submit" class="btnNormal" name="purchaseConfirmationBtn" value="구매확정" onclick="return confirm('구매를 확정하시겠습니까?');">
     						<% } else { %>
