@@ -215,8 +215,8 @@ th {
     
     // 장바구니가 아닌 상품 상세 페이지에서 바로 주문서 작성 페이지로 넘어오는 경우
     if(list == null){
-        String code = (String)session.getAttribute("code");
-        int quantity = (int)session.getAttribute("quantity");
+        String code = (String)request.getParameter("code");
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
         try {
             opVO = cDAO.selectProductInfo(code);
             
