@@ -14,4 +14,5 @@ import lombok.ToString;
 public class SearchVO {
     private String field, keyword, currentPage;
     private int startNum, endNum;
+    // private String sort; // 삭제하든가..
 }
