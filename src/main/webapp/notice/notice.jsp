@@ -136,7 +136,7 @@ request.setCharacterEncoding("UTF-8");
 									<tbody class="xans-element- xans-board xans-board-list-1002 xans-board-list xans-board-1002 center">
 										<c:forEach var="nVO" items="${list}" varStatus="i">
 										<tr>
-										<td> <c:out value="${totalCount-(currentPage-1)*pageScale -i.index }"/></td>
+										<td> <c:out value="${tartNum+1 + i.index + (currentPage-1) * pageScale}"/></td>
 										<td> <a href="notice_detail.jsp?id=${nVO.notice_id}"><c:out value="${nVO.title }"/></a></td>
 										<td> <c:out value="${nVO.author}"/></td>
 										<td> <c:out value="${nVO.input_date}"/></td>
@@ -180,7 +180,7 @@ request.setCharacterEncoding("UTF-8");
 					<%
 					String pageNation = 
 						pageController.createPagingBtns("http://localhost/online-shop/notice/notice.jsp", params
-						     ,Integer.parseInt(pageOrg),(searchResultCount / pageScale)+1);
+						     ,Integer.parseInt(pageOrg),(searchResultCount / pageScale) +1);
 					%>
 					<div id="pageNation">
 						<%= pageNation %>
