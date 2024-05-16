@@ -11,7 +11,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String userId = (String) session.getAttribute("userId");
-System.out.println("세션 로그인 상태: " + userId);
+
 
 if (userId == null) {
     System.out.println("로그인이 필요합니다. ");

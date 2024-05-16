@@ -23,7 +23,7 @@ session.setAttribute("loginData", rVO);
 <%
 ReviewBoardVO rVO=new ReviewBoardVO();
 String userId = (String) session.getAttribute("userId");
-System.out.println("세션 로그인 상태: " + userId);
+
 
 if (userId == null) {
     System.out.println("로그인이 필요합니다. ");
