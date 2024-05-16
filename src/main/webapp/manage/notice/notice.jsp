@@ -85,7 +85,7 @@ request.setCharacterEncoding("UTF-8");
 		PageController pageController = PageController.getInstance();
 		String params = pageController.createQueryStr(request);
 	%>
-	
+
 <%
 try{
     NoticeDAO nDAO=NoticeDAO.getInstance();
