@@ -1,3 +1,4 @@
+<%@page import="user.order.UserReturnDAO"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
@@ -376,6 +377,8 @@ $(function() {
 				 // 사용자 정보 목록을 얻는 로직
 				 OrderReturnDAO dao = new OrderReturnDAO();
 				 List<OrderVO> userList = null;
+				 UserReturnDAO dao2 = UserReturnDAO.getInstance();
+				 
 
 				 // 날짜 포맷팅 및 초기값 설정
 				 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -385,7 +388,7 @@ $(function() {
 				     frDate = "1970-01-01"; // 시작 날짜가 입력되지 않았을 때, 초기 날짜 설정
 				 }
 				 if (toDate == null || toDate.trim().isEmpty()) {
-				     toDate = today; // 종료 날짜가 입력되지 않았을 때, 오늘 날짜로 설정
+				     toDate = "2099-01-01"; // 종료 날짜가 입력되지 않았을 때, 오늘 날짜로 설정
 				 }
 
 				// 날짜 범위에 따른 사용자 정보 검색
@@ -424,6 +427,27 @@ $(function() {
 				            out.println("<script>alert('이미 구매 확정 상태입니다.');</script>");
 				        }
 				    }
+				    
+				 // 반품접수 버튼 클릭 시 로직
+				    String returnAcceptBtn = request.getParameter("returnAcceptBtn");
+				    if (returnAcceptBtn != null) {
+				        String cartId = request.getParameter("cartId"); // 클릭된 버튼에 해당하는 주문의 cartId 가져오기
+				        int quantity = Integer.parseInt(request.getParameter("quantity")); // 반품 수량 파라미터를 얻습니다.
+				        
+				        try {
+				            int updateResult = dao2.updateReturn(cartId);
+				            
+				            if (updateResult > 0) {
+				                dao2.insertReturn(cartId, quantity);
+				                out.println("<script>alert('반품이 성공적으로 접수되었습니다.'); window.location.href = 'order_list.jsp';</script>");
+				            } else {
+				                out.println("<script>alert('반품 접수에 실패했습니다.'); window.location.href = 'order_list.jsp';</script>");
+				            }
+				        } catch (Exception e) {
+				            out.println("<script>alert('처리 중 오류가 발생했습니다.'); window.location.href = 'order_list.jsp';</script>");
+				            e.printStackTrace();
+				        }
+				    }
 
 				// 사용자 정보 출력
 				 for (int i = 0;i < userList.size(); i++) {
@@ -433,10 +457,22 @@ $(function() {
 				   	if ("주문".equals(orderInfo.getOrderFlag()) && !"불필요".equals(orderInfo.getDeliveryState())) {
 				     %>
 				     <tr id="<%=orderInfo.getCartId() %>">
-				         <td class="tal"><span class="sv_wrap"><%= orderInfo.getInputDate() %><br><strong>[<%= orderInfo.getCartId() %>]</strong></span>
+				         <td class="tal"><span class="sv_wrap"><%= orderInfo.getInputDate() %><br>
+						<a href="../../order/order_detail.jsp?cartId=<%=orderInfo.getCartId()%>" class="link"><strong>[<%= orderInfo.getCartId() %>]</strong></a>
+						</span>
 				         
-				         <!-- 구매확정 버튼을 감싸는 폼 -->
-						<form id="purchaseConfirmationForm<%= cartId %>" action="<%=request.getRequestURI()%>" method="post" style="display: inline;">
+				        
+                			
+							<!-- 반품 접수 버튼 -->
+							<form id="returnAcceptForm<%= cartId %>" action="<%=request.getRequestURI()%>" method="post">
+    						<input type="hidden" name="cartId" value="<%= cartId %>">
+    						<!-- 반품 수량을 orderInfo.getProductAmount() 값으로 자동 설정합니다. -->
+    						<input type="hidden" name="quantity" value="<%= orderInfo.getProductAmount() %>">
+    						<input type="submit" class="btnNormal" name="returnAcceptBtn" value="반품접수" onclick="return confirm('반품을 접수하시겠습니까?');">
+							</form>
+
+ 							<!-- 구매확정 버튼을 감싸는 폼 -->
+							<form id="purchaseConfirmationForm<%= cartId %>" action="<%=request.getRequestURI()%>" method="post" style="display: inline;">
                 			<input type="hidden" name="cartId" value="<%= cartId %>">
                 			<% if (!"구매확정".equals(orderInfo.getPurchaseState())) { %>
     						<input type="submit" class="btnNormal" name="purchaseConfirmationBtn" value="구매확정" onclick="return confirm('구매를 확정하시겠습니까?');">
