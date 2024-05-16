@@ -38,17 +38,16 @@ String deliveryMsg = (String)request.getParameter("deliveryMsg");
 if(deliveryMsg ==""){
     deliveryMsg = "없음";
 }
-System.out.println("시작 전");
-System.out.println(cartId+"|"+zipcode+"|"+defaultAddr+"|"+detailAddr+"|"+tel+"|"+deliveryMsg+"|"+recipient);	
 
-if(list == null){// cartId가 생성되지 않은 데이터일 경우
+if(list == null || cartId == null){// cartId가 생성되지 않은 데이터일 경우
     
-    String code = request.getParameter("code");
-    int quantity = Integer.parseInt(request.getParameter("quantity"));
-	
+    String code = (String)session.getAttribute("code");
+    int quantity = (int)session.getAttribute("quantity");
+    
 	try{
 	    cDAO.insertOrder(userId, userName);
 	    cartId = cDAO.selectFirstOrderId(userId);
+	    session.setAttribute("cartId", cartId);
 	    
 	    opVO = new OrderProductVO(cartId,code,quantity);
 	    cVO = new CardVO(cardId,userId);
@@ -60,7 +59,6 @@ if(list == null){// cartId가 생성되지 않은 데이터일 경우
 	    cDAO.insertOrderProduct(opVO);
 	    cDAO.insertPayment(piVO);
 	    
-	    System.out.println("주문 1");
 	}catch(SQLException se){
 	    se.printStackTrace();
 	}//end catch
@@ -68,7 +66,7 @@ if(list == null){// cartId가 생성되지 않은 데이터일 경우
 	    pageContext.setAttribute("url", "http://localhost/online-shop/order/order_complete.jsp");
 }//end if
 
-if(list != null){// 장바구니에서 주문을 진행한 경우
+if(list != null && cartId != null){// 장바구니에서 주문을 진행한 경우
 	
 	try{
 	    cDAO.updateOrderStatus(cartId, "주문");
@@ -83,7 +81,6 @@ if(list != null){// 장바구니에서 주문을 진행한 경우
 	    cDAO.insertCard(cVO);
 	    cDAO.insertPayment(piVO);
 	    
-	    System.out.println("주문 2");
 	}catch(SQLException se){
 	    se.printStackTrace();
 	}//end catch

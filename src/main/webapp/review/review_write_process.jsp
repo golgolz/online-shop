@@ -8,9 +8,9 @@
     info="글쓰기 db추가 페이지"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:if test="${empty sessionScope.loginData }">
+<%-- <c:if test="${empty sessionScope.loginData }">
 <c:redirect url="http://192.168.10.216/jsp_prj/index.jsp"/>
-</c:if>
+</c:if> --%>
 
 <% request.setCharacterEncoding("UTF-8"); %>
 <!-- parameter받기 -->
@@ -27,13 +27,14 @@
 		String cartId=request.getParameter("cartId");
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
+		String id = (String) session.getAttribute("userId");
 		
 		int num=rDAO.selectReviewId(rVO);
 		
 		LocalDate currentDate = LocalDate.now();
 		
 		rVO.setReviewId(num);
-		rVO.setId(((ReviewBoardVO)session.getAttribute("loginData")).getId());
+		rVO.setId(id);
 		rVO.setCartId(cartId);
 		rVO.setTitle(title);
 		rVO.setContent(content);
@@ -43,7 +44,7 @@
 		rDAO.insertReview(rVO);
 		System.out.println(title);
 		%>
-		alert("글을 작성했습니다.");
+		alert("리뷰를 작성했습니다.");
 		location.href="http://localhost/online-shop/review/review_my_list.jsp";
 		<%
 		}catch(SQLException se) {

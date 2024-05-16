@@ -34,7 +34,8 @@
 		$(".order_status").click(function(){
 			var params = { 
 					method: $(this).val(),
-					cartId: <%= paramId %>
+					cartId: <%= paramId %>,
+					quantity: getAmount()
 					};
 			
 			if(params.method == "반품접수" && $("#purchaseStatus").text() == "구매확정"){
@@ -65,7 +66,7 @@
 							output += "<td class='tal'><a href='http://localhost/online-shop/goods/detail.jsp?goods=" + goods.code + "'>" + goods.name + "</a></td>";
 							output += "<td>" + goods.orderStatus + "</td>";
 							output += "<td id='purchaseStatus'>" + goods.purchaseStatus + "</td>";
-							output += "<td>" + goods.amount + "개</td>";
+							output += "<td id='goodsAmount'>" + goods.amount + "개</td>";
 							output += "<td class='tar'>" + goods.price + "원</td>";
 							output += "<td class='tar'>" + goods.deliveryCharge + "원</td>";
 							output += "<td class='td_price'>" + (parseInt(goods.price) * parseInt(goods.amount) + parseInt(goods.deliveryCharge)) + "원</td></tr>";
@@ -86,6 +87,22 @@
 			});
 		});
 	});
+	
+	function getAmount(){
+		var totalAmount = 0;
+	    
+	    $('#sodr_list tr').each(function(index, row){
+	        if(index !== 0){
+	            var columns = $(row).find('td');
+	            
+	            // 특정 컬럼(나이)의 데이터를 추출하여 합칩니다.
+	            var amount = parseInt($(columns[4]).text().slice(0, -1));
+	            totalAmount += amount;
+	        }
+	    });
+	    
+	    return totalAmount;
+	}
 </script>
 <!-- golgolz start -->
 <script src="http://demofran.com/js/jquery-1.8.3.min.js"></script>
@@ -181,7 +198,7 @@
 											</td>
 											<td><%= goods.getOrderStatus() %></td>
 											<td id="purchaseStatus"><%= goods.getPurchaseStatus() %></td>
-											<td><%= goods.getAmount() %>개</td>
+											<td id="goodsAmount"><%= goods.getAmount() %>개</td>
 											<td class="tar"><%= goods.getPrice() %>원</td>
 											<td class="tar"><%= goods.getDeliveryCharge() %>원</td>
 											<td class="td_price"><%= goods.getPrice() * goods.getAmount() + goods.getDeliveryCharge() %>원</td>

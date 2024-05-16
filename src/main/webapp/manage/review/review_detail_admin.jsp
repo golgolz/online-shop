@@ -14,16 +14,31 @@ if(wmVo == null) { //로그인 하지 않았음
     
 }//end if
 %> --%>
-<%/* 로그인한 사람만 읽게 하려면 쓰고 아니면 지우기 */
+<%-- <%/* 로그인한 사람만 읽게 하려면 쓰고 아니면 지우기 */
 //개발의 편의성을 위해 로그인한 것처럼 코드를 작성항 후 작업 진행
-ReviewBoardVO rVO=new ReviewBoardVO();
 rVO.setId("haa");
 session.setAttribute("loginData", rVO);
 %>
 <c:if test="${empty sessionScope.loginData }">
 <c:redirect url="http://localhost/online-shop/index.jsp"/>
-</c:if>
+</c:if> --%>
+<%
+ReviewBoardVO rVO=new ReviewBoardVO();
 
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+System.out.println("세션 로그인 상태: " + isLoggedIn);
+
+if (!Boolean.TRUE.equals(isLoggedIn)) {
+
+%>
+  <script type="text/javascript">
+      alert('로그인이 필요합니다.');
+      window.location.href = '../../adminLogin/adminLogin.jsp'; // 경로 수정 필요
+  </script>
+<%
+  return;
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>

@@ -1,3 +1,4 @@
+<%@page import="user.order.UserReturnDAO"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="org.json.simple.JSONArray"%>
 <%@page import="java.sql.SQLException"%>
@@ -15,11 +16,22 @@
 	resultObj.put("flag", false);
 	
 	String cartId = request.getParameter("cartId");
+	String method = request.getParameter("method");
+	int quantity = Integer.parseInt(request.getParameter("quantity"));
 	
 	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
+	UserReturnDAO userReturnDAO = UserReturnDAO.getInstance();
 	try{
-	    if(request.getParameter("method") != "" && request.getParameter("method") != null){
-		    int count = adminOrderDAO.updateDelivery(cartId, request.getParameter("method"));
+	    if(method != "" && method != null){
+	        switch(method){
+	            case "반품접수":
+	                userReturnDAO.updateReturn(cartId);
+	                userReturnDAO.insertReturn(cartId, quantity);
+	                break;
+	            case "배송시작":
+	            case "배송완료":
+	    		    adminOrderDAO.updateDelivery(cartId, method);
+	        }
 	    }
 	    
 		List<OrderDetailGoodsVO> goodsList = adminOrderDAO.selectDetailGoods(cartId);

@@ -64,12 +64,12 @@
 		if(cnt==1){
 		  
 		%>
-		alert("글을 수정했습니다.");
+		alert("리뷰를 수정했습니다.");
 		location.href="http://localhost/online-shop/review/review_my_list.jsp?currentPage=${param.currentPage}";
 		<%
 		}else{
 		%>
-		alert("글 수정 실패");
+		alert("본인이 작성한 리뷰만 수정할 수 있습니다.");
 		history.back();
 		<%
 		}
