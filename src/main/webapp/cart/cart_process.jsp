@@ -1,4 +1,3 @@
-<%@page import="java.util.ArrayList"%>
 <%@page import="order.vo.OrderProductVO"%>
 <%@page import="java.util.List"%>
 <%@page import="org.json.simple.JSONArray"%>
@@ -32,7 +31,6 @@ if(method == "modify"){
 CartDAO cDAO = CartDAO.getInstance();
 JSONObject jsonObj = new JSONObject();
 jsonObj.put("result",false);
-List<OrderProductVO> list = new ArrayList<OrderProductVO>();
 
 switch(method){
     case "modify":
