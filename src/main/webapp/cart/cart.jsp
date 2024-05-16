@@ -41,6 +41,7 @@ if (userId == null) {
 		
 		session.setAttribute("cartId", cartId);
 		session.setAttribute("data", list);
+		
 	}catch(Exception e){
 	    e.printStackTrace();
 	}
@@ -240,7 +241,7 @@ table, td {
 							<div class="xans-element- xans-order xans-order-normtitle title ">
 								<h6>장바구니 상품 (<%= list.size() %>)</h6>
 							</div>
-							<form id="cartFrm" name="cartFrm" action="http://localhost/online-shop/order/order_form.jsp" method="post">
+							<form id="cartFrm" name="cartFrm" action="http://localhost/online-shop/order/order_form.jsp?isCart=1" method="post">
 							<input type="hidden">
 							<table border="1" summary=""
 								class="xans-element- xans-order xans-order-normnormal xans-record-">

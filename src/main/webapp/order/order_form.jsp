@@ -199,22 +199,17 @@ th {
 <jsp:useBean id="opVO" class="order.vo.OrderProductVO" scope="page" />
 <jsp:setProperty property="*" name="opVO" />
 <%
-	String cartId = (String)session.getAttribute("cartId");
 	
+    String isCart = (request.getParameter("isCart") == null ? "-1" : request.getParameter("isCart"));
+	System.out.println(isCart);
 	CartDAO cDAO = CartDAO.getInstance();
     List<OrderProductVO> list = (List<OrderProductVO>)session.getAttribute("data");
     
 	int result = 0;
 	
-    if(list != null){
-	    for(int i=0; i<list.size(); i++){
-	        opVO = list.get(i);
-	        result += opVO.getTotal();
-	    }
-    }//end if
-    
+   
     // 장바구니가 아닌 상품 상세 페이지에서 바로 주문서 작성 페이지로 넘어오는 경우
-    if(list == null || cartId == null){
+    if(isCart.equals("0")){
         String code = (String)request.getParameter("code");
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         session.setAttribute("code", code);
@@ -229,6 +224,14 @@ th {
         }catch(SQLException se){
             se.printStackTrace();
         }
+    }//end if
+    
+    // 장바구니에서 넘어온 주문
+    if(isCart.equals("1")){
+	    for(int i=0; i<list.size(); i++){
+	        opVO = list.get(i);
+	        result += opVO.getTotal();
+	    }
     }//end if
     
     String name = "";
@@ -436,7 +439,7 @@ th {
 										<tbody
 											class="xans-element- xans-order xans-order-normallist center">
 											<form action="payment_process.jsp" name="productFrm" id="productFrm" method="post">
-										<% if(list != null){
+										<% if(isCart.equals("1")){
 											for(OrderProductVO oVO : list){ %>
 											<tr class="xans-record-">
 												<td class=""></td>
