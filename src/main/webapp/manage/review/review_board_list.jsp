@@ -19,7 +19,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 %>
   <script type="text/javascript">
       alert('로그인이 필요합니다.');
-      window.location.href = '../../adminLogin/adminLogin.jsp'; // 경로 수정 필요
+      window.location.href = '../adminLogin/adminLogin.jsp'; // 경로 수정 필요
   </script>
 <%
   return;

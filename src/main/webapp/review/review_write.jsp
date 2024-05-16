@@ -548,10 +548,6 @@ $(function(){
 </div>
 
 <div class="ec-base-button ">
-            <!-- <span class="gLeft">
-                <span class="displaynone"><a href="#none" class="btnNormal sizeS" onclick="">관리자 답변보기</a></span>
-                <a href="" class="btnNormalFix sizeS">목록</a>
-            </span> -->
             <span class="gRight">
                 <input type="button" class="btnSubmitFix sizeS" id="btnWrite" value="등록"/>
                 <a href="/board/review/4/" class="btnBasicFix sizeS">취소</a>

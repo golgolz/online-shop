@@ -7,20 +7,6 @@
     info="게시판 글 읽기"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%-- <%
-WebMemberVO wmVo=(WebMemberVO)session.getAttribute("loginData");
-if(wmVo == null) { //로그인 하지 않았음
-    
-}//end if
-%> --%>
-<%-- <%/* 로그인한 사람만 읽게 하려면 쓰고 아니면 지우기 */
-//개발의 편의성을 위해 로그인한 것처럼 코드를 작성항 후 작업 진행
-rVO.setId("haa");
-session.setAttribute("loginData", rVO);
-%>
-<c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://localhost/online-shop/index.jsp"/>
-</c:if> --%>
 <%
 ReviewBoardVO rVO=new ReviewBoardVO();
 String userId = (String) session.getAttribute("userId");
@@ -73,15 +59,6 @@ summernote끝 -->
 	    	if(confirm("글을 수정하시겠습니까?")){
 	    	chkNull();	    		
 	    	}//end if
-	    });//click
-	    $("#btnDelete").click(function () {
-			if(confirm("글을 정말 삭제하시겠습니까?")){
-	    	//<form태그의 action 변경
-	    	//var frm=document.frmDetail.action="back-end URL"
-	    	$("#frmDetail")[0].action="board_delete_frm_process.jsp";
-	    	$("#frmDetail").submit();	
-			}//end if
-	    
 	    });//click
 	    
 	    $("#btnWrite").click(function(){
@@ -275,11 +252,6 @@ $(function(){
 	  <%
 	}catch(SQLException se){
 	  se.printStackTrace();
-	  %>
-	  <script type="text/javascript">
-	location.href="http://192.168.10.216/jsp_prj/error/err_500.html";
-</script>
-	  <%
 	}
 %>
 	<jsp:include page="../assets/jsp/user/header.jsp" />
@@ -710,7 +682,6 @@ $(function(){
             </span>
             <span class="gRight">
             <input type="button" value="수정" class="btnSubmitFix sizeS" id="btnUpdate"/>
-            <%-- <a href="review_update_process.jsp?reviewId=${rVO.reviewId}&title=${rVO.title}&content=${rVO.content}&id=${rVO.id}" class="btnSubmitFix sizeS">수정</a> --%>
                 <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>

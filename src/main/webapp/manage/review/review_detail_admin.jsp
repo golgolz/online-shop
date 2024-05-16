@@ -66,15 +66,6 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 </style>
 <script type="text/javascript">
 	$(function(){
-	    $("#btnList").click(function () {
-	        //history.back();
-	        location.href="http://192.168.10.216/jsp_prj/board/board_list.jsp?currentPage=${param.currentPage}";
-	    });//click
-	    $("#btnUpdate").click(function () {
-	    	if(confirm("글을 수정하시겠습니까?")){
-	    	chkNull();	    		
-	    	}//end if
-	    });//click
 	    $("#btnDelete").click(function () {
 			if(confirm("글을 정말 삭제하시겠습니까?")){
 	    	//<form태그의 action 변경
@@ -86,25 +77,6 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 	    });//click
 	});//ready
 	
-	function chkNull() {
-	    if($("#title").val().trim() == "") {
-	        alert("글 제목은 필수입력");
-	        $("#title").focus();
-	        return;
-	    }//end if
-	    if($("#content").val().trim() == "") {
-	        alert("내용은 필수입력");
-	        $("#content").focus();
-	        return;
-	    }//end if
-	    if($("#cnt").val().trim() == "") {
-	        $("#cnt").val(0);
-	    }
-	    
-	    $("#frmDetail")[0].action="board_update_process.jsp";
-	    $("#frmDetail").submit();
-	
-	}//chkNull
 </script>
 <script>
 $(function(){
@@ -164,30 +136,8 @@ $(function(){
 	  pageContext.setAttribute("rVO", rVO);
 	}catch(SQLException se){
 	  se.printStackTrace();
-	  %>
-	  <script type="text/javascript">
-	location.href="http://192.168.10.216/jsp_prj/error/err_500.html";
-</script>
-	  <%
 	}
 %>
-
-	<%-- <form method="post" name="frmDetail" id="frmDetail">
-	<input type="hidden" name="num" value="${ rbVO.num }"/>
-	<input type="hidden" name="currentPage" value="${ param.currentPage }"/>
-	<table>
-	<tr>
-		<td colspan="2" style="text-align : center;">
-		<c:if test="${not empty sessionScope.loginData }"><!-- 로그인한 사람 누구나 삭제 수정 할 수 있다. -->
-		<c:if test="${ rVO.id eq sessionScope.loginData.id }"><!-- 내 글만 수정 삭제 가능 -->
-		<input type="button" value="글 수정" class="btn btn-success btn-sm" id="btnUpdate"/>
-		<input type="button" value="글 삭제" class="btn btn-warning btn-sm" id="btnDelete"/>
-		</c:if>
-		<input type="button" value="글 목록" class="btn btn-info btn-sm" id="btnList"/>
-		</td>
-	</tr>
-	</table>
-	</form>     --%>
 </div>
 </div>	
 
