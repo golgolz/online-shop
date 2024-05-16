@@ -31,6 +31,7 @@
     // 빈 값이 있는지 확인
     if (id == null || id.trim().isEmpty() || password == null || password.trim().isEmpty() || confirmPassword == null || confirmPassword.trim().isEmpty() || name == null || name.trim().isEmpty() || tel1 == null || tel1.trim().isEmpty() || tel2 == null || tel2.trim().isEmpty() || tel3 == null || tel3.trim().isEmpty() || email == null || email.trim().isEmpty() ) {
 %>
+
     <script>
         // JavaScript alert 창을 이용하여 빈 값 경고 메시지 출력
         alert("모든 필수 항목을 입력해주세요.");
