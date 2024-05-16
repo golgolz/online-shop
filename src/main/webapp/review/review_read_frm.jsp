@@ -693,7 +693,8 @@ $(function(){
                 <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
-            <a href="review_update_process.jsp?reviewId=${rVO.reviewId}&title=${rVO.title}&content=${rVO.content}&id=${rVO.id}" class="btnSubmitFix sizeS">수정</a>
+            <input type="button" value="수정" class="btnSubmitFix sizeS" id="btnUpdate"/>
+            <%-- <a href="review_update_process.jsp?reviewId=${rVO.reviewId}&title=${rVO.title}&content=${rVO.content}&id=${rVO.id}" class="btnSubmitFix sizeS">수정</a> --%>
                 <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>
