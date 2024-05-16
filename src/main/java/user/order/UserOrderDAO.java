@@ -28,6 +28,7 @@ public class UserOrderDAO {
         OrderDetailVO odVO = null;
         OrderProductVO opVO = null;
         List<OrderProductVO> list = new ArrayList<OrderProductVO>();
+        CartDAO cDAO = CartDAO.getInstance();
 
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -42,8 +43,8 @@ public class UserOrderDAO {
 
             selectQuery.append(
                     "   select ct.cart_id,ct.input_date,og.order_goods_id,gd.default_img,gd.name,og.code,gd.price,og.amount,gd.delivery_charge,(gd.price*og.amount+gd.delivery_charge) total,dv.receiver,dv.zipcode,dv.default_addr,dv.additional_addr,dv.tel,dv.request,ct.purchase_state,ct.order_flag,ct.delivery_state   ")
-                    .append("   from cart ct,card cd,delivery dv,order_goods og,payment_info pi,goods gd   ")
-                    .append("   where ((ct.id=cd.id) and (og.code=gd.code) and (ct.cart_id=dv.cart_id) and (ct.cart_id=og.cart_id) and (ct.cart_id=pi.cart_id)) and ct.cart_id=?   ");
+                    .append("   from cart ct,delivery dv,order_goods og,payment_info pi,goods gd   ")
+                    .append("   where ((og.code=gd.code) and (ct.cart_id=dv.cart_id) and (ct.cart_id=og.cart_id) and (ct.cart_id=pi.cart_id)) and ct.cart_id=?   ");
 
             pstmt = con.prepareStatement(selectQuery.toString());
 
@@ -51,15 +52,10 @@ public class UserOrderDAO {
 
             rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                opVO = new OrderProductVO(rs.getInt("order_goods_id"), rs.getString("default_img"),
-                        rs.getString("name"), rs.getString("code"), rs.getInt("price"), rs.getInt("amount"),
-                        rs.getInt("delivery_charge"), rs.getInt("total"), cartId);
-
-                list.add(opVO);
-            }
+            list = cDAO.selectOrderProduct(cartId, "주문");
 
             if (rs.next()) {
+
                 odVO = new OrderDetailVO(cartId, rs.getDate("input_date"), list, rs.getString("delivery_state"),
                         rs.getString("purchase_state"), rs.getString("zipcode"), rs.getString("default_addr"),
                         rs.getString("additional_addr"), rs.getString("tel"), rs.getString("request"),

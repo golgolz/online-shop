@@ -469,7 +469,7 @@ $(function() {
     <script>
     function redirectToReviewPage(code, cartId) {
         // code와 cartId를 URL에 파라미터로 추가하여 리뷰 작성 페이지로 이동
-        window.location.href = "../../review/review_write_frm.jsp?code=" + code + "&cartId=" + cartId;
+        window.location.href = "../../review/review_write.jsp?code=" + code + "&cartId=" + cartId;
     	}
 	</script>
     

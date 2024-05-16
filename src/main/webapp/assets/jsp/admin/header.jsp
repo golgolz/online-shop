@@ -37,7 +37,7 @@
 				<a
 					id="refund_menu"
 					class="nav-link text-white"
-					href="http://localhost/online-shop/manage/refund/refund_manage_list.jsp">
+					href="http://localhost/online-shop/manage/refund/refunds.jsp?page=1">
 					<span class="nav-link-text ms-1">반품 관리</span>
 				</a>
 			</li>

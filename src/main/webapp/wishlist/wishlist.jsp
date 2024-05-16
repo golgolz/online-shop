@@ -273,7 +273,7 @@
 <span class=""><c:out value="${wVO.deliveryCharge}"/>원<br/></span></td>
                 <td class="price right" style="text-align:center"><c:out value="${wVO.price + wVO.deliveryCharge}"/>원</td>
                 <td class="button">
-                    <a href="#none" onclick="" class="btnSubmit ">장바구니담기</a>
+                    <!-- <a href="#none" onclick="" class="btnSubmit ">장바구니담기</a> -->
                     <a href="wishlist_delete_process.jsp?favoriteId=${wVO.favoriteId }" class="btnNormal"> 삭제</a>
                 </td>
             </tr>
