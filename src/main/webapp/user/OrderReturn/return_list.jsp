@@ -385,7 +385,7 @@ $(function() {
 				         <td><%= returnInfo.getCode() %> <br> <%= returnInfo.getName() %></td>
 				         <td><%= returnInfo.getRefundState() %></td>
 				         <td><%= formattedRefundDate %></td>
-				         <td><strong><%= String.format("%,d", returnInfo.getRefundTotalPrice()) %> 원 </strong></td> <!--이 부분은 주문에 대한 총 가격임  -->
+				         <td><strong><%= String.format("%,d", returnInfo.getRefundTotalPrice()+3000) %> 원 </strong></td> <!--이 부분은 주문에 대한 총 가격임  -->
 				     </tr>
 				     <%
 				   	}//조건문
