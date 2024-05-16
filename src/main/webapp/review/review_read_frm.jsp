@@ -233,15 +233,25 @@ $(function(){
 <body>
 <!-- <div id="wrap">
 <div id="boardContent"> -->
+<jsp:useBean id="rbVO" class="admin.review.ReviewBoardVO" scope="page"/>
+<jsp:setProperty property="*" name="rbVO"/>
 <%
 	UserReviewDAO rDAO=UserReviewDAO.getInstance();
 	try{
-	  String seq=request.getParameter("reviewId");
+	  String reviewId=request.getParameter("reviewId");
 	  
-	  rVO=rDAO.selectDetailReview(Integer.parseInt(seq));//상세보기
+	  rVO=rDAO.selectDetailReview(Integer.parseInt(reviewId));//상세보기
 	  /* rDAO.updateCnt(Integer.parseInt(seq));//조회수 올려주기(중요도가 덜한것이 아래로 내려가는게 좋음) */
 	  
 	  pageContext.setAttribute("rVO", rVO);
+	  
+	  String title = request.getParameter("title");
+      String content = request.getParameter("content");
+      
+      rVO.setTitle(title);
+      rVO.setContent(content);
+
+	  
 	}catch(NumberFormatException nfe){
 	  %>
 	  <%-- <c:redirect url="http://localhost/online-shop/review/review_my_list.jsp"/> --%>
@@ -256,69 +266,6 @@ $(function(){
 	  <%
 	}
 %>
-
-<%-- 	<!-- <h3>글쓰기</h3> -->
-	<form method="post" name="frmDetail" id="frmDetail">
-	<input type="hidden" name="reviewId" value="${ rVO.reviewId }"/>
-	<input type="hidden" name="cartId" value="${ rVO.cartId }"/>
-	<input type="hidden" name="code" value="${ rVO.code }"/>
-	<input type="hidden" name="currentPage" value="${ param.currentPage }"/>
-	<table>
-	<tr>
-		<td colspan="2"> <h3>글읽기</h3></td>
-	</tr>
-	<tr>
-		<td>제목</td>
-		<td>
-		<input type="text" name="title" id="title" style="width: 600px"
-			value="${ rVO.title }"/>
-		</td>
-	</tr>
-	<tr>
-		<td>내용</td>
-		<td>
-		<textarea id="content" name="content">${ rVO.content }</textarea>
-		</td>
-	</tr>
-	<tr>
-		<td>조회수</td>
-		<td>
-		<input type="text" name="cnt" id="cnt" value="${ rVO.cnt }" style="width: 600px"/>
-		</td>
-	</tr>
-	<tr>
-		<td>작성일</td>
-		<td><strong> <c:out value="${rVO.inputDate}"/></strong></td>
-	</tr>
-	<tr>
-		<td>작성자</td>
-		<td><strong><c:out value="${rVO.id}"/></strong></td>
-	</tr>
-	<tr>
-		<td colspan="2" style="text-align : center;">
-		<c:if test="${not empty sessionScope.loginData }"><!-- 로그인한 사람 누구나 삭제 수정 할 수 있다. -->
-		<c:if test="${ rVO.id eq sessionScope.loginData.id }"><!-- 내 글만 수정 삭제 가능 -->
-		<input type="button" value="글 수정" class="btn btn-success btn-sm" id="btnUpdate"/>
-		<input type="button" value="글 삭제" class="btn btn-warning btn-sm" id="btnDelete"/>
-		</c:if>
-		<input type="button" value="글 목록" class="btn btn-info btn-sm" id="btnList"/>
-		</td>
-	</tr>
-	</table>
-	</form>
-	<div id="reply_wrap">
-		<div id="reply_frm">
-		<input type="hidden" id="seq" name="seq" value="${ param.seq }"/>
-		내용<input type="text" name="rContent" id="rContent" style="width:300px"/>
-		작성자<input type="text" name="rWriter" id="rWriter" style="width:100px"/>
-		<input type="button" value="댓글작성" id="btnWrite" class="btn btn-success btn-sm"/><br/>
-		</div>
-		<a href="#" id="replyMenu">열기</a>
-		<div id="replyContent" style="display:none"></div>
-	</div> --%>
-	    
-<!-- </div>
-</div>	 -->
 	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
@@ -363,9 +310,9 @@ $(function(){
 				<h3><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdNameLink">
 				<span id="sPrdName"> <c:out value="${rVO.name}"/></span></a></h3>
                 <p class="button">
-                    <span id="iPrdView" class=""><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdLink" class="btnEm" target="_blank">상품상세보기</a></span>
+                    <!-- <span id="iPrdView" class=""><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdLink" class="btnEm" target="_blank">상품상세보기</a></span>
                     <span class="displaynone"><a href="#none" class="btnNormal" onclick="BOARD_WRITE.product_popup('/product/search_board_list.html')">상품정보선택</a></span>
-                    <span class=""><a href="#none" class="btnNormal" onclick="BOARD_WRITE.product_popup('/order/search_board_list.html')">주문상품선택</a></span>
+                    <span class=""><a href="#none" class="btnNormal" onclick="BOARD_WRITE.product_popup('/order/search_board_list.html')">주문상품선택</a></span> -->
                 </p>
             </div>
         </div>
@@ -746,7 +693,8 @@ $(function(){
                 <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
-            <a href="review_update_process.jsp?reviewId=${rVO.reviewId}&title=${rVO.title}&content=${rVO.content}&id=${rVO.id}" class="btnSubmitFix sizeS">수정</a>
+            <input type="button" value="수정" class="btnSubmitFix sizeS" id="btnUpdate"/>
+            <%-- <a href="review_update_process.jsp?reviewId=${rVO.reviewId}&title=${rVO.title}&content=${rVO.content}&id=${rVO.id}" class="btnSubmitFix sizeS">수정</a> --%>
                 <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>

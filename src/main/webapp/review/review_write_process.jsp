@@ -35,11 +35,9 @@
 		rVO.setReviewId(num);
 		rVO.setId(((ReviewBoardVO)session.getAttribute("loginData")).getId());
 		rVO.setCartId(cartId);
-		//rVO.setCartId("20240419131320");
 		rVO.setTitle(title);
 		rVO.setContent(content);
 		rVO.setCode(code);
-		//rVO.setCode("SAMSUNG_S24_1");
 		rVO.setInputDate(Date.valueOf(currentDate));
 		rVO.setRemoveFlag("F");
 		rDAO.insertReview(rVO);
