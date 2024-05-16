@@ -272,7 +272,7 @@
 								<div class="xans-element- xans-product xans-product-action">
 									<div class="ec-base-button">
 										<a href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode() %>&quantity=" class="sub_cart need_login" id="sub_cart">장바구니</a>
-										<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= currentGoods.getCode() %>" class="sub_wish need_login">관심상품</a>
+										<a href="http://localhost/online-shop/wishlist/wishlist_insert_process.jsp?code=<%= currentGoods.getCode() %>" class="sub_wish need_login">관심상품</a>
 										<a href="http://localhost/online-shop/order/order_form.jsp?code=<%= currentGoods.getCode() %>&isCart=0&quantity=" class="first sub_buy need_login" id="sub_buy">
 											<span id="btnBuy">구매하기</span>
 										</a>

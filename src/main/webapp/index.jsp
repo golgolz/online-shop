@@ -113,7 +113,7 @@
 		                            </a>
 		                        </div>
 		                        <span class="wish">
-		                        	<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= goods.getCode() %>" class="need_login">
+		                        	<a href="http://localhost/online-shop/wishlist/wishlist_insert_process.jsp?code=<%= goods.getCode() %>" class="need_login">
 		                            	<img src="http://localhost/online-shop/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록">
 		                            </a>
 		                        </span>
