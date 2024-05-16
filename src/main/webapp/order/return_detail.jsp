@@ -108,14 +108,6 @@ th{ text-align: center; }
 							fw-label="주문번호" fw-msg="" value="<%= cartId %>" type="hidden">
 						<div
 							class="xans-element- xans-myshop xans-myshop-orderhistorydetail xans-record-">
-							<!--
-        $print_spec_url = /myshop/order/print/spec.html
-        $print_pg_card_url = /myshop/order/print/pg.html
-        $print_tax_url = /myshop/order/print/tax.html
-        $issue_tax_url = /myshop/order/issue/tax.html
-        $issue_cash_url = /myshop/order/issue/cash.html
-        $select_gift_url = /order/gift_select.html
-     -->
 							<div class="orderArea">
 								<div class="title">
 									<h6>주문정보</h6>
