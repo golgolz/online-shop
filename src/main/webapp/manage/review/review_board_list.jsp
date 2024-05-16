@@ -8,6 +8,23 @@
     pageEncoding="UTF-8"
     info="게시판 리스트"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%
+
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+System.out.println("세션 로그인 상태: " + isLoggedIn);
+
+if (!Boolean.TRUE.equals(isLoggedIn)) {
+
+%>
+  <script type="text/javascript">
+      alert('로그인이 필요합니다.');
+      window.location.href = '../../adminLogin/adminLogin.jsp'; // 경로 수정 필요
+  </script>
+<%
+  return;
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
