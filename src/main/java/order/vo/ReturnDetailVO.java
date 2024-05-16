@@ -24,4 +24,18 @@ public class ReturnDetailVO {
     private String returnStatus;
     private List<OrderProductVO> productList;
     private int statusFlag;
+
+    public ReturnDetailVO(String cartId, Date returnDate, String customerName, String returnStatus, int refundAmount,
+            List<OrderProductVO> productList) {
+        super();
+        this.cartId = cartId;
+        this.returnDate = returnDate;
+        this.customerName = customerName;
+        this.returnStatus = returnStatus;
+        this.refundAmount = refundAmount;
+        this.productList = productList;
+    }
+
+
+
 }

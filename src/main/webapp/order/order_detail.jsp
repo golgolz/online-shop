@@ -41,8 +41,13 @@ try {
 }//end catch
 
 
-
 %>
+<script>
+function redirectToReviewPage(code, cartId) {
+        // code와 cartId를 URL에 파라미터로 추가하여 리뷰 작성 페이지로 이동
+        window.location.href = "http://localhost/online-shop/review/review_write.jsp?code=" + code + "&cartId=" + cartId;
+    	}
+</script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -269,7 +274,7 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 													<p class="displaynone">-</p>
 												</td>
 												<td class="state"><input type="button"
-													class="btnNormal" value="리뷰작성"></td>
+													class="btnNormal" value="리뷰작성" onclick="redirectToReviewPage('<%= oVO.getCode() %>', '<%= cartId %>')"></td>
 											</tr>
 										</tbody>
 										<% }//end for %>
