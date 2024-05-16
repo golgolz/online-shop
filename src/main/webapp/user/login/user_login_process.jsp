@@ -67,8 +67,15 @@
         
                 System.out.println("세션에 userId 저장 완료");
         
+                String loginMessage = "로그인 성공";
+                %>
+                <script type='text/javascript'>
+                    alert('<%= loginMessage %>');
+                    location = '../../index.jsp';
+                </script>
+                <%
                 // 메인 페이지로 리다이렉트
-                response.sendRedirect("../../index.jsp");
+                //response.sendRedirect("../../index.jsp");
             }
         }
     }

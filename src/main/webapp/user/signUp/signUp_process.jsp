@@ -18,12 +18,31 @@
     String password = request.getParameter("passwd");
     String confirmPassword = request.getParameter("user_passwd_confirm");
     String name = request.getParameter("name");
+    String tel1 = request.getParameter("mobile1");
+    String tel2 = request.getParameter("mobile2");
+    String tel3 = request.getParameter("mobile3");
     String tel = request.getParameter("mobile1") +"-" + request.getParameter("mobile2") +"-" + request.getParameter("mobile3");
     String email = request.getParameter("email1");
     String zipcode = request.getParameter("postcode1");
     String defaultAddr = request.getParameter("addr1");
     String additionalAddr = request.getParameter("addr2");
     
+    
+    // 빈 값이 있는지 확인
+    if (id == null || id.trim().isEmpty() || password == null || password.trim().isEmpty() || confirmPassword == null || confirmPassword.trim().isEmpty() || name == null || name.trim().isEmpty() || tel1 == null || tel1.trim().isEmpty() || tel2 == null || tel2.trim().isEmpty() || tel3 == null || tel3.trim().isEmpty() || email == null || email.trim().isEmpty() ) {
+%>
+
+    <script>
+        // JavaScript alert 창을 이용하여 빈 값 경고 메시지 출력
+        alert("모든 필수 항목을 입력해주세요.");
+        // 회원가입 페이지로 되돌아감
+        history.back();
+    </script>
+<%
+        return;
+    }
+    
+    //비밀번호 확인
     if (!password.equals(confirmPassword)) {
       %>
           <script>
@@ -35,6 +54,31 @@
       <%
               return;
           }
+    // 아이디 조건 검증
+    if (!id.matches("[a-zA-Z0-9]{4,16}")) {
+%>
+    <script>
+        // JavaScript alert 창을 이용하여 아이디 조건 불만족 메시지 출력
+        alert("아이디는 영문 소문자 또는 숫자로 이루어진 4~16자여야 합니다.");
+        // 회원가입 페이지로 되돌아감
+        history.back();
+    </script>
+<%
+        return;
+    }
+    
+    // 비밀번호 조건 검증
+    if (!password.matches("(?=.*[a-zA-Z])(?=.*[0-9!@#$%^&*()-_=+]).{10,16}")) {
+%>
+    <script>
+        // JavaScript alert 창을 이용하여 비밀번호 조건 불만족 메시지 출력
+        alert("비밀번호는 영문 대소문자, 숫자, 특수문자 중 2가지 이상을 조합하여 10~16자여야 합니다.");
+        // 회원가입 페이지로 되돌아감
+        history.back();
+    </script>
+<%
+        return;
+    }
     
     // UserDAO 객체 생성
     UserDAO userDAO = new UserDAO();
