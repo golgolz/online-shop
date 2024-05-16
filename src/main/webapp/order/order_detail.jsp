@@ -223,15 +223,15 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 												<th scope="col">상품리뷰</th>
 											</tr>
 										</thead>
-										<% for(OrderProductVO oVO : list) { %>
 										<tfoot class="right">
 											<tr>
 												<td colspan="8">상품구매금액 <strong><%= priceSum %></strong> + 배송비
-													<%= oVO.getDelivertyFee() %> = 합계 : <strong class="txtEm gIndent10"><span
+													<%= opVO.getDelivertyFee() %> = 합계 : <strong class="txtEm gIndent10"><span
 														class="txt18"><%= result %>원</span></strong> <span class="displaynone"></span>
 												</td>
 											</tr>
 										</tfoot>
+										<% for(OrderProductVO oVO : list) { %>
 										<tbody
 											class="xans-element- xans-myshop xans-myshop-orderhistorydetailbasic center">
 											<tr class="xans-record-">
