@@ -256,7 +256,7 @@
 									<div class="ec-base-button">
 										<a href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="sub_cart" id="sub_cart">장바구니</a>
 										<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= currentGoods.getCode() %>" class="sub_wish">관심상품</a>
-										<a href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="first sub_buy" id="sub_buy">
+										<a href="http://localhost/online-shop/order/order_form.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="first sub_buy" id="sub_buy">
 											<span id="btnBuy">구매하기</span>
 										</a>
 									</div>
