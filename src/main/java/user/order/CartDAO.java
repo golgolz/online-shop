@@ -140,6 +140,8 @@ public class CartDAO {
             pstmt.setString(5, "T");
             pstmt.setString(6, "배송준비중");
 
+            pstmt.executeQuery();
+
         } finally {
             dbCon.closeCon(null, pstmt, con);
         }

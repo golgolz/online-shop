@@ -14,9 +14,10 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%
     	String userId = (String)session.getAttribute("userId");
+    	String cartId = (String)session.getAttribute("cartId");
+    	System.out.println(cartId);
     	UserOrderDAO uDAO = UserOrderDAO.getInstance();
     	CartDAO cDAO = CartDAO.getInstance();
-    	String cartId = "";
     	
     	List<OrderProductVO> list = new ArrayList<OrderProductVO>();
     	OrderProductVO opVO = new OrderProductVO();
@@ -24,7 +25,6 @@
     	int result = 0;
     	
     	try {
-	    	cartId = cDAO.selectFirstOrderId(userId);
     	    list = cDAO.selectOrderProduct(cartId,"주문");
     	    if(list != null){
     		    for(int i=0; i<list.size(); i++){
