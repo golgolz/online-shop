@@ -8,10 +8,6 @@
     info="글쓰기 db추가 페이지"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%-- <c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://192.168.10.216/jsp_prj/index.jsp"/>
-</c:if> --%>
-
 <% request.setCharacterEncoding("UTF-8"); %>
 <!-- parameter받기 -->
 <jsp:useBean id="rVO" class="admin.review.ReviewBoardVO" scope="page"/>
@@ -49,9 +45,6 @@
 		<%
 		}catch(SQLException se) {
 		    se.printStackTrace();
-		    %>
-		    location.href="http://192.168.10.216/jsp_prj/error/err_500.html";
-		    <%
 		}//end catch
 		%>
 		$(function(){

@@ -7,20 +7,6 @@
     info="게시판 글 읽기"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%-- <%
-WebMemberVO wmVo=(WebMemberVO)session.getAttribute("loginData");
-if(wmVo == null) { //로그인 하지 않았음
-    
-}//end if
-%> --%>
-<%-- <%/* 로그인한 사람만 읽게 하려면 쓰고 아니면 지우기 */
-//개발의 편의성을 위해 로그인한 것처럼 코드를 작성항 후 작업 진행
-rVO.setId("haa");
-session.setAttribute("loginData", rVO);
-%>
-<c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://localhost/online-shop/index.jsp"/>
-</c:if> --%>
 <%
 ReviewBoardVO rVO=new ReviewBoardVO();
 String userId = (String) session.getAttribute("userId");
@@ -56,10 +42,6 @@ if (userId == null) {
 </style>
 <script type="text/javascript">
 	$(function(){
-	    $("#btnList").click(function () {
-	        //history.back();
-	        location.href="http://192.168.10.216/jsp_prj/board/board_list.jsp?currentPage=${param.currentPage}";
-	    });//click
 	    $("#btnUpdate").click(function () {
 	    	if(confirm("글을 수정하시겠습니까?")){
 	    	chkNull();	    		

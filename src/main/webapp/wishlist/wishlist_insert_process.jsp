@@ -5,10 +5,6 @@
 <%@ page import="javax.servlet.http.*, user.wishlist.*, java.util.*, java.sql.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%-- <c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://localhost/online-shop/user/login/userLogin.jsp"/>
-</c:if> --%>
-
 <%
 String userId = (String) session.getAttribute("userId");
 System.out.println("세션 로그인 상태: " + userId);

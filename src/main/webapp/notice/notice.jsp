@@ -50,6 +50,18 @@ request.setCharacterEncoding("UTF-8");
 <jsp:useBean id="sVO" class="notice.SearchVO" scope="page"></jsp:useBean>
 <jsp:setProperty property="*" name="sVO"/>
 
+<%-- 	<%
+		String pageOrg = request.getParameter("page");
+		
+		if(pageOrg == null || pageOrg.equals("")) {
+		    pageOrg = "1";
+		}
+		//pagenation
+		int pageScale = 10;
+		int currentPage = Integer.parseInt(pageOrg);
+		int startNum = pageScale * (currentPage -1)+1;
+		int endNum = 
+	%> --%>
 <%
 	try{
     NoticeDAO nDAO=NoticeDAO.getInstance();
@@ -68,7 +80,7 @@ request.setCharacterEncoding("UTF-8");
     int endNum=startNum+pageScale-1;
     
     sVO.setStartNum(startNum);
-    sVO.setEndNum(endNum);
+    sVO.setEndNum(endNum); 
     
     List<NoticeVO> list=nDAO.selectNotice(sVO);
     pageContext.setAttribute("list", list);
