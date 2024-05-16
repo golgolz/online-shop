@@ -43,7 +43,7 @@
 <script type="text/javascript">
 	$(function(){
 		setTotalInfo(1);
-		$("#quantity_up").on('click', function(){
+		$("#quantity_up").click(function(){
 			var quantity = parseInt($("#quantity").val());
 			quantity += 1;
 			setTotalInfo(quantity);
@@ -136,6 +136,24 @@
 				}
 			});
 		});
+
+		$(".need_login").click(function(event){
+		 	$.ajax({
+		        url: "http://localhost/online-shop/goods/check_login.jsp",
+		        type: "GET",
+		        dataType: "JSON",
+		        error: function(xhr){
+		        	alert("로그인 체크 실패" + xhr.status);
+		        },
+		        success: function(response) {
+		             if (!response.flag) {
+		     			event.preventDefault();
+		                alert('로그인이 필요합니다.22');
+		                location.href = 'http://localhost/online-shop/user/login/userLogin.jsp';
+		            } 
+		        }
+		    });
+		});
 	});
 	
 	function setTotalInfo(quantity){
@@ -207,8 +225,7 @@
 								</div>
 
 								<div id="totalProducts" class="">
-									<p class="ec-base-help txtWarn txt11 displaynone">수량을
-										선택해주세요.</p>
+									<p class="ec-base-help txtWarn txt11 displaynone">수량을 선택해주세요.</p>
 									<p class="ec-base-help txtWarn txt11">수량을 선택해주세요.</p>
 									<table border="1" summary="" style="border-top: 1px solid #9a9ba0;">
 										<caption>상품 목록</caption>
@@ -228,7 +245,7 @@
 											<tr>
 												<td><%= currentGoods.getName() %></td>
 												<td><span class="quantity">
-														<input id="quantity" name="quantity_name" style="" value="1" type="text">
+														<input id="quantity" name="quantity_name" style="" value="0" type="text">
 														<img
 															src="http://localhost/online-shop/assets/images/goods/btn_count_up.gif"
 															class="QuantityUp up" id="quantity_up"/>
@@ -254,9 +271,9 @@
 								</div>
 								<div class="xans-element- xans-product xans-product-action">
 									<div class="ec-base-button">
-										<a href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="sub_cart" id="sub_cart">장바구니</a>
-										<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= currentGoods.getCode() %>" class="sub_wish">관심상품</a>
-										<a href="http://localhost/online-shop/order/order_form.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="first sub_buy" id="sub_buy">
+										<a href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode() %>&quantity=" class="sub_cart need_login" id="sub_cart">장바구니</a>
+										<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= currentGoods.getCode() %>" class="sub_wish need_login">관심상품</a>
+										<a href="http://localhost/online-shop/order/order_form.jsp?code=<%= currentGoods.getCode() %>&quantity=" class="first sub_buy need_login" id="sub_buy">
 											<span id="btnBuy">구매하기</span>
 										</a>
 									</div>
