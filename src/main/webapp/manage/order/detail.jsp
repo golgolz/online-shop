@@ -7,6 +7,19 @@
 <jsp:useBean id="orderInfo" class="admin.order.OrderDetailInfoVO" />
 <jsp:setProperty property="*" name="orderInfo" />
 <%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+
+if (!Boolean.TRUE.equals(isLoggedIn)) {
+%>
+  <script type="text/javascript">
+      alert('로그인이 필요합니다.');
+      window.location.href = 'http://localhost/online-shop/manage/adminLogin/adminLogin.jsp';
+  </script>
+<%
+  return;
+}
+%>
+<%
 	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
 	String paramId = (String)request.getParameter("id");
 	if(request.getParameter("id") != null){

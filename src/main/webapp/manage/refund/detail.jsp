@@ -7,6 +7,19 @@
 	pageEncoding="UTF-8" info=""%>
 <jsp:useBean id="refundInfo" class="admin.refund.RefundDetailInfoVO" />
 <%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+
+if (!Boolean.TRUE.equals(isLoggedIn)) {
+%>
+  <script type="text/javascript">
+      alert('로그인이 필요합니다.');
+      window.location.href = 'http://localhost/online-shop/manage/adminLogin/adminLogin.jsp';
+  </script>
+<%
+  return;
+}
+%>
+<%
 	AdminRefundDAO adminRefundDAO = AdminRefundDAO.getInstance();
 	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
 	String paramId = (String)request.getParameter("id");
