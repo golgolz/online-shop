@@ -303,7 +303,7 @@ public class UserReviewDAO {
 
       StringBuilder updateReview = new StringBuilder();
       updateReview.append("  update review    ").append("  set title= ? , content= ?  ")
-          .append("  where review_id= ?   ");
+          .append("  where review_id= ? and id=?   ");
 
       pstmt = con.prepareStatement(updateReview.toString());
 
@@ -311,7 +311,7 @@ public class UserReviewDAO {
       pstmt.setString(1, rVO.getTitle());
       pstmt.setString(2, rVO.getContent());
       pstmt.setInt(3, rVO.getReviewId());
-      /* pstmt.setString(4, rVO.getId()); */
+      pstmt.setString(4, rVO.getId());
 
       cnt = pstmt.executeUpdate();
 
@@ -341,11 +341,12 @@ public class UserReviewDAO {
       // 4.쿼리문 생성객체 얻기(Dynamic Query)
 
       StringBuilder deleteBoard = new StringBuilder();
-      deleteBoard.append("  delete from review    ").append("  where review_id=?   ");
+      deleteBoard.append("  delete from review    ").append("  where review_id=? and id=?  ");
       pstmt = con.prepareStatement(deleteBoard.toString());
 
       // 바인드 변수에 값 설정
       pstmt.setInt(1, rVO.getReviewId());
+      pstmt.setString(2, rVO.getId());
 
       cnt = pstmt.executeUpdate();
 
