@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 	
-<%
+<%-- <%
 Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 System.out.println("세션 로그인 상태: " + isLoggedIn);
 if (!Boolean.TRUE.equals(isLoggedIn)) {
@@ -16,7 +16,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 <%
   return;
 }
-%>
+%> --%>
 
 <!DOCTYPE html>
 <html>
@@ -37,7 +37,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
     	$("#notice_menu").addClass("bg-gradient-primary");
     	
 		$("#btnList").click(function(){
-			location.href="notice.jsp";
+			location.href="http://192.168.10.211/manage/notice/notice.jsp";
 		});//click
 		/* $("#btnModify").click(function(){
 			$("#frmWrite").submit();

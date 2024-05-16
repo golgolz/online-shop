@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
 	
-<%
+<%-- <%
 Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 System.out.println("세션 로그인 상태: " + isLoggedIn);
 if (!Boolean.TRUE.equals(isLoggedIn)) {
@@ -13,7 +13,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 <%
   return;
 }
-%>
+%> --%>
 
 <!DOCTYPE html>
 <html>
@@ -41,7 +41,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 		});//click
 		$("#btnCancel").click(function(){
 			alert("글작성을 취소합니다.");
-			location.href="notice.jsp";
+			location.href="http://192.168.10.211/manage/notice/notice.jsp";
 		});//click
 		$('#content').summernote({
 	        placeholder: 'Hello stand alone ui',

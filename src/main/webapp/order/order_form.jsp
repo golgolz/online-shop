@@ -14,14 +14,14 @@
 <!-- 로그인 확인 -->
 <%
 String userId = (String)session.getAttribute("userId");
-System.out.println("세션 로그인 상태: " + userId);
+
 
 if (userId == null) {
-    System.out.println("로그인이 필요합니다. ");
+    //System.out.println("로그인이 필요합니다. ");
 %>
 <script>
         alert('로그인이 필요합니다.');
-        window.location.href = 'http://localhost/online-shop/user/login/userLogin.jsp'; // 경로 수정 필요
+        window.location.href = 'http://192.168.10.211/user/login/userLogin.jsp'; // 경로 수정 필요
 
 </script>
 <%
@@ -199,22 +199,17 @@ th {
 <jsp:useBean id="opVO" class="order.vo.OrderProductVO" scope="page" />
 <jsp:setProperty property="*" name="opVO" />
 <%
-	String cartId = (String)session.getAttribute("cartId");
 	
+    String isCart = (request.getParameter("isCart") == null ? "-1" : request.getParameter("isCart"));
+	System.out.println(isCart);
 	CartDAO cDAO = CartDAO.getInstance();
     List<OrderProductVO> list = (List<OrderProductVO>)session.getAttribute("data");
     
 	int result = 0;
 	
-    if(list != null){
-	    for(int i=0; i<list.size(); i++){
-	        opVO = list.get(i);
-	        result += opVO.getTotal();
-	    }
-    }//end if
-    
+   
     // 장바구니가 아닌 상품 상세 페이지에서 바로 주문서 작성 페이지로 넘어오는 경우
-    if(list == null || cartId == null){
+    if(isCart.equals("0")){
         String code = (String)request.getParameter("code");
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         session.setAttribute("code", code);
@@ -229,6 +224,14 @@ th {
         }catch(SQLException se){
             se.printStackTrace();
         }
+    }//end if
+    
+    // 장바구니에서 넘어온 주문
+    if(isCart.equals("1")){
+	    for(int i=0; i<list.size(); i++){
+	        opVO = list.get(i);
+	        result += opVO.getTotal();
+	    }
     }//end if
     
     String name = "";
@@ -436,13 +439,13 @@ th {
 										<tbody
 											class="xans-element- xans-order xans-order-normallist center">
 											<form action="payment_process.jsp" name="productFrm" id="productFrm" method="post">
-										<% if(list != null){
+										<% if(isCart.equals("1")){
 											for(OrderProductVO oVO : list){ %>
 											<tr class="xans-record-">
 												<td class=""></td>
 												<td class="thumb gClearLine"><a
 													href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-														src="http://localhost/online-shop/assets/images/goods/<%= oVO.getProductImg() %>"
+														src="http://192.168.10.211/assets/images/goods/<%= oVO.getProductImg() %>"
 														onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
 														width="100px"></a></td>
 												<td class="left gClearLine"><strong class="name"><a
@@ -470,7 +473,7 @@ th {
 												<td class=""></td>
 												<td class="thumb gClearLine"><a
 													href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-														src="http://localhost/online-shop/assets/images/goods/<%= opVO.getProductImg() %>"
+														src="http://192.168.10.211/assets/images/goods/<%= opVO.getProductImg() %>"
 														onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
 														width="100px"></a><input type="hidden" id="productImg" name="productImg" value="<%= opVO.getProductImg() %>" /></td>
 												<td class="left gClearLine"><strong class="name"><%= opVO.getProductName() %></strong>
@@ -919,7 +922,7 @@ th {
 										style="background-color: #dedede; padding: 10px; padding-right: 15px; text-align: right;">
 										<h6>카드 결제</h6>
 									</div>
-									<form id="cardFrm" name="cardFrm" action="http://localhost/online-shop/order/payment_process.jsp" method="post">
+									<form id="cardFrm" name="cardFrm" action="http://192.168.10.211/order/payment_process.jsp" method="post">
 										<div class="card-middle-title"
 											style="padding: 20px; font-size: 20px;">
 											<span class="card-middle-left" style="float: left;"><label>(주)골골즈 오브젝트

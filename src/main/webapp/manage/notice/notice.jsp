@@ -1,3 +1,4 @@
+<%@page import="util.PageController"%>
 <%@page import="java.util.List"%>
 <%@page import="notice.NoticeDAO"%>
 <%@page import="notice.NoticeVO"%>
@@ -7,12 +8,11 @@
 
 <%
 Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
-System.out.println("세션 로그인 상태: " + isLoggedIn);
 if (!Boolean.TRUE.equals(isLoggedIn)) {
 %>
   <script type="text/javascript">
       alert('로그인이 필요합니다.');
-      window.location.href = '../../adminLogin/adminLogin.jsp'; // 경로 수정 필요
+      window.location.href = '../../manage/adminLogin/adminLogin.jsp'; // 경로 수정 필요
   </script>
 <%
   return;
@@ -28,6 +28,8 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 <link rel="stylesheet" type="text/css" href="https://img.echosting.cafe24.com/editors/froala/css/froala_style_ec.min.css?vs=2404180600" charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer.php?filename=nZExDgIxDAT7KC3vsOAJPIEfOMFwJxJv5DgS_J6jggYJ0o52doulBVVofzBqhqtxJZOOYVko904Xgzpl1AqNG9jRL3nJoaMMX6Eh4T4pDvfZ0cIPsTnVORWZVNFCWVVCYtWv-9waHcF2ptNn3YZjeuGYCvJtVjZpMP_Pft_7BA&type=css&k=ecd691e0c80070ef935d0e961272742f67437a3c&t=1681776733" />
 <link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer_user.php?filename=tZRBbsQgDEX3k257Ds-o6j0q9QTEcYI1gBGGTOf2dTtVq64DO8DwvvX1MXiJBIRTUyoKgVcKbj6_nC-Q2xwYJ19jAF1oWkh5S6BXTpdXQFWIsrRAMIsriz3V-ubw6jZ6suIzdCMruYK-MxRdpSh7717XlrCypGPY4O7SKsxOGb81UGLsDn0cdIYSnmxDp8aDwFUkVM6D6J7CKHQuFhQc5Xd2GyfL9CjX3TyIPLdau0f7Fy4f4wwJo8y2a3gMvaxBpEAOzVJhu1Ohnen2txrUuRWodBupPzKx2YdXL_ndc86ctt4CKGk3ho3tfND3KIXSfn9o9Bja_4GqX7RP&type=css&k=d664d08dad9a7052b47cd7d6e8a0a70935bed9eb&t=1678165953&user=T" />
+<link href="http://192.168.10.211/assets/css/pagenation.css" rel="stylesheet" />
+ 
 <script type="text/javascript">
 	$(function(){
     	$("#notice_menu").addClass("bg-gradient-primary");
@@ -37,7 +39,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
     	});//click
 
     	$("#btnAllSearch").click(function() {
-    		location.href="notice.jsp";
+    		location.href="http://192.168.10.211/manage/notice/notice.jsp";
     	});//click
 	});
 	
@@ -66,11 +68,31 @@ request.setCharacterEncoding("UTF-8");
 %>
 <jsp:useBean id="sVO" class="notice.SearchVO" scope="page"></jsp:useBean>
 <jsp:setProperty property="*" name="sVO"/>
+	<%
+		String pageOrg = request.getParameter("page");
+
+		if(pageOrg == null || pageOrg.equals("")){
+		    pageOrg = "1";
+		}
+		// pagenation
+		int pageScale = 10;
+		int currentPage = Integer.parseInt(pageOrg);
+		int startNum = pageScale * (currentPage - 1) + 1;
+		int endNum = startNum + pageScale - 1;
+		sVO.setStartNum(startNum);
+		sVO.setEndNum(endNum);
+		
+		PageController pageController = PageController.getInstance();
+		String params = pageController.createQueryStr(request);
+	%>
+	
 <%
 try{
     NoticeDAO nDAO=NoticeDAO.getInstance();
-    int totalCount = nDAO.SelectTotalCount(sVO);
-    int pageScale=10;
+	int searchResultCount = nDAO.SelectTotalCount(sVO);
+    //int totalCount = nDAO.SelectTotalCount(sVO);
+    
+  /* int pageScale=10;
     int totalPage=(int)Math.ceil((double)totalCount/pageScale);
     String tempPage=sVO.getCurrentPage();
     int currentPage=1;
@@ -84,13 +106,14 @@ try{
     int endNum=startNum+pageScale-1;
     
     sVO.setStartNum(startNum);
-    sVO.setEndNum(endNum);
+    sVO.setEndNum(endNum); */
     
     List<NoticeVO> list=nDAO.selectNotice(sVO);
     pageContext.setAttribute("list", list);
-    pageContext.setAttribute("totalCount", totalCount);
+    pageContext.setAttribute("totalCount", searchResultCount);
     pageContext.setAttribute("pageScale", pageScale);
     pageContext.setAttribute("currentPage", currentPage);
+    pageContext.setAttribute("startNum", startNum);
 	%>
 	
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
@@ -139,6 +162,7 @@ try{
 									class="xans-element- xans-board xans-board-replysort-1002 xans-board-replysort xans-board-1002 "></span>
 							</div>
 							<div class="ec-base-table typeList gBorder">
+								<p style="margin-bottom: 10px;">전체 : <strong><%= searchResultCount %></strong>건</p>
 								<table id="table_01" border="1" summary="">
 									<colgroup
 										class="xans-element- xans-board xans-board-listheader-1002 xans-board-listheader xans-board-1002 ">
@@ -168,7 +192,8 @@ try{
 										
 										<c:forEach var="nVO" items="${list}" varStatus="i">
 										<tr>
-										<td> <c:out value="${totalCount-(currentPage-1)*pageScale -i.index }"/></td>
+										<%-- <td> <c:out value="${totalCount-(currentPage-1)*pageScale -i.index }"/></td> --%>
+										<td> <c:out value="${ startNum + i.index }"/></td>
 										<td> <a href="notice_detail.jsp?id=${nVO.notice_id}"><c:out value="${nVO.title }"/></a></td>
 										<td> <c:out value="${nVO.author}"/></td>
 										<td> <c:out value="${nVO.input_date}"/></td>
@@ -186,7 +211,7 @@ try{
         </span> -->
 						</div>
 					</div>
-					<div
+					<!-- <div
 						class="xans-element- xans-board xans-board-paging-1002 xans-board-paging xans-board-1002 ec-base-paginate">
 						<a href="?board_no=1&page=1"><img
 							src="https://img.echosting.cafe24.com/skin/base/common/btn_page_prev.gif"
@@ -204,7 +229,7 @@ try{
 						<a href="?board_no=1&page=2"><img
 							src="https://img.echosting.cafe24.com/skin/base/common/btn_page_next.gif"
 							alt="다음 페이지" /></a>
-					</div>
+					</div> -->
 					<form id="searchForm" name="" method="get" target="_top">
 						<input id="board_no" name="board_no" value="1" type="hidden" />
 						<input id="page" name="page" value="1" type="hidden" />
@@ -220,12 +245,11 @@ try{
 									<input type="button" class="btnEmFix" id="btnAllSearch" value="전체글">
 									<!-- <a href="#none" class="btnEmFix2" onclick="BOARD.form_submit('boardModifyForm');">수정</a> 
 									<a href="#none" class="btnEmFix3" onclick="BOARD.form_submit('boardDeleteForm');">삭제</a>  -->
-									<a id="btnInsert" href="notice_write.jsp" class="btnEmFix4">작성</a>
+									<a id="btnInsert" href="http://192.168.10.211/manage/notice/notice_write.jsp" class="btnEmFix4">작성</a>
 								</p>
 						</div>
 					</form>
-			
-					<%
+					<%-- <%
 					String param="";
 					%>
 					<c:if test="${not empty param.keyword }">
@@ -234,11 +258,18 @@ try{
 					+request.getParameter("keyword");
 					/* param="&field="+sVO.getField()+"&keyword="+sVO.getKeyword(); */
 					%>
-					<%-- <c:set var="link2" value="&field =${param.field }&keyword=${param.keyword }"/> --%>
+					<c:set var="link2" value="&field =${param.field }&keyword=${param.keyword }"/>
 					<c:set var="link2" value="&field=${param.field}&keyword=${param.keyword}" />
 					<% System.out.println(param);%>
-					</c:if>
-					
+					</c:if> --%>
+					<%
+						String pageNation = 
+							    pageController.createPagingBtns("http://192.168.10.211/manage/notice/notice.jsp", params
+							    , Integer.parseInt(pageOrg), (searchResultCount / pageScale) + 1);
+					%>
+					<div id="pageNation">
+						<%= pageNation %>
+					</div>		
 			<!-- golgolz end -->
 		</div>
 		<%
