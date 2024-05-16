@@ -14,9 +14,9 @@ String userId = (String)session.getAttribute("userId");
 String cartId = request.getParameter("cartId");
 
 // 개발을 위해 임시로 사용하는 코드입니다.
-if(cartId == null){
+/* if(cartId == null){
     cartId = "20240515060517";
-}
+} */
 
 OrderDetailVO odVO = new OrderDetailVO();
 List<OrderProductVO> list = new ArrayList<OrderProductVO>();
