@@ -62,16 +62,11 @@ table, td {
 </style>
 <script>
 	$(function() {
-		/* $(".up").click(function(){
-			var inputId = $("#quantity_id_0").val();
-			var price = $("#product_price_div0").text().trim();
-			
-			addQuantity(inputId,price);
-		}); */
+		
 	})//ready
 	
 	
- 	function addQuantity(inputId,price) {
+ 	  function addQuantity(inputId,price,sumPrice) {
 		var input = document.getElementById(inputId);
 		var productPrice = document.getElementById(price).textContent.trim(); // "20,000원"
 		productPrice = productPrice.replace(/[^0-9]/g, ''); // "20000" 
@@ -82,11 +77,11 @@ table, td {
 			input.value = newValue;
 			
 			var sum = parseInt(productPrice) * newValue + 3000;
-			document.getElementById('sum_price_front0').innerHTML = formatNumber(sum);
+			document.getElementById(sumPrice).innerHTML = formatNumber(sum);
 		}
-	} 
+	}   
 	
-	function decQuantity(inputId,price) {
+	function decQuantity(inputId,price,sumPrice) {
 		var input = document.getElementById(inputId);
 		var productPrice = document.getElementById(price).textContent.trim();
 		productPrice = productPrice.replace(/[^0-9]/g, '');
@@ -97,7 +92,7 @@ table, td {
 			input.value = newValue;
 			
 			var sub = parseInt(productPrice) * newValue + 3000;
-			document.getElementById("sum_price_front0").innerHTML = formatNumber(sub);
+			document.getElementById(sumPrice).innerHTML = formatNumber(sub);
 		}
 	}
 	
@@ -278,58 +273,61 @@ table, td {
 									</tr>
 								</tfoot>
 								<%
-						for(OrderProductVO oVO : list){
+						for(int i=0; i<list.size(); i++){
 						%>
+<%-- 								<%
+						for(OrderProductVO oVO : list){
+						%> --%>
 								<tbody class="xans-element- xans-order xans-order-list center">
 									<tr class="xans-record-">
 										<td></td>
 										<td class="thumb gClearLine"><a
 											href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-												src="http://localhost/online-shop/assets/images/goods/<%= oVO.getProductImg() %>"
+												src="http://localhost/online-shop/assets/images/goods/<%= list.get(i).getProductImg() %>"
 												onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
 												alt="APPLE_IPHONE15_6"
 												width="100px"></a></td>
-										<input type="hidden" value="<%= oVO.getOrderGoodsId() %>" name="orderProductId" id="orderProductId"/>
-										<input type="hidden" value="<%= oVO.getCartId() %>" name="orderCartId" id="orderCartId" />
+										<input type="hidden" value="<%= list.get(i).getOrderGoodsId() %>" name="orderProductId" id="orderProductId"/>
+										<input type="hidden" value="<%= list.get(i).getCartId() %>" name="orderCartId" id="orderCartId" />
 										<td class="left gClearLine"><strong class="name"><a
 												href="/product/i-live-with-six-cats-고양이의-바다-유광-카드-하드-케이스/6183/category/523/"
-												class="ec-product-name"><%= oVO.getProductName() %></a></strong> <span class="displaynone engName">(영문명
+												class="ec-product-name"><%= list.get(i).getProductName() %></a></strong> <span class="displaynone engName">(영문명
 												: )</span>
 											<uls
 												class="xans-element- xans-order xans-order-optionall option">
-												<li class="xans-record-"><strong class="displaynone"><%= oVO.getCode() %></strong>[옵션: <%= oVO.getCode() %>] <span
+												<li class="xans-record-"><strong class="displaynone"><%= list.get(i).getCode() %></strong>[옵션: <%= list.get(i).getCode() %>] <span
 													class="displaynone">(<%= list.size() %>)</span><br></li>
 											</ul></td>
 										<td class="right">
-											<div id="product_price_div0" class="product_price_div0">
-												<strong><%= String.format("%,d", oVO.getPrice()) %>원</strong>
+											<div id="product_price_div_<%= i %>" class="product_price_div0">
+												<strong><%= String.format("%,d", list.get(i).getPrice()) %>원</strong>
 												<p class="displaynone"></p>
 											</div>
-											<div id="product_sale_price_div0" class="displaynone">
-												<strong><span id="product_sale_price_front0"><script><%= oVO.getPrice() %></script></span>원</strong>
+											<div id="product_sale_price_div" class="displaynone">
+												<strong><span id="product_sale_price_front0"><script><%= list.get(i).getPrice() %></script></span>원</strong>
 												<p class="displaynone"></p>
 											</div>
 										</td>
 										<td><span class=""> <span class="ec-base-qty"><input
-													id="quantity_id_0" class="quantity_id_0" name="quantity" size="2"
-													value="<%= oVO.getQuantity() %>" type="text"><a href="javascript:;"
-													onclick="addQuantity('quantity_id_0','product_price_div0');"> <img
+													id="quantity_id_<%= i %>" class="quantity_id_<%= i %>" name="quantity" size="2"
+													value="<%= list.get(i).getQuantity() %>" type="text"> <a href="javascript:;"
+													onclick="addQuantity('quantity_id_<%= i %>','product_price_div_<%= i %>','sum_price_front<%= i %>');"><img
 														src="//img.echosting.cafe24.com/skin/base/common/btn_quantity_up.gif"
 														alt="수량증가" class="up"></a><a href="javascript:;"
-													onclick="decQuantity('quantity_id_0','product_price_div0');"><img
+													onclick="decQuantity('quantity_id_<%= i %>','product_price_div_<%= i %>','sum_price_front<%= i %>');"><img
 														src="//img.echosting.cafe24.com/skin/base/common/btn_quantity_down.gif"
 														alt="수량감소" class="down"></a></span> <a href="javascript:;"
 												class="btnNormal gBlank5" onclick="modifyQuantity()">변경</a>
-										</span> <span class="displaynone"><%= oVO.getQuantity() %></span></td>
+										</span> <span class="displaynone"><%= list.get(i).getQuantity() %></span></td>
 
 	
 										<td rowspan="1" class="">
 											<p class="">
-												<%= String.format("%,d", oVO.getDelivertyFee()) %>원<span class="displaynone"><br></span><br>
+												<%= String.format("%,d", list.get(i).getDelivertyFee()) %>원<span class="displaynone"><br></span><br>
 											</p>
 										</td>
 										<td class="right"><strong><span
-												id="sum_price_front0" class="sum_price_front0"><%= String.format("%,d", oVO.getTotal()) %></span>원</strong>
+												id="sum_price_front<%= i %>" class="sum_price_front<%= i %>"><%= String.format("%,d", list.get(i).getTotal()) %></span>원</strong>
 											<div class="displaynone"></div></td>
 										<td class="button">
 											<!--임시 주석처리 : 주문서 작성 페이지 이동--> <!--<a href="javascript:;" class="btnSubmit" onclick="Basket.orderBasketItem(0);">주문하기</a>-->

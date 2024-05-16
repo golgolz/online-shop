@@ -75,7 +75,7 @@ public class UserReturnDAO {
 
             StringBuilder updateQuery = new StringBuilder();
 
-            updateQuery.append("   update cart    ").append("   set order_flag='반품',delivery_state='불필요'   ")
+            updateQuery.append("   update cart    ").append("   set order_flag='반품',delivery_state='배송 불필요'   ")
                     .append("   where cart_id=?   ");
 
             pstmt = con.prepareStatement(updateQuery.toString());
