@@ -192,7 +192,6 @@ table,td{
 						</ul>
 					</div>
 
-
 <script>
 $(function() {
 	
