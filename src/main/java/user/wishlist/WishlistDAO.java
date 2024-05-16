@@ -107,11 +107,9 @@ public class WishlistDAO {
       // 4.쿼리문 생성객체 얻기(Dynamic Query)
       StringBuilder selectWishlist = new StringBuilder();
       selectWishlist.append(
-          "   SELECT f.favorite_id, c.id, g.default_img, g.name, g.price, g.delivery_charge, f.input_date, (g.price + g.delivery_charge) total    ")
-          .append("     FROM favorite f   ")
-          .append("     JOIN customer c ON f.id = c.id JOIN goods g ON f.code = g.code   ");
-
-      selectWishlist.append("WHERE c.id =? ORDER BY f.input_date ");
+          "   SELECT f.favorite_id, c.id, g.default_img, g.name, g.price, g.delivery_charge, g.code, f.input_date, (g.price + g.delivery_charge) total FROM favorite f    ")
+          .append("    JOIN customer c ON f.id = c.id JOIN goods g ON f.code = g.code   ")
+          .append("     WHERE c.id =? ORDER BY f.input_date   ");
 
       pstmt = con.prepareStatement(selectWishlist.toString());
       // 5.바인드 변수 값 설정
@@ -124,7 +122,8 @@ public class WishlistDAO {
         wVO = null;
         wVO = WishlistVO.builder().favoriteId(rs.getInt("favorite_id")).id(rs.getString("id"))
             .defaultImg(rs.getString("default_img")).name(rs.getString("name")).price(rs.getString("price"))
-            .deliveryCharge(rs.getString("delivery_charge")).inputDate(rs.getDate("input_date")).build();
+            .deliveryCharge(rs.getString("delivery_charge")).code(rs.getString("code"))
+            .inputDate(rs.getDate("input_date")).build();
 
         wishlist.add(wVO);
       } // end while
