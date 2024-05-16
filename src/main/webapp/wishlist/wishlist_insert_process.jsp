@@ -48,7 +48,7 @@ try {
     wDAO.insertWishlist(wVO);
   %>
     /* alert("관심 상품이 성공적으로 추가되었습니다."); */
-    location.href="http://localhost/online-shop/wishlist/wishlist.jsp";
+    location.href="http://192.168.10.211/wishlist/wishlist.jsp";
   <%
 
 } catch (SQLException e) {

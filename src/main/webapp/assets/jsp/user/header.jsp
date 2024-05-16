@@ -7,8 +7,8 @@
         <div class="inner">
           <!-- 상단 로고 -->
           <div class="top_logo">
-            <a href="http://localhost/online-shop/index.jsp"
-              ><img src="http://localhost/online-shop/assets/images/top_logo.png"
+            <a href="http://192.168.10.211/index.jsp"
+              ><img src="http://192.168.10.211/assets/images/top_logo.png"
             /></a>
           </div>
           <div class="top_comm">
@@ -21,14 +21,14 @@
                         // 사용자가 로그인한 경우: 로그아웃 링크를 포함
                         %>
                         <li class="xans-element- xans-layout xans-layout-statelogon">
-                            <a href="http://localhost/online-shop/user/login/userLogout.jsp">LOGOUT</a>
+                            <a href="http://192.168.10.211/user/login/userLogout.jsp">LOGOUT</a>
                         </li>
                     <%
                     } else {
                         // 사용자가 로그인하지 않은 경우: 로그인 링크를 포함
                         %>
                         <li class="xans-element- xans-layout xans-layout-statelogoff">
-                            <a href="http://localhost/online-shop/user/login/userLogin.jsp">LOGIN</a>
+                            <a href="http://192.168.10.211/user/login/userLogin.jsp">LOGIN</a>
                         </li>
                     <%
                     }
@@ -37,7 +37,7 @@
                     if (userId != null) {
                     %>
               <li>
-                <a href="http://localhost/online-shop/user/mypage/mypage.jsp">MYPAGE</a>
+                <a href="http://192.168.10.211/user/mypage/mypage.jsp">MYPAGE</a>
               </li>
               <%
                     } else {
@@ -48,25 +48,25 @@
               <script type="text/javascript">
                   function loginAlert() {
                       alert("로그인이 필요합니다.");
-                      window.location.href = "http://localhost/online-shop/user/login/userLogin.jsp";
+                      window.location.href = "http://192.168.10.211/user/login/userLogin.jsp";
                   }
               </script>
           <%
           }
           %>
               <li>
-                <a href="http://localhost/online-shop/user/OrderReturn/order_list.jsp"
+                <a href="http://192.168.10.211/user/OrderReturn/order_list.jsp"
                   >ORDER</a
                 >
               </li>
               <li>
-                <a href="http://localhost/online-shop/cart/cart.jsp">CART</a>
+                <a href="http://192.168.10.211/cart/cart.jsp">CART</a>
               </li>
               <li>
-                <a href="http://localhost/online-shop/wishlist/wishlist.jsp">WISH</a>
+                <a href="http://192.168.10.211/wishlist/wishlist.jsp">WISH</a>
               </li>
               <li>
-                <a href="http://localhost/online-shop/notice/notice.jsp">NOTICE</a>
+                <a href="http://192.168.10.211/notice/notice.jsp">NOTICE</a>
               </li>
             </ul>
           </div>
@@ -87,7 +87,7 @@
                 >
                   <li class="noChild">
                     <a
-                      href="http://localhost/online-shop/goods/category.jsp?category=new&page=1"
+                      href="http://192.168.10.211/goods/category.jsp?category=new&page=1"
                       class="cate"
                       cate="?cate_no=427"
                       >NEW</a
@@ -95,7 +95,7 @@
                   </li>
                   <li class="noChild">
                     <a
-                      href="http://localhost/online-shop/goods/category.jsp?category=best&page=1"
+                      href="http://192.168.10.211/goods/category.jsp?category=best&page=1"
                       class="cate"
                       cate="?cate_no=428"
                       >BEST</a
@@ -103,7 +103,7 @@
                   </li>
                   <li class="xans-record-">
                     <a
-                      href="http://localhost/online-shop/goods/category.jsp?category=samsung&page=1"
+                      href="http://192.168.10.211/goods/category.jsp?category=samsung&page=1"
                       class="cate"
                       cate="?cate_no=44"
                       >MODEL</a
@@ -111,7 +111,7 @@
                     <ul class="slideSubMenu">
                       <li class="xans-record-" id="cate119">
                         <a
-                      	  href="http://localhost/online-shop/goods/category.jsp?category=samsung&page=1"
+                      	  href="http://192.168.10.211/goods/category.jsp?category=samsung&page=1"
                           class="cate"
                           cate="?cate_no=119"
                           onmouseover="subMenuon(this);"
@@ -120,7 +120,7 @@
                         <ul class="slideSubMenu">
                           <li class="xans-record-" id="cate119">
                             <a
-                      	  	  href="http://localhost/online-shop/goods/category.jsp?category=samsung&sub_category=zflip&page=1"
+                      	  	  href="http://192.168.10.211/goods/category.jsp?category=samsung&sub_category=zflip&page=1"
                               class="cate"
                               cate="?cate_no=119"
                               onmouseover="subMenuon(this);"
@@ -129,7 +129,7 @@
                           </li>
                           <li class="noChild" id="cate71">
                             <a
-                      	  	  href="http://localhost/online-shop/goods/category.jsp?category=samsung&sub_category=s24&page=1"
+                      	  	  href="http://192.168.10.211/goods/category.jsp?category=samsung&sub_category=s24&page=1"
                               class="cate"
                               cate="?cate_no=71"
                               onmouseover="subMenuon(this);"
@@ -140,7 +140,7 @@
                       </li>
                       <li class="xans-record-" id="cate71">
                         <a
-                      	  href="http://localhost/online-shop/goods/category.jsp?category=apple&page=1"
+                      	  href="http://192.168.10.211/goods/category.jsp?category=apple&page=1"
                           class="cate"
                           cate="?cate_no=71"
                           onmouseover="subMenuon(this);"
@@ -149,7 +149,7 @@
                         <ul class="slideSubMenu">
                           <li class="noChild">
                             <a
-                              href="http://localhost/online-shop/goods/category.jsp?category=apple&sub_category=아이폰14&page=1"
+                              href="http://192.168.10.211/goods/category.jsp?category=apple&sub_category=아이폰14&page=1"
                               class="cate"
                               cate="?cate_no=119"
                               onmouseover="subMenuon(this);"
@@ -158,7 +158,7 @@
                           </li>
                           <li class="noChild" id="cate71">
                             <a
-                              href="http://localhost/online-shop/goods/category.jsp?category=apple&sub_category=아이폰15&page=1"
+                              href="http://192.168.10.211/goods/category.jsp?category=apple&sub_category=아이폰15&page=1"
                               class="cate"
                               cate="?cate_no=71"
                               onmouseover="subMenuon(this);"
@@ -171,7 +171,7 @@
                   </li>
                   <li class="xans-record-">
                     <a
-                      href="http://localhost/online-shop/goods/category.jsp?category=실리콘&page=1"
+                      href="http://192.168.10.211/goods/category.jsp?category=실리콘&page=1"
                       class="cate"
                       cate="?cate_no=44"
                       >MATERIAL</a
@@ -179,7 +179,7 @@
                     <ul class="slideSubMenu">
                       <li class="noChild">
                         <a
-                      	  href="http://localhost/online-shop/goods/category.jsp?category=실리콘&page=1"
+                      	  href="http://192.168.10.211/goods/category.jsp?category=실리콘&page=1"
                           class="cate"
                           cate="?cate_no=45"
                           >실리콘</a
@@ -187,7 +187,7 @@
                       </li>
                       <li class="noChild">
                         <a
-                      	  href="http://localhost/online-shop/goods/category.jsp?category=하드&page=1"
+                      	  href="http://192.168.10.211/goods/category.jsp?category=하드&page=1"
                           class="cate"
                           cate="?cate_no=47"
                           >하드</a

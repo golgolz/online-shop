@@ -42,7 +42,7 @@
 		  
 		%>
 		alert("리뷰를 수정했습니다.");
-		location.href="http://localhost/online-shop/review/review_my_list.jsp?currentPage=${param.currentPage}";
+		location.href="http://192.168.10.211/review/review_my_list.jsp?currentPage=${param.currentPage}";
 		<%
 		}else{
 		%>

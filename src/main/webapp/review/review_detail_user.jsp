@@ -129,7 +129,7 @@ $(function(){
 %>
 <div class="xans-element- xans-board xans-board-product-4 xans-board-product xans-board-4 ec-base-box typeProduct ">
 <p class="thumbnail">
-<a href="#"><img src="http://localhost/online-shop/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px""/></a></p>
+<a href="#"><img src="http://192.168.10.211/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px""/></a></p>
 <div class="information"  style="padding-left:20px">
             <h3><a href="#"> <c:out value="${rVO.name}"/></a></h3>
         </div>
@@ -186,11 +186,11 @@ $(function(){
 </div>
 <div class="ec-base-button ">
             <span class="gLeft">
-                <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
+                <a href="http://192.168.10.211/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
                 <a href="review_delete_process.jsp?reviewId=${rVO.reviewId }" class="btnNormalFix sizeS">삭제</a>
-                <a href="http://localhost/online-shop/review/review_read_frm.jsp?reviewId=${rVO.reviewId }&title=${rVO.title }&content=${rVO.content }&currentPage=${empty param.currentPage ?1:param.currentPage}" class="btnEmFix sizeS ">수정</a>
+                <a href="http://192.168.10.211/review/review_read_frm.jsp?reviewId=${rVO.reviewId }&title=${rVO.title }&content=${rVO.content }&currentPage=${empty param.currentPage ?1:param.currentPage}" class="btnEmFix sizeS ">수정</a>
             </span>
         </div>
 </div>

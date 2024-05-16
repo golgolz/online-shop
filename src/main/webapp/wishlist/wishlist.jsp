@@ -200,9 +200,9 @@ if (userId == null) {
             <tr class="xans-record-">
 <td><input name="wish_idx[]" id="wish_idx_0" enable-order="1" reserve-order="N" enable-purchase="1" class="" is-set-product="F" value="184531" type="checkbox" /></td>
                 <td style="width:20px"><input type="hidden" name="reviewId" value="${wVO.favoriteId}"/><c:out value="${i.index+1}"/></td>
-                <td class="thumb" style="width:90px"><img src="http://localhost/online-shop/assets/images/goods/<c:out value="${wVO.defaultImg}"/>"/></td>
+                <td class="thumb" style="width:90px"><img src="http://192.168.10.211/assets/images/goods/<c:out value="${wVO.defaultImg}"/>"/></td>
                 <td class="left" style="width:200px; text-align: center;">
-                    <strong class="name"><a href="http://localhost/online-shop/goods/detail.jsp?goods=${wVO.code}" class="ec-product-name"><c:out value="${wVO.name}"/></a></strong>
+                    <strong class="name"><a href="http://192.168.10.211/goods/detail.jsp?goods=${wVO.code}" class="ec-product-name"><c:out value="${wVO.name}"/></a></strong>
 </td>
                 <td class="price right" style="text-align:center">
 <strong class=""><c:out value="${wVO.price}"/><br/></strong><br/><strong class="displaynone">2000</strong>
