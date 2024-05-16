@@ -517,9 +517,8 @@ public class CartDAO {
             StringBuilder selectQuery = new StringBuilder();
 
             // 해당 주문번호의 모든 장바구니 상품 조회
-            selectQuery.append("    select gd.default_img,gd.name,og.code,gd.price,gd.delivery_charge    ")
-                    .append("    from goods gd, order_goods og   ")
-                    .append("    where (og.code=gd.code) and og.code=?    ");
+            selectQuery.append("    select default_img,name,price,delivery_charge    ").append("    from goods   ")
+                    .append("    where code=?    ");
 
             pstmt = con.prepareStatement(selectQuery.toString());
 
