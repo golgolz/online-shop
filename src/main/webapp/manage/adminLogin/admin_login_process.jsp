@@ -39,7 +39,15 @@
         adminSession.setAttribute("isLoggedIn", true);
         System.out.println("세션에 adminId와 adminPassword 저장 완료");
         
-        response.sendRedirect("../index.jsp");
+        String loginMessage = "로그인 성공";
+        %>
+        <script type='text/javascript'>
+            alert('<%= loginMessage %>');
+            location = '../index.jsp';
+        </script>
+        <%
+        
+        //response.sendRedirect("../index.jsp");
     } else {
         // 로그인 실패 시 처리, 예: 로그인 페이지로 에러 메시지와 함께 리다이렉트
       %>

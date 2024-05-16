@@ -56,15 +56,15 @@
         <ul class="order">
             <li>
                         <strong>배송준비중</strong>
-                        <a href="/myshop/order/list.html?order_status=shipped_standby" class="count"><span><%= deliveryStatus.getReadyCount() %></span></a>
+                        <a  class="count"><span><%= deliveryStatus.getReadyCount() %></span></a>
                     </li>
                     <li>
                         <strong>배송중</strong>
-                        <a href="/myshop/order/list.html?order_status=shipped_begin" class="count"><span><%= deliveryStatus.getProgressCount() %></span></a>
+                        <a class="count"><span><%= deliveryStatus.getProgressCount() %></span></a>
                     </li>
                     <li>
                         <strong>배송완료</strong>
-                        <a href="/myshop/order/list.html?order_status=shipped_complete" class="count"><span><%= deliveryStatus.getDoneCount() %></span></a>
+                        <a  class="count"><span><%= deliveryStatus.getDoneCount() %></span></a>
                     </li>
         </ul>
 

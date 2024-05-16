@@ -71,6 +71,68 @@ if (userId == null) {
 				
 			}//end if
 		}//chkNull
+		function deleteAllWishlist(){
+			
+			var flag = confirm("관심상품이 모두 비워집니다. 삭제하시겠습니까?");
+			
+			if(flag == false){
+				return;
+			}//end if
+			
+			//예를 누른 경우 삭제 코드 실행
+			var param = {
+					userId : $("#userId").val(),
+					method : "deleteAll"
+			};
+			$.ajax({
+				url : "wishlist_delete_process.jsp",
+				type : "POST",
+				data : param,
+				dataType : "JSON",
+				error : function(xhr){
+					alert("AJAX 요청 실패:"+ xhr.status + " " + xhr.statusText);
+				},
+				success : function(jsonObj){
+					if(jsonObj.result){
+						alert("위시가 비워졌습니다.");
+						location.reload();
+					}else{
+						alert("관심상품 비우기 실패했습니다. 잠시 후 다시 시도해주세요.");
+					}
+				}
+			})
+		}//function
+		function deleteWishlist(){
+			
+/* 			var flag = confirm("정말 삭제하시겠습니까?");
+			
+			if(flag == false){//아니오를 누른 경우
+				return;
+			}//end if */
+			
+			//예를 누른 경우 삭제 코드 실행
+			var param = {
+					favoriteId : $("#favoriteId").val(),
+					method : "deleteOne"
+			};
+			$.ajax({
+				url : "wishlist_delete_process.jsp",
+				type : "POST",
+				data : param,
+				dataType : "JSON",
+				error : function(xhr){
+					alert("AJAX 요청 실패: " + xhr.status + " " + xhr.statusText);
+				},
+				success : function(jsonObj){
+					if(jsonObj.result){
+/* 						alert("삭제가 완료되었습니다."); */
+						location.reload();
+					}else{
+						alert("관심상품 삭제를 실패했습니다. 잠시 후 다시 시도해주세요.");
+					}
+				}
+			})
+			}
 		
 </script>
 </head>
@@ -85,7 +147,6 @@ if (userId == null) {
 <jsp:useBean id="wVO" class="user.wishlist.WishlistVO" scope="page"/>
 <jsp:setProperty property="*" name="wVO"/>
 	<%
-	
 	String code=request.getParameter("code");
 			
 	try{
@@ -117,8 +178,7 @@ if (userId == null) {
 	    String userId="lee";
 	    session.setAttribute("userId", userId);
 	    // */
-	    String id=(String)session.getAttribute("userId");
-	    List<WishlistVO> list=wDAO.selectWishlist(id);//시작번호와 끝 번호 사이의 글 조회
+	    List<WishlistVO> list=wDAO.selectWishlist(userId);//시작번호와 끝 번호 사이의 글 조회
 	   	pageContext.setAttribute("list", list);
 	 
 	    
@@ -198,9 +258,12 @@ if (userId == null) {
             <tbody class="xans-element- xans-myshop xans-myshop-wishlistitem center">
             <c:forEach var="wVO" items="${list}" varStatus="i">
             <tr class="xans-record-">
+            <input type="hidden" id="userId" name="userId" value="<%= userId %>"/>
 <td><input name="wish_idx[]" id="wish_idx_0" enable-order="1" reserve-order="N" enable-purchase="1" class="" is-set-product="F" value="184531" type="checkbox" /></td>
-                <td style="width:20px"><input type="hidden" name="reviewId" value="${wVO.favoriteId}"/><c:out value="${i.index+1}"/></td>
-                <td class="thumb" style="width:90px"><img src="http://192.168.10.211/assets/images/goods/<c:out value="${wVO.defaultImg}"/>"/></td>
+
+                <td style="width:20px"><input type="hidden" id="favoriteId" name="favoriteId" value="${wVO.favoriteId}"/><c:out value="${i.index+1}"/></td>
+                <td class="thumb" style="width:90px"><img src="http://localhost/online-shop/assets/images/goods/<c:out value="${wVO.defaultImg}"/>"/></td>
+
                 <td class="left" style="width:200px; text-align: center;">
                     <strong class="name"><a href="http://192.168.10.211/goods/detail.jsp?goods=${wVO.code}" class="ec-product-name"><c:out value="${wVO.name}"/></a></strong>
 </td>
@@ -214,7 +277,8 @@ if (userId == null) {
                 <td class="price right" style="text-align:center"><c:out value="${wVO.price + wVO.deliveryCharge}"/>원</td>
                 <td class="button">
                     <!-- <a href="#none" onclick="" class="btnSubmit ">장바구니담기</a> -->
-                    <a href="wishlist_delete_process.jsp?favoriteId=${wVO.favoriteId }" class="btnNormal"> 삭제</a>
+                    <%-- <a href="wishlist_delete_process.jsp?favoriteId=${wVO.favoriteId }" class="btnNormal"> 삭제</a> --%>
+                    <input type="button" class="btnNormal" onclick="deleteWishlist()" value="삭제"/>
                 </td>
             </tr>
 		   </c:forEach>

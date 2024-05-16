@@ -1,53 +1,60 @@
 <%@page import="user.wishlist.WishlistDAO"%>
-<%@page import="user.review.UserReviewDAO"%>
-<%@page import="admin.review.ReviewBoardVO"%>
-<%@page import="java.sql.SQLException"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"
-    info="글 삭제 페이지"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.ArrayList"%>
+<%@page import="order.vo.OrderProductVO"%>
+<%@page import="java.util.List"%>
+<%@page import="org.json.simple.JSONArray"%>
+<%@page import="org.json.simple.JSONObject"%>
+<%@page import="user.order.CartDAO"%>
+<%@page
+	import="org.apache.catalina.authenticator.jaspic.PersistentProviderRegistrations.Property"%>
+<%@ page language="java" contentType="application/json; charset=UTF-8"
+	pageEncoding="UTF-8" info="장바구니 정보 전송"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<% request.setCharacterEncoding("UTF-8"); %>
-<!-- parameter받기 -->
-<jsp:useBean id="wVO" class="user.wishlist.WishlistVO" scope="page"/>
-<jsp:setProperty property="*" name="wVO"/>
-<script type="text/javascript">
-		
-		<%
-		try{
-		    //아이디는 세션에 저장된 값을 받아서 설정(외부에서 조작 불가)
-		WishlistDAO wDAO=WishlistDAO.getInstance();
-		
-		int favoriteId=Integer.parseInt(request.getParameter("favoriteId"));
-		
-		/* rVO.setId(((ReviewBoardVO)session.getAttribute("loginData")).getId()); */
-	    wVO.setFavoriteId(favoriteId);
-		
-		int cnt=wDAO.deleteWishlist(wVO);
-		System.out.print(cnt);
-		if(cnt==1){
-		  
-		%>
-		location.href="http://192.168.10.211/wishlist/wishlist.jsp?currentPage=${param.currentPage}";
-		<%
-		}else{
-		%>
-		alert("관심상품 삭제 실패");
-		history.back();
-		<%
-		}
-		}catch(SQLException se) {
-		    se.printStackTrace();
-		}//end catch
-		%>
-		$(function(){
-			
-		});//ready
-</script>
-</head>
-<body>
-<div>
-	
-</div>
-</body>
-</html>
+<jsp:useBean id="wVO" class="user.wishlist.WishlistVO" scope="page" />
+<jsp:setProperty property="*" name="wVO" />
+<%
+
+
+
+String method=request.getParameter("method");
+
+
+
+
+%>
+<%
+WishlistDAO wDAO = WishlistDAO.getInstance();
+JSONObject jsonObj = new JSONObject();
+jsonObj.put("result",false);
+
+switch(method){
+    case "deleteOne":
+      	int favoriteId=Integer.parseInt(request.getParameter("favoriteId"));
+      	wVO.setFavoriteId(favoriteId);
+        try{
+            int cnt = wDAO.deleteWishlist(wVO);
+            if(cnt != 0){
+                jsonObj.put("result",true);
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }//end catch
+        break;
+    case "deleteAll":
+      	String userId=request.getParameter("userId");
+      	wVO.setId(userId);
+        try{
+            int cnt = wDAO.deleteAllWishlist(userId);
+            
+            if(cnt != 0){
+                jsonObj.put("result",true);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        break;
+}
+%>
+<%= jsonObj.toJSONString() %>
