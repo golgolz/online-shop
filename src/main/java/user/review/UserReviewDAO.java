@@ -303,7 +303,7 @@ public class UserReviewDAO {
 
       StringBuilder updateReview = new StringBuilder();
       updateReview.append("  update review    ").append("  set title= ? , content= ?  ")
-          .append("  where review_id= ? and id= ?   ");
+          .append("  where review_id= ?   ");
 
       pstmt = con.prepareStatement(updateReview.toString());
 
@@ -311,7 +311,7 @@ public class UserReviewDAO {
       pstmt.setString(1, rVO.getTitle());
       pstmt.setString(2, rVO.getContent());
       pstmt.setInt(3, rVO.getReviewId());
-      pstmt.setString(4, rVO.getId());
+      /* pstmt.setString(4, rVO.getId()); */
 
       cnt = pstmt.executeUpdate();
 
