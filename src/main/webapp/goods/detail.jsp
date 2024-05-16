@@ -136,6 +136,24 @@
 				}
 			});
 		});
+
+		$(".need_login").click(function(event){
+		 	$.ajax({
+		        url: 'checkLoginStatus.jsp', // 로그인 상태를 확인하는 서버 측 스크립트의 경로
+		        type: 'GET',
+		        datatype: "JSON",
+		        error: function(xhr){
+		        	alert("로그인 체크 실패");
+		        },
+		        success: function(response) {
+		            if (!response.flag) {
+						event.preventDefault();
+		                alert('로그인이 필요합니다.22');
+		                window.location.href = 'http://localhost/online-shop/user/login/userLogin.jsp';
+		            }
+		        }
+		    });
+		});
 	});
 	
 	function setTotalInfo(quantity){
@@ -254,9 +272,9 @@
 								</div>
 								<div class="xans-element- xans-product xans-product-action">
 									<div class="ec-base-button">
-										<a href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="sub_cart" id="sub_cart">장바구니</a>
-										<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= currentGoods.getCode() %>" class="sub_wish">관심상품</a>
-										<a href="http://localhost/online-shop/order/order_form.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="first sub_buy" id="sub_buy">
+										<a href="http://localhost/online-shop/cart/input_process.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="sub_cart need_login" id="sub_cart">장바구니</a>
+										<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= currentGoods.getCode() %>" class="sub_wish need_login">관심상품</a>
+										<a href="http://localhost/online-shop/order/order_form.jsp?code=<%= currentGoods.getCode()  %>&quantity=" class="first sub_buy need_login" id="sub_buy">
 											<span id="btnBuy">구매하기</span>
 										</a>
 									</div>
