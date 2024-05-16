@@ -179,7 +179,7 @@ request.setCharacterEncoding("UTF-8");
 				</div>
 					<%
 					String pageNation = 
-						pageController.createPagingBtns("http://localhost/online-shop/notice/notice.jsp", params
+						pageController.createPagingBtns("http://localhost/notice/notice.jsp", params
 						     ,Integer.parseInt(pageOrg),(searchResultCount / pageScale) +1);
 					%>
 					<div id="pageNation">
