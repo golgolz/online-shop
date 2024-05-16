@@ -68,7 +68,7 @@ request.setCharacterEncoding("UTF-8");
 %>
 <jsp:useBean id="sVO" class="notice.SearchVO" scope="page"></jsp:useBean>
 <jsp:setProperty property="*" name="sVO"/>
-<%
+	<%
 		String pageOrg = request.getParameter("page");
 
 		if(pageOrg == null || pageOrg.equals("")){
@@ -84,7 +84,8 @@ request.setCharacterEncoding("UTF-8");
 		
 		PageController pageController = PageController.getInstance();
 		String params = pageController.createQueryStr(request);
-%>
+	%>
+	
 <%
 try{
     NoticeDAO nDAO=NoticeDAO.getInstance();
