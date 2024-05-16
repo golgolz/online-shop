@@ -1,3 +1,4 @@
+<%@page import="util.PageController"%>
 <%@page import="notice.NoticeVO"%>
 <%@page import="java.util.List"%>
 <%@page import="notice.NoticeDAO"%>
@@ -10,6 +11,7 @@
 
 <head>
 	<jsp:include page="../assets/jsp/user/lib.jsp" />
+	<link href="http://localhost/online-shop/assets/css/pagenation.css" rel="stylesheet" />
 	<!-- golgolz start -->
 	<!-- golgolz end -->
 
@@ -50,10 +52,29 @@ request.setCharacterEncoding("UTF-8");
 <jsp:useBean id="sVO" class="notice.SearchVO" scope="page"></jsp:useBean>
 <jsp:setProperty property="*" name="sVO"/>
 
+	<%
+		String pageOrg = request.getParameter("page");
+		
+		if(pageOrg == null || pageOrg.equals("")) {
+		    pageOrg = "1";
+		}
+		//pagenation
+		int pageScale = 10;
+		int currentPage = Integer.parseInt(pageOrg);
+		int startNum = pageScale * (currentPage -1)+1;
+		int endNum = startNum + pageScale -1;
+		sVO.setStartNum(startNum);
+		sVO.setEndNum(endNum);
+		
+		PageController pageController = PageController.getInstance();
+		String params = pageController.createQueryStr(request);
+	%>
 <%
 	try{
     NoticeDAO nDAO=NoticeDAO.getInstance();
-    int totalCount = nDAO.SelectTotalCount(sVO);
+    int searchResultCount = nDAO.SelectTotalCount(sVO);
+    
+    /* int totalCount = nDAO.SelectTotalCount(sVO);
     int pageScale=10;
     int totalPage=(int)Math.ceil((double)totalCount/pageScale);
     String tempPage=sVO.getCurrentPage();
@@ -68,11 +89,11 @@ request.setCharacterEncoding("UTF-8");
     int endNum=startNum+pageScale-1;
     
     sVO.setStartNum(startNum);
-    sVO.setEndNum(endNum);
+    sVO.setEndNum(endNum);  */
     
     List<NoticeVO> list=nDAO.selectNotice(sVO);
     pageContext.setAttribute("list", list);
-    pageContext.setAttribute("totalCount", totalCount);
+    pageContext.setAttribute("totalCount", searchResultCount);
     pageContext.setAttribute("pageScale", pageScale);
     pageContext.setAttribute("currentPage", currentPage);
 
@@ -128,7 +149,7 @@ request.setCharacterEncoding("UTF-8");
 							</div>
 						</div>
 					</div>
-					<div class="xans-element- xans-board xans-board-paging-1002 xans-board-paging xans-board-1002 ec-base-paginate">
+					<!-- <div class="xans-element- xans-board xans-board-paging-1002 xans-board-paging xans-board-1002 ec-base-paginate">
 						<a href="?board_no=1&page=1">\
 						<img src="https://img.echosting.cafe24.com/skin/base/common/btn_page_prev.gif" alt="이전 페이지" /></a>
 						<ol>
@@ -137,15 +158,15 @@ request.setCharacterEncoding("UTF-8");
 						</ol>
 						<a href="?board_no=1&page=2">
 						<img src="https://img.echosting.cafe24.com/skin/base/common/btn_page_next.gif" alt="다음 페이지" /></a>
-					</div>
+					</div> -->
 					<form id="searchForm" name="" method="get" target="_top">
 						<input id="board_no" name="board_no" value="1" type="hidden" />
 						<input id="page" name="page" value="1" type="hidden" />
 						<input id="board_sort" name="board_sort" value="" type="hidden" />
 						<div class="xans-element- xans-board xans-board-search-1002 xans-board-search xans-board-1002 ">
 							<!-- <legend>게시물 검색</legend> -->
-								<p style="padding-bottom:30px">
-									
+								<p style="padding-bottom:30px ; margin-top : 20px">
+
 									<select id="field" name="field">
 										<option value="0">제목+내용</option>
 									</select>
@@ -156,24 +177,19 @@ request.setCharacterEncoding("UTF-8");
 						</div>
 					</form>
 				</div>
+					<%
+					String pageNation = 
+						pageController.createPagingBtns("http://localhost/online-shop/notice/notice.jsp", params
+						     ,Integer.parseInt(pageOrg),(searchResultCount / pageScale)+1);
+					%>
+					<div id="pageNation">
+						<%= pageNation %>
+					</div>
 			<!-- golgolz end -->
 		</div>
 	</div>
 	</div>
-	<%
-	String param="";
-	%>
-	<c:if test="${not empty param.keyword }">
-	<%
-		param="&field="+request.getParameter("field")+"&keyword="
-		+request.getParameter("keyword");
-		/* param="&field="+sVO.getField()+"&keyword="+sVO.getKeyword(); */
-	%>
-		<%-- <c:set var="link2" value="&field =${param.field }&keyword=${param.keyword }"/> --%>
-		<c:set var="link2" value="&field=${param.field}&keyword=${param.keyword}" />
-		<% System.out.println(param);%>
-		</c:if>
-		</div>
+	
 	<%
 	} catch (Exception e) {
   		e.printStackTrace(); 

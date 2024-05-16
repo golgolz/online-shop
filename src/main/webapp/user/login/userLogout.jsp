@@ -17,6 +17,15 @@ session.invalidate();
 // 로그아웃 프로세스 성공 메시지를 로깅
 logger.info("Logout successful: User session has been invalidated.");
 
+
+String loginMessage = "로그아웃 성공";
+%>
+<script type='text/javascript'>
+    alert('<%= loginMessage %>');
+    location = 'userLogin.jsp';
+</script>
+<%
+
 // 사용자를 로그인 페이지로 리다이렉트합니다.
-response.sendRedirect("userLogin.jsp");
+//response.sendRedirect("userLogin.jsp");
 %>

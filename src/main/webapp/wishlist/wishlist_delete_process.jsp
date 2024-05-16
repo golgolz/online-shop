@@ -58,5 +58,3 @@ switch(method){
 }
 %>
 <%= jsonObj.toJSONString() %>
-
-

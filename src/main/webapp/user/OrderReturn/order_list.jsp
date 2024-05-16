@@ -9,6 +9,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%
+String userId = (String) session.getAttribute("userId");
+
+
+if (userId == null) {
+    System.out.println("로그인이 필요합니다. ");
+%>
+    <script type="text/javascript">
+        alert('로그인이 필요합니다.');
+        window.location.href = '../login/userLogin.jsp'; // 경로 수정 필요
+
+    </script>
+<%
+    return;
+}
+%> 
+
+
 
 <!-- DatePicker -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -162,12 +180,10 @@ table,td{
 						class="xans-element- xans-myshop xans-myshop-orderhistorytab ec-base-tab ">
 						<ul class="menu">
 							<li class="tab_class selected"><a
-								href="http://localhost/online-shop/user/OrderReturn/order_list.jsp">주문내역조회
-									(<span id="xans_myshop_total_orders">1</span>)
+								href="http://192.168.10.211/user/OrderReturn/order_list.jsp">주문내역조회
 							</a></li>
 							<li class="tab_class_cs"><a
-								href="http://localhost/online-shop/user/OrderReturn/return_list.jsp">반품 내역
-									(<span id="xans_myshop_total_orders_cs">1</span>)
+								href="http://192.168.10.211/user/OrderReturn/return_list.jsp">반품 내역
 							</a></li>
 							<li class="tab_class_old displaynone"><a
 								href="/myshop/order/list_old.html?mode=old&amp;history_start_date=2024-01-25&amp;history_end_date=2024-04-24&amp;past_year=2023">이전
@@ -175,7 +191,6 @@ table,td{
 							</a></li>
 						</ul>
 					</div>
-
 
 <script>
 $(function() {
@@ -369,7 +384,7 @@ $(function() {
 				 String frDate = request.getParameter("fr_date");
 				 String toDate = request.getParameter("to_date");
 				 
-				 String userId = (String) session.getAttribute("userId");
+				 userId = (String) session.getAttribute("userId");
 
 				 // 입력값을 디버깅합니다.
 				 System.out.println("fr_date: " + frDate + ", to_date: " + toDate);

@@ -56,15 +56,15 @@
         <ul class="order">
             <li>
                         <strong>배송준비중</strong>
-                        <a href="/myshop/order/list.html?order_status=shipped_standby" class="count"><span><%= deliveryStatus.getReadyCount() %></span></a>
+                        <a  class="count"><span><%= deliveryStatus.getReadyCount() %></span></a>
                     </li>
                     <li>
                         <strong>배송중</strong>
-                        <a href="/myshop/order/list.html?order_status=shipped_begin" class="count"><span><%= deliveryStatus.getProgressCount() %></span></a>
+                        <a class="count"><span><%= deliveryStatus.getProgressCount() %></span></a>
                     </li>
                     <li>
                         <strong>배송완료</strong>
-                        <a href="/myshop/order/list.html?order_status=shipped_complete" class="count"><span><%= deliveryStatus.getDoneCount() %></span></a>
+                        <a  class="count"><span><%= deliveryStatus.getDoneCount() %></span></a>
                     </li>
         </ul>
 
@@ -73,12 +73,12 @@
 
 <div id="myshopMain" class="xans-element- xans-myshop xans-myshop-main"><ul>
 <li class="shopMain order">
-            <h3><a href="http://localhost/online-shop/user/OrderReturn/order_list.jsp"><strong>Order</strong><span>주문내역 조회</span></a></h3>
-            <p><a href="http://localhost/online-shop/user/OrderReturn/order_list.jsp">고객님께서 주문하신 상품의<br> 주문내역을 확인하실 수 있습니다.</a></p>
+            <h3><a href="http://192.168.10.211/user/OrderReturn/order_list.jsp"><strong>Order</strong><span>주문내역 조회</span></a></h3>
+            <p><a href="http://192.168.10.211/user/OrderReturn/order_list.jsp">고객님께서 주문하신 상품의<br> 주문내역을 확인하실 수 있습니다.</a></p>
         </li>
         <li class="shopMain profile">
-            <h3><a href="http://localhost/online-shop/user/mypage/pwConfirm.jsp"><strong>Profile</strong><span>회원 정보</span></a></h3>
-            <p><a href="http://localhost/online-shop/user/mypage/pwConfirm.jsp">회원이신 고객님의 개인정보를<br> 관리하는 공간입니다.</a></p>
+            <h3><a href="http://192.168.10.211/user/mypage/pwConfirm.jsp"><strong>Profile</strong><span>회원 정보</span></a></h3>
+            <p><a href="http://192.168.10.211/user/mypage/pwConfirm.jsp">회원이신 고객님의 개인정보를<br> 관리하는 공간입니다.</a></p>
         </li>
        
         

@@ -1,4 +1,3 @@
-<%@page import="java.util.ArrayList"%>
 <%@page import="order.vo.OrderProductVO"%>
 <%@page import="java.util.List"%>
 <%@page import="org.json.simple.JSONArray"%>
@@ -32,7 +31,6 @@ if(method == "modify"){
 CartDAO cDAO = CartDAO.getInstance();
 JSONObject jsonObj = new JSONObject();
 jsonObj.put("result",false);
-List<OrderProductVO> list = new ArrayList<OrderProductVO>();
 
 switch(method){
     case "modify":
@@ -40,7 +38,7 @@ switch(method){
 		int cnt = cDAO.updateCart(opVO);
 		if (cnt != 0) {
 			/* pageContext.setAttribute("msg", "수량이 변경되었습니다.");
-			pageContext.setAttribute("url", "http://localhost/online-shop/cart/cart.jsp"); */
+			pageContext.setAttribute("url", "http://192.168.10.211/cart/cart.jsp"); */
 			jsonObj.put("result", true);
 			jsonObj.put("orderGoodsId",opVO.getOrderGoodsId());
 			jsonObj.put("quantity",opVO.getQuantity());

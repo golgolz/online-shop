@@ -63,7 +63,8 @@ public class NoticeDAO {
         return totalCnt;
     }// SelectTotalCount
 
-    // 공지사할 조회
+
+    // 공지사항 조회
     public List<NoticeVO> selectNotice(SearchVO sVO) throws SQLException {
         List<NoticeVO> list = new ArrayList<NoticeVO>();
 
