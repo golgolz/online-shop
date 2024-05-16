@@ -149,4 +149,30 @@ public class MyPageDAO {
     }
   }// updatePassword
 
+  // 회원 탈퇴 상태 변경 메소드
+  public boolean toggleWithdrawalFlag(String inputId) throws SQLException {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    DbConnection dbConn = DbConnection.getInstance();
+
+    try {
+      conn = dbConn.getConn("online-shop-dbcp");
+
+      conn.setAutoCommit(false);
+
+      String sql = "UPDATE customer " + "SET withdrawal_flag = 'T' " + "WHERE id = ?";
+
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, inputId);
+
+      int rowsUpdated = pstmt.executeUpdate();
+
+      // 트랜잭션 커밋
+      conn.commit();
+
+      return rowsUpdated > 0; // 업데이트된 행이 하나 이상이면 성공
+    } finally {
+      dbConn.closeCon(null, pstmt, conn);
+    }
+  }// toggleWithdrawalFlag
 }

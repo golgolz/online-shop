@@ -1,3 +1,4 @@
+<%@page import="user.order.UserReturnDAO"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
@@ -8,6 +9,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%
+String userId = (String) session.getAttribute("userId");
+System.out.println("세션 로그인 상태: " + userId);
+
+if (userId == null) {
+    System.out.println("로그인이 필요합니다. ");
+%>
+    <script type="text/javascript">
+        alert('로그인이 필요합니다.');
+        window.location.href = '../login/userLogin.jsp'; // 경로 수정 필요
+
+    </script>
+<%
+    return;
+}
+%> 
+
+
+
+<!-- DatePicker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<!-- DatePicker -->
+
+
 <jsp:include page="../../assets/jsp/user/lib.jsp" />
 <!-- golgolz start -->
 <style>
@@ -156,11 +181,9 @@ table,td{
 						<ul class="menu">
 							<li class="tab_class selected"><a
 								href="http://localhost/online-shop/user/OrderReturn/order_list.jsp">주문내역조회
-									(<span id="xans_myshop_total_orders">1</span>)
 							</a></li>
 							<li class="tab_class_cs"><a
 								href="http://localhost/online-shop/user/OrderReturn/return_list.jsp">반품 내역
-									(<span id="xans_myshop_total_orders_cs">1</span>)
 							</a></li>
 							<li class="tab_class_old displaynone"><a
 								href="/myshop/order/list_old.html?mode=old&amp;history_start_date=2024-01-25&amp;history_end_date=2024-04-24&amp;past_year=2023">이전
@@ -168,7 +191,6 @@ table,td{
 							</a></li>
 						</ul>
 					</div>
-
 
 <script>
 $(function() {
@@ -258,8 +280,28 @@ $(function() {
     });
      */
     
+ // Flatpickr를 사용하여 날짜 선택 input에 Datepicker 기능 추가
+    document.addEventListener('DOMContentLoaded', function () {
+        // 시작일과 종료일 input 요소 가져오기
+        var frDateInput = document.getElementById('fr_date');
+        var toDateInput = document.getElementById('to_date');
+
+        // Flatpickr 적용
+        flatpickr(frDateInput, {
+            dateFormat: 'Y-m-d', // 날짜 형식 설정
+            allowInput: true // 키보드로 직접 입력 허용
+        });
+
+        flatpickr(toDateInput, {
+            dateFormat: 'Y-m-d', // 날짜 형식 설정
+            allowInput: true // 키보드로 직접 입력 허용
+        });
+    });
+     
 });
 </script>
+ 
+
 					<form name="fsearch" id="fsearch" method="get" onsubmit="return handleFormSubmit(event); " action="order_list.jsp">
 
 						<div
@@ -280,6 +322,30 @@ $(function() {
 							</fieldset>
 						</div>
 					</form>
+					<!-- Flatpickr 라이브러리 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Flatpickr를 사용하여 날짜 선택 input에 Datepicker 기능 추가
+        document.addEventListener('DOMContentLoaded', function () {
+            // 시작일과 종료일 input 요소 가져오기
+            var frDateInput = document.getElementById('fr_date');
+            var toDateInput = document.getElementById('to_date');
+
+            // Flatpickr 적용
+            flatpickr(frDateInput, {
+                dateFormat: 'Y-m-d', // 날짜 형식 설정
+                allowInput: true // 키보드로 직접 입력 허용
+            });
+
+            flatpickr(toDateInput, {
+                dateFormat: 'Y-m-d', // 날짜 형식 설정
+                allowInput: true // 키보드로 직접 입력 허용
+            });
+        });
+    </script>
+					
+					
+					
 					<div
 						class="xans-element- xans-myshop xans-myshop-orderhistorylistitem ec-base-table typeList">
 						<!--
@@ -318,7 +384,7 @@ $(function() {
 				 String frDate = request.getParameter("fr_date");
 				 String toDate = request.getParameter("to_date");
 				 
-				 String userId = (String) session.getAttribute("userId");
+				 userId = (String) session.getAttribute("userId");
 
 				 // 입력값을 디버깅합니다.
 				 System.out.println("fr_date: " + frDate + ", to_date: " + toDate);
@@ -326,6 +392,8 @@ $(function() {
 				 // 사용자 정보 목록을 얻는 로직
 				 OrderReturnDAO dao = new OrderReturnDAO();
 				 List<OrderVO> userList = null;
+				 UserReturnDAO dao2 = UserReturnDAO.getInstance();
+				 
 
 				 // 날짜 포맷팅 및 초기값 설정
 				 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -335,7 +403,7 @@ $(function() {
 				     frDate = "1970-01-01"; // 시작 날짜가 입력되지 않았을 때, 초기 날짜 설정
 				 }
 				 if (toDate == null || toDate.trim().isEmpty()) {
-				     toDate = today; // 종료 날짜가 입력되지 않았을 때, 오늘 날짜로 설정
+				     toDate = "2099-01-01"; // 종료 날짜가 입력되지 않았을 때, 오늘 날짜로 설정
 				 }
 
 				// 날짜 범위에 따른 사용자 정보 검색
@@ -374,6 +442,27 @@ $(function() {
 				            out.println("<script>alert('이미 구매 확정 상태입니다.');</script>");
 				        }
 				    }
+				    
+				 // 반품접수 버튼 클릭 시 로직
+				    String returnAcceptBtn = request.getParameter("returnAcceptBtn");
+				    if (returnAcceptBtn != null) {
+				        String cartId = request.getParameter("cartId"); // 클릭된 버튼에 해당하는 주문의 cartId 가져오기
+				        int quantity = Integer.parseInt(request.getParameter("quantity")); // 반품 수량 파라미터를 얻습니다.
+				        
+				        try {
+				            int updateResult = dao2.updateReturn(cartId);
+				            
+				            if (updateResult > 0) {
+				                dao2.insertReturn(cartId, quantity);
+				                out.println("<script>alert('반품이 성공적으로 접수되었습니다.'); window.location.href = 'order_list.jsp';</script>");
+				            } else {
+				                out.println("<script>alert('반품 접수에 실패했습니다.'); window.location.href = 'order_list.jsp';</script>");
+				            }
+				        } catch (Exception e) {
+				            out.println("<script>alert('처리 중 오류가 발생했습니다.'); window.location.href = 'order_list.jsp';</script>");
+				            e.printStackTrace();
+				        }
+				    }
 
 				// 사용자 정보 출력
 				 for (int i = 0;i < userList.size(); i++) {
@@ -383,20 +472,34 @@ $(function() {
 				   	if ("주문".equals(orderInfo.getOrderFlag()) && !"불필요".equals(orderInfo.getDeliveryState())) {
 				     %>
 				     <tr id="<%=orderInfo.getCartId() %>">
-				         <td class="tal"><span class="sv_wrap"><%= orderInfo.getInputDate() %><br><strong>[<%= orderInfo.getCartId() %>]</strong></span>
+				         <td class="tal"><span class="sv_wrap"><%= orderInfo.getInputDate() %><br>
+						<a href="../../order/order_detail.jsp?cartId=<%=orderInfo.getCartId()%>" class="link"><strong>[<%= orderInfo.getCartId() %>]</strong></a>
+						</span>
 				         
-				         <!-- 구매확정 버튼을 감싸는 폼 -->
-						<form id="purchaseConfirmationForm<%= cartId %>" action="<%=request.getRequestURI()%>" method="post" style="display: inline;">
+				        
+                			
+							<!-- 반품 접수 버튼 -->
+							<form id="returnAcceptForm<%= cartId %>" action="<%=request.getRequestURI()%>" method="post">
+    						<input type="hidden" name="cartId" value="<%= cartId %>">
+    						<!-- 반품 수량을 orderInfo.getProductAmount() 값으로 자동 설정합니다. -->
+    						<input type="hidden" name="quantity" value="<%= orderInfo.getProductAmount() %>">
+    						<input type="submit" class="btnNormal" name="returnAcceptBtn" value="반품접수" onclick="return confirm('반품을 접수하시겠습니까?');">
+							</form>
+
+ 							<!-- 구매확정 버튼을 감싸는 폼 -->
+							<form id="purchaseConfirmationForm<%= cartId %>" action="<%=request.getRequestURI()%>" method="post" style="display: inline;">
                 			<input type="hidden" name="cartId" value="<%= cartId %>">
                 			<% if (!"구매확정".equals(orderInfo.getPurchaseState())) { %>
     						<input type="submit" class="btnNormal" name="purchaseConfirmationBtn" value="구매확정" onclick="return confirm('구매를 확정하시겠습니까?');">
     						<% } else { %>
     						<input type="button" class="btnNormal" value="구매확정됨" disabled>
+    						<input type="button" class="btnNormal" value="리뷰쓰기" 
+    						onclick="redirectToReviewPage('<%= orderInfo.getCode() %>', '<%= cartId %>')">
+
     						<% } %>
                				<!-- <input type="submit" class="btnNormal" name="purchaseConfirmationBtn" value="구매확정"> -->
            				</form>
 						
-				         <a	href="return.html?order_id=20240407-0000129" class="btnNormal displaynone">반품신청</a>
 				         </td>
 				         <td>
 				         <img src="../../assets/images/goods/<%= orderInfo.getDefaultImg() %>" alt="Product Image" style="width: 110px; height: auto;">
@@ -411,10 +514,16 @@ $(function() {
 				   	}//조건문
 				 }//반복문
     %>
+    <script>
+    function redirectToReviewPage(code, cartId) {
+        // code와 cartId를 URL에 파라미터로 추가하여 리뷰 작성 페이지로 이동
+        window.location.href = "../../review/review_write.jsp?code=" + code + "&cartId=" + cartId;
+    	}
+	</script>
     
 								
 								
-								<tr class="xans-record-">
+								<!-- <tr class="xans-record-">
 									<td class="number ">2024-04-07
 										<p>
 											<a href="http://localhost/user_src/order/orderdetail.html"
@@ -447,18 +556,13 @@ $(function() {
 										<p class="displaynone">
 											<a href="#none" class="line" onclick="">[]</a>
 										</p> 
-										
-										
-
-
-
-
 									</td>
 									<td>
 										<p>구매 미확정</p>
 										<p class="displaynone">-</p>
 									</td>
-								</tr>
+								</tr> -->
+								
 							</tbody>
 						</table>
 						<p class="message displaynone">주문 내역이 없습니다.</p>

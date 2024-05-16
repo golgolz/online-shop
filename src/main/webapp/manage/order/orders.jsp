@@ -1,3 +1,4 @@
+<%@page import="util.PageController"%>
 <%@page import="admin.order.OrderVO"%>
 <%@page import="java.util.List"%>
 <%@page import="admin.order.AdminOrderDAO"%>
@@ -7,16 +8,9 @@
 <html>
 <head>
 <jsp:include page="../../assets/jsp/admin/lib.jsp" />
-<link rel="stylesheet"
-	href="http://demofran.com/admin/css/admin.css?ver=20240430144650">
-<link type="text/css"
-	href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/base/jquery-ui.css"
-	rel="stylesheet">
-<link type="text/css"
-	href="http://demofran.com/plugin/jquery-ui/style.css?ver=20240430144650">
-<link rel="shortcut icon"
-	href="http://demofran.com/data/banner/JnLfWUSUyR6sXJP5n3Re4Fvdc93k93.ico"
-	type="image/x-icon">
+<link href="http://localhost/online-shop/assets/css/pagenation.css" rel="stylesheet" />
+<link href="http://localhost/online-shop/assets/css/manage/order/admin.css" rel="stylesheet" />
+<link href="http://localhost/online-shop/assets/css/manage/order/reset.css" rel="stylesheet" />
 <script type="text/javascript">
 	$(function() {
 		$("#order_menu").addClass("bg-gradient-primary");
@@ -95,21 +89,6 @@
 	});
 </script>
 <!-- golgolz start -->
-<script>
-// 자바스크립트에서 사용하는 전역변수 선언
-var tb_url		 = "http://demofran.com";
-var tb_bbs_url	 = "http://demofran.com/bbs";
-var tb_shop_url  = "http://demofran.com/shop";
-var tb_admin_url = "http://demofran.com/admin";
-</script>
-<script src="http://demofran.com/js/jquery-1.8.3.min.js"></script>
-<script src="http://demofran.com/js/jquery-ui-1.10.3.custom.js"></script>
-<script src="http://demofran.com/js/common.js?ver=20240430173618"></script>
-<script src="http://demofran.com/js/categorylist.js?ver=20240430173618"></script>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
 <style>
 .od_status {
 	font-size: 12px;
@@ -127,9 +106,32 @@ var tb_admin_url = "http://demofran.com/admin";
 <!-- golgolz end -->
 </head>
 <body>
+	<jsp:useBean id="searchVO" class="admin.order.SearchVO" scope="page" />
+	<jsp:setProperty property="*" name="searchVO" />
 	<%
-	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
-	List<OrderVO> orders = adminOrderDAO.selectOrders();
+		// pagenation
+		int pageScale = 5;
+		int currentPage = Integer.parseInt(request.getParameter("page"));
+		int startNum = pageScale * (currentPage - 1) + 1;
+		int endNum = startNum + pageScale - 1;
+		searchVO.setStart(startNum);
+		searchVO.setEnd(endNum);
+			
+		PageController pageController = PageController.getInstance();
+		String params = pageController.createQueryStr(request);
+		
+		String keyword = request.getParameter("keyword");
+		String category = request.getParameter("category");
+		String field = "-1";
+		
+		if(!(category == null || keyword == "" || keyword == null)){
+		    field = request.getParameter("category");
+		}
+		
+		searchVO.setField(Integer.parseInt(field));
+		AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
+		List<OrderVO> orders = adminOrderDAO.selectOrders(searchVO);
+		int searchResultCount = adminOrderDAO.selectCount(searchVO);
 	%>
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
@@ -154,7 +156,7 @@ var tb_admin_url = "http://demofran.com/admin";
 		<div class="container-fluid py-4">
 			<!-- golgolz start -->
 			<div class="s_wrap">
-				<form name="fsearch" id="fsearch" method="get">
+				<form name="fsearch" id="fsearch">
 					<input type="hidden" name="code" value="list">
 					<div class="tbl_frm01">
 						<table>
@@ -165,13 +167,16 @@ var tb_admin_url = "http://demofran.com/admin";
 							<tbody>
 								<tr>
 									<th scope="row">검색어</th>
-									<td><select name="sfl">
-											<option value="od_id">주문번호</option>
-											<option value="mb_id">회원아이디</option>
-											<option value="name">주문자명</option>
-											<option value="b_name">수령자명</option>
-									</select> <input type="text" name="stx" value="" class="frm_input"
-										size="30"></td>
+									<td>
+										<input type="hidden" name="page" value="1" />
+										<select name="category">
+												<option value="0"${param.category eq '0' ? " selected" : "" }>주문번호</option>
+												<option value="1"${param.category eq '1' ? " selected" : "" }>회원아이디</option>
+												<option value="2"${param.category eq '2' ? " selected" : "" }>주문자명</option>
+												<option value="3"${param.category eq '3' ? " selected" : "" }>수령자명</option>
+										</select> 
+										<input type="text" name="keyword" value="${ param.keyword }" class="frm_input" size="30">
+									</td>
 								</tr>
 								<tr>
 									<th scope="row">기간검색</th>
@@ -184,33 +189,46 @@ var tb_admin_url = "http://demofran.com/admin";
               						</td>
 								</tr>
 								<tr>
-									<th scope="row">주문상태</th>
-									<td><label class="od_status"><input type="radio"
-											name="od_status" value="" checked="checked"> 전체</label> <label
-										class="od_status"><input type="radio" name="od_status"
-											value="3"> 배송준비</label> <label class="od_status"><input
-											type="radio" name="od_status" value="4"> 배송중</label> <label
-										class="od_status"><input type="radio" name="od_status"
-											value="5"> 배송완료</label></td>
+									<th scope="row">배송상태</th>
+									<td>
+										<label class="od_status">
+											<input type="radio" name="delivery" value="0"${param.delivery eq '0' ? " checked" : "" }> 전체
+										</label> 
+										<label class="od_status">
+											<input type="radio" name="delivery" value="1"${param.delivery eq '1' ? " checked" : "" }> 배송 준비중
+										</label> 
+										<label class="od_status">
+											<input type="radio" name="delivery" value="2"${param.delivery eq '2' ? " checked" : "" }> 배송중
+										</label> 
+										<label class="od_status">
+											<input type="radio" name="delivery" value="3"${param.delivery eq '3' ? " checked" : "" }> 배송 완료
+										</label>
+									</td>
 								</tr>
 								<tr>
 									<th scope="row">구매확정</th>
-									<td><label class="od_status"><input type="radio"
-											name="od_final" value="" checked="checked"> 전체</label> <label
-										class="od_status"><input type="radio" name="od_final"
-											value="1"> 구매확정</label> <label class="od_status"><input
-											type="radio" name="od_final" value="0"> 구매미확정</label></td>
+									<td>
+										<label class="od_status">
+											<input type="radio" name="purchase" value="0"${param.purchase eq '0' ? " checked" : "" }> 전체
+										</label>
+										<label class="od_status">
+											<input type="radio" name="purchase" value="1"${param.purchase eq '1' ? " checked" : "" }> 구매확정
+										</label> 
+										<label class="od_status">
+											<input type="radio" name="purchase" value="2"${param.purchase eq '2' ? " checked" : "" }> 구매미확정
+										</label>
+									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div class="btn_confirm">
-						<input type="submit" value="검색" class="btn_medium"> <input
-							type="button" value="초기화" id="frmRest" class="btn_medium grey">
+						<input type="submit" value="검색" class="btn_medium"> 
+						<!-- <input type="button" value="초기화" id="frmRest" class="btn_medium grey"> -->
 					</div>
 				</form>
 				<div class="local_ov mart30">
-					전체 : <b class="fc_red"><%= adminOrderDAO.selectCount() %></b> 건 조회
+					전체 : <b class="fc_red"><%= searchResultCount %></b> 건 조회
 				</div>
 				<form name="forderlist" id="forderlist" method="post">
 					<input type="hidden" name="q1" value="code=list"> 
@@ -259,73 +277,24 @@ var tb_admin_url = "http://demofran.com/admin";
 						</tbody>
 					</table>
 				</div>
-
-				<nav class="pg_wrap">
-					<span class="pg"><span class="pg_start">처음</span> <span
-						class="pg_prev">이전</span> <span class="sound_only">열린</span><strong
-						class="pg_current">1</strong><span class="sound_only">페이지</span> <a
-						href="/admin/order.php?code=list&amp;page=2" class="pg_page">2<span
-							class="sound_only">페이지</span></a> <span class="pg_next">다음</span> <a
-						href="/admin/order.php?code=list&amp;page=2"
-						class="pg_page pg_end">맨끝</a> </span>
-				</nav>
-				<script>
-					$(function() {
-						$("#fr_date, #to_date").datepicker({
-							changeMonth : true,
-							changeYear : true,
-							dateFormat : "yy-mm-dd",
-							showButtonPanel : true,
-							yearRange : "c-99:c+99",
-							maxDate : "+0d"
-						});
-
-						// 주문서출력
-						$("#frmOrderPrint, #frmOrderExcel")
-								.on(
-										"click",
-										function() {
-											var type = $(this).attr("id");
-											var od_chk = new Array();
-											var od_id = "";
-											var $el_chk = $("input[name='chk[]']");
-
-											$el_chk.each(function(index) {
-												if ($(this).is(":checked")) {
-													od_chk.push($(
-															"input[name='od_id["
-																	+ index
-																	+ "]']")
-															.val());
-												}
-											});
-
-											if (od_chk.length > 0) {
-												od_id = od_chk.join();
-											}
-
-											if (od_id == "") {
-												alert("처리할 자료를 하나 이상 선택해 주십시오.");
-												return false;
-											} else {
-												if (type == 'frmOrderPrint') {
-													var url = "./order/order_print.php?od_id="
-															+ od_id;
-													window
-															.open(
-																	url,
-																	"frmOrderPrint",
-																	"left=100, top=100, width=670, height=600, scrollbars=yes");
-													return false;
-												} else {
-													this.href = "./order/order_excel2.php?od_id="
-															+ od_id;
-													return true;
-												}
-											}
-										});
-					});
-				</script>
+				<div class="alignCenter">
+          			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+            			<tbody>
+              				<tr>
+                				<td align="center">
+                 					<%
+							        	String pageNation = 
+									        	pageController.createPagingBtns("http://localhost/online-shop/manage/order/orders.jsp", params
+							        	        , Integer.parseInt(request.getParameter("page")), (searchResultCount / pageScale) + 1);
+						        	%>
+						        	<div id="pageNation">
+								        <%= pageNation %>
+							        </div>		
+                				</td>
+              				</tr>
+            			</tbody>
+          			</table>
+        		</div>	
 			</div>
 			<!-- golgolz end -->
 		</div>

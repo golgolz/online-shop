@@ -1,6 +1,43 @@
+<%@page import="order.vo.DeliveryVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="order.vo.OrderProductVO"%>
+<%@page import="java.util.List"%>
+<%@page import="order.vo.OrderDetailVO"%>
+<%@page import="user.order.CartDAO"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="order.vo.OrderVO"%>
+<%@page import="user.order.UserOrderDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
-    info=""%>
+    info="주문완료 페이지"%>
+    <jsp:include page="../assets/jsp/user/lib.jsp" />
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%
+    	String userId = (String)session.getAttribute("userId");
+    	String cartId = (String)session.getAttribute("cartId");
+    	System.out.println(cartId);
+    	UserOrderDAO uDAO = UserOrderDAO.getInstance();
+    	CartDAO cDAO = CartDAO.getInstance();
+    	
+    	List<OrderProductVO> list = new ArrayList<OrderProductVO>();
+    	OrderProductVO opVO = new OrderProductVO();
+    	DeliveryVO odVO = new DeliveryVO();
+    	int result = 0;
+    	
+    	try {
+    	    list = cDAO.selectOrderProduct(cartId,"주문");
+    	    if(list != null){
+    		    for(int i=0; i<list.size(); i++){
+    		        opVO = list.get(i);
+    		        result += opVO.getTotal();
+    		    }
+    	    }//end if
+    		odVO = uDAO.selectDelivery(cartId);
+    	}catch(SQLException se){
+    	    se.printStackTrace();
+    	}//end catch
+    	
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,8 +117,8 @@
 					</div>
 					<div class="con_body" style="font-size: 13px; margin: 10px;">
 						<div class="con_body_top">
-							<p style="font-size: 14px;">주문번호 : <strong>202404251617</strong></p>
-							<p>주문일자 : 2024-04-25 16:17:22</p>
+							<p style="font-size: 14px;">주문번호 : <strong><%= cartId %></strong></p>
+							<!-- <p>주문일자 : </p> -->
 						</div>
 						<div class="con_product_table">
 							<p style="text-align: left; font-size: 15px;"><strong>주문상품</strong></p>
@@ -112,48 +149,47 @@
 									</tr>
 								</tfoot>
 								<tbody class="xans-element- xans-order xans-order-list center">
+								<% 
+									for(OrderProductVO oVO : list){ %>
 									<tr class="xans-record-">
 										<td class="thumb gClearLine"><a
 												href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-													src="http://localhost/online-shop/assets/images/goods/APPLE_IPHONE14_1.png"
+													src="http://localhost/online-shop/assets/images/goods/<%= oVO.getProductImg() %>"
 													onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
 													alt="APPLE_IPHONE14" style="width: 100px"></a>
 										</td>
 										<td class="left gClearLine">
 											<strong class="name"><a
 													href="/product/i-live-with-six-cats-고양이의-바다-유광-카드-하드-케이스/6183/category/523/"
-													class="ec-product-name">APPLE_IPHONE14
+													class="ec-product-name"><%= oVO.getProductName() %>
 													케이스</a></strong> <span class="displaynone engName">(영문명 : )</span>
 											<ul class="xans-element- xans-order xans-order-optionall option">
 												<li class="xans-record-">
-													<strong class="displaynone">APPLE_IPHONE14</strong>[옵션: APPLE_IPHONE14] <span
-														class="displaynone">(1개)</span><br>
+													<strong class="displaynone"><%= oVO.getCode() %></strong>[옵션: <%= oVO.getCode() %>] <span
+														class="displaynone">(<%= oVO.getQuantity() %>개)</span><br>
 												</li>
 											</ul>
 										</td>
 										<td class="right">
 											<div id="product_price_div0" class="">
-												<strong>20,000원</strong>
-												<p class="displaynone"></p>
-											</div>
-											<div id="product_sale_price_div0" class="displaynone">
-												<strong><span id="product_sale_price_front0">20,000</span>원</strong>
+												<strong><%= oVO.getPrice() %>원</strong>
 												<p class="displaynone"></p>
 											</div>
 										</td>
 										<td>
-											<span>1</span>
+											<span><%= oVO.getQuantity() %></span>
 										</td>
 
 
 										<td rowspan="1" class="">
-											<p class="">3,000원<span class="displaynone"><br></span><br></p>
+											<p class=""><%= oVO.getDelivertyFee() %>원<span class="displaynone"><br></span><br></p>
 										</td>
 										<td class="right">
-											<strong><span id="sum_price_front0">23,000</span>원</strong>
+											<strong><span id="sum_price_front0"><%= oVO.getTotal() %></span>원</strong>
 											<div class="displaynone"></div>
 										</td>
 									</tr>
+									<% }%>
 								</tbody>
 							</table>
 						</div>
@@ -170,7 +206,7 @@
 										<th scope="row">총 결제금액</th>
 										<td>
 											<span class="txtEm">
-												<strong class="txt18">23,000</strong>원 <span class="displaynone"></span>
+												<strong class="txt18"><%= result %></strong>원 <span class="displaynone"></span>
 											</span>
 										</td>
 									</tr>
@@ -210,7 +246,7 @@
 									</tr>
 									<tr>
 										<th scope="row">받으시는분</th>
-										<td><span>정명호</span></td>
+										<td><span><%= odVO.getRecipient() %></span></td>
 									</tr>
 									<tr class="displaynone">
 										<th scope="row">영문이름</th>
@@ -226,11 +262,11 @@
 									</tr>
 									<tr class="">
 										<th scope="row">우편번호</th>
-										<td><span></span></td>
+										<td><span><%= odVO.getZipcode() %></span></td>
 									</tr>
 									<tr class="">
 										<th scope="row">주소</th>
-										<td><span></span></td>
+										<td><span><%= odVO.getDefaultAddr() %> <%= odVO.getDetailAddr() %></span></td>
 									</tr>
 									<tr class="displaynone">
 										<th scope="row">도시</th>
@@ -246,11 +282,11 @@
 									</tr>
 									<tr>
 										<th scope="row">휴대전화</th>
-										<td><span>010-4017-8712</span></td>
+										<td><span><%= odVO.getTel() %></span></td>
 									</tr>
 									<tr>
 										<th scope="row">배송메시지</th>
-										<td><span>지문 찍어주세요.</span></td>
+										<td><span><%= odVO.getDeliveryMsg() %></span></td>
 									</tr>
 									<tr class="displaynone">
 										<th scope="row">희망 배송일</th>

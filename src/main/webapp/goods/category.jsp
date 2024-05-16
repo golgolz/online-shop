@@ -14,6 +14,27 @@
 	<!-- golgolz start -->
     <link href="http://localhost/online-shop/assets/css/goods/category.css" rel="stylesheet" />
     <link href="http://localhost/online-shop/assets/css/pagenation.css" rel="stylesheet" />
+    <script type="text/javascript">
+    	$(function(){
+    		$(".need_login").click(function(event){
+    		 	$.ajax({
+    		        url: "http://localhost/online-shop/goods/check_login.jsp",
+    		        type: "GET",
+    		        dataType: "JSON",
+    		        error: function(xhr){
+    		        	alert("로그인 체크 실패" + xhr.status);
+    		        },
+    		        success: function(response) {
+    		             if (!response.flag) {
+    		     			event.preventDefault();
+    		                //alert('로그인이 필요합니다.');
+    		                location.href = 'http://localhost/online-shop/user/login/userLogin.jsp';
+    		            } 
+    		        }
+    		    });
+    		});
+    	});
+    </script>
 	<!-- golgolz end -->
 </head>
 <body>
@@ -117,7 +138,9 @@
 		                            </a>
 		                        </div>
 		                        <span class="wish">
-		                            <img src="http://localhost/online-shop/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록 전" productno="6371" categoryno="1" icon_status="off" login_status="F" individual-set="F">
+		                        	<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= goods.getCode() %>" class="need_login">
+		                            	<img src="http://localhost/online-shop/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록">
+		                            </a>
 		                        </span>
 		                    </div>
 		                    <div class="description">

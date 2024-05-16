@@ -30,6 +30,14 @@ public class OrderProductVO {
         this.quantity = quantity;
     }
 
+    public OrderProductVO(String productImg, String productName, String code, int price, int delivertyFee) {
+        super();
+        this.productImg = productImg;
+        this.productName = productName;
+        this.code = code;
+        this.price = price;
+        this.delivertyFee = delivertyFee;
+    }
 
 
 }

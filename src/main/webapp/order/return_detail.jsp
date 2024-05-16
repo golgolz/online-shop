@@ -1,5 +1,52 @@
+<%@page import="user.order.UserReturnDAO"%>
+<%@page import="order.vo.ReturnDetailVO"%>
+<%@page import="user.order.CartDAO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="order.vo.OrderProductVO"%>
+<%@page import="java.util.List"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="user.order.UserOrderDAO"%>
+<%@page import="order.vo.OrderDetailVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%
+String userId = (String)session.getAttribute("userId");
+String cartId = (String)request.getParameter("cartId");
+
+// 개발을 위해 임시로 사용하는 코드입니다.
+if(cartId == null){
+    cartId = "20240515060526";
+}
+
+OrderDetailVO odVO = new OrderDetailVO();
+List<OrderProductVO> list = new ArrayList<OrderProductVO>();
+UserOrderDAO uDAO = UserOrderDAO.getInstance();
+CartDAO cDAO = CartDAO.getInstance();
+UserReturnDAO urDAO = UserReturnDAO.getInstance();
+int result = 0; //총액
+int priceSum = 0;
+OrderProductVO opVO = new OrderProductVO();
+ReturnDetailVO rdVO = new ReturnDetailVO();
+try {
+    
+    odVO = uDAO.selectDetailOrder(cartId);
+    rdVO = urDAO.selectReturnDetail(cartId);
+    list = rdVO.getProductList();
+    
+    for(int i=0; i<list.size(); i++){
+        opVO = list.get(i);
+        priceSum += opVO.getPrice();
+        result += opVO.getTotal();
+    }//end for
+    
+}catch(SQLException se){
+    se.printStackTrace();
+}//end catch
+
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,8 +91,8 @@ th{ text-align: center; }
 					<div class="path">
 						<span>현재 위치</span>
 						<ol>
-							<li><a href="/">홈</a></li>
-							<li><a href="/myshop/index.html">마이쇼핑</a></li>
+							<li>홈</a></li>
+							<li>마이쇼핑</li>
 							<li title="현재 위치"><strong>반품상세조회</strong></li>
 						</ol>
 					</div>
@@ -58,7 +105,7 @@ th{ text-align: center; }
 						action="/exec/front/MyShop/OrderCancel/" method="POST"
 						enctype="multipart/form-data">
 						<input id="order_id" name="order_id" fw-filter="isFill"
-							fw-label="주문번호" fw-msg="" value="20240407-0000129" type="hidden">
+							fw-label="주문번호" fw-msg="" value="<%= cartId %>" type="hidden">
 						<div
 							class="xans-element- xans-myshop xans-myshop-orderhistorydetail xans-record-">
 							<!--
@@ -84,19 +131,19 @@ th{ text-align: center; }
 										<tbody>
 											<tr>
 												<th scope="row">주문번호</th>
-												<td>20240407-0000129</td>
+												<td><%= odVO.getCartId() %></td>
 											</tr>
 											<tr>
 												<th scope="row">주문일자</th>
-												<td>2024-04-07 11:19:50</td>
+												<td><%= odVO.getOrderDate() %></td>
 											</tr>
 											<tr>
 												<th scope="row">주문자</th>
-												<td><span>정명호</span></td>
+												<td><span><%= odVO.getRecipient() %></span></td>
 											</tr>
 											<tr>
 												<th scope="row">반품처리상태</th>
-												<td>반품완료</td>
+												<td><%= rdVO.getReturnStatus() %></td>
 											</tr>
 										</tbody>
 									</table>
@@ -117,26 +164,8 @@ th{ text-align: center; }
 											<tr class="sum">
 												<th scope="row">총 주문금액</th>
 												<td><span class="gSpace20"> <strong
-														class="txt14">23,000</strong>원 <span class="displaynone"></span>
+														class="txt14"><%= result %></strong>원 <span class="displaynone"></span>
 												</span></td>
-											</tr>
-										</tbody>
-										<tbody class="displaynone">
-											<tr class="sum">
-												<th scope="row">총 할인금액</th>
-												<td><strong class="txt14">0</strong>원</td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">쿠폰할인</th>
-												<td><span class="gSpace20">0원</span> <a href="#none"
-													class="eUsedCouponDetail btnNormal">내역보기</a></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">추가할인금액</th>
-												<td><span class="gSpace20">0원</span> <a href="#none"
-													class="btnNormal"
-													onclick="OrderLayer.onDiv('order_layer_addsale', event);">내역보기</a>
-												</td>
 											</tr>
 										</tbody>
 										<tbody class="">
@@ -164,7 +193,7 @@ th{ text-align: center; }
 										<tbody>
 											<tr class="">
 												<th scope="row">환불일시</th>
-												<td><strong><span>2024-04-10 12:11:30</span></strong></td>
+												<td><strong><span><%= rdVO.getReturnDate() %></span></strong></td>
 											</tr>
 											<tr class="">
 												<th scope="row">환불수단</th>
@@ -172,13 +201,13 @@ th{ text-align: center; }
 											</tr>
 											<tr class="sum">
 												<th scope="row">총 결제금액</th>
-												<td><span class="txtEm"> <strong class="txt18">23,000</strong>원
+												<td><span class="txtEm"> <strong class="txt18"><%= result %></strong>원
 														<span class="displaynone"></span>
 												</span></td>
 											</tr>
 											<tr class="sum">
 												<th scope="row">총 환불금액</th>
-												<td><span class="txtEm"> <strong class="txt18">23,000</strong>원
+												<td><span class="txtEm"> <strong class="txt18"><%= result %></strong>원
 														<span class="displaynone"></span>
 												</span></td>
 											</tr>
@@ -223,40 +252,36 @@ th{ text-align: center; }
 										</thead>
 										<tfoot class="right">
 											<tr>
-												<td colspan="8">상품구매금액 <strong>20,000</strong> - 환불금액
-													20,000 = 합계 : <strong class="txtEm gIndent10"><span
-														class="txt18">0원</span></strong> <span class="displaynone"></span>
+												<td colspan="8">상품구매금액 <strong><%= result %></strong> - 환불금액
+													<%= result %> = 합계 : <strong class="txtEm gIndent10"><span
+														class="txt18"><%= result-result %>원</span></strong> <span class="displaynone"></span>
 												</td>
 											</tr>
 										</tfoot>
 										<tbody
 											class="xans-element- xans-myshop xans-myshop-orderhistorydetailbasic center">
+											<% for(OrderProductVO oVO : list){ %>
 											<tr class="xans-record-">
 												<td class="thumb"><a
 													href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-														src="//insideobject.com/web/product/tiny/202307/dc3d88d084c7dee41b2c4dbd08933e6c.jpg"
+														src="http://localhost/online-shop/assets/images/goods/<%= oVO.getProductImg() %>"
 														style="width: 100%;" alt=""
 														onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"></a></td>
 												<td class="left"><strong class="name"><a
 														href="/product/i-live-with-six-cats-고양이의-바다-유광-카드-하드-케이스/6183/category/523/"
-														class="ec-product-name">[i live with six cats] 고양이의 바다
-															유광 카드 하드 케이스</a></strong>
-													<div class="option ">[옵션: galaxy s22 (카드하드불가)/유광하드]</div>
+														class="ec-product-name"><%= oVO.getProductName() %></a></strong>
+													<div class="option ">[옵션: <%= oVO.getCode() %>]</div>
 													<p class="gBlank5 displaynone">무이자할부 상품</p></td>
 												<td>1</td>
 												<td class="right">
 													<div class="">
-														<strong>20,000원</strong>
-														<div class="displaynone"></div>
-													</div>
-													<div class="displaynone">
-														<strong>20,000원</strong>
+														<strong><%= oVO.getPrice() %>원</strong>
 														<div class="displaynone"></div>
 													</div>
 												</td>
 
 												<td class="state">
-													<p class="txtEm">반품완료</p>
+													<p class="txtEm"><%= rdVO.getReturnStatus() %></p>
 													<p class="displaynone">
 														<a href="#" target="_self"></a>
 													</p>
@@ -265,245 +290,21 @@ th{ text-align: center; }
 													</p>
 												</td>
 												<td>
-													<p>2024-04-10</p>
+													<p><%= rdVO.getReturnDate() %></p>
 													<p class="displaynone">-</p>
 												</td>
 												<td class="state">
-													<p>20,000원</p>
+													<p><%= result %>원</p>
 												</td>
 											</tr>
+											<% }//end for %>
 										</tbody>
 									</table>
 								</div>
+								<hr>
 
-								<div class="ec-base-table typeList">
-									<table border="1" summary="" class="displaynone">
-										<caption>개별배송</caption>
-										<colgroup>
-											<col style="width: 92px">
-											<col style="width: auto">
-											<col style="width: 60px">
-											<col style="width: 100px">
-											<col style="width: 95px">
-											<col style="width: 110px">
-											<col style="width: 110px">
-										</colgroup>
-										<thead>
-											<tr>
-												<th scope="col">이미지</th>
-												<th scope="col">상품정보</th>
-												<th scope="col">수량</th>
-												<th scope="col">판매가</th>
-												<th scope="col">배송구분</th>
-												<th scope="col">반품상태</th>
-												<th scope="col">반품</th>
-											</tr>
-										</thead>
-										<tfoot class="right">
-											<tr>
-												<td colspan="7"><span class="gLeft">[개별배송]</span>
-													상품구매금액 <strong>0</strong><span class="displaynone">
-														+ 부가세 0</span> + 배송비 0 + 지역별배송비 0<span class="displaynone">
-														- 상품할인금액 0</span> = 합계 : <strong class="txtEm gIndent10"><span
-														class="txt18">0원</span></strong> <span class="displaynone"></span>
-												</td>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
-
-								<div class="ec-base-table typeList">
-									<table border="1" summary="" class="displaynone">
-										<caption>해외배송</caption>
-										<colgroup>
-											<col style="width: 92px">
-											<col style="width: auto">
-											<col style="width: 60px">
-											<col style="width: 100px">
-											<col style="width: 95px">
-											<col style="width: 110px">
-											<col style="width: 110px">
-										</colgroup>
-										<thead>
-											<tr>
-												<th scope="col">이미지</th>
-												<th scope="col">상품정보</th>
-												<th scope="col">수량</th>
-												<th scope="col">판매가</th>
-												<th scope="col">배송구분</th>
-												<th scope="col">주문처리상태</th>
-												<th scope="col">취소/교환/반품</th>
-											</tr>
-										</thead>
-										<tfoot class="right">
-											<tr>
-												<td colspan="7"><span class="gLeft">[해외배송]</span>
-													상품구매금액 <strong>0</strong><span class="displaynone">
-														+ 부가세 0</span> + 배송비 0<span class="displaynone"> - 상품할인금액
-														0</span> = 합계 : <strong class="txtEm gIndent10"><span
-														class="txt18">0원</span></strong> <span class="displaynone"></span>
-												</td>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
-							</div>
-							<div class="orderArea displaynone">
-								<div class="title">
-									<h6>사은품</h6>
-								</div>
-								<div class="ec-base-table typeList">
-									<table border="1" summary="">
-										<caption>사은품</caption>
-										<colgroup>
-											<col style="width: 92px">
-											<col style="width: auto">
-											<col style="width: 60px">
-											<col style="width: 110px">
-										</colgroup>
-										<thead>
-											<tr>
-												<th scope="col">이미지</th>
-												<th scope="col">상품정보</th>
-												<th scope="col">수량</th>
-												<th scope="col">사은품 구분</th>
-											</tr>
-										</thead>
-										<tfoot class="right">
-											<tr>
-												<td colspan="4"><span class="gLeft">[사은품]</span></td>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
 							</div>
 
-							<div class="orderArea displaynone">
-								<div class="title">
-									<h6>반품 신청 정보</h6>
-								</div>
-							</div>
-
-							<div class="orderArea" style="margin-bottom: 50px;">
-								<div class="title">
-									<h6>배송지정보</h6>
-								</div>
-								<div class="ec-base-table">
-									<table border="1" summary="">
-										<caption>배송지정보</caption>
-										<colgroup>
-											<col style="width: 160px">
-											<col style="width: auto">
-										</colgroup>
-										<tbody>
-											<tr class="displaynone">
-												<th scope="row">수령지</th>
-												<td><strong></strong>
-													<ul class="list">
-														<li>- 주소 :</li>
-														<li>- 전화번호 :</li>
-														<li>- 영업시간 :</li>
-														<li>- 수령 가능일 :</li>
-														<li>- 수령지 안내 :</li>
-													</ul>
-													<div class="map displaynone">
-														<p>* 약도</p>
-													</div></td>
-											</tr>
-											<tr>
-												<th scope="row">받으시는분</th>
-												<td><span>정명호</span></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">영문이름</th>
-												<td><span></span></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">이름(발음기호)</th>
-												<td><span></span></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">국가</th>
-												<td></td>
-											</tr>
-											<tr class="">
-												<th scope="row">우편번호</th>
-												<td><span></span></td>
-											</tr>
-											<tr class="">
-												<th scope="row">주소</th>
-												<td><span></span></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">도시</th>
-												<td></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">주/지방</th>
-												<td></td>
-											</tr>
-											<tr>
-												<th scope="row">일반전화</th>
-												<td></td>
-											</tr>
-											<tr>
-												<th scope="row">휴대전화</th>
-												<td><span>010-1234-5678</span></td>
-											</tr>
-											<tr>
-												<th scope="row">배송메시지</th>
-												<td><span>지문 찍어주세요.</span></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">희망 배송일</th>
-												<td></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">희망 배송시간</th>
-												<td></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">희망배송업체/방식</th>
-												<td></td>
-											</tr>
-											<tr class="displaynone">
-												<th scope="row">수령가능일</th>
-												<td></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="orderArea displaynone">
-								<div class="title">
-									<h6>추가정보</h6>
-								</div>
-								<div class="ec-base-table">
-									<table border="1" summary="">
-										<caption>추가 정보</caption>
-										<colgroup>
-											<col style="width: 160px">
-											<col style="width: auto">
-										</colgroup>
-										<tbody class="xans-element- xans-myshop xans-myshop-ordadd">
-											<tr class="">
-												<th scope="row"></th>
-												<td></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="orderArea displaynone">
-								<div class="title">
-									<h6>수거신청 정보</h6>
-								</div>
-							</div>
-							<div class="orderArea displaynone">
-								<div class="title">
-									<h3>고객알림</h3>
-								</div>
-								<p class="customer"></p>
 							</div>
 						</div>
 					</form>

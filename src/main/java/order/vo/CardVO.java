@@ -16,4 +16,11 @@ public class CardVO {
     private String cardId;
     private String userId;
     private Date inputDate;
+
+    public CardVO(String cardId, String userId) {
+        super();
+        this.cardId = cardId;
+        this.userId = userId;
+    }
+
 }

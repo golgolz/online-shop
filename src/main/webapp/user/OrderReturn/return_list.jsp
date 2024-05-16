@@ -8,6 +8,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<!-- DatePicker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> 
+<!-- DatePicker -->
+
 <jsp:include page="../../assets/jsp/user/lib.jsp" />
 <!-- golgolz start -->
 <style>
@@ -157,11 +162,9 @@ table,td{
 						<ul class="menu">
 							<li class="tab_class"><a
 								href="http://localhost/online-shop/user/OrderReturn/order_list.jsp">주문내역조회
-									(<span id="xans_myshop_total_orders">1</span>)
 							</a></li>
 							<li class="tab_class_cs selected"><a
 								href="http://localhost/online-shop/user/OrderReturn/return_list.jsp">반품
-									내역 (<span id="xans_myshop_total_orders_cs">1</span>)
 							</a></li>
 							<li class="tab_class_old displaynone"><a
 								href="/myshop/order/list_old.html?mode=old&amp;history_start_date=2024-01-25&amp;history_end_date=2024-04-24&amp;past_year=2023">이전
@@ -258,6 +261,29 @@ $(function() {
 							</fieldset>
 						</div>
 					</form>
+					<!-- Flatpickr 라이브러리 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Flatpickr를 사용하여 날짜 선택 input에 Datepicker 기능 추가
+        document.addEventListener('DOMContentLoaded', function () {
+            // 시작일과 종료일 input 요소 가져오기
+            var frDateInput = document.getElementById('fr_date');
+            var toDateInput = document.getElementById('to_date');
+
+            // Flatpickr 적용
+            flatpickr(frDateInput, {
+                dateFormat: 'Y-m-d', // 날짜 형식 설정
+                allowInput: true // 키보드로 직접 입력 허용
+            });
+
+            flatpickr(toDateInput, {
+                dateFormat: 'Y-m-d', // 날짜 형식 설정
+                allowInput: true // 키보드로 직접 입력 허용
+            });
+        });
+    </script>
+					
+					
 					<div
 						class="xans-element- xans-myshop xans-myshop-orderhistorylistitem ec-base-table typeList">
 						<!--
@@ -316,7 +342,7 @@ $(function() {
 				     frDate = "1970-01-01"; // 시작 날짜가 입력되지 않았을 때, 초기 날짜 설정
 				 }
 				 if (toDate == null || toDate.trim().isEmpty()) {
-				     toDate = today; // 종료 날짜가 입력되지 않았을 때, 오늘 날짜로 설정
+				     toDate = "2099-01-01"; // 종료 날짜가 입력되지 않았을 때, 오늘 날짜로 설정
 				 }
 
 				// 날짜 범위에 따른 사용자 정보 검색

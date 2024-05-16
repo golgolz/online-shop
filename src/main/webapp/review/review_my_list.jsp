@@ -9,11 +9,27 @@
     pageEncoding="UTF-8"
     info="게시판 리스트"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+String userId = (String) session.getAttribute("userId");
+System.out.println("세션 로그인 상태: " + userId);
+
+if (userId == null) {
+    System.out.println("로그인이 필요합니다. ");
+%>
+    <script type="text/javascript">
+        alert('로그인이 필요합니다.');
+        window.location.href = '../user/login/userLogin.jsp'; // 경로 수정 필요
+
+    </script>
+<%
+    return;
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
 
-	<jsp:include page="../../assets/jsp/user/lib.jsp" />
+	<jsp:include page="../assets/jsp/user/lib.jsp" />
 	<!-- golgolz start -->
 	<link rel="stylesheet" type="text/css" href="https://img.echosting.cafe24.com/editors/froala/css/froala_style_ec.min.css?vs=2404251304" charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer.php?filename=nZExDgIxDAT7KC3vsOAJPIEfOMFwJxJv5DgS_J6jggYJ0o52doulBVVofzBqhqtxJZOOYVko904Xgzpl1AqNG9jRL3nJoaMMX6Eh4T4pDvfZ0cIPsTnVORWZVNFCWVVCYtWv-9waHcF2ptNn3YZjeuGYCvJtVjZpMP_Pft_7BA&type=css&k=ecd691e0c80070ef935d0e961272742f67437a3c&t=1681776733"/>
@@ -32,14 +48,14 @@
 </style>
 <script type="text/javascript">
 		$(function(){
-			$("#btnSearch").click(function(){
+			/* $("#btnSearch").click(function(){
 				chkNull;
-			});//click
+			});//click */
 			$("#btnAllSearch").click(function(){
-				location.href="board_list.jsp";
+				location.href="review_my_list.jsp";
 			});//click
 			$("#btnWrite").click(function(){
-				location.href="review_write_test.jsp";
+				location.href="review_write.jsp";
 			});//click
 			
 			$("#keyword").keydown(function(evt) {
@@ -47,6 +63,10 @@
 					chkNull();
 				}//end if
 			});//keydown
+			
+			$("#search").click(function(){
+				$("#frmBoard").submit();
+			});
 			
 		});//ready
 		
@@ -128,7 +148,7 @@
 </script>
 </head>
 <body>
-	<jsp:include page="../../assets/jsp/user/header.jsp" />
+	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
@@ -207,7 +227,7 @@
 		<input type="hidden" name="bbs_mode"  value="list">
 		<input type="hidden" name="cate_code" value="GD">
 		<input type="hidden" name="seq"  value="">
-		
+		</form>
 	   <div>
 	    <table class="table">
 	    	<thead>
@@ -229,10 +249,10 @@
 				<td> <c:out value="${rVO.reviewId}"/></td>
 				<td> <img src="http://localhost/online-shop/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px">
 				      		<c:out value="${rVO.name}"/></td>
-				<td><a href="review_detail_user.jsp?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}"><c:out value="${rVO.title}"/></a></td>
+				<td><a href="review_detail_user.jsp?reviewId=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}"><c:out value="${rVO.title}"/></a></td>
 				<td> <c:out value="${rVO.inputDate}"/></td>
 				<%-- <td> <c:out value="${rVO.id}"/></td> --%>
-				</tr>	    	
+				</tr>
 	    	</c:forEach>
 	    	</tbody>
 	    </table>
@@ -240,15 +260,17 @@
 </div>
 
 	    <div style="text-align: center; margin-top:10px">
-	    <form action="review_my_test.jsp" name="frmBoard" id="frmBoard">
+	    <form action="review_my_list.jsp" name="frmBoard" id="frmBoard" method="get">
 	    	<select name="field" id="field">
 	    		<option value="0" ${param.field eq 0?" selected='selected'":""}>제목</option>
 	    		<option value="1" ${param.field eq 1?" selected='selected'":""}>내용</option>
-	    		<option value="2" ${param.field eq 2?" selected='selected'":""}>작성자</option>
+	    		<%-- <option value="2" ${param.field eq 2?" selected='selected'":""}>작성자</option> --%>
 	    	</select>
 	    	<input type="text" name="keyword" id="keyword" value="${param.keyword }" style="width:230px; border:1px solid #dedede;"/>
-	    	<input type="button"  value="검색" id="btnSearch" class="btn btn-info btn-sm"/>
-	    	<input type="button"  value="글쓰기" id="btnWrite" class="btn btn-warning btn-sm"/>
+	    	<input type="button"  value="검색" id="search" class="btn btn-info btn-sm"/>
+	    	<input type="button"  value="전체글" id="btnAllSearch" class="btn btn-info btn-sm" />
+	    	<!-- <input type="button"  value="글쓰기" id="btnWrite" class="btn btn-warning btn-sm"/> -->
+	    	<!-- <a href="http://localhost/online-shop/review/review_write.jsp?code=SAMSUNG_S24_1&cartId=20240419131320" class="btn btn-warning btn-sm">글쓰기</a> -->
 	    	<input type="text" style="display: none;">
 	    </form>
 	    </div>

@@ -33,16 +33,37 @@
                     <%
                     }
                     %>
+                    <%
+                    if (userId != null) {
+                    %>
               <li>
                 <a href="http://localhost/online-shop/user/mypage/mypage.jsp">MYPAGE</a>
               </li>
+              <%
+                    } else {
+              %>
               <li>
-                <a href="http://localhost/online-shop/order/order.jsp"
+                  <a href="#" onclick="loginAlert()">MYPAGE</a>
+              </li>
+              <script type="text/javascript">
+                  function loginAlert() {
+                      alert("로그인이 필요합니다.");
+                      window.location.href = "http://localhost/online-shop/user/login/userLogin.jsp";
+                  }
+              </script>
+          <%
+          }
+          %>
+              <li>
+                <a href="http://localhost/online-shop/user/OrderReturn/order_list.jsp"
                   >ORDER</a
                 >
               </li>
               <li>
                 <a href="http://localhost/online-shop/cart/cart.jsp">CART</a>
+              </li>
+              <li>
+                <a href="http://localhost/online-shop/wishlist/wishlist.jsp">WISH</a>
               </li>
               <li>
                 <a href="http://localhost/online-shop/notice/notice.jsp">NOTICE</a>

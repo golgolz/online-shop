@@ -84,20 +84,23 @@ public class AdminReviewDAO {
           .append("     FROM ( SELECT r.review_id, g.default_img, g.name, r.title, r.input_date, r.id   ")
           .append("        FROM review r JOIN customer c ON r.id = c.id JOIN goods g ON r.code = g.code   ");
 
-      /*
-       * if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
-       * selectReviewBoard.append(" where instr(").append(columnNames[Integer.parseInt(sVO.getField())])
-       * .append(", ? ) > 0"); } // end if
-       */
+
+      if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+        selectReviewBoard.append(" where instr(").append(columnNames[Integer.parseInt(sVO.getField())])
+            .append(", ? ) > 0");
+      } // end if
+
       selectReviewBoard.append("   ) sub ) WHERE rn BETWEEN ? AND ?   ");
 
       pstmt = con.prepareStatement(selectReviewBoard.toString());
       // 5.바인드 변수 값 설정
       int bindIndex = 0;
-      /*
-       * if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) { pstmt.setString(++bindIndex,
-       * sVO.getKeyword()); } // end if
-       */ pstmt.setInt(++bindIndex, sVO.getStartNum());
+
+
+      if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+        pstmt.setString(++bindIndex, sVO.getKeyword());
+      } // end if
+      pstmt.setInt(++bindIndex, sVO.getStartNum());
       pstmt.setInt(++bindIndex, sVO.getEndNum());
       // 6.쿼리문 수행 후 결과 얻기
       rs = pstmt.executeQuery();
@@ -181,12 +184,11 @@ public class AdminReviewDAO {
       // 4.쿼리문 생성객체 얻기(Dynamic Query)
 
       StringBuilder deleteBoard = new StringBuilder();
-      deleteBoard.append("  delete from review    ").append("  where review_id=? and id=?   ");
+      deleteBoard.append("  delete from review    ").append("  where review_id=? ");
       pstmt = con.prepareStatement(deleteBoard.toString());
 
       // 바인드 변수에 값 설정
       pstmt.setInt(1, rVO.getReviewId());
-      pstmt.setString(2, rVO.getId());
 
       cnt = pstmt.executeUpdate();
 

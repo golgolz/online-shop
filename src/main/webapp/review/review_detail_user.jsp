@@ -13,20 +13,36 @@ if(wmVo == null) { //로그인 하지 않았음
     
 }//end if
 %> --%>
-<%/* 로그인한 사람만 읽게 하려면 쓰고 아니면 지우기 */
+<%-- <%/* 로그인한 사람만 읽게 하려면 쓰고 아니면 지우기 */
 //개발의 편의성을 위해 로그인한 것처럼 코드를 작성항 후 작업 진행
-ReviewBoardVO rVO=new ReviewBoardVO();
 rVO.setId("haa");
 session.setAttribute("loginData", rVO);
 %>
 <c:if test="${empty sessionScope.loginData }">
 <c:redirect url="http://localhost/online-shop/index.jsp"/>
-</c:if>
+</c:if> --%>
+<%
+ReviewBoardVO rVO=new ReviewBoardVO();
+String userId = (String) session.getAttribute("userId");
+System.out.println("세션 로그인 상태: " + userId);
+
+if (userId == null) {
+    System.out.println("로그인이 필요합니다. ");
+%>
+    <script type="text/javascript">
+        alert('로그인이 필요합니다.');
+        window.location.href = '../user/login/userLogin.jsp'; // 경로 수정 필요
+
+    </script>
+<%
+    return;
+}
+%>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="../../assets/jsp/user/lib.jsp" />
+	<jsp:include page="../assets/jsp/user/lib.jsp" />
 	<!-- golgolz start -->
 	<link rel="stylesheet" type="text/css" href="https://img.echosting.cafe24.com/editors/froala/css/froala_style_ec.min.css?vs=2404251304" charset="utf-8"/>
 	<link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer.php?filename=nZExDgIxDAT7KC3vsOAJPIEfOMFwJxJv5DgS_J6jggYJ0o52doulBVVofzBqhqtxJZOOYVko904Xgzpl1AqNG9jRL3nJoaMMX6Eh4T4pDvfZ0cIPsTnVORWZVNFCWVVCYtWv-9waHcF2ptNn3YZjeuGYCvJtVjZpMP_Pft_7BA&type=css&k=ecd691e0c80070ef935d0e961272742f67437a3c&t=1681776733"/>
@@ -53,8 +69,8 @@ session.setAttribute("loginData", rVO);
 			if(confirm("글을 정말 삭제하시겠습니까?")){
 	    	//<form태그의 action 변경
 	    	//var frm=document.frmDetail.action="back-end URL"
-	    	$("#frmDetail")[0].action="board_delete_frm_process.jsp";
-	    	$("#frmDetail").submit();	
+	    	$("#frmDetail")[0].action="review_delete_process.jsp";
+	    	$("#frmDetail").submit();
 			}//end if
 	    
 	    });//click
@@ -75,7 +91,7 @@ session.setAttribute("loginData", rVO);
 	        $("#cnt").val(0);
 	    }
 	    
-	    $("#frmDetail")[0].action="board_update_process.jsp";
+	    $("#frmDetail")[0].action="review_update_process.jsp";
 	    $("#frmDetail").submit();
 	
 	}//chkNull
@@ -102,7 +118,7 @@ $(function(){
 </head>
 <body>
 
-	<jsp:include page="../../assets/jsp/user/header.jsp" />
+	<jsp:include page="../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
@@ -117,11 +133,12 @@ $(function(){
 <%
 	UserReviewDAO rDAO=UserReviewDAO.getInstance();
 	try{
-	  String seq=request.getParameter("seq");
+	  String seq=request.getParameter("reviewId");
 	  
 	  rVO=rDAO.selectDetailReview(Integer.parseInt(seq));//상세보기
 	 /*  rDAO.updateCnt(Integer.parseInt(seq)); *///조회수 올려주기(중요도가 덜한것이 아래로 내려가는게 좋음)
-	  
+	 System.out.print(seq); 
+	 
 	  pageContext.setAttribute("rVO", rVO);
 	}catch(SQLException se){
 	  se.printStackTrace();
@@ -135,7 +152,7 @@ $(function(){
             <h3><a href="#"> <c:out value="${rVO.name}"/></a></h3>
         </div>
 </div>
-<form id="BoardDelForm" name="" action="/exec/front/Board/del/4" method="post" target="_self" enctype="multipart/form-data" >
+<form id="frmDetail" name="frmDetail" action="review_delete_process.jsp" method="post" target="_self" enctype="multipart/form-data" >
 <input id="no" name="no" value="28387" type="hidden"  />
 <input id="bulletin_no" name="bulletin_no" value="29332" type="hidden"  />
 <input id="board_no" name="board_no" value="4" type="hidden"  />
@@ -144,6 +161,7 @@ $(function(){
 <input id="bdf_modify_url" name="bdf_modify_url" value="/board/product/modify.html?board_act=edit&amp;no=28387&amp;board_no=4" type="hidden"  />
 <input id="bdf_del_url" name="bdf_del_url" value="/exec/front/Board/del/4" type="hidden"  />
 <input id="bdf_action_type" name="bdf_action_type" value="" type="hidden"  />
+<input type="hidden" name="reviewId" value="${rVO.reviewId}"/>
 <div class="xans-element- xans-board xans-board-read-4 xans-board-read xans-board-4">
 <!--        $login_page_url = /member/login.html
             $deny_access_url = /board/product/list.html
@@ -172,7 +190,7 @@ $(function(){
                                 <strong>작성일</strong> <fmt:formatDate value="${rVO.inputDate}" pattern="yyyy-MM-dd EEEE HH:mm:ss"/>
                             </li>
                         </ul>
-<div class="detail"><div class="fr-view fr-view-article"><p style="font-size: 13px"><c:out value="${ rVO.content }"/></p></div></div>
+<div class="detail"><div class="fr-view fr-view-article"><c:out value="${ rVO.content }"/></div></div>
                     </td>
                 </tr>
 <tr class="attach displaynone">
@@ -186,11 +204,11 @@ $(function(){
 </div>
 <div class="ec-base-button ">
             <span class="gLeft">
-                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
+                <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
-                <a href="http://localhost/online-shop/manage/review/review_my_list.jsp" id="btnDelete" class="btnNormalFix sizeS ">삭제</a>
-                <a href="http://localhost/online-shop/manage/review/review_read_frm.jsp?seq=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}" class="btnEmFix sizeS ">수정</a>
+                <a href="review_delete_process.jsp?reviewId=${rVO.reviewId }" class="btnNormalFix sizeS">삭제</a>
+                <a href="http://localhost/online-shop/review/review_read_frm.jsp?reviewId=${rVO.reviewId }&title=${rVO.title }&content=${rVO.content }&currentPage=${empty param.currentPage ?1:param.currentPage}" class="btnEmFix sizeS ">수정</a>
             </span>
         </div>
 </div>

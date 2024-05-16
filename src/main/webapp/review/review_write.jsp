@@ -1,10 +1,46 @@
+<%@page import="user.review.UserReviewDAO"%>
+<%@page import="admin.review.ReviewBoardVO"%>
+<%@page import="java.util.List"%>
+<%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
-    info=""%>
+    info="게시판 글 작성"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- <%
+WebMemberVO wmVo=(WebMemberVO)session.getAttribute("loginData");
+if(wmVo == null) { //로그인 하지 않았음
+    
+}//end if
+%> --%>
+<%-- <%
+//개발의 편의성을 위해 로그인한 것처럼 코드를 작성항 후 작업 진행
+rVO.setId("haa");
+session.setAttribute("loginData", rVO);
+%>
+<c:if test="${empty sessionScope.loginData }">
+<c:redirect url="http://localhost/online-shop/index.jsp"/>
+</c:if> --%>
+<%
+ReviewBoardVO rVO=new ReviewBoardVO();
+String userId = (String) session.getAttribute("userId");
+System.out.println("세션 로그인 상태: " + userId);
+
+if (userId == null) {
+    System.out.println("로그인이 필요합니다. ");
+%>
+    <script type="text/javascript">
+        alert('로그인이 필요합니다.');
+        window.location.href = '../user/login/userLogin.jsp'; // 경로 수정 필요
+
+    </script>
+<%
+    return;
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="../../assets/jsp/user/lib.jsp" />
+	<jsp:include page="../assets/jsp/user/lib.jsp" />
 	<!-- golgolz start -->
 <link rel="stylesheet" type="text/css" href="https://img.echosting.cafe24.com/editors/froala/css/froala_style_ec.min.css?vs=2404251303" charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer.php?filename=nZExDgIxDAT7KC3vsOAJPIEfOMFwJxJv5DgS_J6jggYJ0o52doulBVVofzBqhqtxJZOOYVko904Xgzpl1AqNG9jRL3nJoaMMX6Eh4T4pDvfZ0cIPsTnVORWZVNFCWVVCYtWv-9waHcF2ptNn3YZjeuGYCvJtVjZpMP_Pft_7BA&type=css&k=ecd691e0c80070ef935d0e961272742f67437a3c&t=1681776733"  />
@@ -13,9 +49,66 @@
 <link rel="canonical" href="https://insideobject.com/board/product/write.html" />
 <link rel="alternate" href="https://m.insideobject.com/board/product/write.html" />
 	<!-- golgolz end -->
+  
+<style type="text/css">
+	#wrap{width: 1462px; height:749; margin:0px auto;}
+
+	    	
+</style>
+<script type="text/javascript">
+	$(function(){
+	    $("#btnList").click(function () {
+	        history.back();
+	    });//click
+	    $("#btnWrite").click(function () {
+	    	var title=document.getElementById("title").value;
+	    	/* alert(title); */
+	        $("#frmWrite").submit();
+	    });//click
+	});//ready
+	
+	function chkNull() {
+	    if($("#title").val().trim() == "") {
+	        alert("글 제목은 필수입력");
+	        $("#title").focus();
+	        return;
+	    }//end if
+	    if($("#content").val().trim() == "") {
+	        alert("내용은 필수입력");
+	        $("#content").focus();
+	        return;
+	    }//end if
+	    if($("#cnt").val().trim() == "") {
+	        $("#cnt").val(0);
+	    }
+	
+	    $("#frmWrite").submit();
+	
+	}//chkNull
+</script>
+<script>
+$(function(){
+	
+      $('#content').summernote({
+        placeholder: '${sessionScope.loginData.id}님 글을 작성하세요',
+        tabsize: 2,
+        width:600,
+        height: 200,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+      });//summernote
+})//ready
+    </script>
 </head>
-<body>
-	<jsp:include page="../../assets/jsp/user/header.jsp" />
+<body>	
+<jsp:include page="../assets/jsp/user/header.jsp" />
 	<div id="wrap">
 		<div id="main">
 			<!-- golgolz start -->
@@ -26,12 +119,44 @@
     <div id="container">
 		<div id="contents">
 		
+	<%
+	request.setCharacterEncoding("UTF-8");
+	%>
+<jsp:useBean id="sVO" class="admin.review.SearchVO" scope="page"/>
+<jsp:setProperty property="*" name="sVO"/>
+<jsp:useBean id="rbVO" class="admin.review.ReviewBoardVO" scope="page"/>
+<jsp:setProperty property="*" name="rbVO"/>
+	<%
+	
+	String code=request.getParameter("code");
+	String cartId=request.getParameter("cartId");
+			
+	try{
+	    UserReviewDAO rDAO=UserReviewDAO.getInstance();
+	    /* //
+	    String userId="lee";
+	    session.setAttribute("userId", userId);
+	    // */
+	    /* String userId2=(String)session.getAttribute("userId"); */
+	   	
+	    
+	    rVO.setCode(code);
+	    //rbVO.setCartId("20240419131320");
+	    rVO.setId(cartId);
+	    //rbVO.setCode("SAMSUNG_S24_1");
+	    
+	    ReviewBoardVO rbVO2=rDAO.selectImgName(rbVO);
+	    String defaultImg=rbVO2.getDefaultImg();
+	    String name=rbVO2.getName();
+	    
+	    %>
+		
 <div class="titleArea">
             <h2><font color="#555555">REVIEW</font></h2>
             <p>상품 사용후기입니다.</p>
         </div>
 </div>
-<form id="boardWriteForm" name="" action="/exec/front/Board/write/4" method="post" target="_self" enctype="multipart/form-data" >
+<form id="frmWrite" name="frmWrite" action="review_write_process.jsp" method="get" target="_self" enctype="multipart/form-data" >
 <input id="board_no" name="board_no" value="4" type="hidden"  />
 <input id="product_no" name="product_no" value="6027" type="hidden"  />
 <input id="move_write_after" name="move_write_after" value="/product/detail.html?board_no=4&amp;product_no=6027&amp;cate_no=428&amp;display_group=1&amp;keyword=" type="hidden"  />
@@ -41,23 +166,28 @@
 <input id="is_post_checked" name="is_post_checked" value="" type="hidden"  />
 <input id="isExceptBoardUseFroalaImg" name="isExceptBoardUseFroalaImg" value="" type="hidden"  />
 <input id="isGalleryBoard" name="isGalleryBoard" value="" type="hidden"  />
-<input id="c6" name="c6" value="429218e799694a4b1ce711e01de9690d" type="hidden"  /><div class="xans-element- xans-board xans-board-write-4 xans-board-write xans-board-4"><!--
+<input id="c6" name="c6" value="429218e799694a4b1ce711e01de9690d" type="hidden"  />
+<input type="hidden" name="code" value="SAMSUNG_S24_1"/>
+<input type="hidden" name="cartId" value="20240419131320"/>
+<div class="xans-element- xans-board xans-board-write-4 xans-board-write xans-board-4">
+<!--
             $write_success_url = /board/product/list.html
             $product_select_url = /product/search_board_list.html
             $order_select_url = /order/search_board_list.html
             $login_page_url = /member/login.html
             $deny_access_url = /index.html
         -->
+</form>
 <div class="ec-base-box typeProduct  ">
-            <p class="thumbnail"><a href=""><img id="iPrdImg" src="https://insideobject.com/web/product/tiny/202305/4af17b2f7283ac768912d392d44d09ca.png" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
+            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/online-shop/assets/images/goods/<c:out value='<%= defaultImg %>'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
             <div class="information" style="padding-left:30px">
-				<h3><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdNameLink">
-				<span id="sPrdName">[오브젝트] 오브젝트 2023 로고키링</span></a></h3>
-                <p class="price"><span id="sPrdPrice">6,500원</span> <span id="sPrdTaxText"></span></p>
+				<h3><a href="#void" id="aPrdNameLink">
+				<span id="sPrdName"><%= name %></span></a></h3>
+                <!-- <p class="price"><span id="sPrdPrice">6,500원</span> <span id="sPrdTaxText"></span></p> -->
                 <p class="button">
-                    <span id="iPrdView" class=""><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdLink" class="btnEm" target="_blank">상품상세보기</a></span>
+                    <!-- <span id="iPrdView" class=""><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdLink" class="btnEm" target="_blank">상품상세보기</a></span>
                     <span class="displaynone"><a href="#none" class="btnNormal" onclick="BOARD_WRITE.product_popup('/product/search_board_list.html')">상품정보선택</a></span>
-                    <span class=""><a href="#none" class="btnNormal" onclick="BOARD_WRITE.product_popup('/order/search_board_list.html')">주문상품선택</a></span>
+                    <span class=""><a href="#none" class="btnNormal" onclick="BOARD_WRITE.product_popup('/order/search_board_list.html')">주문상품선택</a></span> -->
                 </p>
             </div>
         </div>
@@ -71,23 +201,7 @@
 <tbody>
 <tr>
 <th scope="row">제목</th>
-                    <td> <input id="subject" name="subject" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" maxLength="125" value="" type="text"  />  </td>
-                </tr>
-<tr class="displaynone">
-<th scope="row">작성자</th>
-                    <td></td>
-                </tr>
-<tr class="displaynone">
-<th scope="row">이메일</th>
-                    <td></td>
-                </tr>
-<tr class="displaynone">
-<th scope="row">평점</th>
-                    <td><input id="point0" name="point" fw-filter="" fw-label="평점" fw-msg="" value="5" type="radio" checked="checked"  /><label for="point0" ><span class="point5"><em>★★★★★</em></span></label>
-<input id="point1" name="point" fw-filter="" fw-label="평점" fw-msg="" value="4" type="radio"  /><label for="point1" ><span class="point4"><em>★★★★</em></span></label>
-<input id="point2" name="point" fw-filter="" fw-label="평점" fw-msg="" value="3" type="radio"  /><label for="point2" ><span class="point3"><em>★★★</em></span></label>
-<input id="point3" name="point" fw-filter="" fw-label="평점" fw-msg="" value="2" type="radio"  /><label for="point3" ><span class="point2"><em>★★</em></span></label>
-<input id="point4" name="point" fw-filter="" fw-label="평점" fw-msg="" value="1" type="radio"  /><label for="point4" ><span class="point1"><em>★</em></span></label></td>
+                    <td> <input id="title" name="title" fw-filter="isFill" fw-label="제목" fw-msg="" class="inputTypeText" placeholder="" value="" maxLength="125" type="text"  />  </td>
                 </tr>
 <tr>
 <td colspan="2" class="clear">
@@ -432,16 +546,23 @@
 </tbody>
 </table>
 </div>
+
 <div class="ec-base-button ">
             <!-- <span class="gLeft">
                 <span class="displaynone"><a href="#none" class="btnNormal sizeS" onclick="">관리자 답변보기</a></span>
                 <a href="" class="btnNormalFix sizeS">목록</a>
             </span> -->
             <span class="gRight">
-                <a href="#none" class="btnSubmitFix sizeS" onclick="BOARD_WRITE.form_submit('boardWriteForm');">등록</a>
+                <input type="button" class="btnSubmitFix sizeS" id="btnWrite" value="등록"/>
                 <a href="/board/review/4/" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>
+            <%
+		}catch (SQLException se){
+			se.printStackTrace();
+			out.println(".");
+		}
+	%>
 </div>
 			<!-- golgolz end -->
 		</div>

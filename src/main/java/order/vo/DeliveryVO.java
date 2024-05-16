@@ -19,4 +19,13 @@ public class DeliveryVO {
     private String tel;
     private String deliveryMsg;
     private String recipient;
+
+    public DeliveryVO(String zipcode, String defaultAddr, String detailAddr, String tel, String recipient) {
+        super();
+        this.zipcode = zipcode;
+        this.defaultAddr = defaultAddr;
+        this.detailAddr = detailAddr;
+        this.tel = tel;
+        this.recipient = recipient;
+    }
 }

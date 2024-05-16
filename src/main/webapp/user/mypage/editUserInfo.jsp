@@ -1,3 +1,4 @@
+<%@page import="java.sql.SQLException"%>
 <%@page import="user.myPage.MyPageDAO"%>
 <%@page import="user.myPage.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -11,6 +12,7 @@
     
     <%
         UserVO userDetails = (UserVO) session.getAttribute("userDetails");
+    
     
     %>
     <!-- golgolz end -->
@@ -71,6 +73,8 @@
      
         // 업데이트가 완료되면 메시지를 출력하고 리다이렉트합니다.
         //response.sendRedirect("mypage.jsp");
+        
+        
         
         
 		 %>
@@ -148,7 +152,6 @@ if (request.getParameter("cancelBtn") != null) {
     <jsp:include page="../../assets/jsp/user/header.jsp" />
     <div id="wrap">
         <div id="main">
-            마이 페이지 입니다.
             <!-- golgolz start -->
             
             <div id="wrap">
@@ -268,8 +271,6 @@ if (request.getParameter("cancelBtn") != null) {
                     <p class="displaynone">이메일 주소 변경 시 로그아웃 후 재인증을 하셔야만 로그인이 가능합니다.<br>인증 메일은 24시간 동안 유효하며, 유효 시간이 만료된 후에는 가입 정보로 로그인 하셔서 재발송 요청을 해주시기 바랍니다.</p>
                 </td>
             </tr>
-
-
 </tbody>
                                     </table>
                                 </div>
@@ -277,11 +278,55 @@ if (request.getParameter("cancelBtn") != null) {
                             </div>
 
                             <div class="ec-base-button justify">
+                            
                                 <input type="submit" name="saveBtn" id="saveBtn" class="btnSubmitFix sizeM" value="회원정보수정" >
                                 <a href="mypage.jsp" name="cancelBtn" id="cancelBtn" class="btnEmFix sizeM">취소</a>
+                                 <input type="submit" name="withdrawalBtn" id="withdrawalBtn" class="btnSubmitFix sizeM" value="회원탈퇴" >
                             </div>
-
                         </form>
+                        
+                        
+                        
+                        <%
+                     // 회원 탈퇴 버튼이 눌렸을 때
+                     if (request.getParameter("withdrawalBtn") != null) {
+                         try {
+                             boolean isWithdrawn = dao.toggleWithdrawalFlag(userId);
+                             if(isWithdrawn) {
+                                 // 회원 탈퇴 후 로그아웃 처리
+                                 session.invalidate();
+                     %>
+                                 <script type='text/javascript'>
+                                     alert('회원 탈퇴가 완료되었습니다.');
+                                     location='../login/userLogin.jsp'; // 로그인 페이지로 리다이렉트
+                                 </script>
+                     <%
+                             } else {
+                     %>
+                                 <script type='text/javascript'>
+                                     alert('회원 탈퇴에 실패했습니다. 다시 시도해 주세요.');
+                                 </script>
+                     <%
+                             }
+                         } catch (SQLException e) {
+                             // 예외 처리
+                             e.printStackTrace();
+                     %>
+                             <script type='text/javascript'>
+                                 alert('회원 탈퇴 중 오류가 발생했습니다.');
+                             </script>
+                     <%
+                         }
+                     }
+                     %>
+
+
+
+   
+						
+<%
+
+%>
                     </div>
                 </div>
             </div>

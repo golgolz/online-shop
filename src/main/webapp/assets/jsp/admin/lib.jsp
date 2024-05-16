@@ -12,3 +12,4 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <link id="pagestyle" href="http://localhost/online-shop/assets/css/material-dashboard.min.css"
 	rel="stylesheet" />
+<link rel="shortcut icon" href="http://demofran.com/data/banner/JnLfWUSUyR6sXJP5n3Re4Fvdc93k93.ico" type="image/x-icon">

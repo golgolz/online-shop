@@ -4,6 +4,23 @@
 <%@page import="admin.order.AdminOrderDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+<jsp:useBean id="orderInfo" class="admin.order.OrderDetailInfoVO" />
+<jsp:setProperty property="*" name="orderInfo" />
+<%
+	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
+	String paramId = (String)request.getParameter("id");
+	if(request.getParameter("id") != null){
+		orderInfo = adminOrderDAO.selectDetailInfo(paramId);
+	} else {
+%>
+	<script>
+		alert("잘못된 요청입니다. 주문 리스트 페이지로 돌아갑니다.");
+		location.href = "http://localhost/online-shop/manage/order/orders.jsp";
+	</script>
+<%
+	}
+	List<OrderDetailGoodsVO> goodsList = adminOrderDAO.selectDetailGoods(paramId);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,14 +30,85 @@
 <script type="text/javascript">
 	$(function() {
 		$("#order_menu").addClass("bg-gradient-primary");
+		
+		$(".order_status").click(function(){
+			var params = { 
+					method: $(this).val(),
+					cartId: <%= paramId %>,
+					quantity: getAmount()
+					};
+			
+			if(params.method == "반품접수" && $("#purchaseStatus").text() == "구매확정"){
+				alert("구매 확정된 상품은 반품처리가 불가합니다.");
+				return;
+			}
+			
+			$.ajax({
+				url: "status_update_process.jsp",
+				type: "POST",
+				datatype: "JSON",
+				data: params,
+				error: function(xhr){
+					alert("error occurred");
+				},
+				success: function(result){
+					if(result.flag){
+						var $tbody = $("#sodr_list tbody");
+						var goodsList = result.data;
+						var output = "";
+						
+						$tbody.empty();
+						$.each(goodsList, function(i, goods){
+							output ="";
+							output += "<tr class='list0'>";
+							output += "<td><a href='http://localhost/online-shop/goods/detail.jsp?goods=" + goods.code +"'>";
+							output += "<img src='http://localhost/online-shop/assets/images/goods/" + goods.defaultImage + "' width='40' height='40'></a></td>";
+							output += "<td class='tal'><a href='http://localhost/online-shop/goods/detail.jsp?goods=" + goods.code + "'>" + goods.name + "</a></td>";
+							output += "<td>" + goods.orderStatus + "</td>";
+							output += "<td id='purchaseStatus'>" + goods.purchaseStatus + "</td>";
+							output += "<td id='goodsAmount'>" + goods.amount + "개</td>";
+							output += "<td class='tar'>" + goods.price + "원</td>";
+							output += "<td class='tar'>" + goods.deliveryCharge + "원</td>";
+							output += "<td class='td_price'>" + (parseInt(goods.price) * parseInt(goods.amount) + parseInt(goods.deliveryCharge)) + "원</td></tr>";
+							$tbody.append(output);
+						});
+						
+						if(params.method == "반품접수"){
+							if($("#purchaseStatus").text() == "구매확정"){
+								alert("구매 확정된 상품은 반품처리가 불가합니다.");
+								return;
+							}
+							alert("해당 상품의 반품 접수가 완료되었습니다.");
+						} else{
+							alert("해당 상품의 배송 상태가 변경되었습니다.");
+						}
+					}
+				}
+			});
+		});
 	});
+	
+	function getAmount(){
+		var totalAmount = 0;
+	    
+	    $('#sodr_list tr').each(function(index, row){
+	        if(index !== 0){
+	            var columns = $(row).find('td');
+	            
+	            // 특정 컬럼(나이)의 데이터를 추출하여 합칩니다.
+	            var amount = parseInt($(columns[4]).text().slice(0, -1));
+	            totalAmount += amount;
+	        }
+	    });
+	    
+	    return totalAmount;
+	}
 </script>
 <!-- golgolz start -->
 <script src="http://demofran.com/js/jquery-1.8.3.min.js"></script>
 <script src="http://demofran.com/js/jquery-ui-1.10.3.custom.js"></script>
 <script src="http://demofran.com/js/common.js?ver=20240430173216"></script>
 <script src="http://demofran.com/js/categorylist.js?ver=20240430173216"></script>
-
 <style>
 .new_win {
     overflow: auto; 
@@ -33,23 +121,7 @@
 <!-- golgolz end -->
 </head>
 <body>
-	<jsp:useBean id="orderInfo" class="admin.order.OrderDetailInfoVO" />
-	<jsp:setProperty property="*" name="orderInfo" />
-	<%
-	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
-	String paramId = (String)request.getParameter("id");
-	if(request.getParameter("id") != null){
-		orderInfo = adminOrderDAO.selectDetailInfo(paramId);
-	} else {
-	%>
-	<script>
-		alert("잘못된 요청입니다. 주문 리스트 페이지로 돌아갑니다.");
-		location.href = "http://localhost/online-shop/manage/order/orders.jsp";
-	</script>
-	<%
-	}
-	List<OrderDetailGoodsVO> goodsList = adminOrderDAO.selectDetailGoods(paramId);
-	%>
+	
 	<jsp:include page="../../assets/jsp/admin/header.jsp" />
 	<main
 		class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps--active-y">
@@ -86,9 +158,7 @@
 							주문일시 : <%= orderInfo.getInputDate() %>
 						</p>
 					</div>
-					<form name="frmorderform" method="post"
-						action="./pop_orderstatusupdate.php"
-						onsubmit="return form_submit(this);">
+					<form name="frmorderform" method="post">
 						<div class="tbl_head01">
 							<table id="sodr_list">
 								<colgroup>
@@ -127,11 +197,11 @@
 												</a>
 											</td>
 											<td><%= goods.getOrderStatus() %></td>
-											<td><%= goods.getPurchaseStatus() %></td>
-											<td><%= goods.getAmount() %></td>
-											<td class="tar"><%= goods.getPrice() %></td>
-											<td class="tar"><%= goods.getDeliveryCharge() %></td>
-											<td class="td_price"><%= goods.getPrice() * goods.getAmount() %></td>
+											<td id="purchaseStatus"><%= goods.getPurchaseStatus() %></td>
+											<td id="goodsAmount"><%= goods.getAmount() %>개</td>
+											<td class="tar"><%= goods.getPrice() %>원</td>
+											<td class="tar"><%= goods.getDeliveryCharge() %>원</td>
+											<td class="td_price"><%= goods.getPrice() * goods.getAmount() + goods.getDeliveryCharge() %>원</td>
 									</tr>
 									<% } %>
 								</tbody>
@@ -142,9 +212,9 @@
 				<section>
 					<form name="buttonfrm">
 						<div class="status-btn-div">
-							<input type="button" value="배송시작" class="btn_medium blue">
-							<input type="button" value="배송완료" class="btn_medium green">
-							<input type="button" value="반품접수" class="btn_medium red">
+							<input type="button" value="배송시작" class="btn_medium blue order_status">
+							<input type="button" value="배송완료" class="btn_medium green order_status">
+							<input type="button" value="반품접수" class="btn_medium red order_status">
 						</div>
 					</form>
 				</section>
@@ -250,60 +320,12 @@
 								</section>
 							</div>
 							<div class="btn_confirm">
-								<input type="submit" value="배송지 정보 수정" class="btn_medium">
-								<a href="javascript:window.close();" class="btn_medium bx-white">닫기</a>
+								<a href="javascript:history.back();" class="btn_medium bx-white">이전</a>
 							</div>
 						</form>
 					</section>
 				</div>
-
 			</div>
-
-			<script>
-				function form_submit(f) {
-					var status = document.pressed;
-
-					if (!is_checked("chk[]")) {
-						alert("처리할 자료를 하나 이상 선택해 주십시오.");
-						return false;
-					}
-
-					if (status == "운송장번호수정") {
-						f.action = "./pop_orderbaesongupdate.php";
-						return true;
-					}
-
-					var $chk = $("input[name='chk[]']");
-					var chk_cnt = $chk.size();
-					var chked_cnt = $chk.filter(":checked").size();
-
-					if (status == "입금완료" || status == "입금대기"
-							|| status == "주문취소" || status == "전체환불"
-							|| status == "전체반품") {
-						if (chk_cnt != chked_cnt) {
-							alert("처리할 자료를 모두 선택해주세요.\n\n일부 상품만 처리할 수 없습니다.");
-							return false;
-						}
-					}
-
-					if (confirm("주문상태를 변경하시겠습니까?")) {
-						return true;
-					} else {
-						return false;
-					}
-				}
-			</script>
-
-
-			<div id="ajax-loading">
-				<img src="http://demofran.com/img/ajax-loader.gif">
-			</div>
-
-			<script
-				src="http://demofran.com/admin/js/admin.js?ver=20240430173216"></script>
-
-			<script src="http://demofran.com/js/wrest.js"></script>
-
 			<!-- golgolz end -->
 		</div>
 	</main>

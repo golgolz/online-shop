@@ -46,6 +46,7 @@ session.setAttribute("loginData", rVO);
   
 <style type="text/css">
 	#wrap{width: 1462px; height:749; margin:0px auto;}
+	#header{height:100px; background:#FFFFFF url('http://192.168.10.216/jsp_prj/common/images/header.png') no-repeat;}
 
 	#reply_wrap{height:200px; margin-top:20px}
 	#reply_content{height:170px; overflow:auto; margin-top:10px}
@@ -55,7 +56,7 @@ session.setAttribute("loginData", rVO);
 	$(function(){
 	    $("#btnList").click(function () {
 	        //history.back();
-	        location.href="http://localhost/online-shop/manage/review/review_my_list.jsp?currentPage=${param.currentPage}";
+	        location.href="http://192.168.10.216/jsp_prj/board/board_list.jsp?currentPage=${param.currentPage}";
 	    });//click
 	    $("#btnUpdate").click(function () {
 	    	if(confirm("글을 수정하시겠습니까?")){
@@ -209,7 +210,7 @@ session.setAttribute("loginData", rVO);
 	        $("#cnt").val(0);
 	    }
 	    
-	    $("#frmDetail")[0].action="review_update_process.jsp";
+	    $("#frmDetail")[0].action="board_update_process.jsp";
 	    $("#frmDetail").submit();
 	
 	}//chkNull
@@ -239,17 +240,17 @@ $(function(){
 <div id="header"></div>
 <div id="boardContent">
 <%
-	UserReviewDAO rDAO=UserReviewDAO.getInstance();
+UserReviewDAO rDAO=UserReviewDAO.getInstance();
 	try{
 	  String seq=request.getParameter("seq");
 	  
 	  rVO=rDAO.selectDetailReview(Integer.parseInt(seq));//상세보기
-	  /* rDAO.updateCnt(Integer.parseInt(seq));//조회수 올려주기(중요도가 덜한것이 아래로 내려가는게 좋음) */
+	  /* rDAO.updateReview(Integer.parseInt(seq));//조회수 올려주기(중요도가 덜한것이 아래로 내려가는게 좋음) */
 	  
 	  pageContext.setAttribute("rVO", rVO);
 	}catch(NumberFormatException nfe){
 	  %>
-	  <%-- <c:redirect url="http://localhost/online-shop/manage/review/review_my_list.jsp"/> --%>
+	 <%--  <c:redirect url="board_list.jsp"/> --%>
 	  
 	  <%
 	}catch(SQLException se){
@@ -264,9 +265,7 @@ $(function(){
 
 	<!-- <h3>글쓰기</h3> -->
 	<form method="post" name="frmDetail" id="frmDetail">
-	<input type="hidden" name="reviewId" value="${ rVO.reviewId }"/>
-	<input type="hidden" name="cartId" value="${ rVO.cartId }"/>
-	<input type="hidden" name="code" value="${ rVO.code }"/>
+	<input type="hidden" name="num" value="${ bVO.num }"/>
 	<input type="hidden" name="currentPage" value="${ param.currentPage }"/>
 	<table>
 	<tr>
@@ -293,7 +292,7 @@ $(function(){
 	</tr>
 	<tr>
 		<td>작성일</td>
-		<td><strong> <c:out value="${rVO.inputDate}"/></strong></td>
+		<td><strong><fmt:formatDate value="${rVO.input_date}" pattern="yyyy-MM-dd EEEE HH:mm:ss"/></strong></td>
 	</tr>
 	<tr>
 		<td>작성자</td>

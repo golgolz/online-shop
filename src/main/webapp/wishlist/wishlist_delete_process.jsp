@@ -1,14 +1,14 @@
+<%@page import="user.wishlist.WishlistDAO"%>
 <%@page import="user.review.UserReviewDAO"%>
 <%@page import="admin.review.ReviewBoardVO"%>
 <%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
-    info="글쓰기 db추가 페이지"%>
+    info="글 삭제 페이지"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://localhost/online-shop/index.jsp"/>
-</c:if>
+<%-- <c:if test="${empty sessionScope.loginData }"><!-- 로그인 한 사람만 삭제 가능 -->
+<c:redirect url="#void"/>
+</c:if> --%>
 
 <!DOCTYPE html>
 <html>
@@ -32,26 +32,35 @@
 </style>
 <% request.setCharacterEncoding("UTF-8"); %>
 <!-- parameter받기 -->
-<jsp:useBean id="rVO" class="admin.review.ReviewBoardVO" scope="page"/>
-<jsp:setProperty property="*" name="rVO"/>
+<jsp:useBean id="wVO" class="user.wishlist.WishlistVO" scope="page"/>
+<jsp:setProperty property="*" name="wVO"/>
 <script type="text/javascript">
 		
 		<%
 		try{
 		    //아이디는 세션에 저장된 값을 받아서 설정(외부에서 조작 불가)
-		rVO.setId(((ReviewBoardVO)session.getAttribute("loginData")).getId());
-		    
-		UserReviewDAO rDAO=UserReviewDAO.getInstance();
-		rDAO.insertReview(rVO);
+		WishlistDAO wDAO=WishlistDAO.getInstance();
+		
+		int favoriteId=Integer.parseInt(request.getParameter("favoriteId"));
+		
+		/* rVO.setId(((ReviewBoardVO)session.getAttribute("loginData")).getId()); */
+	    wVO.setFavoriteId(favoriteId);
+		
+		int cnt=wDAO.deleteWishlist(wVO);
+		System.out.print(cnt);
+		if(cnt==1){
+		  
 		%>
-		alert("글을 작성했습니다.");
-		location.href="http://localhost/online-shop/manage/review/review_my_list.jsp";
+		location.href="http://localhost/online-shop/wishlist/wishlist.jsp?currentPage=${param.currentPage}";
 		<%
+		}else{
+		%>
+		alert("관심상품 삭제 실패");
+		history.back();
+		<%
+		}
 		}catch(SQLException se) {
 		    se.printStackTrace();
-		    %>
-		    location.href="http://192.168.10.216/jsp_prj/error/err_500.html";
-		    <%
 		}//end catch
 		%>
 		$(function(){

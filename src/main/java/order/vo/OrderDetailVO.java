@@ -20,12 +20,11 @@ public class OrderDetailVO {
     private List<OrderProductVO> productList;
     private String deliveryStatus;
     private String purchaseStatus;
-    private int total;
     private String zipcode;
     private String defaultAddr;
     private String detailAddr;
     private String tel;
     private String deliveryMsg;
     private String recipient;
-    private int statusFlag;
+    private String statusFlag;
 }
