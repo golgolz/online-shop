@@ -9,6 +9,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%
+String userId = (String) session.getAttribute("userId");
+System.out.println("세션 로그인 상태: " + userId);
+
+if (userId == null) {
+    System.out.println("로그인이 필요합니다. ");
+%>
+    <script type="text/javascript">
+        alert('로그인이 필요합니다.');
+        window.location.href = '../login/userLogin.jsp'; // 경로 수정 필요
+
+    </script>
+<%
+    return;
+}
+%> 
+
+
 
 <!-- DatePicker -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -369,7 +387,7 @@ $(function() {
 				 String frDate = request.getParameter("fr_date");
 				 String toDate = request.getParameter("to_date");
 				 
-				 String userId = (String) session.getAttribute("userId");
+				 userId = (String) session.getAttribute("userId");
 
 				 // 입력값을 디버깅합니다.
 				 System.out.println("fr_date: " + frDate + ", to_date: " + toDate);
