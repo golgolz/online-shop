@@ -265,7 +265,7 @@ public class WishlistDAO {
 
   }// deleteWishlist
 
-  public int deleteAllWishlist(WishlistVO wVO) throws SQLException {
+  public int deleteAllWishlist(String id) throws SQLException {
     int cnt = 0;
 
     Connection con = null;
@@ -279,11 +279,11 @@ public class WishlistDAO {
 
       StringBuilder deleteAllWishlist = new StringBuilder();
 
-      deleteAllWishlist.append("   delete from favorite    ").append("   where favorite_id=?    ");
+      deleteAllWishlist.append("   delete from favorite    ").append("   where id=?    ");
 
       pstmt = con.prepareStatement(deleteAllWishlist.toString());
 
-      pstmt.setString(1, wVO.getCartId());
+      pstmt.setString(1, id);
 
       cnt = pstmt.executeUpdate();
 
