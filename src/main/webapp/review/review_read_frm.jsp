@@ -7,24 +7,10 @@
     info="게시판 글 읽기"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%-- <%
-WebMemberVO wmVo=(WebMemberVO)session.getAttribute("loginData");
-if(wmVo == null) { //로그인 하지 않았음
-    
-}//end if
-%> --%>
-<%-- <%/* 로그인한 사람만 읽게 하려면 쓰고 아니면 지우기 */
-//개발의 편의성을 위해 로그인한 것처럼 코드를 작성항 후 작업 진행
-rVO.setId("haa");
-session.setAttribute("loginData", rVO);
-%>
-<c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://localhost/online-shop/index.jsp"/>
-</c:if> --%>
 <%
 ReviewBoardVO rVO=new ReviewBoardVO();
 String userId = (String) session.getAttribute("userId");
-System.out.println("세션 로그인 상태: " + userId);
+
 
 if (userId == null) {
     System.out.println("로그인이 필요합니다. ");
@@ -67,21 +53,12 @@ summernote끝 -->
 	$(function(){
 	    $("#btnList").click(function () {
 	        //history.back();
-	        location.href="http://localhost/online-shop/review/review_my_list.jsp?currentPage=${param.currentPage}";
+	        location.href="http://192.168.10.211/review/review_my_list.jsp?currentPage=${param.currentPage}";
 	    });//click
 	    $("#btnUpdate").click(function () {
 	    	if(confirm("글을 수정하시겠습니까?")){
 	    	chkNull();	    		
 	    	}//end if
-	    });//click
-	    $("#btnDelete").click(function () {
-			if(confirm("글을 정말 삭제하시겠습니까?")){
-	    	//<form태그의 action 변경
-	    	//var frm=document.frmDetail.action="back-end URL"
-	    	$("#frmDetail")[0].action="board_delete_frm_process.jsp";
-	    	$("#frmDetail").submit();	
-			}//end if
-	    
 	    });//click
 	    
 	    $("#btnWrite").click(function(){
@@ -270,16 +247,11 @@ $(function(){
 	  
 	}catch(NumberFormatException nfe){
 	  %>
-	  <%-- <c:redirect url="http://localhost/online-shop/review/review_my_list.jsp"/> --%>
+	  <%-- <c:redirect url="http://192.168.10.211/review/review_my_list.jsp"/> --%>
 	  
 	  <%
 	}catch(SQLException se){
 	  se.printStackTrace();
-	  %>
-	  <script type="text/javascript">
-	location.href="http://192.168.10.216/jsp_prj/error/err_500.html";
-</script>
-	  <%
 	}
 %>
 	<jsp:include page="../assets/jsp/user/header.jsp" />
@@ -321,7 +293,7 @@ $(function(){
         -->
 
 <div class="ec-base-box typeProduct  ">
-            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/online-shop/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
+            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://192.168.10.211/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
             <div class="information" style="padding-left:30px">
 				<h3><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdNameLink">
 				<span id="sPrdName"> <c:out value="${rVO.name}"/></span></a></h3>
@@ -706,12 +678,11 @@ $(function(){
 </div>
 <div class="ec-base-button ">
             <span class="gLeft">
-                <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
+                <a href="http://192.168.10.211/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
             <input type="button" value="수정" class="btnSubmitFix sizeS" id="btnUpdate"/>
-            <%-- <a href="review_update_process.jsp?reviewId=${rVO.reviewId}&title=${rVO.title}&content=${rVO.content}&id=${rVO.id}" class="btnSubmitFix sizeS">수정</a> --%>
-                <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
+                <a href="http://192.168.10.211/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>
 </div>

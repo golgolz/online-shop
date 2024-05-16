@@ -20,7 +20,7 @@ rVO.setId("haa");
 session.setAttribute("loginData", rVO);
 %>
 <c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://localhost/online-shop/index.jsp"/>
+<c:redirect url="http://192.168.10.211/index.jsp"/>
 </c:if> --%>
 <%
 ReviewBoardVO rVO=new ReviewBoardVO();
@@ -66,15 +66,6 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 </style>
 <script type="text/javascript">
 	$(function(){
-	    $("#btnList").click(function () {
-	        //history.back();
-	        location.href="http://192.168.10.216/jsp_prj/board/board_list.jsp?currentPage=${param.currentPage}";
-	    });//click
-	    $("#btnUpdate").click(function () {
-	    	if(confirm("글을 수정하시겠습니까?")){
-	    	chkNull();	    		
-	    	}//end if
-	    });//click
 	    $("#btnDelete").click(function () {
 			if(confirm("글을 정말 삭제하시겠습니까?")){
 	    	//<form태그의 action 변경
@@ -86,25 +77,6 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 	    });//click
 	});//ready
 	
-	function chkNull() {
-	    if($("#title").val().trim() == "") {
-	        alert("글 제목은 필수입력");
-	        $("#title").focus();
-	        return;
-	    }//end if
-	    if($("#content").val().trim() == "") {
-	        alert("내용은 필수입력");
-	        $("#content").focus();
-	        return;
-	    }//end if
-	    if($("#cnt").val().trim() == "") {
-	        $("#cnt").val(0);
-	    }
-	    
-	    $("#frmDetail")[0].action="board_update_process.jsp";
-	    $("#frmDetail").submit();
-	
-	}//chkNull
 </script>
 <script>
 $(function(){
@@ -138,13 +110,13 @@ $(function(){
 					<ol
 						class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
 						<li class="breadcrumb-item text-sm"><a
-							class="opacity-5 text-dark" href="http://localhost/online-shop/manage/index.jsp">
+							class="opacity-5 text-dark" href="http://192.168.10.211/manage/index.jsp">
 							관리자 기능</a></li>
 						<!-- 하단의 대시보드 텍스트를 본인 기능으로 변경 필요  -->
 						<li class="breadcrumb-item text-sm text-dark active"
-							aria-current="page"><a href="http://localhost/online-shop/manage/review/review.jsp">리뷰 관리</a></li>
+							aria-current="page"><a href="http://192.168.10.211/manage/review/review.jsp">리뷰 관리</a></li>
 					</ol>
-					<h6 class="font-weight-bolder mb-0"><a href="http://localhost/online-shop/manage/review/review_select.jsp">리뷰 상세 보기</a></h6>
+					<h6 class="font-weight-bolder mb-0"><a href="http://192.168.10.211/manage/review/review_select.jsp">리뷰 상세 보기</a></h6>
 				</nav>
 			</div>
 		</nav>
@@ -164,30 +136,8 @@ $(function(){
 	  pageContext.setAttribute("rVO", rVO);
 	}catch(SQLException se){
 	  se.printStackTrace();
-	  %>
-	  <script type="text/javascript">
-	location.href="http://192.168.10.216/jsp_prj/error/err_500.html";
-</script>
-	  <%
 	}
 %>
-
-	<%-- <form method="post" name="frmDetail" id="frmDetail">
-	<input type="hidden" name="num" value="${ rbVO.num }"/>
-	<input type="hidden" name="currentPage" value="${ param.currentPage }"/>
-	<table>
-	<tr>
-		<td colspan="2" style="text-align : center;">
-		<c:if test="${not empty sessionScope.loginData }"><!-- 로그인한 사람 누구나 삭제 수정 할 수 있다. -->
-		<c:if test="${ rVO.id eq sessionScope.loginData.id }"><!-- 내 글만 수정 삭제 가능 -->
-		<input type="button" value="글 수정" class="btn btn-success btn-sm" id="btnUpdate"/>
-		<input type="button" value="글 삭제" class="btn btn-warning btn-sm" id="btnDelete"/>
-		</c:if>
-		<input type="button" value="글 목록" class="btn btn-info btn-sm" id="btnList"/>
-		</td>
-	</tr>
-	</table>
-	</form>     --%>
 </div>
 </div>	
 
@@ -221,7 +171,7 @@ $(function(){
 						<tr>
 				<td class="label">관련 상품</td>
 				<td class="box text" colspan="3">
-					<a href="#"><img src="http://localhost/online-shop/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px"/><c:out value="${rVO.name}"/></a>
+					<a href="#"><img src="http://192.168.10.211/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px"/><c:out value="${rVO.name}"/></a>
 				</td>
 			</tr>
 						<tr>
@@ -238,7 +188,7 @@ $(function(){
 		<div class="alignCenter">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%">
 				<tr>
-					<td align="left"><a href="http://localhost/online-shop/manage/review/review_board_list.jsp" id="mode_bbs1" mode="list"><img src="https://demo01.swm.whoismall.com/admin/images/community/btn_list.gif" alt="목록"></a></td>
+					<td align="left"><a href="http://192.168.10.211/manage/review/review_board_list.jsp" id="mode_bbs1" mode="list"><img src="https://demo01.swm.whoismall.com/admin/images/community/btn_list.gif" alt="목록"></a></td>
 					<td align="right">
 						<a href="review_delete_process.jsp?reviewId=${rVO.reviewId }" id="mode_bbs3" mode="delete"  style="margin-right: 300px;"><img src="https://demo01.swm.whoismall.com/admin/images/community/btn_del.gif" alt="삭제"></a>
 					</td>

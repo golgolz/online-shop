@@ -7,6 +7,19 @@
 <jsp:useBean id="orderInfo" class="admin.order.OrderDetailInfoVO" />
 <jsp:setProperty property="*" name="orderInfo" />
 <%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+
+if (!Boolean.TRUE.equals(isLoggedIn)) {
+%>
+  <script type="text/javascript">
+      alert('로그인이 필요합니다.');
+      window.location.href = 'http://192.168.10.211/manage/adminLogin/adminLogin.jsp';
+  </script>
+<%
+  return;
+}
+%>
+<%
 	AdminOrderDAO adminOrderDAO = AdminOrderDAO.getInstance();
 	String paramId = (String)request.getParameter("id");
 	if(request.getParameter("id") != null){
@@ -15,7 +28,7 @@
 %>
 	<script>
 		alert("잘못된 요청입니다. 주문 리스트 페이지로 돌아갑니다.");
-		location.href = "http://localhost/online-shop/manage/order/orders.jsp";
+		location.href = "http://192.168.10.211/manage/order/orders.jsp";
 	</script>
 <%
 	}
@@ -61,9 +74,9 @@
 						$.each(goodsList, function(i, goods){
 							output ="";
 							output += "<tr class='list0'>";
-							output += "<td><a href='http://localhost/online-shop/goods/detail.jsp?goods=" + goods.code +"'>";
-							output += "<img src='http://localhost/online-shop/assets/images/goods/" + goods.defaultImage + "' width='40' height='40'></a></td>";
-							output += "<td class='tal'><a href='http://localhost/online-shop/goods/detail.jsp?goods=" + goods.code + "'>" + goods.name + "</a></td>";
+							output += "<td><a href='http://192.168.10.211/goods/detail.jsp?goods=" + goods.code +"'>";
+							output += "<img src='http://192.168.10.211/assets/images/goods/" + goods.defaultImage + "' width='40' height='40'></a></td>";
+							output += "<td class='tal'><a href='http://192.168.10.211/goods/detail.jsp?goods=" + goods.code + "'>" + goods.name + "</a></td>";
 							output += "<td>" + goods.orderStatus + "</td>";
 							output += "<td id='purchaseStatus'>" + goods.purchaseStatus + "</td>";
 							output += "<td id='goodsAmount'>" + goods.amount + "개</td>";
@@ -187,12 +200,12 @@
 									<% for(OrderDetailGoodsVO goods : goodsList){ %>
 									<tr class="list0">
 											<td>
-												<a href="http://localhost/online-shop/goods/detail.jsp?goods=<%= goods.getCode() %>">
-													<img src="http://localhost/online-shop/assets/images/goods/<%= goods.getDefaultImage() %>" width="40" height="40">
+												<a href="http://192.168.10.211/goods/detail.jsp?goods=<%= goods.getCode() %>">
+													<img src="http://192.168.10.211/assets/images/goods/<%= goods.getDefaultImage() %>" width="40" height="40">
 												</a>
 											</td>
 											<td class="tal">
-												<a href="http://localhost/online-shop/goods/detail.jsp?goods=<%= goods.getCode() %>">
+												<a href="http://192.168.10.211/goods/detail.jsp?goods=<%= goods.getCode() %>">
 													<%= goods.getName() %>
 												</a>
 											</td>

@@ -11,7 +11,7 @@
 
 <%
 String userId = (String) session.getAttribute("userId");
-System.out.println("세션 로그인 상태: " + userId);
+
 
 if (userId == null) {
     System.out.println("로그인이 필요합니다. ");
@@ -72,75 +72,6 @@ if (userId == null) {
 			}//end if
 		}//chkNull
 		
-		//////////////////////////////////////////////////////////////////////////////
-
-/*  		function deleteWishlist(){
-			
-			var flag = confirm("정말 삭제하시겠습니까?");
-			
-			if(flag == false){//아니오를 누른 경우
-				return;
-			}//end if
-			
-			//예를 누른 경우 삭제 코드 실행
-			var param = {
-					orderGoodsId : $("#orderProductId").val(),
-					cartId : $("#orderCartId").val(),
-					method : "deleteOne"
-			};
-			$.ajax({
-				url : "wishlist_process.jsp",
-				type : "POST",
-				data : param,
-				dataType : "JSON",
-				error : function(xhr){
-					alert("AJAX 요청 실패: " + xhr.status + " " + xhr.statusText);
-				},
-				success : function(jsonObj){
-					if(jsonObj.result){
-						alert("삭제가 완료되었습니다.");
-						location.reload();
-					}else{
-						alert("삭제를 실패했습니다. 잠시 후 다시 시도해주세요.");
-					}
-				}
-			})
-			}
-		
-		function deleteAllWishlist(){
-			
-			var flag = confirm("관심상품이 모두 비워집니다. 삭제하시겠습니까?");
-			
-			if(flag == false){
-				return;
-			}//end if
-			
-			//예를 누른 경우 삭제 코드 실행
-			var param = {
-					cartId : $("#orderCartId").val(),
-					method : "deleteAll"
-			};
-			$.ajax({
-				url : "wishlist_process.jsp",
-				type : "POST",
-				data : param,
-				dataType : "JSON",
-				error : function(xhr){
-					alert("AJAX 요청 실패:"+ xhr.status + " " + xhr.statusText);
-				},
-				success : function(jsonObj){
-					if(jsonObj.result){
-						alert("관심상품이 비워졌습니다.");
-						location.reload();
-					}else{
-						alert("관심상품 비우기를 실패했습니다. 잠시 후 다시 시도해주세요.");
-					}
-				}
-			})
-		} 
-		
-		 */
-		
 </script>
 </head>
 <body>
@@ -186,18 +117,10 @@ if (userId == null) {
 	    String userId="lee";
 	    session.setAttribute("userId", userId);
 	    // */
-	    String userId2=(String)session.getAttribute("userId");
-	    List<WishlistVO> list=wDAO.selectWishlist(userId2);//시작번호와 끝 번호 사이의 글 조회
+	    String id=(String)session.getAttribute("userId");
+	    List<WishlistVO> list=wDAO.selectWishlist(id);//시작번호와 끝 번호 사이의 글 조회
 	   	pageContext.setAttribute("list", list);
-	    
-	   	LocalDate currentDate = LocalDate.now();
-	   	
-	   	int cnt=wDAO.selectFavoriteId(wVO);
-	    wVO.setCode(code);
-	    wVO.setInputDate(Date.valueOf(currentDate));
-	    wVO.setId(userId2);
-	    wVO.setFavoriteId(cnt);
-	    wDAO.insertWishlist(wVO);
+	 
 	    
 	    pageContext.setAttribute("totalCount", totalCount);
 	    pageContext.setAttribute("pageScale", pageScale);
@@ -277,9 +200,9 @@ if (userId == null) {
             <tr class="xans-record-">
 <td><input name="wish_idx[]" id="wish_idx_0" enable-order="1" reserve-order="N" enable-purchase="1" class="" is-set-product="F" value="184531" type="checkbox" /></td>
                 <td style="width:20px"><input type="hidden" name="reviewId" value="${wVO.favoriteId}"/><c:out value="${i.index+1}"/></td>
-                <td class="thumb" style="width:90px"><img src="http://localhost/online-shop/assets/images/goods/<c:out value="${wVO.defaultImg}"/>"/></td>
+                <td class="thumb" style="width:90px"><img src="http://192.168.10.211/assets/images/goods/<c:out value="${wVO.defaultImg}"/>"/></td>
                 <td class="left" style="width:200px; text-align: center;">
-                    <strong class="name"><a href="http://localhost/online-shop/goods/detail.jsp?goods=${wVO.code}" class="ec-product-name"><c:out value="${wVO.name}"/></a></strong>
+                    <strong class="name"><a href="http://192.168.10.211/goods/detail.jsp?goods=${wVO.code}" class="ec-product-name"><c:out value="${wVO.name}"/></a></strong>
 </td>
                 <td class="price right" style="text-align:center">
 <strong class=""><c:out value="${wVO.price}"/><br/></strong><br/><strong class="displaynone">2000</strong>

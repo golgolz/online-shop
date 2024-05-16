@@ -18,12 +18,12 @@ rVO.setId("haa");
 session.setAttribute("loginData", rVO);
 %>
 <c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://localhost/online-shop/index.jsp"/>
+<c:redirect url="http://192.168.10.211/index.jsp"/>
 </c:if> --%>
 <%
 ReviewBoardVO rVO=new ReviewBoardVO();
 String userId = (String) session.getAttribute("userId");
-System.out.println("세션 로그인 상태: " + userId);
+
 
 if (userId == null) {
     System.out.println("로그인이 필요합니다. ");
@@ -179,7 +179,7 @@ $(function(){
         -->
 </form>
 <div class="ec-base-box typeProduct  ">
-            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/online-shop/assets/images/goods/<c:out value='<%= defaultImg %>'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
+            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://192.168.10.211/assets/images/goods/<c:out value='<%= defaultImg %>'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
             <div class="information" style="padding-left:30px">
 				<h3><a href="#void" id="aPrdNameLink">
 				<span id="sPrdName"><%= name %></span></a></h3>
@@ -548,10 +548,6 @@ $(function(){
 </div>
 
 <div class="ec-base-button ">
-            <!-- <span class="gLeft">
-                <span class="displaynone"><a href="#none" class="btnNormal sizeS" onclick="">관리자 답변보기</a></span>
-                <a href="" class="btnNormalFix sizeS">목록</a>
-            </span> -->
             <span class="gRight">
                 <input type="button" class="btnSubmitFix sizeS" id="btnWrite" value="등록"/>
                 <a href="/board/review/4/" class="btnBasicFix sizeS">취소</a>
