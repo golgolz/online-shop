@@ -104,11 +104,11 @@ if (userId == null) {
 		}//function
 		function deleteWishlist(){
 			
-/* 			var flag = confirm("정말 삭제하시겠습니까?");
+			var flag = confirm("관심상품 목록에서 삭제하시겠습니까?");
 			
 			if(flag == false){//아니오를 누른 경우
 				return;
-			}//end if */
+			}//end if 
 			
 			//예를 누른 경우 삭제 코드 실행
 			var param = {
@@ -245,10 +245,11 @@ if (userId == null) {
 <col style="width:110px"/>
 </colgroup>
 <thead><tr style="text-align:center; width:10px">
-<th scope="col"><input type="checkbox" onclick="NewWishlist.checkAll(this);"/></th>
+<!-- <th scope="col"><input type="checkbox" onclick="NewWishlist.checkAll(this);"/></th> -->
 	            <th scope="col"  style="width:20px">번호</th>
                 <th scope="col">이미지</th>
                 <th scope="col">상품정보</th>
+				<th scope="col"></th>
                 <th scope="col">판매가</th>
                 <th scope="col"></th>
                 <th scope="col">배송비</th>
@@ -259,7 +260,7 @@ if (userId == null) {
             <c:forEach var="wVO" items="${list}" varStatus="i">
             <tr class="xans-record-">
             <input type="hidden" id="userId" name="userId" value="<%= userId %>"/>
-<td><input name="wish_idx[]" id="wish_idx_0" enable-order="1" reserve-order="N" enable-purchase="1" class="" is-set-product="F" value="184531" type="checkbox" /></td>
+<!-- <td><input name="wish_idx[]" id="wish_idx_0" enable-order="1" reserve-order="N" enable-purchase="1" class="" is-set-product="F" value="184531" type="checkbox" /></td> -->
 
                 <td style="width:20px"><input type="hidden" id="favoriteId" name="favoriteId" value="${wVO.favoriteId}"/><c:out value="${i.index+1}"/></td>
                 <td class="thumb" style="width:90px"><img src="http://localhost/online-shop/assets/images/goods/<c:out value="${wVO.defaultImg}"/>"/></td>
@@ -267,11 +268,11 @@ if (userId == null) {
                 <td class="left" style="width:200px; text-align: center;">
                     <strong class="name"><a href="http://192.168.10.211/goods/detail.jsp?goods=${wVO.code}" class="ec-product-name"><c:out value="${wVO.name}"/></a></strong>
 </td>
+                <td></td>
                 <td class="price right" style="text-align:center">
 <strong class=""><c:out value="${wVO.price}"/><br/></strong><br/><strong class="displaynone">2000</strong>
 </td>
-                <td>
-</div></td>
+                <td></td>
                 <td>
 <span class=""><c:out value="${wVO.deliveryCharge}"/>원<br/></span></td>
                 <td class="price right" style="text-align:center"><c:out value="${wVO.price + wVO.deliveryCharge}"/>원</td>
@@ -290,6 +291,7 @@ if (userId == null) {
 <div class="xans-element- xans-myshop xans-myshop-wishlistbutton ec-base-button xans-record-"><span class="gLeft">
     </span>
 <span class="gRight">
+		<a href="javascript:history.back()" class="btnEmFix sizeM">이전</a>
         <a href="#none" class="btnEmFix sizeM" onclick="deleteAllWishlist()">관심상품 비우기</a>
     </span>
 </div>
