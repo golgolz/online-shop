@@ -284,13 +284,14 @@ public class CartDAO {
 
             StringBuilder updateQuery = new StringBuilder();
 
-            updateQuery.append("   update cart    ").append("   set order_flag=?, input_date=sysdate    ")
-                    .append("   where cart_id=?   ");
+            updateQuery.append("   update cart    ").append("   set order_flag=?    ");
 
-            /*
-             * if (orderFlag == "반품") { updateQuery.append(" and order_flag='주문' and purchase_state='구매미확정' ");
-             * }
-             */
+            if (orderFlag == "주문") {
+                updateQuery.append(", input_date=sysdate    ");
+            }
+
+            updateQuery.append("   where cart_id=?   ");
+
 
             pstmt = con.prepareStatement(updateQuery.toString());
 

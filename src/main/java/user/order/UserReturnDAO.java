@@ -61,4 +61,58 @@ public class UserReturnDAO {
 
         return rdVO;
     }// selectReturnDetail
+
+    public int updateReturn(String cartId) throws SQLException {
+        int cnt = 0;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+            con = dbCon.getConn("online-shop-dbcp");
+
+            StringBuilder updateQuery = new StringBuilder();
+
+            updateQuery.append("   update cart    ").append("   set order_flag='반품',delivery_state='불필요'   ")
+                    .append("   where cart_id=?   ");
+
+            pstmt = con.prepareStatement(updateQuery.toString());
+
+            pstmt.setString(1, cartId);
+
+            cnt = pstmt.executeUpdate();
+
+        } finally {
+            dbCon.closeCon(null, pstmt, con);
+        }
+
+        return cnt;
+    }// updateReturn
+
+    public void insertReturn(String cartId, int quantity) throws SQLException {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+            con = dbCon.getConn("online-shop-dbcp");
+
+            String insertQuery =
+                    "   insert into refund_history(cart_id,input_date,refund_amount,refund_state,reason) values(?,sysdate,?,'반품 접수','불량')   ";
+
+            pstmt = con.prepareStatement(insertQuery);
+
+            pstmt.setString(1, cartId);
+            pstmt.setInt(2, quantity);
+
+            pstmt.executeQuery();
+
+        } finally {
+            dbCon.closeCon(null, pstmt, con);
+        } // end finally
+
+    }// insertReturn
 }
