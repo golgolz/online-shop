@@ -11,7 +11,7 @@
 
 <%
 String userId = (String)session.getAttribute("userId");
-String cartId = (String)request.getParameter("cartId");
+String cartId = request.getParameter("cartId");
 
 // 개발을 위해 임시로 사용하는 코드입니다.
 if(cartId == null){
