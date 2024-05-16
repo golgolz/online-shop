@@ -14,14 +14,14 @@
 <!-- 로그인 확인 -->
 <%
 String userId = (String)session.getAttribute("userId");
-System.out.println("세션 로그인 상태: " + userId);
+
 
 if (userId == null) {
-    System.out.println("로그인이 필요합니다. ");
+    //System.out.println("로그인이 필요합니다. ");
 %>
 <script>
         alert('로그인이 필요합니다.');
-        window.location.href = 'http://localhost/online-shop/user/login/userLogin.jsp'; // 경로 수정 필요
+        window.location.href = 'http://192.168.10.211/user/login/userLogin.jsp'; // 경로 수정 필요
 
 </script>
 <%
@@ -445,7 +445,7 @@ th {
 												<td class=""></td>
 												<td class="thumb gClearLine"><a
 													href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-														src="http://localhost/online-shop/assets/images/goods/<%= oVO.getProductImg() %>"
+														src="http://192.168.10.211/assets/images/goods/<%= oVO.getProductImg() %>"
 														onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
 														width="100px"></a></td>
 												<td class="left gClearLine"><strong class="name"><a
@@ -473,7 +473,7 @@ th {
 												<td class=""></td>
 												<td class="thumb gClearLine"><a
 													href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-														src="http://localhost/online-shop/assets/images/goods/<%= opVO.getProductImg() %>"
+														src="http://192.168.10.211/assets/images/goods/<%= opVO.getProductImg() %>"
 														onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
 														width="100px"></a><input type="hidden" id="productImg" name="productImg" value="<%= opVO.getProductImg() %>" /></td>
 												<td class="left gClearLine"><strong class="name"><%= opVO.getProductName() %></strong>
@@ -922,7 +922,7 @@ th {
 										style="background-color: #dedede; padding: 10px; padding-right: 15px; text-align: right;">
 										<h6>카드 결제</h6>
 									</div>
-									<form id="cardFrm" name="cardFrm" action="http://localhost/online-shop/order/payment_process.jsp" method="post">
+									<form id="cardFrm" name="cardFrm" action="http://192.168.10.211/order/payment_process.jsp" method="post">
 										<div class="card-middle-title"
 											style="padding: 20px; font-size: 20px;">
 											<span class="card-middle-left" style="float: left;"><label>(주)골골즈 오브젝트

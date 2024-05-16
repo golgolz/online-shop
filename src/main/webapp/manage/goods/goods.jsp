@@ -4,6 +4,19 @@
 <%@page import="admin.goods.AdminGoodsDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+
+if (!Boolean.TRUE.equals(isLoggedIn)) {
+%>
+  <script type="text/javascript">
+      alert('로그인이 필요합니다.');
+      window.location.href = 'http://192.168.10.211/manage/adminLogin/adminLogin.jsp';
+  </script>
+<%
+  return;
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -113,7 +126,7 @@
 <!-- golgolz start -->
 <link href="../../assets/css/manage/goods/general.css" rel="stylesheet" />
 <link href="../../assets/css/manage/goods/goods.css" rel="stylesheet" />
-<link href="http://localhost/online-shop/assets/css/pagenation.css" rel="stylesheet" />
+<link href="http://192.168.10.211/assets/css/pagenation.css" rel="stylesheet" />
 <!-- golgolz end -->
 <jsp:include page="../../assets/jsp/admin/lib.jsp" />
 </head>
@@ -205,20 +218,20 @@
               						<td class="label">등록일</td>
               						<td class="box text">
               							<input type="hidden" id="date" name="date" value="${param.date}" />
-              							<img id="btn_today" class="clickable-image${param.date eq 'today' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_today.gif" />
-										<img id="btn_week" class="clickable-image${param.date eq 'week' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisWeek.gif" />
-										<img id="btn_month" class="clickable-image${param.date eq 'month' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisMonth.gif" />
-					                	<img id="btn_total" class="clickable-image${param.date eq 'total' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_total.gif" />
+              							<img id="btn_today" class="clickable-image${param.date eq 'today' ? " clicked" : "" }" src="http://192.168.10.211/assets/images/manage/goods/btn_today.gif" />
+										<img id="btn_week" class="clickable-image${param.date eq 'week' ? " clicked" : "" }" src="http://192.168.10.211/assets/images/manage/goods/btn_thisWeek.gif" />
+										<img id="btn_month" class="clickable-image${param.date eq 'month' ? " clicked" : "" }" src="http://192.168.10.211/assets/images/manage/goods/btn_thisMonth.gif" />
+					                	<img id="btn_total" class="clickable-image${param.date eq 'total' ? " clicked" : "" }" src="http://192.168.10.211/assets/images/manage/goods/btn_total.gif" />
               						</td>
             					</tr>
             					<tr>
               						<td class="label">최근 등록일</td>
               						<td class="box text">
               							<input type="hidden" id="updateDate" name="updateDate" value="${param.updateDate}" />
-              							<img id="btn_update_today" class="clickable-image${param.updateDate eq 'today' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_today.gif" />
-										<img id="btn_update_week" class="clickable-image${param.updateDate eq 'week' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisWeek.gif" />
-										<img id="btn_update_month" class="clickable-image${param.updateDate eq 'month' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_thisMonth.gif" />
-					                	<img id="btn_update_total" class="clickable-image${param.updateDate eq 'total' ? " clicked" : "" }" src="http://localhost/online-shop/assets/images/manage/goods/btn_total.gif" />
+              							<img id="btn_update_today" class="clickable-image${param.updateDate eq 'today' ? " clicked" : "" }" src="http://192.168.10.211/assets/images/manage/goods/btn_today.gif" />
+										<img id="btn_update_week" class="clickable-image${param.updateDate eq 'week' ? " clicked" : "" }" src="http://192.168.10.211/assets/images/manage/goods/btn_thisWeek.gif" />
+										<img id="btn_update_month" class="clickable-image${param.updateDate eq 'month' ? " clicked" : "" }" src="http://192.168.10.211/assets/images/manage/goods/btn_thisMonth.gif" />
+					                	<img id="btn_update_total" class="clickable-image${param.updateDate eq 'total' ? " clicked" : "" }" src="http://192.168.10.211/assets/images/manage/goods/btn_total.gif" />
               						</td>
             					</tr>
           					</tbody>
@@ -226,7 +239,7 @@
         				<div class="alignCenter">
           					<input
             				type="image"
-            				src="http://localhost/online-shop/assets/images/manage/goods/btn_search.gif"
+            				src="http://192.168.10.211/assets/images/manage/goods/btn_search.gif"
             				id="btn_search"
           					/>
         				</div>
@@ -289,9 +302,9 @@
 				            	<% for(AdminGoodsSimpleVO product : goods){ %>
 				              	<tr>
 				                	<td class="tdL" align="left">
-				                    	<a href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?code=<%= product.getCode() %>">
+				                    	<a href="http://192.168.10.211/manage/goods/detail.jsp?code=<%= product.getCode() %>">
 				                  			<div class="left_layer">
-						                    	<img src="http://localhost/online-shop/assets/images/goods/<%= product.getDefaultImage() %>" width="60" height="60" class="imgborder" />
+						                    	<img src="http://192.168.10.211/assets/images/goods/<%= product.getDefaultImage() %>" width="60" height="60" class="imgborder" />
 				                  			</div>
 				                  			<div style="line-height: 160%; margin-left: 72px; position: relative;">
 				                    			<strong><%= product.getCode() %></strong>
@@ -307,7 +320,7 @@
 				                	</td>
 				                	<td class="tdL" align="center"><%= product.getAmount() %></td>
 				                	<td class="tdR" align="center">
-				                		<a href="http://192.168.10.211/online-shop/manage/goods/detail.jsp?code=<%= product.getCode() %>">
+				                		<a href="http://192.168.10.211/manage/goods/detail.jsp?code=<%= product.getCode() %>">
 				                    		<input id="btnEditor" type="button" value="바로가기" class="btn btn-primary btn-small" style="font-weight: bold;" />
 				                		</a>
 				                	</td>
@@ -323,7 +336,7 @@
                 					<td align="center">
                   					<%
 							        	String pageNation = 
-							        	pageController.createPagingBtns("http://localhost/online-shop/manage/goods/goods.jsp", params
+							        	pageController.createPagingBtns("http://192.168.10.211/manage/goods/goods.jsp", params
 							        	        , Integer.parseInt(request.getParameter("page")), (searchResultCount / pageScale) + 1);
 							        %>
 							        <div id="pageNation">
@@ -331,7 +344,7 @@
 							        </div>		
                 					</td>
                 					<td width="10%" align="right">
-                  						<a href="http://192.168.10.211/online-shop/manage/goods/detail.jsp" >
+                  						<a href="http://192.168.10.211/manage/goods/detail.jsp" >
 											<input type="button" class="btn btn-success btn-sm" value="등록하기" />
                   						</a>
                 					</td>

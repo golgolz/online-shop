@@ -2,6 +2,19 @@
 <%@page import="admin.goods.AdminGoodsDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" info=""%>
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+
+if (!Boolean.TRUE.equals(isLoggedIn)) {
+%>
+  <script type="text/javascript">
+      alert('로그인이 필요합니다.');
+      window.location.href = 'http://192.168.10.211/manage/adminLogin/adminLogin.jsp';
+  </script>
+<%
+  return;
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,17 +53,17 @@
 		});
 		
 		$("#btn-update").click(function(){
-	        $("#dataForm").attr("action", "http://localhost/online-shop/manage/goods/update_process.jsp");
+	        $("#dataForm").attr("action", "http://192.168.10.211/manage/goods/update_process.jsp");
 	        $("#dataForm").submit();
 		});
 		
 		$("#btn-soldout").click(function(){
-	        $("#dataForm").attr("action", "http://localhost/online-shop/manage/goods/soldout_process.jsp");
+	        $("#dataForm").attr("action", "http://192.168.10.211/manage/goods/soldout_process.jsp");
 	        $("#dataForm").submit();
 		});
 		
 		$("#btn-delete").click(function(){
-	        $("#dataForm").attr("action", "http://localhost/online-shop/manage/goods/delete_process.jsp");
+	        $("#dataForm").attr("action", "http://192.168.10.211/manage/goods/delete_process.jsp");
 	        $("#dataForm").submit();
 		});
 		
@@ -107,10 +120,10 @@
 			<!-- golgolz start -->
 			<div id="contentcolumn" class="">
 				<div class="contents">
-					<form id="dataForm" name="dataForm" action="http://localhost/online-shop/manage/goods/register_process.jsp" method="post" enctype="multipart/form-data">
+					<form id="dataForm" name="dataForm" action="http://192.168.10.211/manage/goods/register_process.jsp" method="post" enctype="multipart/form-data">
 						<div class="subtitle">
 							<img
-								src="http://localhost/online-shop/assets/images/manage/goods/register/bul_subtitle.gif" />
+								src="http://192.168.10.211/assets/images/manage/goods/register/bul_subtitle.gif" />
 							상품 기본정보
 						</div>
 						<table cellpadding="0" cellspacing="1" border="0" class="tbstyleB"
@@ -176,7 +189,7 @@
 						<!--가격 / 판매정보-->
 						<div class="subtitle">
 							<img
-								src="http://localhost/online-shop/assets/images/manage/goods/register/bul_subtitle.gif" />
+								src="http://192.168.10.211/assets/images/manage/goods/register/bul_subtitle.gif" />
 							가격 / 판매정보
 						</div>
 						<table cellpadding="0" cellspacing="1" border="0" class="tbstyleB"
@@ -224,7 +237,7 @@
 						<!--이미지등록-->
 						<div class="subtitle">
 							<img
-								src="http://localhost/online-shop/assets/images/manage/goods/register/bul_subtitle.gif" />
+								src="http://192.168.10.211/assets/images/manage/goods/register/bul_subtitle.gif" />
 							상품 이미지
 						</div>
 
@@ -256,7 +269,7 @@
 						<!--상세설명-->
 						<div class="subtitle">
 							<img
-								src="http://localhost/online-shop/assets/images/manage/goods/register/bul_subtitle.gif" />
+								src="http://192.168.10.211/assets/images/manage/goods/register/bul_subtitle.gif" />
 							상세설명 이미지
 						</div>
 

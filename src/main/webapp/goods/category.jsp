@@ -12,13 +12,13 @@
 <head>
 	<jsp:include page="../assets/jsp/user/lib.jsp" />
 	<!-- golgolz start -->
-    <link href="http://localhost/online-shop/assets/css/goods/category.css" rel="stylesheet" />
-    <link href="http://localhost/online-shop/assets/css/pagenation.css" rel="stylesheet" />
+    <link href="http://192.168.10.211/assets/css/goods/category.css" rel="stylesheet" />
+    <link href="http://192.168.10.211/assets/css/pagenation.css" rel="stylesheet" />
     <script type="text/javascript">
     	$(function(){
     		$(".need_login").click(function(event){
     		 	$.ajax({
-    		        url: "http://localhost/online-shop/goods/check_login.jsp",
+    		        url: "http://192.168.10.211/goods/check_login.jsp",
     		        type: "GET",
     		        dataType: "JSON",
     		        error: function(xhr){
@@ -28,7 +28,7 @@
     		             if (!response.flag) {
     		     			event.preventDefault();
     		                //alert('로그인이 필요합니다.');
-    		                location.href = 'http://localhost/online-shop/user/login/userLogin.jsp';
+    		                location.href = 'http://192.168.10.211/user/login/userLogin.jsp';
     		            } 
     		        }
     		    });
@@ -80,9 +80,9 @@
 	        	<div class="xans-element- xans-product xans-product-headcategory path">
 	          		<span>현재 위치</span>
 	          		<ol>
-	            		<li><a href="http://localhost/online-shop/index.jsp">홈</a></li>
+	            		<li><a href="http://192.168.10.211/index.jsp">홈</a></li>
 	            		<li class="">
-	              			<a href="http://localhost/online-shop/goods/category.jsp?category=${param.category}"><%= category %></a>
+	              			<a href="http://192.168.10.211/goods/category.jsp?category=${param.category}"><%= category %></a>
 	            		</li>
 	            		<% if(subCategory != null){ %>
 	            			<li class=""><%= subCategory %></li>
@@ -108,19 +108,19 @@
 	              		id="type"
 	              		class="xans-element- xans-product xans-product-orderby">
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=new<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">신상품</a>
+	                			<a href="http://192.168.10.211/goods/category.jsp?category=<%= category %>&sort=new<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">신상품</a>
 	              			</li>
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=best<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">판매순</a>
+	                			<a href="http://192.168.10.211/goods/category.jsp?category=<%= category %>&sort=best<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">판매순</a>
 	              			</li>
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=high_price<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">높은가격</a>
+	                			<a href="http://192.168.10.211/goods/category.jsp?category=<%= category %>&sort=high_price<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">높은가격</a>
 	              			</li>
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=low_price<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">낮은가격</a>
+	                			<a href="http://192.168.10.211/goods/category.jsp?category=<%= category %>&sort=low_price<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">낮은가격</a>
 	              			</li>
 	              			<li class="xans-record-">
-	                			<a href="http://localhost/online-shop/goods/category.jsp?category=<%= category %>&sort=most_review<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">리뷰순</a>
+	                			<a href="http://192.168.10.211/goods/category.jsp?category=<%= category %>&sort=most_review<%= subCategory == null ? "": "&sub_category=" + subCategory %>&page=1">리뷰순</a>
 	              			</li>
 	            		</ul>
 	          		</div>
@@ -133,19 +133,19 @@
 		                <div class="box">
 		                    <div class="thumbnail">
 		                        <div class="prdImg">
-		                            <a href="http://localhost/online-shop/goods/detail.jsp?goods=<%= goods.getCode() %>" name="anchorBoxName_6371">
-		                                <img src="http://localhost/online-shop/assets/images/goods/<%= goods.getDefaultImage() %>" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
+		                            <a href="http://192.168.10.211/goods/detail.jsp?goods=<%= goods.getCode() %>" name="anchorBoxName_6371">
+		                                <img src="http://192.168.10.211/assets/images/goods/<%= goods.getDefaultImage() %>" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
 		                            </a>
 		                        </div>
 		                        <span class="wish">
-		                        	<a href="http://localhost/online-shop/wishlist/wishlist.jsp?code=<%= goods.getCode() %>" class="need_login">
-		                            	<img src="http://localhost/online-shop/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록">
+		                        	<a href="http://192.168.10.211/wishlist/wishlist_insert_process.jsp?code=<%= goods.getCode() %>" class="need_login">
+		                            	<img src="http://192.168.10.211/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록">
 		                            </a>
 		                        </span>
 		                    </div>
 		                    <div class="description">
 		                        <div class="name">
-		                            <a href="http://localhost/online-shop/goods/detail.jsp" class="">
+		                            <a href="http://192.168.10.211/goods/detail.jsp" class="">
 		                                <span style="font-size:12px;color:#000000;"><%= goods.getName() %></span>
 		                            </a>
 		                        </div>
@@ -161,7 +161,7 @@
 		        </ul>
 		        <%
 		        	String pageNation = 
-		        	pageController.createPagingBtns("http://localhost/online-shop/goods/category.jsp", params
+		        	pageController.createPagingBtns("http://192.168.10.211/goods/category.jsp", params
 		        	        , Integer.parseInt(request.getParameter("page")), (goodsCount / pageScale) + 1);
 		        %>
 		        <div id="pageNation">
