@@ -128,11 +128,11 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 			    cell7.innerHTML = boardList[i].id;
 			}//end for
 			
-			/* pagination(data); */
+			pagination(data);
 			
 		}//displayTable
 		
-		/* function pagination(data){
+		function pagination(data){
 			
 			var paging = document.getElementById("paging");
 			paging.innerHTML="";
@@ -142,7 +142,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 			var currentPage = object.currentPage;
 			
 			$("#paging").html(newPagination);
-		} */
+		}
 		
 		function chkNull() {
 			if($("#keyword").val().trim() !="") {
@@ -191,11 +191,12 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 		    AdminReviewDAO rDAO=AdminReviewDAO.getInstance();
 		    //1.총 레코드 수 얻기
 		    int totalCount = rDAO.selectTotalCount(sVO);
-		    
 		    //2.한 화면에 보여줄 게시물의 수
 		    int pageScale= 10;
 		    //3.총 페이지 수
+		    System.out.println(sVO+" / " +totalCount);
 		    int totalPage=(int)Math.ceil((double)totalCount/pageScale);
+		    System.out.println(sVO+" / " +totalPage);
 		    //4.게시물의 시작번호
 		    String tempPage=sVO.getCurrentPage();
 		    /* System.out.println(totalPage); */

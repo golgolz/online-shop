@@ -49,8 +49,16 @@ public class AdminReviewDAO {
       StringBuilder selectCnt = new StringBuilder();
       selectCnt.append("select count(*) cnt from review");
 
+      if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+        selectCnt.append(" where instr(").append(columnNames[Integer.parseInt(sVO.getField())]).append(", ? ) > 0");
+      } // end if
+
       pstmt = con.prepareStatement(selectCnt.toString());
       // 5. 바인트변수에 값 설정
+
+      if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword())) {
+        pstmt.setString(1, sVO.getKeyword());
+      } // end if
       // 6. 쿼리문 수행 후 결과 얻기
       rs = pstmt.executeQuery();
       if (rs.next()) {
