@@ -210,6 +210,9 @@ if (userId == null) {
 		    List<ReviewBoardVO> list=rDAO.selectReviewBoard(sVO);//시작번호와 끝 번호 사이의 글 조회
 		   	pageContext.setAttribute("list", list);
 		    
+		    String cartId=request.getParameter("cartId");
+		    String code=request.getParameter("code");
+		    
 		    pageContext.setAttribute("totalCount", totalCount);
 		    pageContext.setAttribute("pageScale", pageScale);
 		    pageContext.setAttribute("currentPage", currentPage);
