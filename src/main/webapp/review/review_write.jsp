@@ -167,8 +167,8 @@ $(function(){
 <input id="isExceptBoardUseFroalaImg" name="isExceptBoardUseFroalaImg" value="" type="hidden"  />
 <input id="isGalleryBoard" name="isGalleryBoard" value="" type="hidden"  />
 <input id="c6" name="c6" value="429218e799694a4b1ce711e01de9690d" type="hidden"  />
-<input type="hidden" name="code" value="SAMSUNG_S24_1"/>
-<input type="hidden" name="cartId" value="20240419131320"/>
+<input type="hidden" name="code" value="${ rVO.code }"/>
+<input type="hidden" name="cartId" value="${ rVO.cartId }"/>
 <div class="xans-element- xans-board xans-board-write-4 xans-board-write xans-board-4">
 <!--
             $write_success_url = /board/product/list.html
