@@ -50,7 +50,7 @@
             <a href="../login/userLogin.jsp">로그인</a>
         </p>
         <p class="button2 ">
-            <a href="http://objec.sist.co.kr/user/findIdPw/findPw.jsp">비밀번호 찾기</a>
+            <a href="http://object.sist.co.kr/user/findIdPw/findPw.jsp">비밀번호 찾기</a>
         </p>
     </div>
         </div>

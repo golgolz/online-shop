@@ -13,7 +13,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 %>
   <script type="text/javascript">
       alert('로그인이 필요합니다.');
-      window.location.href = 'http://objec.sist.co.kr/manage/adminLogin/adminLogin.jsp';
+      window.location.href = 'http://object.sist.co.kr/manage/adminLogin/adminLogin.jsp';
   </script>
 <%
   return;
@@ -30,7 +30,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 %>
 	<script>
 		alert("잘못된 요청입니다. 주문 리스트 페이지로 돌아갑니다.");
-		location.href = "http://objec.sist.co.kr/manage/refund/refundss.jsp";
+		location.href = "http://object.sist.co.kr/manage/refund/refundss.jsp";
 	</script>
 <%
 	}
@@ -147,12 +147,12 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 									<% for(OrderDetailGoodsVO goods : goodsList){ %>
 									<tr class="list0">
 											<td>
-												<a href="http://objec.sist.co.kr/goods/detail.jsp?goods=<%= goods.getCode() %>">
-													<img src="http://objec.sist.co.kr/assets/images/goods/<%= goods.getDefaultImage() %>" width="40" height="40">
+												<a href="http://object.sist.co.kr/goods/detail.jsp?goods=<%= goods.getCode() %>">
+													<img src="http://object.sist.co.kr/assets/images/goods/<%= goods.getDefaultImage() %>" width="40" height="40">
 												</a>
 											</td>
 											<td class="tal">
-												<a href="http://objec.sist.co.kr/goods/detail.jsp?goods=<%= goods.getCode() %>">
+												<a href="http://object.sist.co.kr/goods/detail.jsp?goods=<%= goods.getCode() %>">
 													<%= goods.getName() %>
 												</a>
 											</td>

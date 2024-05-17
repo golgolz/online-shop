@@ -27,7 +27,7 @@
 		        || mr.getFilesystemName("defaultImage") == null || mr.getFilesystemName("detailImage") == null){
 %>
 		alert("값이 유효하지 않습니다. 상품 등록 페이지로 돌아갑니다.");
-		location.href="http://objec.sist.co.kr/manage/goods/detail.jsp";
+		location.href="http://object.sist.co.kr/manage/goods/detail.jsp";
 <%		} %>
 </script>
 <%
@@ -54,12 +54,12 @@
 	    %>
 	    <script type="text/javascript">
 		    alert("등록이 완료되었습니다.");
-		    location.href="http://objec.sist.co.kr/manage/goods/detail.jsp?code=<%= code %>";
+		    location.href="http://object.sist.co.kr/manage/goods/detail.jsp?code=<%= code %>";
 	    </script>
 	    <%
 	} catch(SQLException se){
 	    se.printStackTrace();
-	    // location.href="http://objec.sist.co.kr/error/err_500.html"
+	    // location.href="http://object.sist.co.kr/error/err_500.html"
 	} catch(Exception e){
 	    e.printStackTrace();
 	}

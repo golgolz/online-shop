@@ -9,7 +9,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 %>
   <script type="text/javascript">
       alert('로그인이 필요합니다.');
-      window.location.href = 'http://objec.sist.co.kr/manage/adminLogin/adminLogin.jsp';
+      window.location.href = 'http://object.sist.co.kr/manage/adminLogin/adminLogin.jsp';
   </script>
 <%
   return;
@@ -53,17 +53,17 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 		});
 		
 		$("#btn-update").click(function(){
-	        $("#dataForm").attr("action", "http://objec.sist.co.kr/manage/goods/update_process.jsp");
+	        $("#dataForm").attr("action", "http://object.sist.co.kr/manage/goods/update_process.jsp");
 	        $("#dataForm").submit();
 		});
 		
 		$("#btn-soldout").click(function(){
-	        $("#dataForm").attr("action", "http://objec.sist.co.kr/manage/goods/soldout_process.jsp");
+	        $("#dataForm").attr("action", "http://object.sist.co.kr/manage/goods/soldout_process.jsp");
 	        $("#dataForm").submit();
 		});
 		
 		$("#btn-delete").click(function(){
-	        $("#dataForm").attr("action", "http://objec.sist.co.kr/manage/goods/delete_process.jsp");
+	        $("#dataForm").attr("action", "http://object.sist.co.kr/manage/goods/delete_process.jsp");
 	        $("#dataForm").submit();
 		});
 		
@@ -120,10 +120,10 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 			<!-- golgolz start -->
 			<div id="contentcolumn" class="">
 				<div class="contents">
-					<form id="dataForm" name="dataForm" action="http://objec.sist.co.kr/manage/goods/register_process.jsp" method="post" enctype="multipart/form-data">
+					<form id="dataForm" name="dataForm" action="http://object.sist.co.kr/manage/goods/register_process.jsp" method="post" enctype="multipart/form-data">
 						<div class="subtitle">
 							<img
-								src="http://objec.sist.co.kr/assets/images/manage/goods/register/bul_subtitle.gif" />
+								src="http://object.sist.co.kr/assets/images/manage/goods/register/bul_subtitle.gif" />
 							상품 기본정보
 						</div>
 						<table cellpadding="0" cellspacing="1" border="0" class="tbstyleB"
@@ -189,7 +189,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 						<!--가격 / 판매정보-->
 						<div class="subtitle">
 							<img
-								src="http://objec.sist.co.kr/assets/images/manage/goods/register/bul_subtitle.gif" />
+								src="http://object.sist.co.kr/assets/images/manage/goods/register/bul_subtitle.gif" />
 							가격 / 판매정보
 						</div>
 						<table cellpadding="0" cellspacing="1" border="0" class="tbstyleB"
@@ -237,7 +237,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 						<!--이미지등록-->
 						<div class="subtitle">
 							<img
-								src="http://objec.sist.co.kr/assets/images/manage/goods/register/bul_subtitle.gif" />
+								src="http://object.sist.co.kr/assets/images/manage/goods/register/bul_subtitle.gif" />
 							상품 이미지
 						</div>
 
@@ -269,7 +269,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 						<!--상세설명-->
 						<div class="subtitle">
 							<img
-								src="http://objec.sist.co.kr/assets/images/manage/goods/register/bul_subtitle.gif" />
+								src="http://object.sist.co.kr/assets/images/manage/goods/register/bul_subtitle.gif" />
 							상세설명 이미지
 						</div>
 

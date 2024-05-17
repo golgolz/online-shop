@@ -53,12 +53,12 @@
 	    %>
 	    <script type="text/javascript">
 		    alert("수정이 완료되었습니다.");
-		    location.href="http://objec.sist.co.kr/manage/goods/detail.jsp?code=<%= mr.getParameter("code") %>";
+		    location.href="http://object.sist.co.kr/manage/goods/detail.jsp?code=<%= mr.getParameter("code") %>";
 	    </script>
 	    <%
 	} catch(SQLException se){
 	    se.printStackTrace();
-	    // location.href="http://objec.sist.co.kr/error/err_500.html"
+	    // location.href="http://object.sist.co.kr/error/err_500.html"
 	} catch(Exception e){
 	    e.printStackTrace();
 	}

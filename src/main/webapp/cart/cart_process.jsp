@@ -38,7 +38,7 @@ switch(method){
 		int cnt = cDAO.updateCart(opVO);
 		if (cnt != 0) {
 			/* pageContext.setAttribute("msg", "수량이 변경되었습니다.");
-			pageContext.setAttribute("url", "http://objec.sist.co.kr/cart/cart.jsp"); */
+			pageContext.setAttribute("url", "http://object.sist.co.kr/cart/cart.jsp"); */
 			jsonObj.put("result", true);
 			jsonObj.put("orderGoodsId",opVO.getOrderGoodsId());
 			jsonObj.put("quantity",opVO.getQuantity());

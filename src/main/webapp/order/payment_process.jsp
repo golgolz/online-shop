@@ -13,7 +13,7 @@
 
 <%
 pageContext.setAttribute("msg", "주문 실패");
-pageContext.setAttribute("url", "http://objec.sist.co.kr/order/order_complete.jsp");
+pageContext.setAttribute("url", "http://object.sist.co.kr/order/order_complete.jsp");
 String userId = (String)session.getAttribute("userId");
 String cartId = (String)session.getAttribute("cartId");
 
@@ -67,7 +67,7 @@ if(list == null || cartId == null){// cartId가 생성되지 않은 데이터일
 	    se.printStackTrace();
 	}//end catch
 	    pageContext.setAttribute("msg", "주문 성공");
-	    pageContext.setAttribute("url", "http://objec.sist.co.kr/order/order_complete.jsp");
+	    pageContext.setAttribute("url", "http://object.sist.co.kr/order/order_complete.jsp");
 }//end if
 
 if(list != null && cartId != null){// 장바구니에서 주문을 진행한 경우
@@ -93,7 +93,7 @@ if(list != null && cartId != null){// 장바구니에서 주문을 진행한 경
 	}//end catch
 	
 	    pageContext.setAttribute("msg", "주문 성공");
-	    pageContext.setAttribute("url", "http://objec.sist.co.kr/order/order_complete.jsp");
+	    pageContext.setAttribute("url", "http://object.sist.co.kr/order/order_complete.jsp");
 }//end if
 
 System.out.println("주문완료");
