@@ -32,13 +32,13 @@ public class DashboardDAO {
         try {
             conn = dbConn.getConn("online-shop-dbcp");
             selectQuery.append(" select (select count(*) from cart ").append(
-                    " where trunc(input_date) = to_date('2024-04-20', 'yyyy-mm-dd') and order_flag='주문') as today, ")
+                    " where to_date(input_date, 'yyyy-mm-dd')  = to_date(sysdate, 'yyyy-mm-dd') and order_flag='주문') as today, ")
                     .append(" (select count(*) from cart ")
-                    .append(" where input_date >= trunc(to_date('2024-04-20', 'yyyy-mm-dd'), 'IW') ")
-                    .append(" and input_date < trunc(to_date('2024-04-20', 'yyyy-mm-dd'), 'IW') + 7 and order_flag='주문' ) as this_week, ")
+                    .append(" where to_date(input_date, 'yyyy-mm-dd') >= trunc(to_date(sysdate, 'yyyy-mm-dd'), 'IW') ")
+                    .append(" and to_date(input_date, 'yyyy-mm-dd') < trunc(to_date(sysdate, 'yyyy-mm-dd'), 'IW') + 7 and order_flag='주문' ) as this_week, ")
                     .append(" (select count(*) from cart ")
-                    .append(" where extract(month from input_date) = extract(month from to_date('2024-04-19', 'yyyy-mm-dd')) ")
-                    .append(" and extract(year from input_date) = extract(year from to_date('2024-04-19', 'yyyy-mm-dd')) ")
+                    .append(" where extract(month from to_date(input_date, 'yyyy-mm-dd')) = extract(month from to_date(sysdate, 'yyyy-mm-dd')) ")
+                    .append(" and extract(year from to_date(input_date, 'yyyy-mm-dd')) = extract(year from to_date(sysdate, 'yyyy-mm-dd')) ")
                     .append(" and order_flag='주문' ) as this_month, ").append(" (select count(*) from cart ")
                     .append(" where order_flag='반품') as refund from dual");
             pstmt = conn.prepareStatement(selectQuery.toString());
@@ -68,12 +68,12 @@ public class DashboardDAO {
             conn = dbConn.getConn("online-shop-dbcp");
             selectQuery.append("select ( select sum(goods.price * order_goods.amount) as purchase_amount from goods ")
                     .append(" join order_goods on goods.code = order_goods.code join ( select * from cart ")
-                    .append(" where trunc(input_date) = to_date('2024-04-19', 'yyyy-mm-dd') and order_flag='주문') cart on cart.cart_id = order_goods.cart_id ) as today, ")
+                    .append(" where to_date(input_date, 'yyyy-mm-dd') = to_date(sysdate, 'yyyy-mm-dd') and order_flag='주문') cart on cart.cart_id = order_goods.cart_id ) as today, ")
                     .append(" (select sum(goods.price * order_goods.amount) as purchase_amount from goods join order_goods on goods.code = order_goods.code ")
-                    .append(" join ( select * from cart where input_date >= trunc(to_date('2024-04-19', 'yyyy-mm-dd'), 'IW') and order_flag='주문') cart on cart.cart_id = order_goods.cart_id) as week, ")
+                    .append(" join ( select * from cart where to_date(input_date, 'yyyy-mm-dd') >= trunc(to_date(sysdate, 'yyyy-mm-dd'), 'IW') and order_flag='주문') cart on cart.cart_id = order_goods.cart_id) as week, ")
                     .append(" ( select sum(goods.price * order_goods.amount) as purchase_amount from goods join order_goods on goods.code = order_goods.code ")
-                    .append(" join (select * from cart where extract(month from input_date) = extract(month from to_date('2024-04-19', 'yyyy-mm-dd')) ")
-                    .append(" and extract(year from input_date) = extract(year from to_date('2024-04-19', 'yyyy-mm-dd')) and order_flag='주문') cart on cart.cart_id = order_goods.cart_id ) as month from dual");
+                    .append(" join (select * from cart where extract(month from to_date(input_date, 'yyyy-mm-dd')) = extract(month from to_date(sysdate, 'yyyy-mm-dd')) ")
+                    .append(" and extract(year from to_date(input_date, 'yyyy-mm-dd')) = extract(year from to_date(sysdate, 'yyyy-mm-dd')) and order_flag='주문') cart on cart.cart_id = order_goods.cart_id ) as month from dual");
 
             pstmt = conn.prepareStatement(selectQuery.toString());
             rs = pstmt.executeQuery();
