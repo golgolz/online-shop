@@ -207,7 +207,7 @@ if (request.getParameter("cancelBtn") != null) {
 <tr class="">
 <th scope="row">비밀번호 확인 <img src="//img.echosting.cafe24.com/skin/base/common/ico_required_blue.gif" alt="필수"></th>
                 <td><input id="user_passwd_confirm" name="user_passwd_confirm" fw-filter="isMatch[passwd]" fw-label="비밀번호 확인" fw-msg="비밀번호가 일치하지 않습니다." autocomplete="off" maxlength="16" disabled="1" value="" type="password"> <span id="pwConfirmMsg"></span>
-                	<input type="button" value="비밀번호 변경" onclick="window.location.href='http://localhost/user/mypage/editPw.jsp';">
+                	<input type="button" value="비밀번호 변경" onclick="window.location.href='http://objec.sist.co.kr/user/mypage/editPw.jsp';">
 </td>
 
             </tr>

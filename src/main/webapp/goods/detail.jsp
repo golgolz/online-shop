@@ -39,11 +39,11 @@
 <jsp:include page="../assets/jsp/user/lib.jsp" />
 <!-- golgolz start -->
 <link href="../assets/css/goods/detail.css" rel="stylesheet" />
-<link href="http://localhost/assets/css/pagenation.css" rel="stylesheet" />
+<link href="http://objec.sist.co.kr/assets/css/pagenation.css" rel="stylesheet" />
 <script type="text/javascript">
 	$(function(){
-		var orderBaseURL = "http://localhost/cart/input_process.jsp?code=<%= currentGoods.getCode() %>&quantity=";
-		var buyBaseURL = "http://localhost/order/order_form.jsp?code=<%= currentGoods.getCode() %>&isCart=0&quantity=";
+		var orderBaseURL = "http://objec.sist.co.kr/cart/input_process.jsp?code=<%= currentGoods.getCode() %>&quantity=";
+		var buyBaseURL = "http://objec.sist.co.kr/order/order_form.jsp?code=<%= currentGoods.getCode() %>&isCart=0&quantity=";
 		
 		setTotalInfo(1);
 		
@@ -123,7 +123,7 @@
 						    output += "<tr class='xans-record-'>";
 						    output += "<td>" + (startNum + i) + "</td>";
 						    output += "<td class='subject left txtBreak'>";
-						    output += "<a href='http://localhost/review/review_detail_user.jsp?reviewId=" + review.review_id + "'>" + review.title + "</a></td>"; // </td> 추가
+						    output += "<a href='http://objec.sist.co.kr/review/review_detail_user.jsp?reviewId=" + review.review_id + "'>" + review.title + "</a></td>"; // </td> 추가
 						    output += "<td>" + review.id + "</td>";
 						    output += "<td class='txtInfo txt11'>" + review.input_date + "</td>";
 						    output += "</tr>";
@@ -143,7 +143,7 @@
 
 		$(".need_login").click(function(event){
 		 	$.ajax({
-		        url: "http://localhost/goods/check_login.jsp",
+		        url: "http://objec.sist.co.kr/goods/check_login.jsp",
 		        type: "GET",
 		        dataType: "JSON",
 		        error: function(xhr){
@@ -153,7 +153,7 @@
 		             if (!response.flag) {
 		     			event.preventDefault();
 		                //alert('로그인이 필요합니다.22');
-		                location.href = 'http://localhost/user/login/userLogin.jsp';
+		                location.href = 'http://objec.sist.co.kr/user/login/userLogin.jsp';
 		            } 
 		        }
 		    });
@@ -180,9 +180,9 @@
 					class="xans-element- xans-product xans-product-headcategory path">
 					<span>현재 위치</span>
 					<ol>
-						<li><a href="http://localhost/index.jsp">홈</a></li>
+						<li><a href="http://objec.sist.co.kr/index.jsp">홈</a></li>
 						<li class=""><a
-							href="http://localhost/goods/best.jsp">BEST</a></li>
+							href="http://objec.sist.co.kr/goods/best.jsp">BEST</a></li>
 					</ol>
 				</div>
 				<div class="xans-element- xans-product xans-product-detail">
@@ -191,7 +191,7 @@
 							<div class="keyImg">
 								<div class="thumbnail">
 										<img
-										src="http://localhost/assets/images/goods/<%= currentGoods.getDefaultImage() %>"
+										src="http://objec.sist.co.kr/assets/images/goods/<%= currentGoods.getDefaultImage() %>"
 										alt="<%= currentGoods.getName() %>" class="BigImage" />
 								</div>
 							</div>
@@ -251,10 +251,10 @@
 												<td><span class="quantity">
 														<input id="quantity" name="quantity_name" style="" value="0" type="text">
 														<img
-															src="http://localhost/assets/images/goods/btn_count_up.gif"
+															src="http://objec.sist.co.kr/assets/images/goods/btn_count_up.gif"
 															class="QuantityUp up" id="quantity_up"/>
 														<img
-															src="http://localhost/assets/images/goods/btn_count_down.gif"
+															src="http://objec.sist.co.kr/assets/images/goods/btn_count_down.gif"
 															class="QuantityDown down" id="quantity_down"/>
 												</span></td>
 												<td class="right">
@@ -275,9 +275,9 @@
 								</div>
 								<div class="xans-element- xans-product xans-product-action">
 									<div class="ec-base-button">
-										<a href="http://localhost/cart/input_process.jsp?code=<%= currentGoods.getCode() %>&quantity=" class="sub_cart need_login" id="sub_cart">장바구니</a>
-										<a href="http://localhost/wishlist/wishlist_insert_process.jsp?code=<%= currentGoods.getCode() %>" class="sub_wish need_login">관심상품</a>
-										<a href="http://localhost/order/order_form.jsp?code=<%= currentGoods.getCode() %>&isCart=0&quantity=" class="first sub_buy need_login" id="sub_buy">
+										<a href="http://objec.sist.co.kr/cart/input_process.jsp?code=<%= currentGoods.getCode() %>&quantity=" class="sub_cart need_login" id="sub_cart">장바구니</a>
+										<a href="http://objec.sist.co.kr/wishlist/wishlist_insert_process.jsp?code=<%= currentGoods.getCode() %>" class="sub_wish need_login">관심상품</a>
+										<a href="http://objec.sist.co.kr/order/order_form.jsp?code=<%= currentGoods.getCode() %>&isCart=0&quantity=" class="first sub_buy need_login" id="sub_buy">
 											<span id="btnBuy">구매하기</span>
 										</a>
 									</div>
@@ -301,7 +301,7 @@
 						<div class="cont">
 							<p>
 								<img
-									src="http://localhost/assets/images/goods/<%= currentGoods.getDetailImage() %>"
+									src="http://objec.sist.co.kr/assets/images/goods/<%= currentGoods.getDetailImage() %>"
 									style="display: block; vertical-align: top; margin: 0px auto; text-align: center;"
 									name="APPLE_IPHONE14_1_description.png" />
 							</p>
@@ -334,7 +334,7 @@
 											<tr class="xans-record-">
 												<td><%= startNum++ %></td>
 												<td class="subject left txtBreak">
-													<a href="http://localhost/review/review_detail_user.jsp?reviewId=<%= review.getReviewId() %>">
+													<a href="http://objec.sist.co.kr/review/review_detail_user.jsp?reviewId=<%= review.getReviewId() %>">
 														<%= review.getTitle() %>
 													</a>
 												<td><%= review.getId() %></td>
@@ -347,7 +347,7 @@
 							</div>
 							<%
 					        	String pageNation = 
-					        	pageController.createPagingBtns("http://localhost/goods/detail.jsp", params
+					        	pageController.createPagingBtns("http://objec.sist.co.kr/goods/detail.jsp", params
 					        	        , Integer.parseInt(request.getParameter("page") == null ? "1" : request.getParameter("page")), (totalCount / pageScale) + 1);
 					        %>
 					        <div id="pageNation" style="margin-top: 30px;">

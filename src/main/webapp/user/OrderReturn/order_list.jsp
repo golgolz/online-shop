@@ -180,10 +180,10 @@ table,td{
 						class="xans-element- xans-myshop xans-myshop-orderhistorytab ec-base-tab ">
 						<ul class="menu">
 							<li class="tab_class selected"><a
-								href="http://localhost/user/OrderReturn/order_list.jsp">주문내역조회
+								href="http://objec.sist.co.kr/user/OrderReturn/order_list.jsp">주문내역조회
 							</a></li>
 							<li class="tab_class_cs"><a
-								href="http://localhost/user/OrderReturn/return_list.jsp">반품 내역
+								href="http://objec.sist.co.kr/user/OrderReturn/return_list.jsp">반품 내역
 							</a></li>
 							<li class="tab_class_old displaynone"><a
 								href="/myshop/order/list_old.html?mode=old&amp;history_start_date=2024-01-25&amp;history_end_date=2024-04-24&amp;past_year=2023">이전
@@ -526,7 +526,7 @@ $(function() {
 								<!-- <tr class="xans-record-">
 									<td class="number ">2024-04-07
 										<p>
-											<a href="http://localhost/user_src/order/orderdetail.html"
+											<a href="http://objec.sist.co.kr/user_src/order/orderdetail.html"
 												class="line">[20240407-0000129]</a>
 										</p> <a href="cancel.html?order_id=20240407-0000129"
 										class="btnNormal displaynone">구매확정</a> <a

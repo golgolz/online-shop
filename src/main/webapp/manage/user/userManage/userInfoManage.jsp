@@ -38,7 +38,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 <link type="text/css" href="http://demofran.com/plugin/jquery-ui/style.css?ver=20240430210223">
 <link rel="shortcut icon" href="http://demofran.com/data/banner/JnLfWUSUyR6sXJP5n3Re4Fvdc93k93.ico" type="image/x-icon">
 <!-- 페이지네이션 CSS 파일 추가 -->
-    <link href="http://localhost/assets/css/pagenation.css" rel="stylesheet" />
+    <link href="http://objec.sist.co.kr/assets/css/pagenation.css" rel="stylesheet" />
 
 <jsp:include page="../../../assets/jsp/admin/lib.jsp" />
 <script type="text/javascript">
@@ -128,7 +128,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 						<li class="breadcrumb-item text-sm text-dark active"
 							aria-current="page">사용자 관리</li>
 					</ol>
-					<a href="#" onclick="http://localhost/manage/user/userManage/userInfoManage.jsp" class="original">
+					<a href="#" onclick="http://objec.sist.co.kr/manage/user/userManage/userInfoManage.jsp" class="original">
 					<h6 class="font-weight-bolder mb-0">사용자 관리</h6>
 					</a>
 				</nav>

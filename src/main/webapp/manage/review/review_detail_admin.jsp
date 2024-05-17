@@ -20,7 +20,7 @@ rVO.setId("haa");
 session.setAttribute("loginData", rVO);
 %>
 <c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://localhost/index.jsp"/>
+<c:redirect url="http://objec.sist.co.kr/index.jsp"/>
 </c:if> --%>
 <%
 ReviewBoardVO rVO=new ReviewBoardVO();
@@ -110,13 +110,13 @@ $(function(){
 					<ol
 						class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
 						<li class="breadcrumb-item text-sm"><a
-							class="opacity-5 text-dark" href="http://localhost/manage/index.jsp">
+							class="opacity-5 text-dark" href="http://objec.sist.co.kr/manage/index.jsp">
 							관리자 기능</a></li>
 						<!-- 하단의 대시보드 텍스트를 본인 기능으로 변경 필요  -->
 						<li class="breadcrumb-item text-sm text-dark active"
-							aria-current="page"><a href="http://localhost/manage/review/review.jsp">리뷰 관리</a></li>
+							aria-current="page"><a href="http://objec.sist.co.kr/manage/review/review.jsp">리뷰 관리</a></li>
 					</ol>
-					<h6 class="font-weight-bolder mb-0"><a href="http://localhost/manage/review/review_select.jsp">리뷰 상세 보기</a></h6>
+					<h6 class="font-weight-bolder mb-0"><a href="http://objec.sist.co.kr/manage/review/review_select.jsp">리뷰 상세 보기</a></h6>
 				</nav>
 			</div>
 		</nav>
@@ -171,7 +171,7 @@ $(function(){
 						<tr>
 				<td class="label">관련 상품</td>
 				<td class="box text" colspan="3">
-					<a href="#"><img src="http://localhost/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px"/><c:out value="${rVO.name}"/></a>
+					<a href="#"><img src="http://objec.sist.co.kr/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px"/><c:out value="${rVO.name}"/></a>
 				</td>
 			</tr>
 						<tr>
@@ -188,7 +188,7 @@ $(function(){
 		<div class="alignCenter">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%">
 				<tr>
-					<td align="left"><a href="http://localhost/manage/review/review_board_list.jsp" id="mode_bbs1" mode="list"><img src="https://demo01.swm.whoismall.com/admin/images/community/btn_list.gif" alt="목록"></a></td>
+					<td align="left"><a href="http://objec.sist.co.kr/manage/review/review_board_list.jsp" id="mode_bbs1" mode="list"><img src="https://demo01.swm.whoismall.com/admin/images/community/btn_list.gif" alt="목록"></a></td>
 					<td align="right">
 						<a href="review_delete_process.jsp?reviewId=${rVO.reviewId }" id="mode_bbs3" mode="delete"  style="margin-right: 300px;"><img src="https://demo01.swm.whoismall.com/admin/images/community/btn_del.gif" alt="삭제"></a>
 					</td>

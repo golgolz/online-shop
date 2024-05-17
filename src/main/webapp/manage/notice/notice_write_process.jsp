@@ -41,13 +41,13 @@
 		nDAO.insertNotice(nVO);
 		%>
 		alert("작성을 완료했습니다.");
-		location.href="http://localhost/manage/notice/notice.jsp";
+		location.href="http://objec.sist.co.kr/manage/notice/notice.jsp";
 		<%
 		}catch(SQLException se){
 			se.printStackTrace();
 		 %>
 		 alert("오류가 발생했습니다.");
-		location.href="http://localhost/manage/notice/notice_write.jsp";
+		location.href="http://objec.sist.co.kr/manage/notice/notice_write.jsp";
 		 <% 
 		}//end catch
 		%>

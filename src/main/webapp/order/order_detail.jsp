@@ -46,7 +46,7 @@ try {
 <script>
 function redirectToReviewPage(code, cartId) {
         // code와 cartId를 URL에 파라미터로 추가하여 리뷰 작성 페이지로 이동
-        window.location.href = "http://localhost/review/review_write.jsp?code=" + code + "&cartId=" + cartId;
+        window.location.href = "http://objec.sist.co.kr/review/review_write.jsp?code=" + code + "&cartId=" + cartId;
     	}
 </script>
 <!DOCTYPE html>
@@ -238,7 +238,7 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 											<tr class="xans-record-">
 												<td class="thumb"><a
 													href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-														src="http://localhost/assets/images/goods/<%= oVO.getProductImg() %>"
+														src="http://objec.sist.co.kr/assets/images/goods/<%= oVO.getProductImg() %>"
 														style="width: 100px;" alt=""
 														onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"></a></td>
 												<td class="left"><strong class="name"><a
