@@ -17,27 +17,60 @@
 
     if (request.getParameter("confirmBtn") != null) {
         String newPassword = request.getParameter("password");
-        System.out.println("불러온 패스워드 : " +  newPassword);
+        String confirmPassword = request.getParameter("confirmPassword");
+        System.out.println("불러온 패스워드 : " + newPassword);
         
-        // Java로 비밀번호 업데이트 메소드 호출
-        boolean isUpdated = false;
-        try {
-            MyPageDAO dao = new MyPageDAO();
-            isUpdated = dao.updatePassword(userId, newPassword);
-        } catch (Exception e) {
-            System.out.println("MyPageDAO 생성 중 오류 발생: " + e.getMessage());
-            e.printStackTrace();
-        }
-        
-        if (isUpdated) {
-            System.out.println("비밀번호가 성공적으로 변경되었습니다.");
-            out.println("<script>alert('비밀번호가 성공적으로 변경되었습니다.');</script>");
+        // 비밀번호 유효성 검사
+        if (!newPassword.matches("(?=.*[a-zA-Z])(?=.*[0-9!@#$%^&*()-_=+]).{10,16}")) {
+            out.println("<script>alert('비밀번호는 영문 대소문자, 숫자, 특수문자 중 2가지 이상을 조합하여 10~16자여야 합니다.'); history.back();</script>");
+        } else if (!newPassword.equals(confirmPassword)) {
+            out.println("<script>alert('비밀번호가 일치하지 않습니다.'); history.back();</script>");
         } else {
-            System.out.println("비밀번호 변경에 실패했습니다.");
-            out.println("<script>alert('비밀번호 변경에 실패했습니다.');</script>");
+            // Java로 비밀번호 업데이트 메소드 호출
+            boolean isUpdated = false;
+            try {
+                MyPageDAO dao = new MyPageDAO();
+                isUpdated = dao.updatePassword(userId, newPassword);
+            } catch (Exception e) {
+                System.out.println("MyPageDAO 생성 중 오류 발생: " + e.getMessage());
+                e.printStackTrace();
+            }
+            
+            if (isUpdated) {
+                System.out.println("비밀번호가 성공적으로 변경되었습니다.");
+                out.println("<script>alert('비밀번호가 성공적으로 변경되었습니다.');</script>");
+            } else {
+                System.out.println("비밀번호 변경에 실패했습니다.");
+                out.println("<script>alert('비밀번호 변경에 실패했습니다.');</script>");
+            }
         }
     }
 %>
+<script>
+    function validateForm() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        
+        if (password === "" || confirmPassword === "") {
+            alert("모든 필드를 입력하세요.");
+            return false;
+        }
+        
+        // 비밀번호 유효성 검사
+        var passwordPattern = /(?=.*[a-zA-Z])(?=.*[0-9!@#$%^&*()-_=+]).{10,16}/;
+        if (!password.match(passwordPattern)) {
+            alert("비밀번호는 영문 대소문자, 숫자, 특수문자 중 2가지 이상을 조합하여 10~16자여야 합니다.");
+            return false;
+        }
+        
+        if (password !== confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return false;
+        }
+        
+        return true;
+    }
+</script>
 </head>
 <body>
     <jsp:include page="../../assets/jsp/user/header.jsp" />
