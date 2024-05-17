@@ -73,6 +73,7 @@ public class NoticeDAO {
         ResultSet rs = null;
 
         DbConnection dbConn = DbConnection.getInstance();
+
         try {
             con = dbConn.getConn("online-shop-dbcp");
             StringBuilder selectNotice = new StringBuilder();
