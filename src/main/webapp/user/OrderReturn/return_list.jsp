@@ -386,7 +386,7 @@ $(function() {
 				         <td><%= returnInfo.getCode() %> <br> <%= returnInfo.getName() %></td>
 				         <td><%= returnInfo.getRefundState() %></td>
 				         <td><%= formattedRefundDate %></td>
-				         <td><strong><%= String.format("%,d", returnInfo.getRefundTotalPrice()+3000) %> 원 </strong></td> <!--이 부분은 주문에 대한 총 가격임  -->
+				         <td><strong><%= String.format("%,d", returnInfo.getRefundTotalPrice()) %> 원 </strong></td> <!--이 부분은 주문에 대한 총 가격임  -->
 				     	 <td>
         					<form id="returnForm_<%= cartId %>" action="../../order/return_detail.jsp" method="post">
            						<input type="hidden" name="cartId" value="<%= cartId %>">
