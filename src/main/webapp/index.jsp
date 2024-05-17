@@ -153,7 +153,7 @@
 		                            </a>
 		                        </div>
 		                        <span class="wish">
-		                        	<a href="http://object.sist.co.kr/wishlist/wishlist.jsp?code=<%= goods.getCode() %>">
+		                        	<a href="http://object.sist.co.kr/wishlist/wishlist_insert_process.jsp?code=<%= goods.getCode() %>" class="need_login">
 		                            	<img src="http://object.sist.co.kr/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록">
 		                            </a>
 		                        </span>
