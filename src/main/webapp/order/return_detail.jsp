@@ -17,7 +17,7 @@ String cartId = (String)request.getParameter("cartId");
 
 // 개발을 위해 임시로 사용하는 코드입니다.
 
- cartId = "20240419131329"; 
+/*  cartId = "20240419131329";  */
 
 OrderDetailVO odVO = new OrderDetailVO();
 odVO.setCartId(cartId);
