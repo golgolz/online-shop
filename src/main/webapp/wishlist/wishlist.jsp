@@ -275,11 +275,11 @@ return;
 											id="favoriteId" name="favoriteId" value="${wVO.favoriteId}" />
 											<c:out value="${i.index+1}" /></td>
 										<td class="thumb" style="width: 90px"><img
-											src="http://localhost/assets/images/goods/<c:out value="${wVO.defaultImg}"/>" /></td>
+											src="http://object.sist.co.kr/assets/images/goods/<c:out value="${wVO.defaultImg}"/>" /></td>
 
 										<td class="left" style="width: 200px; text-align: center;">
 											<strong class="name"><a
-												href="http://localhost/goods/detail.jsp?goods=${wVO.code}"
+												href="http://object.sist.co.kr/goods/detail.jsp?goods=${wVO.code}"
 												class="ec-product-name"><c:out value="${wVO.name}" /></a></strong>
 										</td>
 										<td class="price right" style="text-align: center"><strong

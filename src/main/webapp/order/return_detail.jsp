@@ -17,7 +17,7 @@ String cartId = (String)request.getParameter("cartId");
 
 // 개발을 위해 임시로 사용하는 코드입니다.
 
- cartId = "20240419131329"; 
+/*  cartId = "20240419131329";  */
 
 OrderDetailVO odVO = new OrderDetailVO();
 odVO.setCartId(cartId);
@@ -256,7 +256,7 @@ th{ text-align: center; }
 											<tr class="xans-record-">
 												<td class="thumb"><a
 													href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-														src="http://localhost/assets/images/goods/<%= oVO.getProductImg() %>"
+														src="http://object.sist.co.kr/assets/images/goods/<%= oVO.getProductImg() %>"
 														style="width: 100%;" alt=""
 														onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"></a></td>
 												<td class="left"><strong class="name"><a

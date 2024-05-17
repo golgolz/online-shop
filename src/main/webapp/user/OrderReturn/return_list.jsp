@@ -161,10 +161,10 @@ table,td{
 						class="xans-element- xans-myshop xans-myshop-orderhistorytab ec-base-tab ">
 						<ul class="menu">
 							<li class="tab_class"><a
-								href="http://localhost/user/OrderReturn/order_list.jsp">주문내역조회
+								href="http://object.sist.co.kr/user/OrderReturn/order_list.jsp">주문내역조회
 							</a></li>
 							<li class="tab_class_cs selected"><a
-								href="http://localhost/user/OrderReturn/return_list.jsp">반품
+								href="http://object.sist.co.kr/user/OrderReturn/return_list.jsp">반품
 							</a></li>
 							<li class="tab_class_old displaynone"><a
 								href="/myshop/order/list_old.html?mode=old&amp;history_start_date=2024-01-25&amp;history_end_date=2024-04-24&amp;past_year=2023">이전
@@ -302,7 +302,6 @@ $(function() {
 								<col style="width: 111px;">
 								<col style="width: 111px;">
 								<col style="width: 111px;">
-								<col style="width: 111px;">
 							</colgroup>
 							<thead>
 								<tr>
@@ -310,10 +309,10 @@ $(function() {
 									</th>
 									<th scope="col">이미지</th>
 									<th scope="col">상품정보</th>
-									<th scope="col">반품상태</th>
+									<th scope="col" >반품상태</th>
 									<th scope="col">상품구매금액</th>
 									<th scope="col">환불금액</th>
-									<th scope="col">반품</th>
+									<th scope="col" style="width : 200px">반품</th>
 								</tr>
 							</thead>
 							<tbody class="center ">

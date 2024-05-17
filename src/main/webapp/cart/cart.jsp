@@ -18,7 +18,7 @@ if (userId == null) {
 %>
 <script>
         alert('로그인이 필요합니다.');
-        window.location.href = 'http://localhost/user/login/userLogin.jsp'; // 경로 수정 필요
+        window.location.href = 'http://object.sist.co.kr/user/login/userLogin.jsp'; // 경로 수정 필요
 
 </script>
 <%
@@ -241,7 +241,7 @@ table, td {
 							<div class="xans-element- xans-order xans-order-normtitle title ">
 								<h6>장바구니 상품 (<%= list.size() %>)</h6>
 							</div>
-							<form id="cartFrm" name="cartFrm" action="http://localhost/order/order_form.jsp?isCart=1" method="post">
+							<form id="cartFrm" name="cartFrm" action="http://object.sist.co.kr/order/order_form.jsp?isCart=1" method="post">
 							<input type="hidden">
 							<table border="1" summary=""
 								class="xans-element- xans-order xans-order-normnormal xans-record-">
@@ -284,7 +284,7 @@ table, td {
 										<td></td>
 										<td class="thumb gClearLine"><a
 											href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-												src="http://localhost/assets/images/goods/<%= list.get(i).getProductImg() %>"
+												src="http://object.sist.co.kr/assets/images/goods/<%= list.get(i).getProductImg() %>"
 												onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
 												alt="APPLE_IPHONE15_6"
 												width="100px"></a></td>
@@ -361,7 +361,7 @@ table, td {
 							<a href="#none" onclick="paymentSubmit()"
 								link-order="/order/orderform.html?basket_type=all_buy"
 								link-login="/member/login.html" class="btnSubmitFix sizeM  ">전체상품주문</a>
-							 <a href="http://localhost/index.jsp" class="btnNormalFix sizeM">쇼핑계속하기</a>
+							 <a href="http://object.sist.co.kr/index.jsp" class="btnNormalFix sizeM">쇼핑계속하기</a>
 							<!-- 네이버 체크아웃 구매 버튼  -->
 						</div>
 					</div>

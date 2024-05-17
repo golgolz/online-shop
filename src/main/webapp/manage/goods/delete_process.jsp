@@ -36,12 +36,12 @@
 	    %>
 	    <script type="text/javascript">
 		    alert("삭제가 완료되었습니다.");
-		    location.href="http://localhost/manage/goods/goods.jsp";
+		    location.href="http://object.sist.co.kr/manage/goods/goods.jsp";
 	    </script>
 	    <%
 	} catch(SQLException se){
 	    se.printStackTrace();
-	    // location.href="http://localhost/error/err_500.html"
+	    // location.href="http://object.sist.co.kr/error/err_500.html"
 	} catch(Exception e){
 	    e.printStackTrace();
 	}

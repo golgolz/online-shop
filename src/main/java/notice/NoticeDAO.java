@@ -38,14 +38,14 @@ public class NoticeDAO {
             con = dbConn.getConn("online-shop-dbcp");
 
             StringBuilder selectCnt = new StringBuilder();
-            selectCnt.append("select count(*) as count from notice");
+            selectCnt.append("select count(*) as count from notice where 1=1");
 
             if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword()) && sVO.getField() != null
                     && !"".equals(sVO.getField())) {
-                selectCnt.append(" where ").append(columnNames[Integer.parseInt(sVO.getField())])
+                selectCnt.append(" and ").append(columnNames[Integer.parseInt(sVO.getField())])
                         .append(" like '%' || ? || '%'");
             }
-
+            selectCnt.append(" and delete_flag = 'F' ");
             pstmt = con.prepareStatement(selectCnt.toString());
 
             if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword()) && sVO.getField() != null
@@ -78,13 +78,14 @@ public class NoticeDAO {
             StringBuilder selectNotice = new StringBuilder();
             selectNotice.append("   select notice_id, input_date, author, view_count, title, content ")
                     .append("   from (select notice_id, input_date, author, view_count, title, content, ")
-                    .append("   row_number() over (order by input_date desc) as rnum from notice    ");
+                    .append("   row_number() over (order by input_date desc) as rnum from notice where 1=1 ");
 
             if (sVO.getKeyword() != null && !"".equals(sVO.getKeyword()) && sVO.getField() != null
                     && !"".equals(sVO.getField())) {
-                selectNotice.append("   where instr(").append(columnNames[Integer.parseInt(sVO.getField())])
+                selectNotice.append(" and instr(").append(columnNames[Integer.parseInt(sVO.getField())])
                         .append("   ,?)>0   ");
             }
+            selectNotice.append(" and delete_flag = 'F' ");
             selectNotice.append(" ) where rnum between ? and ?  ");
             pstmt = con.prepareStatement(selectNotice.toString());
             int bindIndex = 0;
@@ -120,13 +121,11 @@ public class NoticeDAO {
             String insertNotice = " insert into notice (notice_id, author, view_count, title, content)\r\n"
                     + "values ((select count(*)+1 notice_id from notice) ,'관리자' ,0 ,? ,?) ";
 
-
-
             pstmt = con.prepareStatement(insertNotice.toString());
 
-            System.out.println(nVO.getNotice_id());
-            System.out.println(nVO.getTitle());
-            System.out.println(nVO.getContent());
+            System.out.println("id: " + nVO.getNotice_id());
+            System.out.println("title: " + nVO.getTitle());
+            System.out.println("content: " + nVO.getContent());
 
             // pstmt.setString(1, nVO.getNotice_id());
             // pstmt.setDate(2, nVO.getInput_date());
@@ -166,7 +165,7 @@ public class NoticeDAO {
                 nVO = new NoticeVO(rs.getString("notice_id"), rs.getDate("input_date"), rs.getString("author"),
                         rs.getInt("view_count"), rs.getString("title"), rs.getString("content"));// setter는 값을 하나식만 할당되기
                 // 때문에
-                System.out.println(nVO.toString());
+
             }
         } finally {
             db.closeCon(rs, pstmt, con);
@@ -215,7 +214,7 @@ public class NoticeDAO {
             con = dbConn.getConn("online-shop-dbcp");
 
             StringBuilder deleteNotice = new StringBuilder();
-            deleteNotice.append("delete from notice where notice_id=?");
+            deleteNotice.append("update notice set delete_flag = 'T' where notice_id=?");
             pstmt = con.prepareStatement(deleteNotice.toString());
 
             pstmt.setString(1, notice_id);

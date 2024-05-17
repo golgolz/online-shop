@@ -18,7 +18,7 @@ rVO.setId("haa");
 session.setAttribute("loginData", rVO);
 %>
 <c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://localhost/index.jsp"/>
+<c:redirect url="http://object.sist.co.kr/index.jsp"/>
 </c:if> --%>
 <%
 String userId = (String) session.getAttribute("userId");
@@ -168,10 +168,12 @@ $(function(){
 <input id="c6" name="c6" value="429218e799694a4b1ce711e01de9690d" type="hidden"  />
 <input type="hidden" name="code" value="${ rVO.code }"/>
 <input type="hidden" name="cartId" value="${ rVO.cartId }"/>
+
 <%
 System.out.print("rVO.getCode() : "+rVO.getCode());
 System.out.print("rVO.getCartId(): "+rVO.getCartId());
 %>
+
 <div class="xans-element- xans-board xans-board-write-4 xans-board-write xans-board-4">
 <!--
             $write_success_url = /board/product/list.html
@@ -182,7 +184,7 @@ System.out.print("rVO.getCartId(): "+rVO.getCartId());
         -->
 </form>
 <div class="ec-base-box typeProduct  ">
-            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/assets/images/goods/<c:out value='<%= defaultImg %>'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
+            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://object.sist.co.kr/assets/images/goods/<c:out value='<%= defaultImg %>'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
             <div class="information" style="padding-left:30px">
 				<h3><a href="#void" id="aPrdNameLink">
 				<span id="sPrdName"><%= name %></span></a></h3>
