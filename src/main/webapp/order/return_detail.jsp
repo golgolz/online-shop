@@ -17,7 +17,7 @@ String cartId = (String)request.getParameter("cartId");
 
 // 개발을 위해 임시로 사용하는 코드입니다.
 
- cartId = "20240515050549"; 
+ cartId = "20240419131329"; 
 
 OrderDetailVO odVO = new OrderDetailVO();
 odVO.setCartId(cartId);
@@ -37,7 +37,7 @@ try {
     
     for(int i=0; i<list.size(); i++){
         opVO = list.get(i);
-        priceSum += opVO.getPrice();
+        priceSum += opVO.getPrice()*opVO.getQuantity();
         result = priceSum;
     }//end for
     

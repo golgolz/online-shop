@@ -32,7 +32,7 @@ try {
     
     for(int i=0; i<list.size(); i++){
         opVO = list.get(i);
-        priceSum += opVO.getPrice();
+        priceSum += opVO.getPrice()*opVO.getQuantity();
         result = priceSum;
     }//end for
     result += 3000;
