@@ -728,5 +728,40 @@ public class CartDAO {
         return dVO;
     }// selectDefaultDelivery
 
+    public boolean checkCardId(String cardId) throws SQLException {
+
+        boolean flag = false;
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        DbConnection dbCon = DbConnection.getInstance();
+
+        try {
+            con = dbCon.getConn("online-shop-dbcp");
+
+            StringBuilder selectQuery = new StringBuilder();
+
+            selectQuery.append("   select card_id   ").append("   from card   ").append("   where card_id=?   ");
+
+            pstmt = con.prepareStatement(selectQuery.toString());
+
+            pstmt.setString(1, cardId);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                flag = true;
+            } // end if
+
+        } finally {
+            dbCon.closeCon(rs, pstmt, con);
+        }
+
+        return flag;
+    }
+
+
 
 }
