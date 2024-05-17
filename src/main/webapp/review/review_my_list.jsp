@@ -247,7 +247,7 @@ if (userId == null) {
 				<%-- <td> <c:out value="${totalCount - (currentPage - 1) * pageScale - i.index}"/></td> --%>
 				<td class="tdL" align="center"><input type="checkbox" name="bbs_seq[]" value="23"></td>
 				<td> <c:out value="${rVO.reviewId}"/></td>
-				<td> <img src="http://localhost/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px">
+				<td> <img src="http://object.sist.co.kr/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px">
 				      		<c:out value="${rVO.name}"/></td>
 				<td><a href="review_detail_user.jsp?reviewId=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}"><c:out value="${rVO.title}"/></a></td>
 				<td> <c:out value="${rVO.inputDate}"/></td>
@@ -270,7 +270,7 @@ if (userId == null) {
 	    	<input type="button"  value="검색" id="search" class="btn btn-info btn-sm"/>
 	    	<input type="button"  value="전체글" id="btnAllSearch" class="btn btn-info btn-sm" />
 	    	<!-- <input type="button"  value="글쓰기" id="btnWrite" class="btn btn-warning btn-sm"/> -->
-	    	<!-- <a href="http://localhost/review/review_write.jsp?code=SAMSUNG_S24_1&cartId=20240419131320" class="btn btn-warning btn-sm">글쓰기</a> -->
+	    	<!-- <a href="http://object.sist.co.kr/review/review_write.jsp?code=SAMSUNG_S24_1&cartId=20240419131320" class="btn btn-warning btn-sm">글쓰기</a> -->
 	    	<input type="text" style="display: none;">
 	    </form>
 	    </div>
