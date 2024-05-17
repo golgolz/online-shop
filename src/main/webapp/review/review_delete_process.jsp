@@ -6,7 +6,6 @@
     info="글 삭제 페이지"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%-- <c:if test="${empty sessionScope.loginData }"><!-- 로그인 한 사람만 삭제 가능 -->
-<c:redirect url="http://192.168.10.216/jsp_prj/index.jsp"/>
 </c:if> --%>
 
 <% request.setCharacterEncoding("UTF-8"); %>
