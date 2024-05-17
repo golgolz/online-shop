@@ -302,7 +302,6 @@ $(function() {
 								<col style="width: 111px;">
 								<col style="width: 111px;">
 								<col style="width: 111px;">
-								<col style="width: 111px;">
 							</colgroup>
 							<thead>
 								<tr>
@@ -310,10 +309,10 @@ $(function() {
 									</th>
 									<th scope="col">이미지</th>
 									<th scope="col">상품정보</th>
-									<th scope="col">반품상태</th>
+									<th scope="col" >반품상태</th>
 									<th scope="col">상품구매금액</th>
 									<th scope="col">환불금액</th>
-									<th scope="col">반품</th>
+									<th scope="col" style="width : 200px">반품</th>
 								</tr>
 							</thead>
 							<tbody class="center ">

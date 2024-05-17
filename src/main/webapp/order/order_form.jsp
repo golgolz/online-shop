@@ -253,6 +253,28 @@ th {
         tel=dVO.getTel();
         middleTel= tel.substring(tel.indexOf("-")+1,tel.lastIndexOf("-"));
         lastTel = tel.substring(tel.lastIndexOf("-")+1);
+        
+        if(name==null){
+            name="";
+        }
+        if(zipcode==null){
+            zipcode="";
+        }
+        if(defaultAddr==null){
+            defaultAddr="";
+        }
+        if(detailAddr==null){
+            detailAddr="";
+        }
+        if(tel==null){
+            tel="";
+        }
+        if(middleTel==null){
+            middleTel="";
+        }
+        if(lastTel==null){
+            lastTel="";
+        }
     
     }catch(SQLException se){
         se.printStackTrace();
