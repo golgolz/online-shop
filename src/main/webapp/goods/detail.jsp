@@ -42,7 +42,11 @@
 <link href="http://localhost/assets/css/pagenation.css" rel="stylesheet" />
 <script type="text/javascript">
 	$(function(){
+		var orderBaseURL = "http://localhost/cart/input_process.jsp?code=<%= currentGoods.getCode() %>&quantity=";
+		var buyBaseURL = "http://localhost/order/order_form.jsp?code=<%= currentGoods.getCode() %>&isCart=0&quantity=";
+		
 		setTotalInfo(1);
+		
 		$("#quantity_up").click(function(){
 			var quantity = parseInt($("#quantity").val());
 			quantity += 1;
@@ -78,14 +82,14 @@
 		$("#sub_cart").click(function(){
 			var quantity = $("#quantity").val();
 			$("#sub_cart").attr("href", function(){
-				return $("#sub_cart").attr("href") + quantity;
+				return orderBaseURL + quantity;
 			});
 		});
 		
 		$("#sub_buy").click(function(){
 			var quantity = $("#quantity").val();
 			$("#sub_buy").attr("href", function(){
-				return $("#sub_buy").attr("href") + quantity;
+				return buyBaseURL + quantity;
 			});
 		});
 		
@@ -148,7 +152,7 @@
 		        success: function(response) {
 		             if (!response.flag) {
 		     			event.preventDefault();
-		                alert('로그인이 필요합니다.22');
+		                //alert('로그인이 필요합니다.22');
 		                location.href = 'http://localhost/user/login/userLogin.jsp';
 		            } 
 		        }

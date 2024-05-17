@@ -27,6 +27,38 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 <script type="text/javascript">
 	$(function() {
 		$("#refund_menu").addClass("bg-gradient-primary");
+    	
+		$("#btn_today").click(function(){
+			$("#date").val("today");
+			$("#btn_week").removeClass('clicked');
+			$("#btn_month").removeClass('clicked');
+			$("#btn_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_week").click(function(){
+			$("#date").val("week");
+			$("#btn_today").removeClass('clicked');
+			$("#btn_month").removeClass('clicked');
+			$("#btn_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_month").click(function(){
+			$("#date").val("month");
+			$("#btn_today").removeClass('clicked');
+			$("#btn_week").removeClass('clicked');
+			$("#btn_total").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
+    	
+		$("#btn_total").click(function(){
+			$("#date").val("total");
+			$("#btn_today").removeClass('clicked');
+			$("#btn_week").removeClass('clicked');
+			$("#btn_month").removeClass('clicked');
+			$(this).addClass('clicked');
+		});
 	});
 </script>
 <!-- golgolz start -->
@@ -34,6 +66,13 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 .od_status {
 	font-size: 12px;
 	color: black;
+}
+.clickable-image{
+	border: 2px solid transparent;
+}
+
+.clicked {
+  border-color: red; 
 }
 </style>
 <!-- golgolz end -->
@@ -198,7 +237,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
                 				<td align="center">
                  					<%
 							        	String pageNation = 
-									        	pageController.createPagingBtns("http://localhost/manage/order/orders.jsp", params
+									        	pageController.createPagingBtns("http://localhost/manage/refund/refunds.jsp", params
 							        	        , Integer.parseInt(request.getParameter("page")), (searchResultCount / pageScale) + 1);
 						        	%>
 						        	<div id="pageNation">
