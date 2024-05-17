@@ -101,8 +101,6 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 		function displayTable(data){
 			var tbody = document.getElementById("tbody");
 			tbody.innerHTML="";
-			
-			
 			/* alert(data); */
 			var object = JSON.parse(data);
 			
@@ -130,11 +128,11 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 			    cell7.innerHTML = boardList[i].id;
 			}//end for
 			
-			/* pagination(data); */
+			pagination(data);
 			
 		}//displayTable
 		
-		/* function pagination(data){
+		function pagination(data){
 			
 			var paging = document.getElementById("paging");
 			paging.innerHTML="";
@@ -144,7 +142,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 			var currentPage = object.currentPage;
 			
 			$("#paging").html(newPagination);
-		} */
+		}
 		
 		function chkNull() {
 			if($("#keyword").val().trim() !="") {
@@ -167,13 +165,13 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 					<ol
 						class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
 						<li class="breadcrumb-item text-sm"><a
-							class="opacity-5 text-dark" href="http://localhost/manage/index.jsp">
+							class="opacity-5 text-dark" href="http://192.168.10.211/manage/index.jsp">
 							관리자 기능</a></li>
 						<!-- 하단의 대시보드 텍스트를 본인 기능으로 변경 필요  -->
 						<li class="breadcrumb-item text-sm text-dark active"
-							aria-current="page"><a href="http://localhost/manage/review/review.jsp">리뷰 관리</a></li>
+							aria-current="page"><a href="http://192.168.10.211/manage/review/review.jsp">리뷰 관리</a></li>
 					</ol>
-					<!-- <h6 class="font-weight-bolder mb-0"><a href="http://localhost/manage/review/review.jsp">리뷰 관리</a></h6> -->
+					<!-- <h6 class="font-weight-bolder mb-0"><a href="http://192.168.10.211/manage/review/review.jsp">리뷰 관리</a></h6> -->
 				</nav>
 			</div>
 		</nav>
@@ -193,11 +191,12 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 		    AdminReviewDAO rDAO=AdminReviewDAO.getInstance();
 		    //1.총 레코드 수 얻기
 		    int totalCount = rDAO.selectTotalCount(sVO);
-		    
 		    //2.한 화면에 보여줄 게시물의 수
-		    int pageScale=  10;
+		    int pageScale= 10;
 		    //3.총 페이지 수
+		    System.out.println(sVO+" / " +totalCount);
 		    int totalPage=(int)Math.ceil((double)totalCount/pageScale);
+		    System.out.println(sVO+" / " +totalPage);
 		    //4.게시물의 시작번호
 		    String tempPage=sVO.getCurrentPage();
 		    /* System.out.println(totalPage); */
@@ -240,7 +239,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 		
 		
 		<!-- 리스트 -->
-		<div class="boxContainer">
+		<!-- <div class="boxContainer">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%">
 				<tr>
 					<td class="left"> 
@@ -256,7 +255,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 					</td>
 				</tr>
 			</table>
-		</div>
+		</div> -->
 		
 	   <div>
 	    <table class="table">
@@ -278,7 +277,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 				<%-- <td> <c:out value="${totalCount - (currentPage - 1) * pageScale - i.index}"/></td> --%>
 				<td class="tdL" align="center"><input type="checkbox" name="bbs_seq[]" value="23"></td>
 				<td> <c:out value="${rVO.reviewId}"/></td>
-				<td><img src="http://localhost/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px"></td>
+				<td><img src="http://192.168.10.211/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" style="width:60px; height:60px"></td>
 				<td> <c:out value="${rVO.name}"/></td>
 				<td><a href="review_detail_admin.jsp?reviewId=${rVO.reviewId }&currentPage=${empty param.currentPage ?1:param.currentPage}"><c:out value="${rVO.title}"/></a></td>
 				<td> <c:out value="${rVO.inputDate}"/></td>
