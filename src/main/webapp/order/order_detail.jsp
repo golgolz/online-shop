@@ -33,8 +33,9 @@ try {
     for(int i=0; i<list.size(); i++){
         opVO = list.get(i);
         priceSum += opVO.getPrice();
-        result += opVO.getTotal();
+        result = priceSum;
     }//end for
+    result += 3000;
     
 }catch(SQLException se){
     se.printStackTrace();
@@ -273,8 +274,13 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 													<p><%= odVO.getPurchaseStatus() %></p>
 													<p class="displaynone">-</p>
 												</td>
-												<td class="state"><input type="button"
-													class="btnNormal" value="리뷰작성" onclick="redirectToReviewPage('<%= oVO.getCode() %>', '<%= cartId %>')"></td>
+												<td class="state">
+												<% if(odVO.getPurchaseStatus()=="구매확정") { %>
+												<input type="button" class="btnNormal" value="리뷰작성" onclick="redirectToReviewPage('<%= oVO.getCode() %>', '<%= cartId %>')">
+												<%}else{%>
+												<input type="button"  class="btnNormal" value="리뷰작성" onclick="alert('구매 확정 시 작성이 가능합니다.')" />
+												<% }//end else %>
+												</td>
 											</tr>
 										</tbody>
 										<% }//end for %>
