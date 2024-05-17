@@ -21,7 +21,6 @@ session.setAttribute("loginData", rVO);
 <c:redirect url="http://object.sist.co.kr/index.jsp"/>
 </c:if> --%>
 <%
-ReviewBoardVO rVO=new ReviewBoardVO();
 String userId = (String) session.getAttribute("userId");
 
 
@@ -124,8 +123,8 @@ $(function(){
 	%>
 <jsp:useBean id="sVO" class="admin.review.SearchVO" scope="page"/>
 <jsp:setProperty property="*" name="sVO"/>
-<jsp:useBean id="rbVO" class="admin.review.ReviewBoardVO" scope="page"/>
-<jsp:setProperty property="*" name="rbVO"/>
+<jsp:useBean id="rVO" class="admin.review.ReviewBoardVO" scope="page"/>
+<jsp:setProperty property="*" name="rVO"/>
 	<%
 	
 	String code=request.getParameter("code");
@@ -142,10 +141,10 @@ $(function(){
 	    
 	    rVO.setCode(code);
 	    //rbVO.setCartId("20240419131320");
-	    rVO.setId(cartId);
+	    rVO.setCartId(cartId);
 	    //rbVO.setCode("SAMSUNG_S24_1");
 	    
-	    ReviewBoardVO rbVO2=rDAO.selectImgName(rbVO);
+	    ReviewBoardVO rbVO2=rDAO.selectImgName(rVO);
 	    String defaultImg=rbVO2.getDefaultImg();
 	    String name=rbVO2.getName();
 	    
@@ -169,6 +168,12 @@ $(function(){
 <input id="c6" name="c6" value="429218e799694a4b1ce711e01de9690d" type="hidden"  />
 <input type="hidden" name="code" value="${ rVO.code }"/>
 <input type="hidden" name="cartId" value="${ rVO.cartId }"/>
+
+<%
+System.out.print("rVO.getCode() : "+rVO.getCode());
+System.out.print("rVO.getCartId(): "+rVO.getCartId());
+%>
+
 <div class="xans-element- xans-board xans-board-write-4 xans-board-write xans-board-4">
 <!--
             $write_success_url = /board/product/list.html

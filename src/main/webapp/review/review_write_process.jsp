@@ -19,8 +19,9 @@
 		    //아이디는 세션에 저장된 값을 받아서 설정(외부에서 조작 불가)
 		    
 		UserReviewDAO rDAO=UserReviewDAO.getInstance();
-		String code=request.getParameter("code");
-		String cartId=request.getParameter("cartId");
+		String code=rVO.getCode();
+		String cartId=rVO.getCartId();
+		System.out.println("code: "+code);
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String id = (String) session.getAttribute("userId");
@@ -38,7 +39,10 @@
 		rVO.setInputDate(Date.valueOf(currentDate));
 		rVO.setRemoveFlag("F");
 		rDAO.insertReview(rVO);
+		
 		System.out.println(title);
+		System.out.println(cartId);
+		
 		%>
 		alert("리뷰를 작성했습니다.");
 		location.href="http://object.sist.co.kr/review/review_my_list.jsp";
