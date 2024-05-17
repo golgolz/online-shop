@@ -60,16 +60,16 @@ public class AdminOrderDAO {
                 switch (searchVO.getDate()) {
                     case "today":
                         selectQuery.append(
-                                " and trunc(input_date) = to_date('2024-04-19', 'yyyy-mm-dd') and order_flag='주문' ");
+                                " and to_date(input_date, 'yyyy-mm-dd') = to_date(sysdate, 'yyyy-mm-dd') and order_flag='주문' ");
                         break;
                     case "week":
                         selectQuery.append(
-                                " and input_date >= trunc(to_date('2024-04-18', 'yyyy-mm-dd'), 'IW') and order_flag='주문' ");
+                                " and to_date(input_date, 'yyyy-mm-dd') >= trunc(to_date(sysdate, 'yyyy-mm-dd'), 'IW') and order_flag='주문' ");
                         break;
                     case "month":
                         selectQuery.append(
-                                " and extract(month from input_date) = extract(month from to_date('2024-04-12', 'yyyy-mm-dd')) ")
-                                .append(" and extract(year from input_date) = extract(year from to_date('2024-04-13', 'yyyy-mm-dd')) ");
+                                " and extract(month from to_date(input_date, 'yyyy-mm-dd')) = extract(month from to_date(sysdate, 'yyyy-mm-dd')) ")
+                                .append(" and extract(year from to_date(input_date, 'yyyy-mm-dd')) = extract(year from to_date(sysdate, 'yyyy-mm-dd')) ");
                         break;
                 }
             }
@@ -159,16 +159,16 @@ public class AdminOrderDAO {
                 switch (searchVO.getDate()) {
                     case "today":
                         selectQuery.append(
-                                " and trunc(input_date) = to_date('2024-04-19', 'yyyy-mm-dd') and order_flag='주문' ");
+                                " and to_date(input_date, 'yyyy-mm-dd') = to_date(sysdate, 'yyyy-mm-dd') and order_flag='주문' ");
                         break;
                     case "week":
                         selectQuery.append(
-                                " and input_date >= trunc(to_date('2024-04-18', 'yyyy-mm-dd'), 'IW') and order_flag='주문' ");
+                                " and to_date(input_date, 'yyyy-mm-dd') >= trunc(to_date(sysdate, 'yyyy-mm-dd'), 'IW') and order_flag='주문' ");
                         break;
                     case "month":
                         selectQuery.append(
-                                " and extract(month from input_date) = extract(month from to_date('2024-04-12', 'yyyy-mm-dd')) ")
-                                .append(" and extract(year from input_date) = extract(year from to_date('2024-04-13', 'yyyy-mm-dd')) ");
+                                " and extract(month from to_date(input_date, 'yyyy-mm-dd')) = extract(month from to_date(sysdate, 'yyyy-mm-dd')) ")
+                                .append(" and extract(year from to_date(input_date, 'yyyy-mm-dd')) = extract(year from to_date(sysdate, 'yyyy-mm-dd')) ");
                         break;
                 }
             }

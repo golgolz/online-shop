@@ -225,7 +225,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
               						</td>
             					</tr>
             					<tr>
-              						<td class="label">최근 등록일</td>
+              						<td class="label">최근 수정일</td>
               						<td class="box text">
               							<input type="hidden" id="updateDate" name="updateDate" value="${param.updateDate}" />
               							<img id="btn_update_today" class="clickable-image${param.updateDate eq 'today' ? " clicked" : "" }" src="http://localhost/assets/images/manage/goods/btn_today.gif" />
