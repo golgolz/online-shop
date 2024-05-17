@@ -20,6 +20,9 @@
 		$("#btnSearch").click(function() {
     		chkNull();
     	});//click
+		$("#btnAllSearch").click(function() {
+			location.href="http://localhost/notice/notice.jsp";
+    	});//click
 	});//ready
 	
 	function chkNull() {
@@ -173,6 +176,7 @@ request.setCharacterEncoding("UTF-8");
 									<input id="keyword" name="keyword" class="inputTypeText" placeholder="" value="${param.keyword}" type="text" />
 								<!-- 	<input id="search" name="search" class="inputTypeText" placeholder="" value="" type="text" />  -->
 									<input type="button" class="btnEmFix" id="btnSearch" value="검색">
+									<input type="button" class="btnEmFix" id="btnAllSearch" value="전체글" >
 							</fieldset>
 						</div>
 					</form>
