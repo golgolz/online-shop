@@ -38,6 +38,7 @@ String deliveryMsg = (String)request.getParameter("deliveryMsg");
 if(deliveryMsg ==""){
     deliveryMsg = "없음";
 }
+boolean chkCard = false;
 
 if(list == null || cartId == null){// cartId가 생성되지 않은 데이터일 경우
     
@@ -54,8 +55,11 @@ if(list == null || cartId == null){// cartId가 생성되지 않은 데이터일
 	    dVO = new DeliveryVO(cartId,zipcode,defaultAddr,detailAddr,tel,deliveryMsg,recipient);
 	    piVO = new PaymentInfoVO(cartId,cardId,userId);
 	    
-	    cDAO.insertDelivery(dVO);
+	    chkCard = cDAO.checkCardId(cardId);
+	    if(chkCard==false){
 	    cDAO.insertCard(cVO);
+	    }
+	    cDAO.insertDelivery(dVO);
 	    cDAO.insertOrderProduct(opVO);
 	    cDAO.insertPayment(piVO);
 	    
@@ -77,8 +81,11 @@ if(list != null && cartId != null){// 장바구니에서 주문을 진행한 경
 	    dVO = new DeliveryVO(cartId,zipcode,defaultAddr,detailAddr,tel,deliveryMsg,recipient);
 	    piVO = new PaymentInfoVO(cartId,cardId,userId);
 	    
+	    chkCard = cDAO.checkCardId(cardId);
+	    if(chkCard==false){
+	    	cDAO.insertCard(cVO);
+	    }
 	    cDAO.insertDelivery(dVO);
-	    cDAO.insertCard(cVO);
 	    cDAO.insertPayment(piVO);
 	    
 	}catch(SQLException se){

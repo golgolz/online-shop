@@ -16,11 +16,11 @@ String userId = (String)session.getAttribute("userId");
 String cartId = (String)request.getParameter("cartId");
 
 // 개발을 위해 임시로 사용하는 코드입니다.
-if(cartId == null){
-    cartId = "20240515060526";
-}
+
+ cartId = "20240419131329"; 
 
 OrderDetailVO odVO = new OrderDetailVO();
+odVO.setCartId(cartId);
 List<OrderProductVO> list = new ArrayList<OrderProductVO>();
 UserOrderDAO uDAO = UserOrderDAO.getInstance();
 CartDAO cDAO = CartDAO.getInstance();
@@ -31,14 +31,14 @@ OrderProductVO opVO = new OrderProductVO();
 ReturnDetailVO rdVO = new ReturnDetailVO();
 try {
     
-    odVO = uDAO.selectDetailOrder(cartId);
+    odVO = uDAO.selectDetailOrder(cartId,"반품");
     rdVO = urDAO.selectReturnDetail(cartId);
     list = rdVO.getProductList();
     
     for(int i=0; i<list.size(); i++){
         opVO = list.get(i);
-        priceSum += opVO.getPrice();
-        result += opVO.getTotal();
+        priceSum += opVO.getPrice()*opVO.getQuantity();
+        result = priceSum;
     }//end for
     
 }catch(SQLException se){
@@ -108,14 +108,6 @@ th{ text-align: center; }
 							fw-label="주문번호" fw-msg="" value="<%= cartId %>" type="hidden">
 						<div
 							class="xans-element- xans-myshop xans-myshop-orderhistorydetail xans-record-">
-							<!--
-        $print_spec_url = /myshop/order/print/spec.html
-        $print_pg_card_url = /myshop/order/print/pg.html
-        $print_tax_url = /myshop/order/print/tax.html
-        $issue_tax_url = /myshop/order/issue/tax.html
-        $issue_cash_url = /myshop/order/issue/cash.html
-        $select_gift_url = /order/gift_select.html
-     -->
 							<div class="orderArea">
 								<div class="title">
 									<h6>주문정보</h6>

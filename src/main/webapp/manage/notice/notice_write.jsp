@@ -132,10 +132,10 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 <tr>
 	<th scope="row">제목</th>
       <td>
-      <select id="board_category" name="board_category" fw-filter="" fw-label="" fw-msg="">
+     <!--  <select id="board_category" name="board_category" fw-filter="" fw-label="" fw-msg="">
 		<option value="1">선택</option>
 		<option value="2">공지사항</option>
-	  </select>
+	  </select> -->
 		<input id="title" name="title" class="inputTypeText" placeholder="" maxLength="125" value="" type="text"  />
  			 </td>
  </tr>

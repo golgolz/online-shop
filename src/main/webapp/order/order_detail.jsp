@@ -27,14 +27,15 @@ int priceSum = 0;
 OrderProductVO opVO = new OrderProductVO();
 try {
     
-    odVO = uDAO.selectDetailOrder(cartId);
+    odVO = uDAO.selectDetailOrder(cartId,"주문");
     list = odVO.getProductList();
     
     for(int i=0; i<list.size(); i++){
         opVO = list.get(i);
-        priceSum += opVO.getPrice();
-        result += opVO.getTotal();
+        priceSum += opVO.getPrice()*opVO.getQuantity();
+        result = priceSum;
     }//end for
+    result += 3000;
     
 }catch(SQLException se){
     se.printStackTrace();
@@ -223,15 +224,15 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 												<th scope="col">상품리뷰</th>
 											</tr>
 										</thead>
-										<% for(OrderProductVO oVO : list) { %>
 										<tfoot class="right">
 											<tr>
 												<td colspan="8">상품구매금액 <strong><%= priceSum %></strong> + 배송비
-													<%= oVO.getDelivertyFee() %> = 합계 : <strong class="txtEm gIndent10"><span
+													<%= opVO.getDelivertyFee() %> = 합계 : <strong class="txtEm gIndent10"><span
 														class="txt18"><%= result %>원</span></strong> <span class="displaynone"></span>
 												</td>
 											</tr>
 										</tfoot>
+										<% for(OrderProductVO oVO : list) { %>
 										<tbody
 											class="xans-element- xans-myshop xans-myshop-orderhistorydetailbasic center">
 											<tr class="xans-record-">
@@ -273,8 +274,13 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 													<p><%= odVO.getPurchaseStatus() %></p>
 													<p class="displaynone">-</p>
 												</td>
-												<td class="state"><input type="button"
-													class="btnNormal" value="리뷰작성" onclick="redirectToReviewPage('<%= oVO.getCode() %>', '<%= cartId %>')"></td>
+												<td class="state">
+												<% if(odVO.getPurchaseStatus()=="구매확정") { %>
+												<input type="button" class="btnNormal" value="리뷰작성" onclick="redirectToReviewPage('<%= oVO.getCode() %>', '<%= cartId %>')">
+												<%}else{%>
+												<input type="button"  class="btnNormal" value="리뷰작성" onclick="alert('구매 확정 시 작성이 가능합니다.')" />
+												<% }//end else %>
+												</td>
 											</tr>
 										</tbody>
 										<% }//end for %>
