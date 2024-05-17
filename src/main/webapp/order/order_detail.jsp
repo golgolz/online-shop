@@ -275,7 +275,7 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
 													<p class="displaynone">-</p>
 												</td>
 												<td class="state">
-												<% if(odVO.getPurchaseStatus()=="구매확정") { %>
+												<% if(odVO.getPurchaseStatus().equals("구매확정")) { %>
 												<input type="button" class="btnNormal" value="리뷰작성" onclick="redirectToReviewPage('<%= oVO.getCode() %>', '<%= cartId %>')">
 												<%}else{%>
 												<input type="button"  class="btnNormal" value="리뷰작성" onclick="alert('구매 확정 시 작성이 가능합니다.')" />
