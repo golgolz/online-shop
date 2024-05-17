@@ -313,6 +313,7 @@ $(function() {
 									<th scope="col">반품상태</th>
 									<th scope="col">상품구매금액</th>
 									<th scope="col">환불금액</th>
+									<th scope="col">반품</th>
 								</tr>
 							</thead>
 							<tbody class="center ">
@@ -376,26 +377,39 @@ $(function() {
 				   	//날짜 포멧
 				   	String refundDateString = returnInfo.getRefundDate();
 					String formattedRefundDate = refundDateString.substring(0, 10);
+					
 				     %>
 				     <tr id="<%=returnInfo.getCartId() %>">
-				         <td class="tal"><span class="sv_wrap"><strong>[<%= returnInfo.getCartId() %>]</strong></span>
+				         <td class="tal"><span class="sv_wrap"><strong>[<%= cartId %>]</strong></span>
 				         <td>
 				         <img src="../../assets/images/goods/<%= returnInfo.getDefaultImg() %>" alt="Product Image" style="width: 110px; height: auto;">
 				         </td>
 				         <td><%= returnInfo.getCode() %> <br> <%= returnInfo.getName() %></td>
 				         <td><%= returnInfo.getRefundState() %></td>
 				         <td><%= formattedRefundDate %></td>
-				         <td><strong><%= String.format("%,d", returnInfo.getRefundTotalPrice()+3000) %> 원 </strong></td> <!--이 부분은 주문에 대한 총 가격임  -->
+				         <td><strong><%= String.format("%,d", returnInfo.getRefundTotalPrice()) %> 원 </strong></td> <!--이 부분은 주문에 대한 총 가격임  -->
+				     	 <td>
+        					<form id="returnForm_<%= cartId %>" action="../../order/return_detail.jsp" method="post">
+           						<input type="hidden" name="cartId" value="<%= cartId %>">
+            					<button type="submit" onclick="submitForm('<%= cartId %>')">반품 상세</button>
+       						</form>
+    					 </td>
+				     
 				     </tr>
 				     <%
 				   	}//조건문
     %>
+   
 									
-								</tr>
 							</tbody>
 						</table>
 						<p class="message displaynone">주문 내역이 없습니다.</p>
 					</div>
+					 <script>
+    function submitForm(cartId) {
+        document.getElementById('returnForm_' + cartId).submit();
+    }
+	</script>
 
 					<div
 						class="xans-element- xans-myshop xans-myshop-orderhistorypaging ec-base-paginate">
