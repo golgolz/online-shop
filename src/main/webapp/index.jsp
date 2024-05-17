@@ -24,7 +24,7 @@
         
 		$(".need_login").click(function(event){
 		 	$.ajax({
-		        url: "http://localhost/goods/check_login.jsp",
+		        url: "http://object.sist.co.kr/goods/check_login.jsp",
 		        type: "GET",
 		        dataType: "JSON",
 		        error: function(xhr){
@@ -34,7 +34,7 @@
 		             if (!response.flag) {
 		     			event.preventDefault();
 		                //alert('로그인이 필요합니다.');
-		                location.href = 'http://localhost/user/login/userLogin.jsp';
+		                location.href = 'http://object.sist.co.kr/user/login/userLogin.jsp';
 		            } 
 		        }
 		    });
@@ -63,7 +63,7 @@
 			<!-- golgolz start -->
 			<div class="carousel">
 				<span class="carousel-prev">
-					<img src="http://localhost/assets/images/index/left-arrow.png" />
+					<img src="http://object.sist.co.kr/assets/images/index/left-arrow.png" />
 				</span>
           		<div class="carousel-slides">
 					<% 
@@ -73,10 +73,10 @@
 					%>
 					<div class="carousel-slide">
 		            	<!-- 메인 키비주얼 01 : 링크수정 -->
-		              	<a href="http://localhost/goods/detail.jsp?goods=<%= tempVO.getCode() %>">
+		              	<a href="http://object.sist.co.kr/goods/detail.jsp?goods=<%= tempVO.getCode() %>">
 		              		<div class="img">
 		                  		<img 
-		                  		src="http://localhost/assets/images/goods/<%= tempVO.getDefaultImage() %>" 
+		                  		src="http://object.sist.co.kr/assets/images/goods/<%= tempVO.getDefaultImage() %>" 
                     			style="width: 50%; margin: 0px auto"/>
 		                	</div>
 		                	<div class="swiper1_txt">
@@ -92,7 +92,7 @@
 					<% } %>
             	</div>
 				<span class="carousel-next">
-					<img src="http://localhost/assets/images/index/right-arrow.png" />
+					<img src="http://object.sist.co.kr/assets/images/index/right-arrow.png" />
 				</span>
         	</div>
         	<div class="main_pro_title cboth">
@@ -108,19 +108,19 @@
 		                <div class="box">
 		                    <div class="thumbnail">
 		                        <div class="prdImg">
-		                            <a href="http://localhost/goods/detail.jsp?goods=<%= goods.getCode() %>" name="anchorBoxName_6371">
-		                                <img src="http://localhost/assets/images/goods/<%= goods.getDefaultImage() %>" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
+		                            <a href="http://object.sist.co.kr/goods/detail.jsp?goods=<%= goods.getCode() %>" name="anchorBoxName_6371">
+		                                <img src="http://object.sist.co.kr/assets/images/goods/<%= goods.getDefaultImage() %>" id="eListPrdImage6371_3" alt="[오브젝트] 2024 오브젝트 다이어리 (날짜형)">
 		                            </a>
 		                        </div>
 		                        <span class="wish">
-		                        	<a href="http://localhost/wishlist/wishlist_insert_process.jsp?code=<%= goods.getCode() %>" class="need_login">
-		                            	<img src="http://localhost/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록">
+		                        	<a href="http://object.sist.co.kr/wishlist/wishlist_insert_process.jsp?code=<%= goods.getCode() %>" class="need_login">
+		                            	<img src="http://object.sist.co.kr/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록">
 		                            </a>
 		                        </span>
 		                    </div>
 		                    <div class="description">
 		                        <div class="name">
-		                            <a href="http://localhost/goods/detail.jsp" class="">
+		                            <a href="http://object.sist.co.kr/goods/detail.jsp" class="">
 		                                <span style="font-size:12px;color:#000000;"><%= goods.getName() %></span>
 		                            </a>
 		                        </div>
@@ -148,19 +148,19 @@
 		                <div class="box">
 		                    <div class="thumbnail">
 		                        <div class="prdImg">
-		                            <a href="http://localhost/goods/detail.jsp?goods=<%= goods.getCode() %>" name="anchorBoxName_6371">
-		                                <img src="http://localhost/assets/images/goods/<%= goods.getDefaultImage() %>" id="eListPrdImage6371_3" alt="<%= goods.getName() %>">
+		                            <a href="http://object.sist.co.kr/goods/detail.jsp?goods=<%= goods.getCode() %>" name="anchorBoxName_6371">
+		                                <img src="http://object.sist.co.kr/assets/images/goods/<%= goods.getDefaultImage() %>" id="eListPrdImage6371_3" alt="<%= goods.getName() %>">
 		                            </a>
 		                        </div>
 		                        <span class="wish">
-		                        	<a href="http://localhost/wishlist/wishlist.jsp?code=<%= goods.getCode() %>">
-		                            	<img src="http://localhost/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록">
+		                        	<a href="http://object.sist.co.kr/wishlist/wishlist.jsp?code=<%= goods.getCode() %>">
+		                            	<img src="http://object.sist.co.kr/assets/images/index/like_icon.png" class="icon_img ec-product-listwishicon" alt="관심상품 등록">
 		                            </a>
 		                        </span>
 		                    </div>
 		                    <div class="description">
 		                        <div class="name">
-		                            <a href="http://localhost/goods/detail.jsp" class="">
+		                            <a href="http://object.sist.co.kr/goods/detail.jsp" class="">
 		                                <span style="font-size:12px;color:#000000;"><%= goods.getName() %></span>
 		                            </a>
 		                        </div>

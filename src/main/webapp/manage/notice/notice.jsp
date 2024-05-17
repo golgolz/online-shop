@@ -28,7 +28,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 <link rel="stylesheet" type="text/css" href="https://img.echosting.cafe24.com/editors/froala/css/froala_style_ec.min.css?vs=2404180600" charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer.php?filename=nZExDgIxDAT7KC3vsOAJPIEfOMFwJxJv5DgS_J6jggYJ0o52doulBVVofzBqhqtxJZOOYVko904Xgzpl1AqNG9jRL3nJoaMMX6Eh4T4pDvfZ0cIPsTnVORWZVNFCWVVCYtWv-9waHcF2ptNn3YZjeuGYCvJtVjZpMP_Pft_7BA&type=css&k=ecd691e0c80070ef935d0e961272742f67437a3c&t=1681776733" />
 <link rel="stylesheet" type="text/css" href="https://insideobject.com/ind-script/optimizer_user.php?filename=tZRBbsQgDEX3k257Ds-o6j0q9QTEcYI1gBGGTOf2dTtVq64DO8DwvvX1MXiJBIRTUyoKgVcKbj6_nC-Q2xwYJ19jAF1oWkh5S6BXTpdXQFWIsrRAMIsriz3V-ubw6jZ6suIzdCMruYK-MxRdpSh7717XlrCypGPY4O7SKsxOGb81UGLsDn0cdIYSnmxDp8aDwFUkVM6D6J7CKHQuFhQc5Xd2GyfL9CjX3TyIPLdau0f7Fy4f4wwJo8y2a3gMvaxBpEAOzVJhu1Ohnen2txrUuRWodBupPzKx2YdXL_ndc86ctt4CKGk3ho3tfND3KIXSfn9o9Bja_4GqX7RP&type=css&k=d664d08dad9a7052b47cd7d6e8a0a70935bed9eb&t=1678165953&user=T" />
-<link href="http://localhost/assets/css/pagenation.css" rel="stylesheet" />
+<link href="http://object.sist.co.kr/assets/css/pagenation.css" rel="stylesheet" />
  
 <script type="text/javascript">
 	$(function(){
@@ -39,7 +39,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
     	});//click
 
     	$("#btnAllSearch").click(function() {
-    		location.href="http://localhost/manage/notice/notice.jsp";
+    		location.href="http://object.sist.co.kr/manage/notice/notice.jsp";
     	});//click
 	});
 	
@@ -245,7 +245,7 @@ try{
 									<input type="button" class="btnEmFix" id="btnAllSearch" value="전체글">
 									<!-- <a href="#none" class="btnEmFix2" onclick="BOARD.form_submit('boardModifyForm');">수정</a> 
 									<a href="#none" class="btnEmFix3" onclick="BOARD.form_submit('boardDeleteForm');">삭제</a>  -->
-									<a id="btnInsert" href="http://localhost/manage/notice/notice_write.jsp" class="btnEmFix4">작성</a>
+									<a id="btnInsert" href="http://object.sist.co.kr/manage/notice/notice_write.jsp" class="btnEmFix4">작성</a>
 								</p>
 						</div>
 					</form>
@@ -264,7 +264,7 @@ try{
 					</c:if> --%>
 					<%
 						String pageNation = 
-							    pageController.createPagingBtns("http://localhost/manage/notice/notice.jsp", params
+							    pageController.createPagingBtns("http://object.sist.co.kr/manage/notice/notice.jsp", params
 							    , Integer.parseInt(pageOrg), (searchResultCount / pageScale) + 1);
 					%>
 					<div id="pageNation">
