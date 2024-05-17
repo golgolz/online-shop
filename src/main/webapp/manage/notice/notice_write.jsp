@@ -34,7 +34,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
     	$("#notice_menu").addClass("bg-gradient-primary");
     	
 		$("#btnList").click(function(){
-			history.back();
+			location.href="http://object.sist.co.kr/manage/notice/notice.jsp";
 		});//click
 		$("#btnWrite").click(function(){
 			$("#frmWrite").submit();
