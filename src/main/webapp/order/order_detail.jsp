@@ -27,7 +27,7 @@ int priceSum = 0;
 OrderProductVO opVO = new OrderProductVO();
 try {
     
-    odVO = uDAO.selectDetailOrder(cartId);
+    odVO = uDAO.selectDetailOrder(cartId,"주문");
     list = odVO.getProductList();
     
     for(int i=0; i<list.size(); i++){

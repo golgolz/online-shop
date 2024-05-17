@@ -24,7 +24,7 @@ public class UserOrderDAO {
         return uoDAO;
     }// getInstance
 
-    public OrderDetailVO selectDetailOrder(String cartId) throws SQLException {
+    public OrderDetailVO selectDetailOrder(String cartId, String flag) throws SQLException {
         OrderDetailVO odVO = null;
         OrderProductVO opVO = null;
         List<OrderProductVO> list = new ArrayList<OrderProductVO>();
@@ -52,7 +52,7 @@ public class UserOrderDAO {
 
             rs = pstmt.executeQuery();
 
-            list = cDAO.selectOrderProduct(cartId, "주문");
+            list = cDAO.selectOrderProduct(cartId, flag);
 
             if (rs.next()) {
 
