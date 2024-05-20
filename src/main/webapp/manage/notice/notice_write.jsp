@@ -34,14 +34,14 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
     	$("#notice_menu").addClass("bg-gradient-primary");
     	
 		$("#btnList").click(function(){
-			location.href="http://object.sist.co.kr/manage/notice/notice.jsp";
+			location.href="http://localhost/manage/notice/notice.jsp";
 		});//click
 		$("#btnWrite").click(function(){
 			$("#frmWrite").submit();
 		});//click
 		$("#btnCancel").click(function(){
 			alert("글작성을 취소합니다.");
-			location.href="http://object.sist.co.kr/manage/notice/notice.jsp";
+			location.href="http://localhost/manage/notice/notice.jsp";
 		});//click
 		$('#content').summernote({
 	        placeholder: 'Hello stand alone ui',

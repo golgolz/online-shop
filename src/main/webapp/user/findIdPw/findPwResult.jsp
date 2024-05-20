@@ -40,7 +40,7 @@
                                     </ul>
                                 </div>
                                 <p class="button1 ">
-                                    <a href="http://object.sist.co.kr/user/login/userLogin.jsp">로그인</a>
+                                    <a href="http://localhost/user/login/userLogin.jsp">로그인</a>
                                 </p>
                             </div>
                         </div>

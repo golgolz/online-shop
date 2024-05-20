@@ -111,7 +111,7 @@
 			<div id="container">
 				<div id="contents">
 					<div class="con_header" style="padding: 20px;">
-						<div><img src="http://object.sist.co.kr/assets/images/order/success_check.png" width="100px" /></div>
+						<div><img src="http://localhost/assets/images/order/success_check.png" width="100px" /></div>
 						<h2 style="padding: 10px; font-size: 24px;"><strong>고객님의 주문이 완료 되었습니다.</strong></h2>
 						<p>주문내역 및 배송에 관한 안내는 <a href="#void">주문조회</a>를 통하여 확인 가능합니다.</p>
 					</div>
@@ -154,7 +154,7 @@
 									<tr class="xans-record-">
 										<td class="thumb gClearLine"><a
 												href="/product/detail.html?product_no=6183&amp;cate_no=523"><img
-													src="http://object.sist.co.kr/assets/images/goods/<%= oVO.getProductImg() %>"
+													src="http://localhost/assets/images/goods/<%= oVO.getProductImg() %>"
 													onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';"
 													alt="APPLE_IPHONE14" style="width: 100px"></a>
 										</td>
@@ -309,9 +309,9 @@
 						</div>
 						<div class="xans-element- xans-order xans-order-totalorder ec-base-button justify" style="margin-bottom: 60px;">
 							<span class="gRight">
-								<a href="http://object.sist.co.kr/index.jsp"
+								<a href="http://localhost/index.jsp"
 									class="btnNormalFix sizeM">쇼핑계속하기</a>
-								<a href="http://object.sist.co.kr/user/OrderReturn/order_list.jsp"
+								<a href="http://localhost/user/OrderReturn/order_list.jsp"
 									class="btnSubmitFix sizeM">주문확인하기</a>
 							</span>
 					</div>

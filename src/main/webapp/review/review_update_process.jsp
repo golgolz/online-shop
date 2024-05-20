@@ -42,7 +42,7 @@
 		  
 		%>
 		alert("리뷰를 수정했습니다.");
-		location.href="http://object.sist.co.kr/review/review_my_list.jsp?currentPage=${param.currentPage}";
+		location.href="http://localhost/review/review_my_list.jsp?currentPage=${param.currentPage}";
 		<%
 		}else{
 		%>

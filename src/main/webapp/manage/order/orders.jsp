@@ -11,7 +11,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 %>
   <script type="text/javascript">
       alert('로그인이 필요합니다.');
-      window.location.href = 'http://object.sist.co.kr/manage/adminLogin/adminLogin.jsp';
+      window.location.href = 'http://localhost/manage/adminLogin/adminLogin.jsp';
   </script>
 <%
   return;
@@ -21,9 +21,9 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 <html>
 <head>
 <jsp:include page="../../assets/jsp/admin/lib.jsp" />
-<link href="http://object.sist.co.kr/assets/css/pagenation.css" rel="stylesheet" />
-<link href="http://object.sist.co.kr/assets/css/manage/order/admin.css" rel="stylesheet" />
-<link href="http://object.sist.co.kr/assets/css/manage/order/reset.css" rel="stylesheet" />
+<link href="http://localhost/assets/css/pagenation.css" rel="stylesheet" />
+<link href="http://localhost/assets/css/manage/order/admin.css" rel="stylesheet" />
+<link href="http://localhost/assets/css/manage/order/reset.css" rel="stylesheet" />
 <script type="text/javascript">
 	$(function() {
 		$("#order_menu").addClass("bg-gradient-primary");
@@ -195,10 +195,10 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 									<th scope="row">기간검색</th>
               						<td class="box text">
               							<input type="hidden" id="date" name="date" value="${param.date}" />
-              							<img id="btn_today" class="clickable-image${param.date eq 'today' ? " clicked" : "" }" src="http://object.sist.co.kr/assets/images/manage/goods/btn_today.gif" />
-										<img id="btn_week" class="clickable-image${param.date eq 'week' ? " clicked" : "" }" src="http://object.sist.co.kr/assets/images/manage/goods/btn_thisWeek.gif" />
-										<img id="btn_month" class="clickable-image${param.date eq 'month' ? " clicked" : "" }" src="http://object.sist.co.kr/assets/images/manage/goods/btn_thisMonth.gif" />
-					                	<img id="btn_total" class="clickable-image${param.date eq 'total' ? " clicked" : "" }" src="http://object.sist.co.kr/assets/images/manage/goods/btn_total.gif" />
+              							<img id="btn_today" class="clickable-image${param.date eq 'today' ? " clicked" : "" }" src="http://localhost/assets/images/manage/goods/btn_today.gif" />
+										<img id="btn_week" class="clickable-image${param.date eq 'week' ? " clicked" : "" }" src="http://localhost/assets/images/manage/goods/btn_thisWeek.gif" />
+										<img id="btn_month" class="clickable-image${param.date eq 'month' ? " clicked" : "" }" src="http://localhost/assets/images/manage/goods/btn_thisMonth.gif" />
+					                	<img id="btn_total" class="clickable-image${param.date eq 'total' ? " clicked" : "" }" src="http://localhost/assets/images/manage/goods/btn_total.gif" />
               						</td>
 								</tr>
 								<tr>
@@ -277,7 +277,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
 						<% for(OrderVO order: orders){ %>
 						<tr class="list0">
 							<td><%= order.getOrderDate() %></td>
-							<td><a href="http://object.sist.co.kr/manage/order/detail.jsp?id=<%= order.getCartId() %>"><%= order.getCartId() %></a></td>
+							<td><a href="http://localhost/manage/order/detail.jsp?id=<%= order.getCartId() %>"><%= order.getCartId() %></a></td>
 							<td><%= order.getCustomerId() %></td>
 							<td><%= order.getCustomerName() %></td>
 							<td><%= order.getPurchaseStatus() %></td>
@@ -297,7 +297,7 @@ if (!Boolean.TRUE.equals(isLoggedIn)) {
                 				<td align="center">
                  					<%
 							        	String pageNation = 
-									        	pageController.createPagingBtns("http://object.sist.co.kr/manage/order/orders.jsp", params
+									        	pageController.createPagingBtns("http://localhost/manage/order/orders.jsp", params
 							        	        , Integer.parseInt(request.getParameter("page")), (searchResultCount / pageScale) + 1);
 						        	%>
 						        	<div id="pageNation">

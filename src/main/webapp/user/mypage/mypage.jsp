@@ -73,12 +73,12 @@
 
 <div id="myshopMain" class="xans-element- xans-myshop xans-myshop-main"><ul>
 <li class="shopMain order">
-            <h3><a href="http://object.sist.co.kr/user/OrderReturn/order_list.jsp"><strong>Order</strong><span>주문내역 조회</span></a></h3>
-            <p><a href="http://object.sist.co.kr/user/OrderReturn/order_list.jsp">고객님께서 주문하신 상품의<br> 주문내역을 확인하실 수 있습니다.</a></p>
+            <h3><a href="http://localhost/user/OrderReturn/order_list.jsp"><strong>Order</strong><span>주문내역 조회</span></a></h3>
+            <p><a href="http://localhost/user/OrderReturn/order_list.jsp">고객님께서 주문하신 상품의<br> 주문내역을 확인하실 수 있습니다.</a></p>
         </li>
         <li class="shopMain profile">
-            <h3><a href="http://object.sist.co.kr/user/mypage/pwConfirm.jsp"><strong>Profile</strong><span>회원 정보</span></a></h3>
-            <p><a href="http://object.sist.co.kr/user/mypage/pwConfirm.jsp">회원이신 고객님의 개인정보를<br> 관리하는 공간입니다.</a></p>
+            <h3><a href="http://localhost/user/mypage/pwConfirm.jsp"><strong>Profile</strong><span>회원 정보</span></a></h3>
+            <p><a href="http://localhost/user/mypage/pwConfirm.jsp">회원이신 고객님의 개인정보를<br> 관리하는 공간입니다.</a></p>
         </li>
        
         

@@ -45,7 +45,7 @@
 		
 		%>
 		alert("리뷰를 작성했습니다.");
-		location.href="http://object.sist.co.kr/review/review_my_list.jsp";
+		location.href="http://localhost/review/review_my_list.jsp";
 		<%
 		}catch(SQLException se) {
 		    se.printStackTrace();
