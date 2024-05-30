@@ -31,7 +31,7 @@
 		  
 		%>
 		alert("글을 삭제했습니다.");
-		location.href="http://localhost/review/review_my_list.jsp?currentPage=${param.currentPage}";
+		location.href="http://localhost/online-shop/review/review_my_list.jsp?currentPage=${param.currentPage}";
 		<%
 		}else{
 		%>

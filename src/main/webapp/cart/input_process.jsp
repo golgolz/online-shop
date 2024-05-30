@@ -54,7 +54,7 @@ try{
 	
 	//값 설정
 	/* session.setAttribute("cartData", opVO);  */
-	pageContext.setAttribute("url", "http://localhost/cart/cart.jsp");
+	pageContext.setAttribute("url", "http://localhost/online-shop/cart/cart.jsp");
 			
 	}catch(Exception e){
 	    e.printStackTrace();

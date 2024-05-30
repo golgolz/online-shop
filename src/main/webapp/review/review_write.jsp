@@ -18,7 +18,7 @@ rVO.setId("haa");
 session.setAttribute("loginData", rVO);
 %>
 <c:if test="${empty sessionScope.loginData }">
-<c:redirect url="http://localhost/index.jsp"/>
+<c:redirect url="http://localhost/online-shop/index.jsp"/>
 </c:if> --%>
 <%
 String userId = (String) session.getAttribute("userId");
@@ -184,7 +184,7 @@ System.out.print("rVO.getCartId(): "+rVO.getCartId());
         -->
 </form>
 <div class="ec-base-box typeProduct  ">
-            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/assets/images/goods/<c:out value='<%= defaultImg %>'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
+            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/online-shop/assets/images/goods/<c:out value='<%= defaultImg %>'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
             <div class="information" style="padding-left:30px">
 				<h3><a href="#void" id="aPrdNameLink">
 				<span id="sPrdName"><%= name %></span></a></h3>

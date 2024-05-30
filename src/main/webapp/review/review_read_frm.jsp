@@ -53,7 +53,7 @@ summernote끝 -->
 	$(function(){
 	    $("#btnList").click(function () {
 	        //history.back();
-	        location.href="http://localhost/review/review_my_list.jsp?currentPage=${param.currentPage}";
+	        location.href="http://localhost/online-shop/review/review_my_list.jsp?currentPage=${param.currentPage}";
 	    });//click
 	    $("#btnUpdate").click(function () {
 	    	if(confirm("글을 수정하시겠습니까?")){
@@ -247,7 +247,7 @@ $(function(){
 	  
 	}catch(NumberFormatException nfe){
 	  %>
-	  <%-- <c:redirect url="http://localhost/review/review_my_list.jsp"/> --%>
+	  <%-- <c:redirect url="http://localhost/online-shop/review/review_my_list.jsp"/> --%>
 	  
 	  <%
 	}catch(SQLException se){
@@ -293,7 +293,7 @@ $(function(){
         -->
 
 <div class="ec-base-box typeProduct  ">
-            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
+            <p class="thumbnail"><a href=""><img id="iPrdImg" src="http://localhost/online-shop/assets/images/goods/<c:out value='${rVO.defaultImg}'/>" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt=""/></a></p>
             <div class="information" style="padding-left:30px">
 				<h3><a href="https://insideobject.com/product/detail.html?product_no=6027" id="aPrdNameLink">
 				<span id="sPrdName"> <c:out value="${rVO.name}"/></span></a></h3>
@@ -678,11 +678,11 @@ $(function(){
 </div>
 <div class="ec-base-button ">
             <span class="gLeft">
-                <a href="http://localhost/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
+                <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnNormalFix sizeS">목록</a>
             </span>
             <span class="gRight">
             <input type="button" value="수정" class="btnSubmitFix sizeS" id="btnUpdate"/>
-                <a href="http://localhost/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
+                <a href="http://localhost/online-shop/review/review_my_list.jsp" class="btnBasicFix sizeS">취소</a>
             </span>
         </div>
 </div>

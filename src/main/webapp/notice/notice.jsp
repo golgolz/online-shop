@@ -11,7 +11,7 @@
 
 <head>
 	<jsp:include page="../assets/jsp/user/lib.jsp" />
-	<link href="http://localhost/assets/css/pagenation.css" rel="stylesheet" />
+	<link href="http://localhost/online-shop/assets/css/pagenation.css" rel="stylesheet" />
 	<!-- golgolz start -->
 	<!-- golgolz end -->
 
@@ -21,7 +21,7 @@
     		chkNull();
     	});//click
 		$("#btnAllSearch").click(function() {
-			location.href="http://localhost/notice/notice.jsp";
+			location.href="http://localhost/online-shop/notice/notice.jsp";
     	});//click
 	});//ready
 	
@@ -183,7 +183,7 @@ request.setCharacterEncoding("UTF-8");
 				</div>
 					<%
 					String pageNation = 
-						pageController.createPagingBtns("http://localhost/notice/notice.jsp", params
+						pageController.createPagingBtns("http://localhost/online-shop/notice/notice.jsp", params
 						     ,Integer.parseInt(pageOrg),(searchResultCount / pageScale) +1);
 					%>
 					<div id="pageNation">

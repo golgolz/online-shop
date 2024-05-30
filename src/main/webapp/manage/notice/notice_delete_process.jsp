@@ -47,7 +47,7 @@
 	    se.printStackTrace();
 	    %>
 	    alert("오류가 발생했습니다. 잠시 후에 다시 시도해주세요.")
-	   location.href="http://localhost/manage/notice/notice.jsp";
+	   location.href="http://localhost/online-shop/manage/notice/notice.jsp";
 	<%
 	}//end catch
 

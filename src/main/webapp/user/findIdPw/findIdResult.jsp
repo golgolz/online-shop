@@ -50,7 +50,7 @@
             <a href="../login/userLogin.jsp">로그인</a>
         </p>
         <p class="button2 ">
-            <a href="http://localhost/user/findIdPw/findPw.jsp">비밀번호 찾기</a>
+            <a href="http://localhost/online-shop/user/findIdPw/findPw.jsp">비밀번호 찾기</a>
         </p>
     </div>
         </div>
